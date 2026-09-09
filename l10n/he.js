@@ -270,7 +270,6 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "הגדרת ה-recurrence (=הישנות) של אירוע זה אינה נתמכת במלואה על ידי Nextcloud. אם אתה עורך את ה-recurrence-options, הישנות מסוימות עשויות לאבד.",
     "Resources" : "משאבים",
     "Features" : "תכונות",
-    "Update this and all future" : "עדכון של זה והעתידיים",
     "Update this occurrence" : "עדכון המופע הזה",
     "Public calendar does not exist" : "לוח השנה הציבורי אינו קיים",
     "Maybe the share was deleted or has expired?" : "אולי השיתוף נמחק או פג תוקפו?",
@@ -281,7 +280,6 @@ OC.L10N.register(
     "Discard" : "התעלמות",
     "Event does not exist" : "האירוע לא קיים",
     "Delete this occurrence" : "מחיקת המופע הזה",
-    "Delete this and all future" : "מחיקת זה והבאים",
     "All day" : "כל היום",
     "Invite" : "הזמנה",
     "Untitled event" : "אירוע ללא כותרת",
@@ -366,6 +364,8 @@ OC.L10N.register(
     "Error while sharing file" : "שגיאה בשיתוף הקובץ",
     "An error occurred, unable to delete the calendar." : "אירעה שגיאה, לא ניתן למחוק את היומן.",
     "Imported {filename}" : "יובא {filename} ",
-    "User not found" : "המשתמש לא נמצא"
+    "User not found" : "המשתמש לא נמצא",
+    "Update this and all future" : "עדכון של זה והעתידיים",
+    "Delete this and all future" : "מחיקת זה והבאים"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

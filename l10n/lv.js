@@ -275,14 +275,14 @@ OC.L10N.register(
     "Busy (tentative)" : "Aizņemts (nenoteikts)",
     "Unknown" : "Nezināms",
     "Find a time" : "Atrast laiku",
+    "Accept" : "Pieņemt",
+    "Decline" : "Noraidīt",
     "The invitation has been accepted successfully." : "Uzaicinājums tika sekmīgi apstiprināts.",
     "Failed to accept the invitation." : "Neizdevās apstiprināt uzaicinājumu.",
     "The invitation has been declined successfully." : "Uzaicinājums tika sekmīgi noraidīts.",
     "Failed to decline the invitation." : "Neizdevās atteikt uzaicinājumu.",
     "Your participation has been marked as tentative." : "Tava piedalīšanās tika atzīmēta kā nenoteikta.",
     "Failed to set the participation status to tentative." : "Neizdevās iestatīt dalības stāvokli kā nenoteiktu.",
-    "Accept" : "Pieņemt",
-    "Decline" : "Noraidīt",
     "Copied to clipboard" : "Nokopēts starpliktuvē",
     "No attendees yet" : "Vēl nav dalībnieku",
     "Status" : "Status",
@@ -331,7 +331,6 @@ OC.L10N.register(
     "Minimum seating capacity" : "Mazākā sēdvietu ietilpība",
     "Features" : "Iespējas",
     "More details" : "Izvērstāk",
-    "Update this and all future" : "Atjaunināt šo un visus turpmākos",
     "Update this occurrence" : "Atjaunināt šo notikumu",
     "Public calendar does not exist" : "Publiskais kalendārs nepastāv",
     "Maybe the share was deleted or has expired?" : "Varbūt kopīgojums tika izdzēsts, vai arī ir beidzies tā derīgums?",
@@ -440,6 +439,7 @@ OC.L10N.register(
     "Imported {filename}" : "Ievietota {filename}",
     "This is an event reminder." : "Šis ir notikuma atgādinājums.",
     "Appointment not found" : "Tikšanās nav atrasta",
-    "User not found" : "Lietotājs nav atrasts"
+    "User not found" : "Lietotājs nav atrasts",
+    "Update this and all future" : "Atjaunināt šo un visus turpmākos"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

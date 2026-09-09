@@ -316,14 +316,14 @@
     "Busy (tentative)" : "Opptatt (foreløpig)",
     "Unknown" : "Ukjent",
     "Find a time" : "Finn et tidspunkt",
+    "Accept" : "Aksepter",
+    "Decline" : "Avslå",
     "The invitation has been accepted successfully." : "Invitasjonen er godtatt.",
     "Failed to accept the invitation." : "Kunne ikke godta invitasjonen.",
     "The invitation has been declined successfully." : "Invitasjonen har blitt avslått.",
     "Failed to decline the invitation." : "Kunne ikke avslå invitasjonen.",
     "Your participation has been marked as tentative." : "Din deltakelse er merket som foreløpig.",
     "Failed to set the participation status to tentative." : "Kunne ikke sette deltakelsesstatusen til tentativ.",
-    "Accept" : "Aksepter",
-    "Decline" : "Avslå",
     "Copied to clipboard" : "Kopiert til utklippstavlen",
     "No attendees yet" : "Ingen deltakere enda",
     "Status" : "Status",
@@ -386,7 +386,6 @@
     "Building" : "Bygning",
     "Clear filters" : "Tøm filtre",
     "More details" : "Flere detaljer",
-    "Update this and all future" : "Oppdater denne og fremtidige hendelser",
     "Update this occurrence" : "Oppdater denne hendelsen",
     "Public calendar does not exist" : "Offentlig kalender finnes ikke",
     "Maybe the share was deleted or has expired?" : "Er deling slettet eller utløpt?",
@@ -423,7 +422,6 @@
     "Discard" : "Slett",
     "Event does not exist" : "Hendelsen finnes ikke",
     "Delete this occurrence" : "Slett denne hendelsen",
-    "Delete this and all future" : "Slett denne og fremtidige hendelser",
     "All day" : "Hele dagen",
     "Managing shared access" : "Administrere delt tilgang",
     "Deny access" : "Nekte adgang",
@@ -527,6 +525,8 @@
     "This is an event reminder." : "Dette er en hendelsespåminnelse.",
     "Error while parsing a PROPFIND error" : "Feil under analyse av en PROPFIND-feil",
     "Appointment not found" : "Avtale ikke funnet",
-    "User not found" : "Fant ikke brukeren"
+    "User not found" : "Fant ikke brukeren",
+    "Update this and all future" : "Oppdater denne og fremtidige hendelser",
+    "Delete this and all future" : "Slett denne og fremtidige hendelser"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -316,14 +316,14 @@
     "Busy (tentative)" : "Ocupado (tentativo)",
     "Unknown" : "Desconocido",
     "Find a time" : "Buscar una hora",
+    "Accept" : "Aceptar",
+    "Decline" : "Rechazar",
     "The invitation has been accepted successfully." : "Invitación aceptada exitosamente.",
     "Failed to accept the invitation." : "No se pudo aceptar la invitación.",
     "The invitation has been declined successfully." : "Invitación rechazada exitosamente.",
     "Failed to decline the invitation." : "No se pudo rechazar la invitación.",
     "Your participation has been marked as tentative." : "Su participación ha sido marcada como tentativa.",
     "Failed to set the participation status to tentative." : "No se pudo establecer el estado de participación como tentativa.",
-    "Accept" : "Aceptar",
-    "Decline" : "Rechazar",
     "Copied to clipboard" : "Copiado al portapapeles",
     "No attendees yet" : "Aún no hay asistentes",
     "Status" : "Estatus",
@@ -384,7 +384,6 @@
     "Any" : "Cualquiera",
     "Minimum seating capacity" : "Capacidad mínima de asientos",
     "More details" : "Más detalles",
-    "Update this and all future" : "Actualizar ésta y todas las siguientes",
     "Update this occurrence" : "Actualizar esta ocurrencia",
     "Public calendar does not exist" : "El calendario público no existe",
     "Maybe the share was deleted or has expired?" : "¿Quizá el recurso compartido fue eliminado o caducó?",
@@ -419,7 +418,6 @@
     "Discard" : "Descartar",
     "Event does not exist" : "El evento no existe",
     "Delete this occurrence" : "Eliminar esta ocurrencia",
-    "Delete this and all future" : "Eliminar ésta y las futuras",
     "All day" : "Todo el día",
     "Managing shared access" : "Administrando el acceso compartido",
     "Deny access" : "Denegar acceso",
@@ -521,6 +519,8 @@
     "This is an event reminder." : "Esto es un recordatorio del evento.",
     "Error while parsing a PROPFIND error" : "Error al analizar un error PROPFIND",
     "Appointment not found" : "Cita no encontrada",
-    "User not found" : "No se encontró el usuario"
+    "User not found" : "No se encontró el usuario",
+    "Update this and all future" : "Actualizar ésta y todas las siguientes",
+    "Delete this and all future" : "Eliminar ésta y las futuras"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

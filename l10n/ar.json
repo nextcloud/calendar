@@ -335,14 +335,14 @@
     "Busy (tentative)" : "مشغولٌ (حاليّاً)",
     "Unknown" : "غير معروف",
     "Find a time" : "إيجاد وقت",
+    "Accept" : "قبول",
+    "Decline" : "رفض",
     "The invitation has been accepted successfully." : "تمّ قبول الدعوة بنجاح.",
     "Failed to accept the invitation." : "فشل في قبول الدعوة.",
     "The invitation has been declined successfully." : "تمّ رفض الدعوة بنجاح.",
     "Failed to decline the invitation." : "فشل في رفض الدعوة.",
     "Your participation has been marked as tentative." : "تمّ وضع علامة \"مبدئية\" على مشاركتك.",
     "Failed to set the participation status to tentative." : "فشل في تعيين حالة المشاركة إلى مؤقتة.",
-    "Accept" : "قبول",
-    "Decline" : "رفض",
     "Copied to clipboard" : "تمّ النسخ إلى الحافظة",
     "No attendees yet" : "لا يوجد حضور حتى الآن",
     "Status" : "الحالة",
@@ -409,7 +409,6 @@
     "Building" : "مبنى",
     "Clear filters" : "إزالة التصفية",
     "More details" : "تفاصيل أكثر",
-    "Update this and all future" : "تغيير هذه و المستقبلية الأخرى",
     "Update this occurrence" : "تحديث هذا الحدوث",
     "Public calendar does not exist" : "التقويم العام غير موجود",
     "Maybe the share was deleted or has expired?" : "لربما كانت المشاركة محذوفة أو منتهية الصلاحية؟",
@@ -447,7 +446,6 @@
     "Discard" : "تجاهل",
     "Event does not exist" : "الفعالية غير موجودة",
     "Delete this occurrence" : "حذف هذا الظهور",
-    "Delete this and all future" : "حذف هذا الظهور والجميع في الستقبل",
     "All day" : "كامل اليوم",
     "Modifications wont get propagated to the organizer and other attendees" : "التعديلات لن يتم إذاعتها على المنظم والمشاركين الآخرين",
     "Add Talk conversation" : "إضِف محادثة Talk",
@@ -562,6 +560,8 @@
     "This is an event reminder." : "هذا تذكير بحدث",
     "Error while parsing a PROPFIND error" : "حدث خطأ أثناء تحليل PROFIND",
     "Appointment not found" : "الموعد غير موجود",
-    "User not found" : "المستخدم غير موجود"
+    "User not found" : "المستخدم غير موجود",
+    "Update this and all future" : "تغيير هذه و المستقبلية الأخرى",
+    "Delete this and all future" : "حذف هذا الظهور والجميع في الستقبل"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
