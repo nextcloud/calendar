@@ -1498,7 +1498,7 @@ export default defineStore('calendarObjectInstance', {
 					// we might be editing an instance or fork, not the base component itself. Both properties
 					// eventComponent already shared with the base component AND ones it didn't (e.g. a LOCATION
 					// added for the first time) need to end up on the base component.
-					const excludedPropertyNames = ['UID', 'RECURRENCE-ID', 'DTSTART', 'DTEND']
+					const excludedPropertyNames = ['UID', 'RECURRENCE-ID', 'DTSTART', 'DTEND', 'RRULE', 'RDATE', 'EXDATE']
 					for (const property of baseComponent.getPropertyIterator()) {
 						if (excludedPropertyNames.includes(property.name)) {
 							continue
@@ -1511,13 +1511,25 @@ export default defineStore('calendarObjectInstance', {
 						}
 						baseComponent.addProperty(property.clone())
 					}
-					// DTSTART and DTEND need to be cloned separately so that internal logic of ical.js
-					// can adjust all the recurrence rules and exceptions accordingly. Only do so when
-					// editing the base occurrence - otherwise we risk changing the date/time of the whole
-					// series when the user only intended to change a single occurrence.
+					// DTSTART, DTEND, and the recurrence-rule properties need to be handled separately, and
+					// only when editing the base occurrence - otherwise we risk changing the date/time or
+					// recurrence pattern of the whole series when the user only intended to change a single
+					// occurrence. DTSTART/DTEND need cloning separately so ical.js can adjust recurrence
+					// rules/exceptions accordingly; forkItem()'s COUNT adjustment above is a no-op for the
+					// primary occurrence itself, so its own RRULE/RDATE/EXDATE are safe to copy as-is here.
 					if (isPrimaryOccurrence) {
 						baseComponent.startDate = eventComponent.startDate.clone()
 						baseComponent.endDate = eventComponent.endDate.clone()
+
+						const recurrencePropertyNames = ['RRULE', 'RDATE', 'EXDATE']
+						for (const propertyName of recurrencePropertyNames) {
+							baseComponent.deleteAllProperties(propertyName)
+						}
+						for (const property of eventComponent.getPropertyIterator()) {
+							if (recurrencePropertyNames.includes(property.name)) {
+								baseComponent.addProperty(property.clone())
+							}
+						}
 					}
 					// Only VALARM is copied here because it's the only sub-component the
 					// editor currently lets users change; other sub-components (e.g.
