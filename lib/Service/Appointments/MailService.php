@@ -253,7 +253,8 @@ class MailService {
 		$sys = $this->getSysEmail();
 		$message = $this->mailer->createMessage()
 			->setFrom([$sys => $booking->getDisplayName()])
-			->setTo([$toEmail => $toName]);
+			->setTo([$toEmail => $toName])
+			->setReplyTo([$booking->getEmail() => $booking->getDisplayName()]);
 
 		$template = $this->mailer->createEMailTemplate('calendar.confirmOrganizer');
 		$template->addHeader();
