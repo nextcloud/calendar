@@ -151,6 +151,11 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 				foreach ($calendarEvent['objects'] as $object) {
 					$objectStartDate = $this->normalizeFixedOffsetDateTime($object['DTSTART']);
 					if ($objectStartDate->getTimestamp() >= $dateTime->getTimestamp()) {
+						$displayStartDate = $this->normalizeDisplayDateTime(
+							$objectStartDate,
+							$dateTime->getTimezone(),
+							$object['DTSTART'],
+						);
 						$recurrence = $object;
 						$startDate = $objectStartDate;
 						break;
@@ -163,7 +168,10 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 
 				$widget = new WidgetItem(
 					$recurrence['SUMMARY'][0] ?? 'New Event',
-					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
+					$this->dateTimeFormatter->formatTimeSpan(
+						DateTime::createFromImmutable($displayStartDate),
+						DateTime::createFromImmutable($dateTime),
+					),
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
 					$this->getCalendarDotIconUrl($calendar->getDisplayColor()),
 					(string)$startDate->getTimestamp(),
@@ -208,6 +216,34 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 			'!Y-m-d H:i:s.u',
 			$dateTime->format('Y-m-d H:i:s.u'),
 			$timeZone,
+		);
+
+		return $normalized ?: $dateTime;
+	}
+
+	/**
+	 * Use one timezone for relative-day comparison. Timed values represent an
+	 * instant and are converted; all-day values represent a calendar date and
+	 * must retain that date when attached to the display timezone.
+	 *
+	 * @param array{0: DateTimeImmutable, 1?: array<string, mixed>} $dateTimeProperty
+	 */
+	private function normalizeDisplayDateTime(
+		DateTimeImmutable $dateTime,
+		DateTimeZone $displayTimeZone,
+		array $dateTimeProperty,
+	): DateTimeImmutable {
+		$parameters = $dateTimeProperty[1] ?? [];
+		$valueType = isset($parameters['VALUE']) ? (string)$parameters['VALUE'] : '';
+
+		if (strcasecmp($valueType, 'DATE') !== 0) {
+			return $dateTime->setTimezone($displayTimeZone);
+		}
+
+		$normalized = DateTimeImmutable::createFromFormat(
+			'!Y-m-d',
+			$dateTime->format('Y-m-d'),
+			$displayTimeZone,
 		);
 
 		return $normalized ?: $dateTime;

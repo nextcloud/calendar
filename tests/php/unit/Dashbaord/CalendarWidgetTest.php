@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Dashboard;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use OCA\Calendar\Service\JSDataService;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -223,7 +224,10 @@ class CalendarWidgetTest extends TestCase {
 			->willReturn('#ffffff');
 		$this->dateTimeFormatter->expects(self::once())
 			->method('formatTimeSpan')
-			->with(self::callback(static fn (\DateTime $dateTime): bool => $dateTime->getTimestamp() === $expectedStart->getTimestamp()))
+			->with(
+				self::callback(static fn (\DateTime $dateTime): bool => $dateTime->getTimestamp() === $expectedStart->getTimestamp()),
+				self::callback(static fn (\DateTime $dateTime): bool => $dateTime->getTimestamp() === $time),
+			)
 			->willReturn('in 10 hours');
 		$this->urlGenerator->expects(self::once())
 			->method('getAbsoluteURL')
@@ -238,6 +242,73 @@ class CalendarWidgetTest extends TestCase {
 		$this->assertSame('UTC-04:00', $result['objects'][0]['DTSTART'][1]['TZID']);
 	}
 
+	public function testGetItemsFormatsRelativeDayInDashboardTimeZone(): void {
+		$previousTimeZone = date_default_timezone_get();
+		date_default_timezone_set('America/Toronto');
+
+		try {
+			$userId = 'admin';
+			$calendar = $this->createMock(ITestCalendar::class);
+			$now = new DateTimeImmutable('2026-09-08 23:30:00', new DateTimeZone('America/Toronto'));
+			$start = new DateTimeImmutable('2026-09-10 13:00:00 UTC');
+			$rangeStart = (new DateTimeImmutable())->setTimestamp($now->getTimestamp());
+			$options = [
+				'timerange' => [
+					'start' => $rangeStart,
+					'end' => $rangeStart->add(new \DateInterval('P14D')),
+				],
+			];
+			$result = [
+				'id' => '3602',
+				'uid' => 'late-evening-relative-day',
+				'uri' => 'late-evening-relative-day.ics',
+				'objects' => [[
+					'DTSTART' => [$start],
+					'SUMMARY' => ['Physio'],
+				]],
+			];
+
+			$this->calendarManager->expects(self::once())
+				->method('getCalendarsForPrincipal')
+				->with('principals/users/' . $userId)
+				->willReturn([$calendar]);
+			$this->timeFactory->expects(self::once())
+				->method('getTime')
+				->willReturn($now->getTimestamp());
+			$calendar->expects(self::once())
+				->method('isEnabled')
+				->willReturn(true);
+			$calendar->expects(self::once())
+				->method('isDeleted')
+				->willReturn(false);
+			$calendar->expects(self::once())
+				->method('search')
+				->with('', [], $options, 7)
+				->willReturn([$result]);
+			$calendar->expects(self::once())
+				->method('getDisplayColor')
+				->willReturn('#ffffff');
+			$this->dateTimeFormatter->expects(self::once())
+				->method('formatTimeSpan')
+				->with(
+					self::callback(static fn (\DateTime $dateTime): bool => $dateTime->format('Y-m-d H:i:s e') === '2026-09-10 09:00:00 America/Toronto'),
+					self::callback(static fn (\DateTime $dateTime): bool => $dateTime->format('Y-m-d H:i:s e') === '2026-09-08 23:30:00 America/Toronto'),
+				)
+				->willReturn('in 2 days');
+			$this->urlGenerator->expects(self::once())
+				->method('getAbsoluteURL')
+				->willReturn('late-evening-relative-day');
+
+			$widgets = $this->widget->getItems($userId);
+
+			$this->assertCount(1, $widgets);
+			$this->assertSame('in 2 days', $widgets[0]->getSubtitle());
+			$this->assertSame((string)$start->getTimestamp(), $widgets[0]->getSinceId());
+		} finally {
+			date_default_timezone_set($previousTimeZone);
+		}
+	}
+
 	public function testFixedOffsetNormalizationLeavesAllDayValueUnchanged(): void {
 		$start = new DateTimeImmutable('2026-07-28 00:00:00 UTC');
 		$normalized = self::invokePrivate($this->widget, 'normalizeFixedOffsetDateTime', [[
@@ -249,6 +320,22 @@ class CalendarWidgetTest extends TestCase {
 		]]);
 
 		$this->assertSame($start, $normalized);
+	}
+
+	public function testDisplayNormalizationKeepsAllDayCalendarDate(): void {
+		$start = new DateTimeImmutable('2026-09-10 00:00:00 UTC');
+		$displayTimeZone = new DateTimeZone('America/Toronto');
+		$normalized = self::invokePrivate($this->widget, 'normalizeDisplayDateTime', [
+			$start,
+			$displayTimeZone,
+			[
+				$start,
+				['VALUE' => 'DATE'],
+			],
+		]);
+
+		$this->assertSame('2026-09-10 00:00:00 America/Toronto', $normalized->format('Y-m-d H:i:s e'));
+		$this->assertSame('2026-09-10', $start->format('Y-m-d'));
 	}
 
 	public function testGetItemsCachesCalendarDotPerRequest(): void {
