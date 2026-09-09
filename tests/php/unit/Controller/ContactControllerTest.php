@@ -339,7 +339,7 @@ class ContactControllerTest extends TestCase {
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
-				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes', 'yes'],
 			]);
 
@@ -439,7 +439,7 @@ class ContactControllerTest extends TestCase {
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
-				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes', 'yes'],
 			]);
 
@@ -543,7 +543,7 @@ class ContactControllerTest extends TestCase {
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
-				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes', 'yes'],
 			]);
 
