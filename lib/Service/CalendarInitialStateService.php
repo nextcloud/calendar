@@ -23,6 +23,8 @@ use function in_array;
 
 class CalendarInitialStateService {
 
+	private bool $editorStateProvided = false;
+
 	public function __construct(
 		private string $appName,
 		private IInitialState $initialStateService,
@@ -41,49 +43,31 @@ class CalendarInitialStateService {
 	}
 
 	public function run(): void {
+		$this->runForEditor();
+
 		$defaultEventLimit = $this->config->getAppValue($this->appName, 'eventLimit', 'yes');
 		$defaultInitialView = $this->config->getAppValue($this->appName, 'currentView', 'dayGridMonth');
 		$defaultShowWeekends = $this->config->getAppValue($this->appName, 'showWeekends', 'yes');
 		$defaultWeekNumbers = $this->config->getAppValue($this->appName, 'showWeekNr', 'no');
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
-		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
-		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 		$defaultTasksSidebar = $this->config->getAppValue($this->appName, 'tasksSidebar', 'yes');
 
-		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', '');
 		$eventLimit = $this->config->getUserValue($this->userId, $this->appName, 'eventLimit', $defaultEventLimit) === 'yes';
 		$firstRun = $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes';
 		$initialView = $this->getView($this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView));
 		$showWeekends = $this->config->getUserValue($this->userId, $this->appName, 'showWeekends', $defaultShowWeekends) === 'yes';
 		$showWeekNumbers = $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', $defaultWeekNumbers) === 'yes';
 		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
-		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
-		$attachmentsFolder = $this->config->getUserValue($this->userId, 'dav', 'attachmentsFolder', '/Calendar');
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
-		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
-		$defaultReminderPartDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderPartDay', $defaultReminder);
-		$defaultReminderFullDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderFullDay', $defaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 		$tasksSidebar = $this->config->getUserValue($this->userId, $this->appName, 'tasksSidebar', $defaultTasksSidebar) === 'yes';
-		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
 		$disableAppointments = $this->config->getAppValue($this->appName, 'disableAppointments', 'no') === 'yes';
-		$forceEventAlarmType = $this->config->getAppValue($this->appName, 'forceEventAlarmType', '');
-		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
-			$forceEventAlarmType = false;
-		}
 		$canSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes';
-		$showResources = $this->config->getAppValue($this->appName, 'showResources', 'yes') === 'yes';
 		$publicCalendars = $this->config->getAppValue($this->appName, 'publicCalendars', '');
 
-		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
 		$tasksEnabled = $this->appManager->isEnabledForUser('tasks');
-
-		$circleVersion = $this->appManager->getAppVersion('circles');
-		$isCirclesEnabled = $this->appManager->isEnabledForUser('circles') === true;
-		// if circles is not installed, we use 0.0.0
-		$isCircleVersionCompatible = $this->compareVersion->isCompatible($circleVersion ? $circleVersion : '0.0.0', '22');
 
 		$calendarFederationEnabled = $this->appConfig->getValueBool(
 			'dav',
@@ -96,46 +80,84 @@ class CalendarInitialStateService {
 			true,
 		);
 
-		$enableResourceBooking = !empty($this->resourceManager->getBackends())
-			|| !empty($this->roomManager->getBackends());
-
-		$this->initialStateService->provideInitialState('app_version', $appVersion);
 		$this->initialStateService->provideInitialState('event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState('first_run', $firstRun);
 		$this->initialStateService->provideInitialState('initial_view', $initialView);
 		$this->initialStateService->provideInitialState('show_weekends', $showWeekends);
 		$this->initialStateService->provideInitialState('show_week_numbers', $showWeekNumbers);
 		$this->initialStateService->provideInitialState('skip_popover', $skipPopover);
-		$this->initialStateService->provideInitialState('talk_enabled', $this->isTalkEnabledForUser());
-		$this->initialStateService->provideInitialState('talk_api_version', $talkApiVersion);
-		$this->initialStateService->provideInitialState('timezone', $timezone);
-		$this->initialStateService->provideInitialState('attachments_folder', $attachmentsFolder);
 		$this->initialStateService->provideInitialState('slot_duration', $slotDuration);
-		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
-		$this->initialStateService->provideInitialState('default_reminder_part_day', $defaultReminderPartDay);
-		$this->initialStateService->provideInitialState('default_reminder_full_day', $defaultReminderFullDay);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState('tasks_sidebar', $tasksSidebar);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
-		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
-		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
 		if (!is_null($this->userId)) {
 			$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 		}
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
 		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
-		$this->initialStateService->provideInitialState('show_resources', $showResources);
-		$this->initialStateService->provideInitialState('isCirclesEnabled', $isCirclesEnabled && $isCircleVersionCompatible);
 		$this->initialStateService->provideInitialState('publicCalendars', $publicCalendars);
 		$this->initialStateService->provideInitialState(
 			'calendar_federation_enabled',
 			$calendarFederationEnabled && $remoteSharesEnabled,
 		);
+		$this->initialStateService->provideInitialState('has_notify_push', $this->queue !== null);
+	}
+
+	/**
+	 * Provide the state required by the event editor.
+	 *
+	 * This is the subset of {@see self::run()} needed on pages that do not render
+	 * the calendar itself, but can spawn the editor - like the new event dialog of
+	 * the app menu, which is available in every app.
+	 */
+	public function runForEditor(): void {
+		if ($this->editorStateProvided) {
+			return;
+		}
+		$this->editorStateProvided = true;
+
+		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
+		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
+
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', '');
+		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
+		$attachmentsFolder = $this->config->getUserValue($this->userId, 'dav', 'attachmentsFolder', '/Calendar');
+		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
+		$defaultReminderPartDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderPartDay', $defaultReminder);
+		$defaultReminderFullDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderFullDay', $defaultReminder);
+		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
+		$showResources = $this->config->getAppValue($this->appName, 'showResources', 'yes') === 'yes';
+		$forceEventAlarmType = $this->config->getAppValue($this->appName, 'forceEventAlarmType', '');
+		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
+			$forceEventAlarmType = false;
+		}
+
+		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
+
+		$circleVersion = $this->appManager->getAppVersion('circles');
+		$isCirclesEnabled = $this->appManager->isEnabledForUser('circles') === true;
+		// if circles is not installed, we use 0.0.0
+		$isCircleVersionCompatible = $this->compareVersion->isCompatible($circleVersion ? $circleVersion : '0.0.0', '22');
+
+		$enableResourceBooking = !empty($this->resourceManager->getBackends())
+			|| !empty($this->roomManager->getBackends());
+
+		$this->initialStateService->provideInitialState('app_version', $appVersion);
+		$this->initialStateService->provideInitialState('timezone', $timezone);
+		$this->initialStateService->provideInitialState('attachments_folder', $attachmentsFolder);
+		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
+		$this->initialStateService->provideInitialState('default_reminder_part_day', $defaultReminderPartDay);
+		$this->initialStateService->provideInitialState('default_reminder_full_day', $defaultReminderFullDay);
+		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
+		$this->initialStateService->provideInitialState('show_resources', $showResources);
+		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
+		$this->initialStateService->provideInitialState('talk_enabled', $this->isTalkEnabledForUser());
+		$this->initialStateService->provideInitialState('talk_api_version', $talkApiVersion);
+		$this->initialStateService->provideInitialState('isCirclesEnabled', $isCirclesEnabled && $isCircleVersionCompatible);
 		$this->initialStateService->provideInitialState(
 			'resource_booking_enabled',
 			$enableResourceBooking,
 		);
-		$this->initialStateService->provideInitialState('has_notify_push', $this->queue !== null);
 	}
 
 	/**
