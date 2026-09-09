@@ -19,6 +19,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ContactControllerTest extends TestCase {
@@ -40,6 +41,7 @@ class ContactControllerTest extends TestCase {
 	private IAppConfig|MockObject $appConfig;
 	private IConfig|MockObject $config;
 	private IGroupManager|MockObject $groupManager;
+	private IShareManager|MockObject $shareManager;
 
 	/** @var ContactController */
 	protected $controller;
@@ -56,6 +58,7 @@ class ContactControllerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->shareManager = $this->createMock(IShareManager::class);
 		$this->controller = new ContactController($this->appName,
 			$this->request,
 			$this->manager,
@@ -65,6 +68,7 @@ class ContactControllerTest extends TestCase {
 			$this->appConfig,
 			$this->config,
 			$this->groupManager,
+			$this->shareManager,
 			'test-user',
 		);
 	}
@@ -289,6 +293,24 @@ class ContactControllerTest extends TestCase {
 			->method('isEnabled')
 			->willReturn(false);
 
+		$this->manager->expects(self::never())
+			->method('search');
+
+		$response = $this->controller->searchAttendee('search 123');
+
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertEquals([], $response->getData());
+		$this->assertEquals(200, $response->getStatus());
+	}
+
+	public function testSearchAttendeeSharingDisabledForUser(): void {
+		$this->manager->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$this->shareManager->expects(self::once())
+			->method('sharingDisabledForUser')
+			->with('test-user')
+			->willReturn(true);
 		$this->manager->expects(self::never())
 			->method('search');
 

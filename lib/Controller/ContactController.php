@@ -24,6 +24,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Share\IManager as IShareManager;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
@@ -48,6 +49,7 @@ class ContactController extends Controller {
 		private IAppConfig $appConfig,
 		private IConfig $config,
 		private IGroupManager $groupManager,
+		private IShareManager $shareManager,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -99,6 +101,10 @@ class ContactController extends Controller {
 	#[NoAdminRequired]
 	public function searchAttendee(string $search):JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
+			return new JSONResponse();
+		}
+
+		if ($this->shareManager->sharingDisabledForUser($this->userId)) {
 			return new JSONResponse();
 		}
 
