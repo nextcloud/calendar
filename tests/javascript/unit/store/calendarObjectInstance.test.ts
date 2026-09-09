@@ -1059,6 +1059,66 @@ describe('store/calendarObjectInstance test suite', () => {
 			expect(calendarObjectsStore.createCalendarObjectFromFork).not.toHaveBeenCalled()
 			expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledWith({ calendarObject })
 		})
+
+		it('preserves the original RRULE when saving series scope from a non-primary occurrence (real calendar-js)', async () => {
+			// Regression test for a real bug: forkItem() adjusts a forked occurrence's
+			// own RRULE COUNT down to "occurrences remaining from this point" (needed
+			// for the "this and future" truncate flow) - but the same fork is also
+			// used for ordinary editing. Saving with series scope from anything but
+			// the primary occurrence used to blindly copy that locally-adjusted RRULE
+			// onto the master, silently truncating the whole series - even when the
+			// user never touched the recurrence rule at all.
+			const ics = [
+				'BEGIN:VCALENDAR',
+				'VERSION:2.0',
+				'PRODID:-//Nextcloud//calendar-js tests//EN',
+				'BEGIN:VEVENT',
+				'UID:series-rrule-preserved-test',
+				'DTSTART:20260907T100000Z',
+				'DTEND:20260907T110000Z',
+				'DTSTAMP:20260901T000000Z',
+				'SUMMARY:Original title',
+				'RRULE:FREQ=DAILY;COUNT=5',
+				'END:VEVENT',
+				'END:VCALENDAR',
+			].join('\r\n')
+
+			const parser = getParserManager().getParserForFileType('text/calendar')
+			parser.parse(ics)
+			const calendarComponent = parser.getItemIterator().next().value
+
+			let masterComponent = null
+			for (const component of calendarComponent.getComponentIterator()) {
+				if (component.name === 'VEVENT' && !component.hasProperty('RECURRENCE-ID')) {
+					masterComponent = component
+				}
+			}
+			const rangeEnd = masterComponent.startDate.clone()
+			rangeEnd.year += 1
+			// The 3rd occurrence - not the primary
+			const thirdOccurrence = masterComponent.recurrenceManager.getAllOccurrencesBetween(masterComponent.startDate, rangeEnd)[2]
+
+			// The user only edits an unrelated property, never touching the recurrence rule
+			thirdOccurrence.updatePropertyWithValue('SUMMARY', 'Edited title')
+			thirdOccurrence.markDirty()
+
+			const calendarObject = { calendarId: 'personal', calendarComponent: markRaw(calendarComponent) }
+
+			const store = useCalendarObjectInstanceStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
+			store.calendarObject = calendarObject
+			store.calendarObjectInstance = { eventComponent: markRaw(thirdOccurrence) }
+			mockedisBaseOccurrence.mockReturnValue(false)
+			vi.spyOn(calendarObjectsStore, 'updateCalendarObject').mockResolvedValue()
+
+			await store.saveCalendarObjectInstance({
+				scope: 'series',
+				calendarId: 'personal',
+			})
+
+			expect(masterComponent.getFirstPropertyFirstValue('SUMMARY')).toBe('Edited title')
+			expect(masterComponent.getFirstPropertyFirstValue('RRULE').count).toBe(5)
+		})
 	})
 
 	describe('deleteCalendarObjectInstance', () => {
