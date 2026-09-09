@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import logger from '@/utils/logger.js'
+
 /**
  * Get the offset in minutes between a date's timezone and the given timezone
  *
