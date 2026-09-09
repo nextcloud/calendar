@@ -536,6 +536,10 @@ class MailServiceTest extends TestCase {
 			->method('setTo')
 			->willReturn($mailMessage);
 		$mailMessage->expects(self::once())
+			->method('setReplyTo')
+			->with(['test@test.com' => 'Test'])
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
 			->method('useTemplate')
 			->willReturn($mailMessage);
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
@@ -626,6 +630,10 @@ class MailServiceTest extends TestCase {
 			->method('setTo')
 			->willReturn($mailMessage);
 		$mailMessage->expects(self::once())
+			->method('setReplyTo')
+			->with(['test@test.com' => 'Test'])
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
 			->method('useTemplate')
 			->willReturn($mailMessage);
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
@@ -711,6 +719,10 @@ class MailServiceTest extends TestCase {
 			->willReturn($mailMessage);
 		$mailMessage->expects(self::once())
 			->method('setTo')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('setReplyTo')
+			->with(['test@test.com' => 'Test'])
 			->willReturn($mailMessage);
 		$mailMessage->expects(self::once())
 			->method('useTemplate')
