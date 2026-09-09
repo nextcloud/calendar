@@ -2,6 +2,9 @@
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import logger from '@/utils/logger.js'
+
 export function getTimezoneOffset(proposalDate: Date, timezoneId: string): number {
 	let timezoneOffset = 0
 
@@ -36,7 +39,8 @@ export function getTimezoneOffset(proposalDate: Date, timezoneId: string): numbe
 		)
 
 		timezoneOffset = Math.round((asUTC - proposalDate.getTime()) / 60000)
-	} catch (e) {
+	} catch (error) {
+		logger.error('Failed to compute timezone offset', { error })
 		timezoneOffset = 0
 	}
 
