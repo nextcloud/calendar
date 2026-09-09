@@ -3,6 +3,29 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { AppointmentUserInfo, PublicAppointmentConfig } from '@/types/appointments.ts'
+
+import { generateUrl } from '@nextcloud/router'
+import {
+	NcAvatar as Avatar,
+	NcEmptyContent as EmptyContent,
+} from '@nextcloud/vue'
+import CalendarBlankIcon from 'vue-material-design-icons/CalendarBlank.vue'
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
+
+defineProps<{
+	configs: PublicAppointmentConfig[]
+	userInfo: AppointmentUserInfo
+}>()
+
+function linkToConfig(config: PublicAppointmentConfig): string {
+	return generateUrl('/apps/calendar/appointment/{token}', {
+		token: config.token,
+	})
+}
+</script>
+
 <template>
 	<div class="overview-info">
 		<div class="title">
@@ -47,47 +70,6 @@
 		</div>
 	</div>
 </template>
-
-<script>
-import { generateUrl } from '@nextcloud/router'
-import {
-	NcAvatar as Avatar,
-	NcEmptyContent as EmptyContent,
-} from '@nextcloud/vue'
-import CalendarBlankIcon from 'vue-material-design-icons/CalendarBlank.vue'
-import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
-
-export default {
-	name: 'Overview',
-	components: {
-		Avatar,
-		EmptyContent,
-		CalendarCheckIcon,
-		CalendarBlankIcon,
-	},
-
-	props: {
-		configs: {
-			required: true,
-			type: Array,
-		},
-
-		userInfo: {
-			required: true,
-			type: Object,
-		},
-	},
-
-	methods: {
-		linkToConfig(config) {
-			return generateUrl('/apps/calendar/appointment/{token}', {
-				token: config.token,
-			})
-		},
-	},
-}
-
-</script>
 
 <style lang="scss" scoped>
 .overview-info {

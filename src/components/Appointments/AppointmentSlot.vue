@@ -3,60 +3,30 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { NcButton } from '@nextcloud/vue'
+import { computed } from 'vue'
+import { timeStampToLocaleTime } from '@/utils/localeTime.js'
+
+const props = defineProps<{
+	start: number
+	end: number
+	timeZoneId: string
+}>()
+
+defineEmits<{
+	click: [event: MouseEvent]
+}>()
+
+const startTime = computed<string>(() => timeStampToLocaleTime(props.start, props.timeZoneId))
+const endTime = computed<string>(() => timeStampToLocaleTime(props.end, props.timeZoneId))
+</script>
+
 <template>
 	<NcButton class="appointment-slot" :wide="true" @click="$emit('click', $event)">
 		{{ startTime }} - {{ endTime }}
 	</NcButton>
 </template>
-
-<script>
-import { NcButton } from '@nextcloud/vue'
-import { timeStampToLocaleTime } from '@/utils/localeTime.js'
-
-export default {
-	name: 'AppointmentSlot',
-	components: {
-		NcButton,
-	},
-
-	props: {
-		start: {
-			required: true,
-			type: Number,
-		},
-
-		end: {
-			required: true,
-			type: Number,
-		},
-
-		timeZoneId: {
-			required: true,
-			type: String,
-		},
-	},
-
-	emits: ['click'],
-
-	computed: {
-		dateTimeFormatter() {
-			return Intl.DateTimeFormat(undefined, {
-				timeZone: this.timeZoneId,
-				timeStyle: 'full',
-				dateStyle: 'short',
-			})
-		},
-
-		startTime() {
-			return timeStampToLocaleTime(this.start, this.timeZoneId)
-		},
-
-		endTime() {
-			return timeStampToLocaleTime(this.end, this.timeZoneId)
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .appointment-slot {
