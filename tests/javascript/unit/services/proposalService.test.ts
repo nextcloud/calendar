@@ -32,14 +32,31 @@ describe('services/proposalService test suite', () => {
 		vi.clearAllMocks()
 	})
 
-	it('preserves an Axios network error without a response', async () => {
-		const networkError = Object.assign(new Error('Network Error'), { isAxiosError: true })
+	it.each([
+		[undefined, 'Network Error'],
+		[{ headers: { 'content-type': 'text/html' }, status: 502, statusText: 'Bad Gateway' }, '502 Bad Gateway'],
+		[{ headers: { 'content-type': 'application/json' }, status: 400, statusText: 'Bad Request', data: { ocs: { meta: { message: 'Invalid proposal' } } } }, 'Invalid proposal'],
+	])('handles Axios failures without retaining request configuration (%j)', async (response, message) => {
+		const networkError = Object.assign(new Error('Network Error'), {
+			isAxiosError: true,
+			response,
+			config: { headers: { Authorization: 'private-test-value' } },
+		})
 		vi.mocked(axios.post).mockRejectedValue(networkError)
 
 		const request = proposalService.listProposals()
 
 		await expect(request).rejects.toThrow('Failed to list proposals')
-		await expect(request).rejects.toHaveProperty('cause.cause', networkError)
-		expect(logger.error).toHaveBeenCalledWith('Proposal service transmission error', { error: networkError })
+		await expect(request).rejects.toHaveProperty('cause.message', `Unexpected error from proposal service: ${message}`)
+		await expect(request).rejects.toHaveProperty('cause', expect.not.objectContaining({ cause: networkError }))
+		const serviceError = await request.catch((error: Error) => error)
+		expect(serviceError.cause).not.toHaveProperty('cause')
+		expect(serviceError.cause).not.toHaveProperty('config')
+		expect(logger.error).toHaveBeenNthCalledWith(
+			1,
+			'Proposal service transmission error',
+			response?.data ? { ocsError: response.data } : { message },
+		)
+		expect(logger.error).toHaveBeenNthCalledWith(2, 'Failed to list proposals:', { error: serviceError.cause })
 	})
 })

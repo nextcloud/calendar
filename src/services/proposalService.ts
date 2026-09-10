@@ -31,11 +31,13 @@ class ProposalService {
 				logger.error('Proposal service transmission error', { ocsError })
 			} else if (isAxiosError(error) && error.response) {
 				message = `${error.response.status} ${error.response.statusText}`
-				logger.error('Proposal service transmission error', { error })
+				logger.error('Proposal service transmission error', { message })
 			} else {
-				logger.error('Proposal service transmission error', { error })
+				logger.error('Proposal service transmission error', { message })
 			}
-			throw new Error(`Unexpected error from proposal service: ${message}`, { cause: error })
+			// Do not retain the Axios error: callers log the cause, including request configuration.
+			// eslint-disable-next-line preserve-caught-error
+			throw new Error(`Unexpected error from proposal service: ${message}`)
 		}
 	}
 
