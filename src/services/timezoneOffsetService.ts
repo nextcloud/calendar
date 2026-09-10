@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import logger from '@/utils/logger.js'
+
 /**
  * Get the offset in minutes between a date's timezone and the given timezone
  *
@@ -44,7 +46,8 @@ export function getTimezoneOffset(proposalDate: Date, timezoneId: string): numbe
 		)
 
 		timezoneOffset = Math.round((asUTC - proposalDate.getTime()) / 60000)
-	} catch {
+	} catch (error) {
+		logger.error('Failed to compute timezone offset', { error })
 		timezoneOffset = 0
 	}
 
