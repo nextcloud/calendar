@@ -261,8 +261,7 @@ export function updateDefaultAlarm(calendarId, calendarObjectInstance) {
 
 /**
  * Resolves the default reminder for an event.
- * Calendar-specific defaults win, then the global part/full-day defaults,
- * then the legacy global defaultReminder for backwards compatibility.
+ * Calendar-specific defaults win, then the global part/full-day defaults.
  *
  * @param {object} data The destructuring object
  * @param {object|undefined} data.calendar The selected calendar
@@ -283,12 +282,7 @@ export function getDefaultReminderForEvent({ calendar, isAllDay }) {
 	}
 
 	const globalDefaultReminder = parseInt(isAllDay ? settingsStore.defaultReminderFullDay : settingsStore.defaultReminderPartDay)
-	if (!isNaN(globalDefaultReminder)) {
-		return globalDefaultReminder
-	}
-
-	const legacyDefaultReminder = parseInt(settingsStore.defaultReminder)
-	return isNaN(legacyDefaultReminder) ? null : legacyDefaultReminder
+	return isNaN(globalDefaultReminder) ? null : globalDefaultReminder
 }
 
 /**

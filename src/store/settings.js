@@ -35,8 +35,6 @@ export default defineStore('settings', {
 			slotDuration: null,
 			defaultReminderPartDay: null,
 			defaultReminderFullDay: null,
-			// Legacy fallback for users that have not saved separate part/full-day defaults yet.
-			defaultReminder: null,
 			tasksEnabled: false,
 			timezone: 'automatic',
 			hideEventExport: false,
@@ -211,21 +209,6 @@ export default defineStore('settings', {
 		},
 
 		/**
-		 * Updates the user's preferred defaultReminder
-		 *
-		 * @param {object} data The destructuring object
-		 * @param {string} data.defaultReminder The new default reminder
-		 */
-		async setDefaultReminder({ defaultReminder }) {
-			if (this.defaultReminder === defaultReminder) {
-				return
-			}
-
-			await setConfig('defaultReminder', defaultReminder)
-			this.defaultReminder = defaultReminder
-		},
-
-		/**
 		 * Updates the user's preferred default reminder for part-day events
 		 *
 		 * @param {object} data The destructuring object
@@ -333,7 +316,6 @@ export default defineStore('settings', {
 		 * @param {boolean} data.showWeekends Whether or not to display weekends
 		 * @param {boolean} data.skipPopover Whether or not to skip the simple event popover
 		 * @param {string} data.slotDuration The duration of one slot in the agendaView
-		 * @param {string} data.defaultReminder Legacy default reminder fallback for older installs
 		 * @param {string} data.defaultReminderPartDay The default reminder for newly created part-day events
 		 * @param {string} data.defaultReminderFullDay The default reminder for newly created full-day events
 		 * @param {boolean} data.talkEnabled Whether or not the talk app is enabled
@@ -348,7 +330,7 @@ export default defineStore('settings', {
 		 * @param {boolean} data.showResources Show or hide the resources tab
 		 * @param {string} data.publicCalendars The list of public calendars configured by the administrator
 		 */
-		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
+		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
 			logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -359,7 +341,6 @@ Initial settings:
 	- ShowWeekends: ${showWeekends}
 	- SkipPopover: ${skipPopover}
 	- SlotDuration: ${slotDuration}
-	- DefaultReminder: ${defaultReminder}
 	- DefaultReminderPartDay: ${defaultReminderPartDay}
 	- DefaultReminderFullDay: ${defaultReminderFullDay}
 	- TalkEnabled: ${talkEnabled}
@@ -383,9 +364,8 @@ Initial settings:
 			this.showWeekends = showWeekends
 			this.skipPopover = skipPopover
 			this.slotDuration = slotDuration
-			this.defaultReminder = defaultReminder
-			this.defaultReminderPartDay = defaultReminderPartDay ?? defaultReminder
-			this.defaultReminderFullDay = defaultReminderFullDay ?? defaultReminder
+			this.defaultReminderPartDay = defaultReminderPartDay
+			this.defaultReminderFullDay = defaultReminderFullDay
 			this.talkEnabled = talkEnabled
 			this.tasksEnabled = tasksEnabled
 			this.timezone = timezone
