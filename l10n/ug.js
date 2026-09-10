@@ -662,8 +662,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "PROPFIND خاتالىقىنى تەھلىل قىلغاندا خاتالىق",
     "Appointment not found" : "تەيىنلەنمىدى",
     "User not found" : "ئىشلەتكۈچى تېپىلمىدى",
-    "Update this and all future" : "بۇنى ۋە كەلگۈسىنى يېڭىلاڭ",
-    "Delete this and all future" : "بۇنى ۋە كەلگۈسىنى ئۆچۈرۈڭ",
     "Failed to fetch proposals" : "تەكلىپنى چۈشۈرۈش مەغلۇپ بولدى"
 },
 "nplurals=2; plural=(n != 1);");

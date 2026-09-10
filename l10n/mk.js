@@ -645,8 +645,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Грешка при обработка на PROPFIND грешката",
     "Appointment not found" : "Терминот не е пронајден",
     "User not found" : "Корисникот не е пронајден",
-    "Update this and all future" : "Ажурирајте го овој и сите во иднина",
-    "Delete this and all future" : "Избришете го овој и сите во иднина",
     "Failed to fetch proposals" : "Не успеа да се преземат предлозите"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

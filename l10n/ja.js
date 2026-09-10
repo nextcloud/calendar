@@ -781,8 +781,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "PROPFINDエラーの解析中にエラーが発生しました",
     "Appointment not found" : "予定が見つかりません",
     "User not found" : "ユーザーが見つかりません",
-    "Update this and all future" : "これ以降を更新",
-    "Delete this and all future" : "これ以降を削除する",
     "Failed to fetch proposals" : "提案の取得に失敗しました"
 },
 "nplurals=1; plural=0;");

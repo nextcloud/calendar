@@ -757,8 +757,6 @@
     "Error while parsing a PROPFIND error" : "解析 PROPFIND 错误时出错",
     "Appointment not found" : "未找到预约",
     "User not found" : "未找到用户",
-    "Update this and all future" : "更新此项及以后的项目",
-    "Delete this and all future" : "删除此项及以后的项目",
     "Failed to fetch proposals" : "无法获取提议"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

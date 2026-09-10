@@ -807,8 +807,6 @@ OC.L10N.register(
     "Other rooms" : "Other rooms",
     "Appointment not found" : "Appointment not found",
     "User not found" : "User not found",
-    "Update this and all future" : "Update this and all future",
-    "Delete this and all future" : "Delete this and all future",
     "Failed to fetch proposals" : "Failed to fetch proposals"
 },
 "nplurals=2; plural=(n != 1);");

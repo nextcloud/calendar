@@ -560,8 +560,6 @@
     "This is an event reminder." : "Això és un recordatori de l'esdeveniment.",
     "Error while parsing a PROPFIND error" : "S'ha produït un error en analitzar un error PROPFIND",
     "Appointment not found" : "No s'ha trobat la cita",
-    "User not found" : "No s'ha trobat l'usuari",
-    "Update this and all future" : "Actualitza aquesta i les futures",
-    "Delete this and all future" : "Suprimeix aquesta i les ocurrències futures"
+    "User not found" : "No s'ha trobat l'usuari"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -699,8 +699,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Error al analizar un error PROPFIND",
     "Appointment not found" : "Cita no encontrada",
     "User not found" : "Usuario no encontrado",
-    "Update this and all future" : "Actualizar este evento y todos los futuros",
-    "Delete this and all future" : "Eliminar este evento y los todos los futuros",
     "Failed to fetch proposals" : "Fallo al obtener propuestas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

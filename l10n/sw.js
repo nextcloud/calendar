@@ -670,8 +670,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Hitilafu wakati wa kuchanganua hitilafu ya PROPFIND",
     "Appointment not found" : "Muadi haupatikani",
     "User not found" : "Mtumiaji hapatikani",
-    "Update this and all future" : "Sasisha hii na zote wakati ujao",
-    "Delete this and all future" : "Futa hii na muda wote ujao",
     "Failed to fetch proposals" : "Imeshindwa kuleta mapendekezo"
 },
 "nplurals=2; plural=(n != 1);");

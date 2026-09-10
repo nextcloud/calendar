@@ -668,8 +668,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "PROPFIND xatosini tahlil qilishda xatolik yuz berdi",
     "Appointment not found" : "Uchrashuv topilmadi",
     "User not found" : "Foydalanuvchi topilmadi",
-    "Update this and all future" : "Buni va barcha kelajakni yangilang",
-    "Delete this and all future" : "Buni va barcha keyingilarini o'chirib tashlang",
     "Failed to fetch proposals" : "Takliflarni olib bo‘lmadi"
 },
 "nplurals=1; plural=0;");

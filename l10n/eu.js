@@ -562,8 +562,6 @@ OC.L10N.register(
     "This is an event reminder." : "Hau gertaera baten gogorarazpena da.",
     "Error while parsing a PROPFIND error" : "Errore bat gertatu da PROPFIND errore bat analizatzean",
     "Appointment not found" : "Ez da hitzordua aurkitu",
-    "User not found" : "Ez da erabiltzailea aurkitu",
-    "Update this and all future" : "Eguneratu hau eta etorkizuneko guztiak",
-    "Delete this and all future" : "Ezabatu hau eta etorkizunekoak"
+    "User not found" : "Ez da erabiltzailea aurkitu"
 },
 "nplurals=2; plural=(n != 1);");

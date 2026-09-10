@@ -806,8 +806,6 @@ OC.L10N.register(
     "Other rooms" : "Aðrir fundarsalir",
     "Appointment not found" : "Stefnumót fannst ekki",
     "User not found" : "Notandi fannst ekki",
-    "Update this and all future" : "Uppfæra þetta og öll síðari",
-    "Delete this and all future" : "Eyða þessu og framtíðar tilvikum",
     "Failed to fetch proposals" : "Mistókst að sækja tillögur"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

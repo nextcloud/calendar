@@ -785,8 +785,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Klaida analizuojant „PROPFIND“ klaidą",
     "Appointment not found" : "Susitikimas nerastas",
     "User not found" : "Naudotojas nerastas",
-    "Update this and all future" : "Atnaujinti šį ir visus būsimus",
-    "Delete this and all future" : "Ištrinti šį ir visus būsimus",
     "Failed to fetch proposals" : "Nepavyko gauti pasiūlymų"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

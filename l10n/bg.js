@@ -647,8 +647,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Грешка при синтактичния анализ на грешка в PROPFIND",
     "Appointment not found" : "Срещата не е намерена",
     "User not found" : "Потребителят не е намерен ",
-    "Update this and all future" : "Актуализиране на това и на всички бъдещи",
-    "Delete this and all future" : "Изтриване на това и на всички бъдещи ",
     "Failed to fetch proposals" : "Неуспешно извличане на предложения"
 },
 "nplurals=2; plural=(n != 1);");

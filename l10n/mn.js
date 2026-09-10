@@ -661,8 +661,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "PROPFIND алдааг задлахад алдаа гарлаа",
     "Appointment not found" : "Уулзалт олдсонгүй",
     "User not found" : "Хэрэглэгч олдсонгүй",
-    "Update this and all future" : "Энэ болон бүх ирээдүйг шинэчлэх",
-    "Delete this and all future" : "Энэ болон бүх ирээдүйг устгах",
     "Failed to fetch proposals" : "Саналуудыг авч чадсангүй"
 },
 "nplurals=2; plural=(n != 1);");
