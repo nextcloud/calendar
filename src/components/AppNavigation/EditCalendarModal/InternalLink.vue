@@ -3,6 +3,39 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { CalendarInterface } from '@/types/calendar.ts'
+
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { NcActionButton, NcActions } from '@nextcloud/vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
+import logger from '@/utils/logger.js'
+
+const props = defineProps<{
+	calendar: CalendarInterface
+}>()
+
+/**
+ * Copies the private calendar link
+ * to be used with clients like Thunderbird
+ */
+async function copyLink(): Promise<void> {
+	const rootUrl = generateRemoteUrl('dav')
+	const url = new URL(props.calendar.url, rootUrl)
+
+	try {
+		await navigator.clipboard.writeText(url.toString())
+		showSuccess(t('calendar', 'Calendar link copied to clipboard.'))
+	} catch (error) {
+		logger.debug(error)
+		showError(t('calendar', 'Calendar link could not be copied to clipboard.'))
+	}
+}
+</script>
+
 <template>
 	<div class="internal-link">
 		<div class="internal-link__icon">
@@ -26,51 +59,6 @@
 		</NcActions>
 	</div>
 </template>
-
-<script>
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { NcActionButton, NcActions } from '@nextcloud/vue'
-import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
-import logger from '@/utils/logger.js'
-
-export default {
-	name: 'InternalLink',
-	components: {
-		NcActions,
-		NcActionButton,
-		OpenInNewIcon,
-		ContentCopy,
-	},
-
-	props: {
-		calendar: {
-			type: Object,
-			required: true,
-		},
-	},
-
-	methods: {
-		/**
-		 * Copies the private calendar link
-		 * to be used with clients like Thunderbird
-		 */
-		async copyLink() {
-			const rootUrl = generateRemoteUrl('dav')
-			const url = new URL(this.calendar.url, rootUrl)
-
-			try {
-				await navigator.clipboard.writeText(url)
-				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
-			} catch (error) {
-				logger.debug(error)
-				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
-			}
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .internal-link {

@@ -3,15 +3,380 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { AlarmObject, AlarmOption } from '@/types/alarm.ts'
+
+import { showError } from '@nextcloud/dialogs'
+import { getLanguage, n, t } from '@nextcloud/l10n'
+import { NcAppNavigationSpacer, NcButton, NcCheckboxRadioSwitch, NcColorPicker, NcModal, NcSelect, NcTextField } from '@nextcloud/vue'
+import { computed, ref, watch } from 'vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
+import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
+import DownloadIcon from 'vue-material-design-icons/TrayArrowDown.vue'
+import InternalLink from '@/components/AppNavigation/EditCalendarModal/InternalLink.vue'
+import PublishCalendar from '@/components/AppNavigation/EditCalendarModal/PublishCalendar.vue'
+import ShareItem from '@/components/AppNavigation/EditCalendarModal/ShareItem.vue'
+import SharingSearch from '@/components/AppNavigation/EditCalendarModal/SharingSearch.vue'
+import { getDefaultAlarms } from '@/defaults/defaultAlarmProvider.js'
+import alarmFormat from '@/filters/alarmFormat.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
+import {
+	getAmountAndUnitForTimedEvents,
+	getAmountHoursMinutesAndUnitForAllDayEvents,
+} from '@/utils/alarms.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
+
+const calendarsStore = useCalendarsStore()
+const settingsStore = useSettingsStore()
+
+const calendarColor = ref<string | undefined>(undefined)
+const calendarColorChanged = ref(false)
+const isTransparent = ref(false)
+const disableAlarmNotifications = ref(false)
+const calendarName = ref<string | undefined>(undefined)
+const calendarNameChanged = ref(false)
+const selectedDefaultAlarmPartDay = ref<AlarmOption | null>(null)
+const selectedDefaultAlarmFullDay = ref<AlarmOption | null>(null)
+const defaultAlarmChanged = ref(false)
+
+const calendar = computed(() => {
+	const id = calendarsStore.editCalendarModal?.calendarId
+	if (!id) {
+		return undefined
+	}
+
+	return calendarsStore.getCalendarById(id)
+})
+
+/**
+ * Whether to show the publishing action.
+ */
+const canBePublished = computed<boolean>(() => calendar.value!.canBePublished)
+
+/**
+ * Whether to show the sharing section
+ */
+const canBeShared = computed<boolean>(() => {
+	// The backend falsely reports incoming editable shares as being shareable
+	// Ref https://github.com/nextcloud/calendar/issues/5755
+	if (calendar.value!.isSharedWithMe) {
+		return false
+	}
+
+	return calendar.value!.canBeShared || calendar.value!.canBePublished
+})
+
+/**
+ * Download url of the calendar
+ */
+const downloadUrl = computed<string>(() => calendar.value!.url + '?export')
+
+/**
+ * Whether the calendar name is non-blank.
+ */
+const isCalendarNameValid = computed<boolean>(() => !!calendarName.value?.trim())
+
+/**
+ * Description about supported component types.
+ */
+const description = computed<string>(() => {
+	const supportedTypes = []
+	if (calendar.value!.supportsEvents) {
+		supportedTypes.push(t('calendar', 'events'))
+	}
+	if (calendar.value!.supportsTasks) {
+		supportedTypes.push(t('calendar', 'tasks'))
+	}
+	if (calendar.value!.supportsJournals) {
+		// TRANSLATORS "notes" would be more user-friendly. "journal entries" (from RFC 5545) was used to avoid confusion with notes from the Notes app.
+		supportedTypes.push(t('calendar', 'journal entries'))
+	}
+
+	if (supportedTypes.lenght === 0) {
+		return t('calendar', 'This calendar supports neither events, tasks nor journal entries.')
+	}
+
+	const formatter = new Intl.ListFormat(getLanguage(), { type: 'conjunction' })
+	const localizedTypes = formatter.format(supportedTypes)
+	return n(
+		'calendar',
+		'This calendar supports only {types}.',
+		'This calendar supports {types}.',
+		supportedTypes.length,
+		{ types: localizedTypes },
+	)
+})
+
+/**
+ * Create alarm object from trigger time for formatting
+ *
+ * @param time Total amount of seconds for the trigger
+ */
+function getAlarmObjectFromTriggerTime(time: number): AlarmObject {
+	const timedData = getAmountAndUnitForTimedEvents(time)
+	const allDayData = getAmountHoursMinutesAndUnitForAllDayEvents(time)
+
+	return {
+		isRelative: true,
+		absoluteDate: null,
+		absoluteTimezoneId: null,
+		relativeIsBefore: time < 0,
+		relativeIsRelatedToStart: true,
+		relativeUnitTimed: timedData.unit,
+		relativeAmountTimed: timedData.amount,
+		relativeUnitAllDay: allDayData.unit,
+		relativeAmountAllDay: allDayData.amount,
+		relativeHoursAllDay: allDayData.hours,
+		relativeMinutesAllDay: allDayData.minutes,
+		relativeTrigger: time,
+	}
+}
+
+/**
+ * Get the default alarm options for part-day (timed) events
+ */
+const defaultAlarmPartDayOptions = computed<AlarmOption[]>(() => {
+	const currentUserTimezone = settingsStore.getResolvedTimezone
+	const locale = settingsStore.momentLocale
+
+	const options: AlarmOption[] = [
+		{
+			label: t('calendar', 'None'),
+			value: null,
+		},
+	]
+
+	const alarms = getDefaultAlarms(false)
+	for (const alarm of alarms) {
+		const alarmObject = getAlarmObjectFromTriggerTime(alarm)
+		options.push({
+			label: alarmFormat(alarmObject, false, currentUserTimezone, locale),
+			value: alarm,
+		})
+	}
+
+	return options
+})
+
+/**
+ * Get the default alarm options for full-day (all-day) events
+ */
+const defaultAlarmFullDayOptions = computed<AlarmOption[]>(() => {
+	const currentUserTimezone = settingsStore.getResolvedTimezone
+	const locale = settingsStore.momentLocale
+
+	const options: AlarmOption[] = [
+		{
+			label: t('calendar', 'None'),
+			value: null,
+		},
+	]
+
+	const alarms = getDefaultAlarms(true)
+	for (const alarm of alarms) {
+		const alarmObject = getAlarmObjectFromTriggerTime(alarm)
+		options.push({
+			label: alarmFormat(alarmObject, true, currentUserTimezone, locale),
+			value: alarm,
+		})
+	}
+
+	return options
+})
+
+/**
+ * Whether the default alarm feature is supported (Nextcloud 34+)
+ */
+const isDefaultAlarmSupported = computed<boolean>(() => isAfterVersion(34))
+
+/**
+ * Whether the per-calendar disable alarm notifications feature is supported (Nextcloud 36+)
+ */
+const isDisableAlarmNotificationsSupported = computed<boolean>(() => isAfterVersion(36))
+
+/**
+ * Close the modal (without saving).
+ */
+function closeModal(): void {
+	calendarsStore.editCalendarModal = undefined
+}
+
+/**
+ * Save the calendar color.
+ */
+async function saveColor(): Promise<void> {
+	try {
+		await calendarsStore.changeCalendarColor({
+			calendar: calendar.value,
+			newColor: calendarColor.value,
+		})
+	} catch (error) {
+		logger.error('Failed to save calendar color', {
+			calendar: calendar.value,
+			newColor: calendarColor.value,
+		})
+		throw error
+	}
+}
+
+/**
+ * Save the calendar transparency.
+ */
+async function saveTransparency(): Promise<void> {
+	try {
+		await calendarsStore.changeCalendarTransparency({
+			calendar: calendar.value,
+			transparency: isTransparent.value ? 'transparent' : 'opaque',
+		})
+	} catch (error) {
+		logger.error('Failed to save calendar transparency', {
+			calendar: calendar.value,
+			transparency: isTransparent.value ? 'transparent' : 'opaque',
+		})
+		throw error
+	}
+}
+
+/**
+ * Save the calendar name.
+ */
+async function saveName(): Promise<void> {
+	try {
+		await calendarsStore.renameCalendar({
+			calendar: calendar.value,
+			newName: calendarName.value!.trim(),
+		})
+	} catch (error) {
+		logger.error('Failed to save calendar name', {
+			calendar: calendar.value,
+			newName: calendarName.value,
+		})
+		throw error
+	}
+}
+
+/**
+ * Save the calendar default alarms.
+ */
+async function saveDefaultAlarm(): Promise<void> {
+	try {
+		const pdayValue = selectedDefaultAlarmPartDay.value ? selectedDefaultAlarmPartDay.value.value : null
+		const fdayValue = selectedDefaultAlarmFullDay.value ? selectedDefaultAlarmFullDay.value.value : null
+		await calendarsStore.changeCalendarDefaultAlarms({
+			calendar: calendar.value,
+			defaultAlarmPartDay: pdayValue,
+			defaultAlarmFullDay: fdayValue,
+		})
+	} catch (error) {
+		logger.error('Failed to save calendar default alarms', {
+			calendar: calendar.value,
+		})
+		throw error
+	}
+}
+
+/**
+ * Save the calendar disableAlarmNotifications preference.
+ */
+async function saveDisableAlarmNotifications(): Promise<void> {
+	try {
+		await calendarsStore.changeCalendarDisableAlarmNotifications({
+			calendar: calendar.value,
+			disableAlarmNotifications: disableAlarmNotifications.value,
+		})
+	} catch (error) {
+		logger.error('Failed to save calendar disable alarm notifications preference', {
+			calendar: calendar.value,
+			error,
+		})
+		throw error
+	}
+}
+
+/**
+ * Save unsaved changes and close the modal.
+ */
+async function saveAndClose(): Promise<void> {
+	if (!isCalendarNameValid.value) {
+		return
+	}
+	try {
+		if (calendarColorChanged.value) {
+			await saveColor()
+		}
+		await saveTransparency()
+		if (isDisableAlarmNotificationsSupported.value) {
+			await saveDisableAlarmNotifications()
+		}
+		if (calendarNameChanged.value) {
+			await saveName()
+		}
+		if (isDefaultAlarmSupported.value && defaultAlarmChanged.value) {
+			await saveDefaultAlarm()
+		}
+	} catch (error) {
+		logger.error('Failed to save calendar changes', { error })
+		showError(t('calendar', 'Failed to save calendar name and color'))
+	}
+
+	closeModal()
+}
+
+/**
+ * Deletes or unshares the calendar
+ */
+function deleteCalendar(): void {
+	calendarsStore.deleteCalendarAfterTimeout({
+		calendar: calendar.value,
+	})
+	closeModal()
+}
+
+watch(calendar, (newCalendar) => {
+	if (!newCalendar) {
+		return
+	}
+
+	calendarName.value = newCalendar.displayName
+	calendarColor.value = newCalendar.color
+	calendarNameChanged.value = false
+	calendarColorChanged.value = false
+	isTransparent.value = newCalendar.transparency === 'transparent'
+	disableAlarmNotifications.value = newCalendar.disableAlarmNotifications || false
+
+	// Initialize default alarm for part-day events
+	if (newCalendar.defaultAlarmPartDay === null) {
+		selectedDefaultAlarmPartDay.value = defaultAlarmPartDayOptions.value[0]
+	} else {
+		const value = parseInt(String(newCalendar.defaultAlarmPartDay))
+		const option = defaultAlarmPartDayOptions.value.find((opt) => opt.value === value)
+		selectedDefaultAlarmPartDay.value = option || defaultAlarmPartDayOptions.value[0]
+	}
+
+	// Initialize default alarm for full-day events
+	if (newCalendar.defaultAlarmFullDay === null) {
+		selectedDefaultAlarmFullDay.value = defaultAlarmFullDayOptions.value[0]
+	} else {
+		const value = parseInt(String(newCalendar.defaultAlarmFullDay))
+		const option = defaultAlarmFullDayOptions.value.find((opt) => opt.value === value)
+		selectedDefaultAlarmFullDay.value = option || defaultAlarmFullDayOptions.value[0]
+	}
+	defaultAlarmChanged.value = false
+})
+</script>
+
 <template>
 	<NcModal
 		v-if="!!calendarsStore.editCalendarModal && calendar"
 		size="normal"
-		:name="$t('calendar', 'Edit calendar')"
+		:name="t('calendar', 'Edit calendar')"
 		@close="closeModal">
 		<div class="edit-calendar-modal">
 			<h3 class="edit-calendar-modal__header">
-				{{ $t('calendar', 'Edit calendar') }}
+				{{ t('calendar', 'Edit calendar') }}
 				<span class="edit-calendar-modal__header_subtitle">
 					{{ description }}
 				</span>
@@ -32,54 +397,54 @@
 				<NcTextField
 					v-model="calendarName"
 					class="edit-calendar-modal__name-and-color__name"
-					:label="$t('calendar', 'Calendar name')"
+					:label="t('calendar', 'Calendar name')"
 					:labelOutside="true"
 					:error="!isCalendarNameValid"
-					:helperText="!isCalendarNameValid ? $t('calendar', 'Calendar name can not be blank') : ''"
+					:helperText="!isCalendarNameValid ? t('calendar', 'Calendar name can not be blank') : ''"
 					@update:modelValue="calendarNameChanged = true" />
 			</div>
 			<template v-if="canBeShared">
 				<NcCheckboxRadioSwitch v-model="isTransparent">
-					{{ $t('calendar', 'Never show me as busy (set this calendar to transparent)') }}
+					{{ t('calendar', 'Never show me as busy (set this calendar to transparent)') }}
 				</NcCheckboxRadioSwitch>
 			</template>
-			<NcCheckboxRadioSwitch v-if="isAfterVersion36" v-model="disableAlarmNotifications">
-				{{ $t('calendar', 'Disable alarm notifications for this calendar') }}
+			<NcCheckboxRadioSwitch v-if="isDefaultAlarmSupported" v-model="disableAlarmNotifications">
+				{{ t('calendar', 'Disable alarm notifications for this calendar') }}
 			</NcCheckboxRadioSwitch>
-			<template v-if="!calendar.isSharedWithMe && isAfterVersion">
+			<template v-if="!calendar.isSharedWithMe && isDefaultAlarmSupported">
 				<div class="edit-calendar-modal__default-alarm">
 					<label for="default-alarm-partday-select" class="edit-calendar-modal__default-alarm__label">
-						{{ $t('calendar', 'Default reminder for part-day events') }}
+						{{ t('calendar', 'Default reminder for part-day events') }}
 					</label>
 					<NcSelect
 						v-model="selectedDefaultAlarmPartDay"
 						inputId="default-alarm-partday-select"
 						:options="defaultAlarmPartDayOptions"
 						:clearable="false"
-						:placeholder="$t('calendar', 'Select default reminder')"
+						:placeholder="t('calendar', 'Select default reminder')"
 						class="edit-calendar-modal__default-alarm__select"
 						@update:modelValue="defaultAlarmChanged = true" />
 				</div>
 				<div class="edit-calendar-modal__default-alarm">
 					<label for="default-alarm-fullday-select" class="edit-calendar-modal__default-alarm__label">
-						{{ $t('calendar', 'Default reminder for full-day events') }}
+						{{ t('calendar', 'Default reminder for full-day events') }}
 					</label>
 					<NcSelect
 						v-model="selectedDefaultAlarmFullDay"
 						inputId="default-alarm-fullday-select"
 						:options="defaultAlarmFullDayOptions"
 						:clearable="false"
-						:placeholder="$t('calendar', 'Select default reminder')"
+						:placeholder="t('calendar', 'Select default reminder')"
 						class="edit-calendar-modal__default-alarm__select"
 						@update:modelValue="defaultAlarmChanged = true" />
 					<p class="edit-calendar-modal__default-alarm__hint">
-						{{ $t('calendar', 'These reminders will be automatically added to new events created in this calendar') }}
+						{{ t('calendar', 'These reminders will be automatically added to new events created in this calendar') }}
 					</p>
 				</div>
 			</template>
 			<template v-if="canBeShared">
 				<h3 class="edit-calendar-modal__sharing-header">
-					{{ $t('calendar', 'Share calendar') }}
+					{{ t('calendar', 'Share calendar') }}
 				</h3>
 
 				<div class="edit-calendar-modal__sharing">
@@ -99,455 +464,30 @@
 					<template #icon>
 						<CloseIcon :size="20" />
 					</template>
-					{{ $t('calendar', 'Unshare from me') }}
+					{{ t('calendar', 'Unshare from me') }}
 				</NcButton>
 				<NcButton v-else variant="tertiary" @click="deleteCalendar">
 					<template #icon>
 						<DeleteIcon :size="20" />
 					</template>
-					{{ $t('calendar', 'Delete') }}
+					{{ t('calendar', 'Delete') }}
 				</NcButton>
 				<NcButton variant="tertiary" :href="downloadUrl">
 					<template #icon>
 						<DownloadIcon :size="20" />
 					</template>
-					{{ $t('calendar', 'Export') }}
+					{{ t('calendar', 'Export') }}
 				</NcButton>
 				<NcButton variant="secondary" :disabled="!isCalendarNameValid" @click="saveAndClose">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>
-					{{ $t('calendar', 'Save') }}
+					{{ t('calendar', 'Save') }}
 				</NcButton>
 			</div>
 		</div>
 	</NcModal>
 </template>
-
-<script>
-import { showError } from '@nextcloud/dialogs'
-import { getLanguage } from '@nextcloud/l10n'
-import { NcAppNavigationSpacer, NcButton, NcCheckboxRadioSwitch, NcColorPicker, NcModal, NcSelect, NcTextField } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
-import CloseIcon from 'vue-material-design-icons/Close.vue'
-import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
-import DownloadIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-import InternalLink from '@/components/AppNavigation/EditCalendarModal/InternalLink.vue'
-import PublishCalendar from '@/components/AppNavigation/EditCalendarModal/PublishCalendar.vue'
-import ShareItem from '@/components/AppNavigation/EditCalendarModal/ShareItem.vue'
-import SharingSearch from '@/components/AppNavigation/EditCalendarModal/SharingSearch.vue'
-import { getDefaultAlarms } from '@/defaults/defaultAlarmProvider.js'
-import alarmFormat from '@/filters/alarmFormat.js'
-import useCalendarsStore from '@/store/calendars.js'
-import useSettingsStore from '@/store/settings.js'
-import {
-	getAmountAndUnitForTimedEvents,
-	getAmountHoursMinutesAndUnitForAllDayEvents,
-} from '@/utils/alarms.js'
-import logger from '@/utils/logger.js'
-import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
-
-export default {
-	name: 'EditCalendarModal',
-	components: {
-		NcModal,
-		NcColorPicker,
-		NcButton,
-		NcTextField,
-		NcSelect,
-		PublishCalendar,
-		SharingSearch,
-		ShareItem,
-		DeleteIcon,
-		DownloadIcon,
-		CloseIcon,
-		CheckIcon,
-		InternalLink,
-		NcAppNavigationSpacer,
-		NcCheckboxRadioSwitch,
-	},
-
-	data() {
-		return {
-			calendarColor: undefined,
-			calendarColorChanged: false,
-			isTransparent: false,
-			disableAlarmNotifications: false,
-			calendarName: undefined,
-			calendarNameChanged: false,
-			selectedDefaultAlarmPartDay: null,
-			selectedDefaultAlarmFullDay: null,
-			defaultAlarmChanged: false,
-		}
-	},
-
-	computed: {
-		...mapStores(useCalendarsStore),
-		calendar() {
-			const id = this.calendarsStore.editCalendarModal?.calendarId
-			if (!id) {
-				return undefined
-			}
-
-			return this.calendarsStore.getCalendarById(id)
-		},
-
-		/**
-		 * Whether to show the publishing action.
-		 *
-		 * @return {boolean}
-		 */
-		canBePublished() {
-			return this.calendar.canBePublished
-		},
-
-		/**
-		 * Whether to show the sharing section
-		 *
-		 * @return {boolean}
-		 */
-		canBeShared() {
-			// The backend falsely reports incoming editable shares as being shareable
-			// Ref https://github.com/nextcloud/calendar/issues/5755
-			if (this.calendar.isSharedWithMe) {
-				return false
-			}
-
-			return this.calendar.canBeShared || this.calendar.canBePublished
-		},
-
-		/**
-		 * Download url of the calendar
-		 *
-		 * @return {string}
-		 */
-		downloadUrl() {
-			return this.calendar.url + '?export'
-		},
-
-		/**
-		 * Whether the calendar name is non-blank.
-		 *
-		 * @return {boolean}
-		 */
-		isCalendarNameValid() {
-			return !!this.calendarName?.trim()
-		},
-
-		/**
-		 * Description about supported component types.
-		 *
-		 * @return {string}
-		 */
-		description() {
-			const supportedTypes = []
-			if (this.calendar.supportsEvents) {
-				supportedTypes.push(this.$t('calendar', 'events'))
-			}
-			if (this.calendar.supportsTasks) {
-				supportedTypes.push(this.$t('calendar', 'tasks'))
-			}
-			if (this.calendar.supportsJournals) {
-				// TRANSLATORS "notes" would be more user-friendly. "journal entries" (from RFC 5545) was used to avoid confusion with notes from the Notes app.
-				supportedTypes.push(this.$t('calendar', 'journal entries'))
-			}
-
-			if (supportedTypes.lenght === 0) {
-				return this.$t('calendar', 'This calendar supports neither events, tasks nor journal entries.')
-			}
-
-			const formatter = new Intl.ListFormat(getLanguage(), { type: 'conjunction' })
-			const localizedTypes = formatter.format(supportedTypes)
-			return this.$n(
-				'calendar',
-				'This calendar supports only {types}.',
-				'This calendar supports {types}.',
-				supportedTypes.length,
-				{ types: localizedTypes },
-			)
-		},
-
-		/**
-		 * Get the default alarm options for part-day (timed) events
-		 *
-		 * @return {Array}
-		 */
-		defaultAlarmPartDayOptions() {
-			const settingsStore = useSettingsStore()
-			const currentUserTimezone = settingsStore.getResolvedTimezone
-			const locale = settingsStore.momentLocale
-
-			const options = [
-				{
-					label: this.$t('calendar', 'None'),
-					value: null,
-				},
-			]
-
-			const alarms = getDefaultAlarms(false)
-			for (const alarm of alarms) {
-				const alarmObject = this.getAlarmObjectFromTriggerTime(alarm)
-				options.push({
-					label: alarmFormat(alarmObject, false, currentUserTimezone, locale),
-					value: alarm,
-				})
-			}
-
-			return options
-		},
-
-		/**
-		 * Get the default alarm options for full-day (all-day) events
-		 *
-		 * @return {Array}
-		 */
-		defaultAlarmFullDayOptions() {
-			const settingsStore = useSettingsStore()
-			const currentUserTimezone = settingsStore.getResolvedTimezone
-			const locale = settingsStore.momentLocale
-
-			const options = [
-				{
-					label: this.$t('calendar', 'None'),
-					value: null,
-				},
-			]
-
-			const alarms = getDefaultAlarms(true)
-			for (const alarm of alarms) {
-				const alarmObject = this.getAlarmObjectFromTriggerTime(alarm)
-				options.push({
-					label: alarmFormat(alarmObject, true, currentUserTimezone, locale),
-					value: alarm,
-				})
-			}
-
-			return options
-		},
-
-		/**
-		 * Whether the default alarm feature is supported (Nextcloud 34+)
-		 *
-		 * @return {boolean}
-		 */
-		isAfterVersion() {
-			return isAfterVersion(34)
-		},
-
-		/**
-		 * Whether the per-calendar disable alarm notifications feature is supported (Nextcloud 36+)
-		 *
-		 * @return {boolean}
-		 */
-		isAfterVersion36() {
-			return isAfterVersion(36)
-		},
-	},
-
-	watch: {
-		calendar(calendar) {
-			if (!calendar) {
-				return
-			}
-
-			this.calendarName = calendar.displayName
-			this.calendarColor = calendar.color
-			this.calendarNameChanged = false
-			this.calendarColorChanged = false
-			this.isTransparent = calendar.transparency === 'transparent'
-			this.disableAlarmNotifications = calendar.disableAlarmNotifications || false
-
-			// Initialize default alarm for part-day events
-			if (calendar.defaultAlarmPartDay === null) {
-				this.selectedDefaultAlarmPartDay = this.defaultAlarmPartDayOptions[0]
-			} else {
-				const value = parseInt(calendar.defaultAlarmPartDay)
-				const option = this.defaultAlarmPartDayOptions.find((opt) => opt.value === value)
-				this.selectedDefaultAlarmPartDay = option || this.defaultAlarmPartDayOptions[0]
-			}
-
-			// Initialize default alarm for full-day events
-			if (calendar.defaultAlarmFullDay === null) {
-				this.selectedDefaultAlarmFullDay = this.defaultAlarmFullDayOptions[0]
-			} else {
-				const value = parseInt(calendar.defaultAlarmFullDay)
-				const option = this.defaultAlarmFullDayOptions.find((opt) => opt.value === value)
-				this.selectedDefaultAlarmFullDay = option || this.defaultAlarmFullDayOptions[0]
-			}
-			this.defaultAlarmChanged = false
-		},
-	},
-
-	methods: {
-		/**
-		 * Close the modal (without saving).
-		 */
-		closeModal() {
-			this.calendarsStore.editCalendarModal = undefined
-		},
-
-		/**
-		 * Save the calendar color.
-		 */
-		async saveColor() {
-			try {
-				await this.calendarsStore.changeCalendarColor({
-					calendar: this.calendar,
-					newColor: this.calendarColor,
-				})
-			} catch (error) {
-				logger.error('Failed to save calendar color', {
-					calendar: this.calendar,
-					newColor: this.calendarColor,
-				})
-				throw error
-			}
-		},
-
-		/**
-		 * Save the calendar transparency.
-		 */
-		async saveTransparency() {
-			try {
-				await this.calendarsStore.changeCalendarTransparency({
-					calendar: this.calendar,
-					transparency: this.isTransparent ? 'transparent' : 'opaque',
-				})
-			} catch (error) {
-				logger.error('Failed to save calendar transparency', {
-					calendar: this.calendar,
-					transparency: this.isTransparent ? 'transparent' : 'opaque',
-				})
-				throw error
-			}
-		},
-
-		/**
-		 * Save the calendar name.
-		 */
-		async saveName() {
-			try {
-				await this.calendarsStore.renameCalendar({
-					calendar: this.calendar,
-					newName: this.calendarName.trim(),
-				})
-			} catch (error) {
-				logger.error('Failed to save calendar name', {
-					calendar: this.calendar,
-					newName: this.calendarName,
-				})
-				throw error
-			}
-		},
-
-		/**
-		 * Save the calendar default alarms.
-		 */
-		async saveDefaultAlarm() {
-			try {
-				const pdayValue = this.selectedDefaultAlarmPartDay ? this.selectedDefaultAlarmPartDay.value : null
-				const fdayValue = this.selectedDefaultAlarmFullDay ? this.selectedDefaultAlarmFullDay.value : null
-				await this.calendarsStore.changeCalendarDefaultAlarms({
-					calendar: this.calendar,
-					defaultAlarmPartDay: pdayValue,
-					defaultAlarmFullDay: fdayValue,
-				})
-			} catch (error) {
-				logger.error('Failed to save calendar default alarms', {
-					calendar: this.calendar,
-				})
-				throw error
-			}
-		},
-
-		/**
-		 * Save the calendar disableAlarmNotifications preference.
-		 */
-		async saveDisableAlarmNotifications() {
-			try {
-				await this.calendarsStore.changeCalendarDisableAlarmNotifications({
-					calendar: this.calendar,
-					disableAlarmNotifications: this.disableAlarmNotifications,
-				})
-			} catch (error) {
-				logger.error('Failed to save calendar disable alarm notifications preference', {
-					calendar: this.calendar,
-					error,
-				})
-				throw error
-			}
-		},
-
-		/**
-		 * Save unsaved changes and close the modal.
-		 *
-		 * @return {Promise<void>}
-		 */
-		async saveAndClose() {
-			if (!this.isCalendarNameValid) {
-				return
-			}
-			try {
-				if (this.calendarColorChanged) {
-					await this.saveColor()
-				}
-				await this.saveTransparency()
-				if (this.isAfterVersion36) {
-					await this.saveDisableAlarmNotifications()
-				}
-				if (this.calendarNameChanged) {
-					await this.saveName()
-				}
-				if (this.isAfterVersion && this.defaultAlarmChanged) {
-					await this.saveDefaultAlarm()
-				}
-			} catch (error) {
-				logger.error('Failed to save calendar changes', { error })
-				showError(this.$t('calendar', 'Failed to save calendar name and color'))
-			}
-
-			this.closeModal()
-		},
-
-		/**
-		 * Deletes or unshares the calendar
-		 */
-		deleteCalendar() {
-			this.calendarsStore.deleteCalendarAfterTimeout({
-				calendar: this.calendar,
-			})
-			this.closeModal()
-		},
-
-		/**
-		 * Create alarm object from trigger time for formatting
-		 *
-		 * @param {number} time Total amount of seconds for the trigger
-		 * @return {object} The alarm object
-		 */
-		getAlarmObjectFromTriggerTime(time) {
-			const timedData = getAmountAndUnitForTimedEvents(time)
-			const allDayData = getAmountHoursMinutesAndUnitForAllDayEvents(time)
-
-			return {
-				isRelative: true,
-				absoluteDate: null,
-				absoluteTimezoneId: null,
-				relativeIsBefore: time < 0,
-				relativeIsRelatedToStart: true,
-				relativeUnitTimed: timedData.unit,
-				relativeAmountTimed: timedData.amount,
-				relativeUnitAllDay: allDayData.unit,
-				relativeAmountAllDay: allDayData.amount,
-				relativeHoursAllDay: allDayData.hours,
-				relativeMinutesAllDay: allDayData.minutes,
-				relativeTrigger: time,
-			}
-		},
-	},
-}
-</script>
 
 <style lang="scss">
 .edit-calendar-modal {
