@@ -24,17 +24,18 @@ class ProposalService {
 			})
 			return response.data as T
 		} catch (error) {
-			let message = error instanceof Error ? error.message : 'Unknown error'
-			if (isAxiosError(error) && error.response?.headers['content-type']?.includes('application/json')) {
-				const ocsError = error.response.data as OcsEnvelope<OcsErrorData>
-				message = ocsError.ocs?.meta?.message ? ocsError.ocs.meta.message : `${error.response.status} ${error.response.statusText}`
-				logger.error('Proposal service transmission error', { ocsError })
-			} else if (isAxiosError(error) && error.response) {
-				message = `${error.response.status} ${error.response.statusText}`
-				logger.error('Proposal service transmission error', { message })
-			} else {
-				logger.error('Proposal service transmission error', { message })
+			if (!isAxiosError(error)) {
+				throw error
 			}
+			const status = error.response?.status
+			const statusText = error.response?.statusText
+			let message = error.response ? `${status} ${statusText}` : error.message
+			let ocsError: OcsEnvelope<OcsErrorData> | undefined
+			if (error.response?.headers['content-type']?.includes('application/json')) {
+				ocsError = error.response.data as OcsEnvelope<OcsErrorData>
+				message = ocsError.ocs?.meta?.message || message
+			}
+			logger.error('Proposal service transmission error', { status, statusText, ocsError })
 			// Do not retain the Axios error: callers log the cause, including request configuration.
 			// eslint-disable-next-line preserve-caught-error
 			throw new Error(`Unexpected error from proposal service: ${message}`)

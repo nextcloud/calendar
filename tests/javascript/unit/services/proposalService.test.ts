@@ -41,6 +41,7 @@ describe('services/proposalService test suite', () => {
 			isAxiosError: true,
 			response,
 			config: { headers: { Authorization: 'private-test-value' } },
+			request: { personalData: 'private-request-value' },
 		})
 		vi.mocked(axios.post).mockRejectedValue(networkError)
 
@@ -55,8 +56,18 @@ describe('services/proposalService test suite', () => {
 		expect(logger.error).toHaveBeenNthCalledWith(
 			1,
 			'Proposal service transmission error',
-			response?.data ? { ocsError: response.data } : { message },
+			{ status: response?.status, statusText: response?.statusText, ocsError: response?.data },
 		)
 		expect(logger.error).toHaveBeenNthCalledWith(2, 'Failed to list proposals:', { error: serviceError.cause })
+	})
+
+	it('preserves unexpected non-Axios errors for the caller', async () => {
+		const unexpectedError = new TypeError('Unexpected failure')
+		vi.mocked(axios.post).mockRejectedValue(unexpectedError)
+
+		const request = proposalService.listProposals()
+
+		await expect(request).rejects.toHaveProperty('cause', unexpectedError)
+		expect(logger.error).toHaveBeenCalledExactlyOnceWith('Failed to list proposals:', { error: unexpectedError })
 	})
 })
