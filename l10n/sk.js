@@ -807,8 +807,6 @@ OC.L10N.register(
     "Other rooms" : "Ostatné miestnosti",
     "Appointment not found" : "Stretnutie nebolo nájdené",
     "User not found" : "Užívateľ nebol nájdený",
-    "Update this and all future" : "Aktualizovať tento a všetky budúce",
-    "Delete this and all future" : "Vymazať toto a všetko budúce",
     "Failed to fetch proposals" : "Nepodarilo sa načítať návrhy"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -417,8 +417,6 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Một lỗi đã xảy ra, không thể xóa lịch.",
     "Imported {filename}" : " {filename} đã được nhập",
     "Appointment not found" : "Không tìm thấy cuộc hẹn",
-    "User not found" : "Không tìm thấy người dùng",
-    "Update this and all future" : "Cập nhập định kỳ này và cho toàn bộ tương lai",
-    "Delete this and all future" : "Xóa địnhy kỳ này và tất cả tương lai của nó"
+    "User not found" : "Không tìm thấy người dùng"
 },
 "nplurals=1; plural=0;");

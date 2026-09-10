@@ -807,8 +807,6 @@ OC.L10N.register(
     "Other rooms" : "Muuda koosolekuruumid",
     "Appointment not found" : "Kokkulepitud kohtumist ei leidu",
     "User not found" : "Kasutajat ei leidunud",
-    "Update this and all future" : "Uuenda seda ja kõiki tulevasi",
-    "Delete this and all future" : "Kustuta see ja kõik tulevased",
     "Failed to fetch proposals" : "Ettepanekute laadimine ei õnnestunud"
 },
 "nplurals=2; plural=(n != 1);");

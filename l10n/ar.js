@@ -562,8 +562,6 @@ OC.L10N.register(
     "This is an event reminder." : "هذا تذكير بحدث",
     "Error while parsing a PROPFIND error" : "حدث خطأ أثناء تحليل PROFIND",
     "Appointment not found" : "الموعد غير موجود",
-    "User not found" : "المستخدم غير موجود",
-    "Update this and all future" : "تغيير هذه و المستقبلية الأخرى",
-    "Delete this and all future" : "حذف هذا الظهور والجميع في الستقبل"
+    "User not found" : "المستخدم غير موجود"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

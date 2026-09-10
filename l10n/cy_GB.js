@@ -374,8 +374,6 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Bu gwall, ni fu modd dileu'r calendr.",
     "Imported {filename}" : "Mewnforiwyd {filename}",
     "Appointment not found" : "Apwyntiad heb ei ganfod",
-    "User not found" : "Defnyddiwr heb ei ganfod",
-    "Update this and all future" : "Diweddaru hwn a phob un i'r dyfodol",
-    "Delete this and all future" : "Dileu hwn a phob dyfodol"
+    "User not found" : "Defnyddiwr heb ei ganfod"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

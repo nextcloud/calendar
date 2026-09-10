@@ -805,8 +805,6 @@ OC.L10N.register(
     "Other rooms" : "Seomraí eile",
     "Appointment not found" : "Níor aimsíodh an coinne",
     "User not found" : "Úsáideoir gan aimsiú",
-    "Update this and all future" : "Nuashonraigh seo agus gach todhchaí",
-    "Delete this and all future" : "Scrios seo agus gach todhchaí",
     "Failed to fetch proposals" : "Theip ar thograí a fháil"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

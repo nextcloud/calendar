@@ -782,8 +782,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Σφάλμα κατά την ανάλυση σφάλματος PROPFIND",
     "Appointment not found" : "Το ραντεβού δεν βρέθηκε",
     "User not found" : "Ο/Η χρήστης δεν βρέθηκε",
-    "Update this and all future" : "Ενημέρωση αυτού και όλων των μελλοντικών",
-    "Delete this and all future" : "Διαγραφή αυτού και όλων των μελλοντικών",
     "Failed to fetch proposals" : "Αποτυχία ανάκτησης προτάσεων"
 },
 "nplurals=2; plural=(n != 1);");

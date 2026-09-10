@@ -805,8 +805,6 @@ OC.L10N.register(
     "Other rooms" : "Overige ruimtes",
     "Appointment not found" : "Afspraak niet gevonden",
     "User not found" : "Gebruiker niet gevonden",
-    "Update this and all future" : "Deze en toekomstige afspraken bijwerken",
-    "Delete this and all future" : "Verwijder deze en toekomstige",
     "Failed to fetch proposals" : "Voorstellen ophalen mislukt"
 },
 "nplurals=2; plural=(n != 1);");

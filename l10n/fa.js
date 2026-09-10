@@ -777,8 +777,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "خطا در تجزیه خطای PROPFIND",
     "Appointment not found" : "قرار ملاقات یافت نشد",
     "User not found" : "کاربر یافت نشد",
-    "Update this and all future" : "به‌روزرسانی این و تمام آینده",
-    "Delete this and all future" : "حذف این و همه موارد بعدی",
     "Failed to fetch proposals" : "دریافت پیشنهادات ناموفق بود"
 },
 "nplurals=2; plural=(n > 1);");

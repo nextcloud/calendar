@@ -364,8 +364,6 @@ OC.L10N.register(
     "Error while sharing file" : "שגיאה בשיתוף הקובץ",
     "An error occurred, unable to delete the calendar." : "אירעה שגיאה, לא ניתן למחוק את היומן.",
     "Imported {filename}" : "יובא {filename} ",
-    "User not found" : "המשתמש לא נמצא",
-    "Update this and all future" : "עדכון של זה והעתידיים",
-    "Delete this and all future" : "מחיקת זה והבאים"
+    "User not found" : "המשתמש לא נמצא"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

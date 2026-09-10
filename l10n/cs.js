@@ -696,8 +696,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Chyba při zpracovávání PROPFIND chyby",
     "Appointment not found" : "Schůzka nenalezena",
     "User not found" : "Uživatel nenalezen",
-    "Update this and all future" : "Aktualizovat tento a všechny budoucí",
-    "Delete this and all future" : "Smazat toto a všechny budoucí",
     "Failed to fetch proposals" : "Nepodařilo se získat návrhy"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -805,8 +805,6 @@ OC.L10N.register(
     "Other rooms" : "Egyéb szobák",
     "Appointment not found" : "A találkozó nem található",
     "User not found" : "A felhasználó nem található",
-    "Update this and all future" : "Ezen és az összes jövőbeli frissítése",
-    "Delete this and all future" : "Ezen és az összes jövőbeli törlése",
     "Failed to fetch proposals" : "A javaslatok letöltése sikertelen"
 },
 "nplurals=2; plural=(n != 1);");

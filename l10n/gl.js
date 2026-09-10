@@ -775,8 +775,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Produciuse un erro ao analizar un erro PROPFIND",
     "Appointment not found" : "Non se atopou a cita",
     "User not found" : "Non se atopou o usuario",
-    "Update this and all future" : "Actualizar esta e todas as futuras",
-    "Delete this and all future" : "Eliminar esta e todas as futuras",
     "Failed to fetch proposals" : "Produciuse un fallo ao recuperar as propostas"
 },
 "nplurals=2; plural=(n != 1);");

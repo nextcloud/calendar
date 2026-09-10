@@ -737,8 +737,6 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Wystąpił błąd podczas analizowania błędu PROPFIND",
     "Appointment not found" : "Nie znaleziono spotkania",
     "User not found" : "Nie znaleziono użytkownika",
-    "Update this and all future" : "Zaktualizuj to i wszystkie przyszłe",
-    "Delete this and all future" : "Usuń to i wszystkie przyszłe",
     "Failed to fetch proposals" : "Nie udało się pobrać propozycji"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -476,8 +476,6 @@ OC.L10N.register(
     "Imported {filename}" : "Imported {filename}",
     "This is an event reminder." : "This is an event reminder.",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "User not found",
-    "Update this and all future" : "Update this and all future",
-    "Delete this and all future" : "Delete this and all future"
+    "User not found" : "User not found"
 },
 "nplurals=2; plural=(n!=1);");

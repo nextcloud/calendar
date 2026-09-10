@@ -805,8 +805,6 @@
     "Other rooms" : "Ruang lainnya",
     "Appointment not found" : "Janji temu tidak ditemukan",
     "User not found" : "Pengguna tidak ditemukan",
-    "Update this and all future" : "Perbarui ini dan semua yang akan datang",
-    "Delete this and all future" : "Hapus ini dan semua yang akan datang",
     "Failed to fetch proposals" : "Gagal mengambil usulan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

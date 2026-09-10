@@ -508,8 +508,6 @@ OC.L10N.register(
     "Imported {filename}" : "Uvožena datoteka {filename}",
     "This is an event reminder." : "To je opomnik dogodka.",
     "Appointment not found" : "Sestanka ni mogoče najti",
-    "User not found" : "Uporabnika ni mogoče najti",
-    "Update this and all future" : "Posodobi to in vse prihodnje pojavitve",
-    "Delete this and all future" : "Izbriši to in vse prihodnje pojavitve"
+    "User not found" : "Uporabnika ni mogoče najti"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

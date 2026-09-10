@@ -661,8 +661,6 @@
     "Error while parsing a PROPFIND error" : "Fejl under parsing af en PROPFIND-fejl",
     "Appointment not found" : "Aftale ikke fundet",
     "User not found" : "Bruger ikke fundet",
-    "Update this and all future" : "Opdatér denne og alle fremtidige",
-    "Delete this and all future" : "Slet denne og alle fremtidige",
     "Failed to fetch proposals" : "Hentning af forslag fejlede"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
