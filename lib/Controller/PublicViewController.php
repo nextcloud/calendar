@@ -89,6 +89,7 @@ class PublicViewController extends Controller {
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 		$defaultTasksSidebar = $this->config->getAppValue($this->appName, 'tasksSidebar', 'yes');
 		$defaultCanSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes');
+		$defaultSendInvitations = $this->config->getAppValue('dav', 'sendInvitations', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', '');
 
@@ -110,6 +111,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'hide_event_export', false);
 		$this->initialStateService->provideInitialState($this->appName, 'can_subscribe_link', $defaultCanSubscribeLink);
 		$this->initialStateService->provideInitialState($this->appName, 'show_resources', false);
+		$this->initialStateService->provideInitialState($this->appName, 'send_invitations', $defaultSendInvitations);
 
 		return new PublicTemplateResponse($this->appName, 'main', [
 			'share_url' => $this->getShareURL(),

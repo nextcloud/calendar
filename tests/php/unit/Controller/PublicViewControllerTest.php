@@ -48,7 +48,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexWithBranding():void {
-		$this->config->expects(self::exactly(12))
+		$this->config->expects(self::exactly(13))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'no'],
@@ -62,6 +62,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'showTasks', 'yes', 'yes'],
 				['calendar', 'tasksSidebar', 'yes', 'yes'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
+				['dav', 'sendInvitations', 'yes', 'defaultSendInvitations'],
 				['calendar', 'installed_version', '', '1.0.0']
 			]);
 
@@ -87,7 +88,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(18))
+		$this->initialStateService->expects(self::exactly(19))
 			->method('provideInitialState')
 			->willReturnMap([
 				['calendar', 'app_version', '1.0.0'],
@@ -108,6 +109,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'hide_event_export', false],
 				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
 				['calendar', 'show_resources', false],
+				['calendar', 'send_invitations', 'defaultSendInvitations'],
 			]);
 
 		$response = $this->controller->publicIndexWithBranding('');
@@ -132,7 +134,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexForEmbedding():void {
-		$this->config->expects(self::exactly(12))
+		$this->config->expects(self::exactly(13))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'yes'],
@@ -146,6 +148,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'tasksSidebar', 'yes', 'defaulttasksSidebar'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
+				['dav', 'sendInvitations', 'yes', 'defaultSendInvitations'],
 				['calendar', 'installed_version', '', '1.0.0']
 			]);
 		$this->request->expects(self::once())
@@ -189,11 +192,12 @@ class PublicViewControllerTest extends TestCase {
 			['calendar', 'hide_event_export', false],
 			['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
 			['calendar', 'show_resources', false],
+			['calendar', 'send_invitations', 'defaultSendInvitations'],
 			['calendar', 'is_embed', true],
 		];
 		$callIndex = 0;
 
-		$this->initialStateService->expects(self::exactly(19))
+		$this->initialStateService->expects(self::exactly(20))
 			->method('provideInitialState')
 			->willReturnCallback(function ($appName, $key, $value) use (&$callIndex, $expectedCalls) {
 				$this->assertEquals($expectedCalls[$callIndex][0], $appName);

@@ -49,6 +49,7 @@
 			<Actions v-if="!isReadOnly && isViewedByOrganizer">
 				<ActionCheckbox
 					v-if="!members.length"
+					v-show="sendInvitations"
 					:modelValue="attendee.rsvp"
 					@update:modelValue="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
@@ -127,6 +128,7 @@ import AvatarParticipationStatus from '@/components/Editor/AvatarParticipationSt
 import AttendeeDisplay from '@/components/Editor/Invitees/AttendeeDisplay.vue'
 import { getAttendeeDetails } from '@/services/attendeeDetails.js'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useSettingsStore from '@/store/settings.js'
 import { removeMailtoPrefix } from '@/utils/attendee.js'
 
 export default {
@@ -184,6 +186,7 @@ export default {
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		...mapState(useSettingsStore, ['sendInvitations']),
 		/**
 		 * @return {string}
 		 */

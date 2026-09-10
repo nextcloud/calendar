@@ -74,6 +74,7 @@ class CalendarInitialStateService {
 			$forceEventAlarmType = false;
 		}
 		$canSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes';
+		$sendInvitations = $this->config->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
 		$showResources = $this->config->getAppValue($this->appName, 'showResources', 'yes') === 'yes';
 		$publicCalendars = $this->config->getAppValue($this->appName, 'publicCalendars', '');
 
@@ -119,6 +120,7 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
 		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
+		$this->initialStateService->provideInitialState('send_invitations', $sendInvitations);
 		if (!is_null($this->userId)) {
 			$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 		}

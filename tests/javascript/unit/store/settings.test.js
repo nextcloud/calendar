@@ -60,6 +60,7 @@ describe('store/settings test suite', () => {
 			showResources: true,
 			publicCalendars: null,
 			searchQuery: '',
+			sendInvitations: true,
 		})
 	})
 
@@ -91,6 +92,7 @@ describe('store/settings test suite', () => {
 			attachmentsFolder: '/Calendar',
 			showResources: true,
 			publicCalendars: null,
+			sendInvitations: true,
 		}
 
 		settingsStore.$state = state
@@ -119,6 +121,7 @@ describe('store/settings test suite', () => {
 			attachmentsFolder: '/Attachments',
 			showResources: true,
 			publicCalendars: null,
+			sendInvitations: true,
 		}
 
 		settingsStore.loadSettingsFromServer(settings)
@@ -148,6 +151,7 @@ Initial settings:
 	- attachmentsFolder: /Attachments
 	- ShowResources: true
 	- PublicCalendars: null
+	- SendInvitations: true
 `)
 		expect(settingsStore.$state).toEqual({
 			appVersion: '2.1.0',
@@ -176,6 +180,7 @@ Initial settings:
 			showResources: true,
 			publicCalendars: null,
 			searchQuery: '',
+			sendInvitations: true,
 		})
 	})
 

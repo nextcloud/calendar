@@ -347,6 +347,7 @@ export default {
 			showResources: loadState('calendar', 'show_resources', true),
 			publicCalendars: loadState('calendar', 'publicCalendars', []),
 			tasksSidebar: loadState('calendar', 'tasks_sidebar', true),
+			sendInvitations: loadState('calendar', 'send_invitations'),
 		})
 		this.settingsStore.initializeCalendarJsConfig()
 

@@ -104,7 +104,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 		);
-		$this->config->expects(self::exactly(19))
+		$this->config->expects(self::exactly(20))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -124,6 +124,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'disableAppointments', 'no', 'no'],
 				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
+				['dav', 'sendInvitations', 'yes', 'yes'],
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
 				['spreed', 'start_conversations', '[]', '[]'],
@@ -175,7 +176,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->willReturn([$this->createMock(IResourceBackend::class)]);
 		$this->roomManager->expects(self::never())
 			->method('getBackends');
-		$this->initialStateService->expects(self::exactly(29))
+		$this->initialStateService->expects(self::exactly(30))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -198,6 +199,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['tasks_enabled', true],
 				['hide_event_export', true],
 				['force_event_alarm_type', null],
+				['send_invitations', true],
 				['appointmentConfigs', [new AppointmentConfig()]],
 				['disable_appointments', false],
 				['can_subscribe_link', false],
@@ -228,7 +230,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 		);
-		$this->config->expects(self::exactly(17))
+		$this->config->expects(self::exactly(18))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -248,6 +250,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'disableAppointments', 'no', 'no'],
 				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
+				['dav', 'sendInvitations', 'yes', 'yes'],
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
 			]);
@@ -293,7 +296,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->roomManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([]);
-		$this->initialStateService->expects(self::exactly(28))
+		$this->initialStateService->expects(self::exactly(29))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -316,6 +319,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['tasks_enabled', true],
 				['hide_event_export', true],
 				['force_event_alarm_type', null],
+				['send_invitations', true],
 				['disable_appointments', false],
 				['can_subscribe_link', false],
 				['show_resources', true],
@@ -351,7 +355,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 		);
-		$this->config->expects(self::exactly(19))
+		$this->config->expects(self::exactly(20))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -371,6 +375,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'disableAppointments', 'no', 'no'],
 				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
+				['dav', 'sendInvitations', 'yes', 'yes'],
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
 				['spreed', 'start_conversations', '[]', '[]'],
@@ -423,7 +428,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->roomManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([$this->createMock(IRoomBackend::class)]);
-		$this->initialStateService->expects(self::exactly(29))
+		$this->initialStateService->expects(self::exactly(30))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -446,6 +451,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['tasks_enabled', false],
 				['hide_event_export', true],
 				['force_event_alarm_type', null],
+				['send_invitations', true],
 				['appointmentConfigs', [new AppointmentConfig()]],
 				['disable_appointments', false],
 				['can_subscribe_link', false],
