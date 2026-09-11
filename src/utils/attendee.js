@@ -58,6 +58,33 @@ export function organizerDisplayName(organizer) {
 }
 
 /**
+ * Check if a resource booking is still pending, i.e. the resource has neither
+ * accepted nor declined and the server has not reported a scheduling result yet
+ *
+ * @param {string} participationStatus PARTSTAT of the resource attendee
+ * @param {string} scheduleStatus SCHEDULE-STATUS parameter value of the resource attendee
+ * @return {boolean} True if the booking outcome is still unknown
+ */
+export function isPendingResourceBooking(participationStatus, scheduleStatus) {
+	return !['ACCEPTED', 'DECLINED', 'TENTATIVE'].includes(participationStatus)
+		&& (!scheduleStatus || scheduleStatus === '1.0')
+}
+
+/**
+ * Get all attendees that are rooms
+ *
+ * @param {object[]} attendees Attendees of an event
+ * @return {object[]} Attendees with a ROOM calendar user type
+ */
+export function getRoomAttendees(attendees) {
+	if (!Array.isArray(attendees)) {
+		return []
+	}
+
+	return attendees.filter((attendee) => attendee?.attendeeProperty?.userType === 'ROOM')
+}
+
+/**
  * Check if the current user is an attendee
  *
  * @param {string} currentUserPrincipalEmail Email address of the current user

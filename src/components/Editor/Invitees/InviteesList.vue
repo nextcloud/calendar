@@ -22,10 +22,9 @@
 				</NcButton>
 			</div>
 
-			<div v-if="!hideButtons" class="invitees-list-button-group">
+			<template v-if="!hideButtons">
 				<NcButton
 					v-if="!isReadOnly"
-					class="invitees-list-button-group__button"
 					:disabled="isListEmpty || !isOrganizer"
 					@click="openFreeBusy">
 					{{ $t('calendar', 'Find a time') }}
@@ -43,10 +42,10 @@
 					@addAttendee="addAttendee"
 					@updateDates="saveNewDate"
 					@close="closeFreeBusy" />
-			</div>
+			</template>
 		</div>
 
-		<div class="invitees-list__subtitle">
+		<div v-if="statusHeader" class="invitees-list__subtitle">
 			{{ statusHeader }}
 		</div>
 
@@ -91,17 +90,17 @@ import { NcButton, NcCounterBubble } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultipleOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
-import FreeBusy from '../FreeBusy/FreeBusy.vue'
-import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
-import InviteesListItem from './InviteesListItem.vue'
-import InviteesListSearch from './InviteesListSearch.vue'
-import OrganizerListItem from './OrganizerListItem.vue'
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import useCalendarsStore from '../../../store/calendars.js'
-import usePrincipalsStore from '../../../store/principals.js'
-import useSettingsStore from '../../../store/settings.js'
-import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
+import FreeBusy from '@/components/Editor/FreeBusy/FreeBusy.vue'
+import InviteesListItem from '@/components/Editor/Invitees/InviteesListItem.vue'
+import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
+import OrganizerListItem from '@/components/Editor/Invitees/OrganizerListItem.vue'
+import OrganizerNoEmailError from '@/components/Editor/OrganizerNoEmailError.vue'
 import { containsRoomUrl } from '@/services/talkService'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import { organizerDisplayName, removeMailtoPrefix } from '@/utils/attendee.js'
 
 export default {
 	name: 'InviteesList',
@@ -129,11 +128,6 @@ export default {
 		},
 
 		calendar: {
-			type: Object,
-			required: true,
-		},
-
-		calendarObjectInstance: {
 			type: Object,
 			required: true,
 		},
@@ -171,6 +165,7 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore, useCalendarsStore, useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		...mapState(useSettingsStore, ['talkEnabled']),
 		noInviteesMessage() {
 			return this.$t('calendar', 'No attendees yet')
@@ -382,7 +377,6 @@ export default {
 			}
 			// set new organizer
 			this.calendarObjectInstanceStore.setOrganizer({
-				calendarObjectInstance: this.calendarObjectInstance,
 				commonName: label,
 				email: address,
 			})
@@ -404,7 +398,6 @@ export default {
 			if (modifiedMember) {
 				const group = modifiedMember.attendeeProperty.member
 				this.calendarObjectInstanceStore.removeAttendee({
-					calendarObjectInstance: this.calendarObjectInstance,
 					attendee: modifiedMember,
 				})
 				member = member.split(',')
@@ -412,7 +405,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.addAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
 				uri: email,
 				calendarUserType,
@@ -438,12 +430,11 @@ export default {
 				})
 			}
 			this.calendarObjectInstanceStore.removeAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
 				attendee,
 			})
 			this.recentAttendees = this.recentAttendees.filter((a) => a.uri !== attendee.email)
 
-			if (this.calendarObjectInstance.attendees.length === 0) {
+			if (this.showFreeBusyModel && this.calendarObjectInstance.attendees.length === 0) {
 				showWarning(this.$t('calendar', 'Please add at least one attendee to use the "Find a time" feature.'))
 				this.closeFreeBusy()
 			}
@@ -488,7 +479,8 @@ export default {
 			try {
 				await navigator.clipboard.writeText(tsvContent)
 				showSuccess(this.t('calendar', 'Attendees copied to clipboard'))
-			} catch (e) {
+			} catch (error) {
+				logger.error('Failed to copy attendees to clipboard', { error })
 				showError(this.t('calendar', 'Failed to copy attendees to clipboard'))
 			}
 		},
@@ -498,28 +490,6 @@ export default {
 
 <style lang="scss" scoped>
 .invitees-list {
-	&__header {
-		display: flex;
-		gap: calc(var(--default-grid-baseline) * 6);
-		align-items: center;
-
-		&__title {
-			display: flex;
-			gap: calc(var(--default-grid-baseline) * 2);
-			font-size: calc(var(--default-font-size) * 1.2);
-			align-items: center;
-			font-weight: bold;
-
-			div {
-				box-sizing: border-box;
-			}
-
-			&__text {
-				margin-inline-start: calc(var(--default-grid-baseline) * 2);
-			}
-		}
-	}
-
 	&__subtitle {
 		color: var(--color-text-maxcontrast);
 		margin-inline-start: calc(var(--default-grid-baseline) * 9);
@@ -528,22 +498,6 @@ export default {
 	&__more {
 		padding: calc(var(--default-grid-baseline) * 4) 0 0 calc(var(--default-grid-baseline) * 11);
 		opacity: 0.75;
-	}
-
-	.invitees-list-button-group {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 5px;
-
-		&__button {
-			flex: 1 0 100px;
-
-			:deep(.button-vue__text) {
-				white-space: unset !important;
-				overflow: unset !important;
-				text-overflow: unset !important;
-			}
-		}
 	}
 }
 </style>

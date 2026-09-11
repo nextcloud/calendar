@@ -21,15 +21,18 @@
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
 					<NcEmptyContent
 						v-if="loading"
-						icon="icon-loading"
 						class="modal__content__loading"
-						:description="t('calendar', 'Loading deleted items.')" />
+						:description="t('calendar', 'Loading deleted items.')">
+						<template #icon>
+							<NcLoadingIcon decorative />
+						</template>
+					</NcEmptyContent>
 					<NcEmptyContent
 						v-else-if="!items.length"
 						class="modal__content__empty"
 						:description="t('calendar', 'You do not have any deleted items.')">
 						<template #icon>
-							<IconDelete :size="20" decorative />
+							<IconDelete decorative />
 						</template>
 					</NcEmptyContent>
 					<template v-else>
@@ -112,14 +115,15 @@ import {
 	NcButton,
 	NcDateTime,
 	NcEmptyContent,
+	NcLoadingIcon,
 	NcModal,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import IconDelete from 'vue-material-design-icons/TrashCanOutline.vue'
-import useCalendarsStore from '../../../store/calendars.js'
-import useSettingsStore from '../../../store/settings.js'
-import { uidToHexColor } from '../../../utils/color.js'
-import logger from '../../../utils/logger.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
+import { uidToHexColor } from '@/utils/color.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'Trashbin',
@@ -132,6 +136,7 @@ export default {
 		NcEmptyContent,
 		NcModal,
 		IconDelete,
+		NcLoadingIcon,
 	},
 
 	data() {
@@ -171,8 +176,8 @@ export default {
 				let eventSummary = t('calendar', 'Untitled item')
 				try {
 					eventSummary = vobject?.calendarComponent.getComponentIterator().next().value?.title
-				} catch (e) {
-					// ignore
+				} catch (error) {
+					logger.error('Failed to read event summary from deleted calendar object', { error })
 				}
 				let subline = vobject.calendar?.displayName || t('calendar', 'Unknown calendar')
 				if (vobject.isEvent) {
@@ -297,6 +302,7 @@ export default {
 		/**
 		 * Whether the current user is allowed to restore a deleted calendar.
 		 *
+		 * @param {object} calendar The calendar to check
 		 * @return {boolean}
 		 */
 		canRestoreCalendar(calendar) {
@@ -308,6 +314,7 @@ export default {
 		/**
 		 * Whether the current user is allowed to permanently delete a deleted calendar.
 		 *
+		 * @param {object} calendar The calendar to check
 		 * @return {boolean}
 		 */
 		canDeleteCalendar(calendar) {

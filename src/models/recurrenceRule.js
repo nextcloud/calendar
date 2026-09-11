@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { markRaw } from 'vue'
-import { getDateFromDateTimeValue } from '../utils/date.js'
-import { getWeekDayFromDate } from '../utils/recurrence.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
+import { getWeekDayFromDate } from '@/utils/recurrence.js'
 
 /**
  * Creates a complete recurrence-rule-object based on given props
@@ -120,7 +120,7 @@ const SUPPORTED_BY_MONTH_YEARLY = [...Array(12).keys().map((i) => i + 1)]
 /**
  * Maps a daily calendar-js recurrence-rule-value to an recurrence-rule-object
  *
- * @param recurrenceRuleValue
+ * @param {RecurValue} recurrenceRuleValue The calendar-js recurrence rule value
  * @return {object}
  */
 function mapDailyRuleValueToRecurrenceRuleObject(recurrenceRuleValue) {

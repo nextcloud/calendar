@@ -4,8 +4,8 @@
  */
 
 import { AttendeeProperty } from '@nextcloud/calendar-js'
-import { addMailtoPrefix, removeMailtoPrefix } from '../utils/attendee.js'
-import { doFreeBusyRequest } from '../utils/freebusy.js'
+import { addMailtoPrefix, removeMailtoPrefix } from '@/utils/attendee.js'
+import { doFreeBusyRequest } from '@/utils/freebusy.js'
 
 /**
  * Check resource availability using a free busy request
@@ -34,7 +34,6 @@ export async function checkResourceAvailability(options, principalEmail, start, 
 		const attendeeEmail = removeMailtoPrefix(attendeeProperty.email)
 		for (const option of options) {
 			if (removeMailtoPrefix(option.email) === attendeeEmail) {
-				options.participationStatus = ''
 				option.isAvailable = false
 				break
 			}

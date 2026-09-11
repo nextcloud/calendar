@@ -8,7 +8,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { linkTo } from '@nextcloud/router'
 import { createApp } from 'vue'
-import Booking from '../views/Appointments/Booking.vue'
+import Booking from '@/views/Appointments/Booking.vue'
 
 // CSP config for webpack dynamic chunk loading
 

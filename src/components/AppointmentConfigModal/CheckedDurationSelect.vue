@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import { computed } from 'vue'
-import DurationSelect from './DurationSelect.vue'
+import DurationSelect from '@/components/AppointmentConfigModal/DurationSelect.vue'
 
 const props = withDefaults(defineProps<{
 	label: string

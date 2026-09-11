@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import { generateTextColorForRGB } from '../../../utils/color.js'
-import { uidToColor } from '../../../utils/uidToColor.js'
+import { generateTextColorForRGB } from '@/utils/color.js'
+import { uidToColor } from '@/utils/uidToColor.js'
 
 export default {
 	name: 'PropertySelectMultipleColoredTag',

@@ -24,38 +24,38 @@ import { DateTimeValue } from '@nextcloud/calendar-js'
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
 // Import event sources
-import eventSource from '../fullcalendar/eventSources/eventSource.js'
+import eventSource from '@/fullcalendar/eventSources/eventSource.js'
 // Import interaction handlers
-import eventAllow from '../fullcalendar/interaction/eventAllow.js'
-import eventClick from '../fullcalendar/interaction/eventClick.js'
-import eventDrop from '../fullcalendar/interaction/eventDrop.js'
-import eventResize from '../fullcalendar/interaction/eventResize.js'
-import navLinkDayClick from '../fullcalendar/interaction/navLinkDayClick.js'
-import navLinkWeekClick from '../fullcalendar/interaction/navLinkWeekClick.js'
-import select from '../fullcalendar/interaction/select.js'
+import eventAllow from '@/fullcalendar/interaction/eventAllow.js'
+import eventClick from '@/fullcalendar/interaction/eventClick.js'
+import eventDrop from '@/fullcalendar/interaction/eventDrop.js'
+import eventResize from '@/fullcalendar/interaction/eventResize.js'
+import navLinkDayClick from '@/fullcalendar/interaction/navLinkDayClick.js'
+import navLinkWeekClick from '@/fullcalendar/interaction/navLinkWeekClick.js'
+import select from '@/fullcalendar/interaction/select.js'
 // Import localization plugins
-import { getDateFormattingConfig } from '../fullcalendar/localization/dateFormattingConfig.js'
-import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvider.js'
-import momentPlugin from '../fullcalendar/localization/momentPlugin.js'
+import { getDateFormattingConfig } from '@/fullcalendar/localization/dateFormattingConfig.js'
+import { getFullCalendarLocale } from '@/fullcalendar/localization/localeProvider.js'
+import momentPlugin from '@/fullcalendar/localization/momentPlugin.js'
 // Import rendering handlers
-import dayCellDidMount from '../fullcalendar/rendering/dayCellDidMount.js'
-import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
-import eventDidMount from '../fullcalendar/rendering/eventDidMount.js'
+import dayCellDidMount from '@/fullcalendar/rendering/dayCellDidMount.js'
+import dayHeaderDidMount from '@/fullcalendar/rendering/dayHeaderDidMount.js'
+import eventDidMount from '@/fullcalendar/rendering/eventDidMount.js'
 import {
 	allDayFirst,
 	allDayOrder,
 	partDayOrder,
-} from '../fullcalendar/rendering/eventOrder.js'
-import noEventsDidMount from '../fullcalendar/rendering/noEventsDidMount.js'
+} from '@/fullcalendar/rendering/eventOrder.js'
+import noEventsDidMount from '@/fullcalendar/rendering/noEventsDidMount.js'
 // Import timezone plugins
-import VTimezoneNamedTimezone from '../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
-import useCalendarObjectsStore from '../store/calendarObjects.js'
-import useCalendarsStore from '../store/calendars.js'
-import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
-import useSettingsStore from '../store/settings.js'
-import useWidgetStore from '../store/widget.js'
-import { getAllObjectsInTimeRange } from '../utils/calendarObject.js'
-import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
+import VTimezoneNamedTimezone from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
+import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
+import { getYYYYMMDDFromFirstdayParam } from '@/utils/date.js'
 
 export default {
 	name: 'CalendarGrid',
@@ -323,6 +323,8 @@ export default {
 		/**
 		 * Scroll the month view to today when loading the calendar,
 		 * so people can directly see today's date and events.
+		 *
+		 * @param {boolean} isLoading Whether the calendar is still loading
 		 */
 		scrollMonthViewToToday(isLoading) {
 			if (isLoading) {
@@ -352,6 +354,8 @@ export default {
 
 		/**
 		 * Add a todo task without end date to the calendar
+		 *
+		 * @param {object} info The FullCalendar eventReceive info
 		 */
 		async handleEventReceive(info) {
 			const { event } = info
@@ -416,22 +420,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.calendar-grid-checkbox {
-	border-style: solid;
-	border-width: 2px;
-	border-radius: 4px;
-	height: 16px;
-	width: 16px;
-}
-
-.calendar-grid-checkbox-checked {
-	border-style: solid;
-	border-width: 8px;
-	border-radius: 4px;
-	height: 16px;
-	width: 16px;
-}
-
 .fullcalendar-widget{
 	min-height: 500px;
 	:deep(.fc-col-header-cell-cushion){

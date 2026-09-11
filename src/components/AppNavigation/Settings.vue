@@ -169,31 +169,30 @@ import {
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import CogIcon from 'vue-material-design-icons/CogOutline.vue'
-import CalendarPicker from '../Shared/CalendarPicker.vue'
-import EventLegend from './Settings/EventLegend.vue'
-import SettingsAttachmentsFolder from './Settings/SettingsAttachmentsFolder.vue'
-import SettingsDelegationSection from './Settings/SettingsDelegationSection.vue'
-import SettingsImportSection from './Settings/SettingsImportSection.vue'
-import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
-import ShortcutOverview from './Settings/ShortcutOverview.vue'
-import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
-import alarmFormat from '../../filters/alarmFormat.js'
+import EventLegend from '@/components/AppNavigation/Settings/EventLegend.vue'
+import SettingsAttachmentsFolder from '@/components/AppNavigation/Settings/SettingsAttachmentsFolder.vue'
+import SettingsDelegationSection from '@/components/AppNavigation/Settings/SettingsDelegationSection.vue'
+import SettingsImportSection from '@/components/AppNavigation/Settings/SettingsImportSection.vue'
+import SettingsTimezoneSelect from '@/components/AppNavigation/Settings/SettingsTimezoneSelect.vue'
+import ShortcutOverview from '@/components/AppNavigation/Settings/ShortcutOverview.vue'
+import CalendarPicker from '@/components/Shared/CalendarPicker.vue'
+import { getDefaultAlarms } from '@/defaults/defaultAlarmProvider.js'
+import alarmFormat from '@/filters/alarmFormat.js'
 import {
 	IMPORT_STAGE_DEFAULT,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
-} from '../../models/consts.js'
-import { getCurrentUserPrincipal } from '../../services/caldavService.js'
-import useCalendarsStore from '../../store/calendars.js'
-import useImportFilesStore from '../../store/importFiles.js'
-import usePrincipalsStore from '../../store/principals.js'
-import useSettingsStore from '../../store/settings.js'
+} from '@/models/consts.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useImportFilesStore from '@/store/importFiles.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-} from '../../utils/alarms.js'
-import logger from '../../utils/logger.js'
-import { isAfterVersion } from '../../utils/nextcloudVersion.ts'
+} from '@/utils/alarms.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 export default {
 	name: 'Settings',
@@ -416,7 +415,7 @@ export default {
 				await this.settingsStore.toggleBirthdayCalendarEnabled()
 				this.savingBirthdayCalendar = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingBirthdayCalendar = false
 			}
@@ -429,7 +428,7 @@ export default {
 				await this.settingsStore.toggleEventLimitEnabled()
 				this.savingEventLimit = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingEventLimit = false
 			}
@@ -442,7 +441,7 @@ export default {
 				await this.settingsStore.toggleTasksEnabled()
 				this.savingTasks = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingTasks = false
 			}
@@ -455,7 +454,7 @@ export default {
 				await this.settingsStore.togglePopoverEnabled()
 				this.savingPopover = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingPopover = false
 			}
@@ -468,7 +467,7 @@ export default {
 				await this.settingsStore.toggleWeekendsEnabled()
 				this.savingWeekend = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekend = false
 			}
@@ -484,7 +483,7 @@ export default {
 				await this.settingsStore.toggleWeekNumberEnabled()
 				this.savingWeekNumber = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekNumber = false
 			}
@@ -507,7 +506,7 @@ export default {
 				await this.settingsStore.setSlotDuration({ slotDuration: option.value })
 				this.savingSlotDuration = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingSlotDuration = false
 			}
@@ -594,7 +593,7 @@ export default {
 				})
 				this.savingDefaultReminderPartDay = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingDefaultReminderPartDay = false
 			}
@@ -619,7 +618,7 @@ export default {
 				})
 				this.savingDefaultReminderFullDay = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingDefaultReminderFullDay = false
 			}

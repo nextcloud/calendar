@@ -38,7 +38,7 @@
 <script>
 import { NcAvatar as Avatar } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
-import usePrincipalsStore from '../../store/principals.js'
+import usePrincipalsStore from '@/store/principals.js'
 
 export default {
 	name: 'CalendarPickerOption',

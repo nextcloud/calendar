@@ -4,7 +4,7 @@
  */
 import DavClient from '@nextcloud/cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { CALDAV_BIRTHDAY_CALENDAR } from '../models/consts.js'
+import { CALDAV_BIRTHDAY_CALENDAR } from '@/models/consts.js'
 
 const clients = {}
 
@@ -44,7 +44,7 @@ async function initializeClientForPublicView() {
 /**
  * Fetch all calendars from the server
  *
- * @param {object} headers
+ * @param {object} headers Additional headers to send with the request
  * @return {Promise<CalendarHome>}
  */
 const getCalendarHome = (headers) => getClient(headers).calendarHomes[0]

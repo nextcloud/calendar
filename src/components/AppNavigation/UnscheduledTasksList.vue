@@ -16,9 +16,9 @@
 
 <script>
 import { mapStores } from 'pinia'
-import UnscheduledTasksListItem from './UnscheduledTasksList/UnscheduledTasksListItem.vue'
-import useCalendarsStore from '../../store/calendars.js'
-import useTasksStore from '../../store/unscheduledTasks.js'
+import UnscheduledTasksListItem from '@/components/AppNavigation/UnscheduledTasksList/UnscheduledTasksListItem.vue'
+import useCalendarsStore from '@/store/calendars.js'
+import useTasksStore from '@/store/unscheduledTasks.js'
 
 export default {
 	name: 'UnscheduledTasksList',

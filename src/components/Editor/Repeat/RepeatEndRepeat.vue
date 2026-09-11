@@ -36,9 +36,10 @@
 
 <script>
 import { NcSelect, NcTextField } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
-import DatePicker from '../../Shared/DatePicker.vue'
-import useDavRestrictionsStore from '../../../store/davRestrictions.js'
+import { mapState, mapStores } from 'pinia'
+import DatePicker from '@/components/Shared/DatePicker.vue'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useDavRestrictionsStore from '@/store/davRestrictions.js'
 
 export default {
 	name: 'RepeatEndRepeat',
@@ -49,14 +50,6 @@ export default {
 	},
 
 	props: {
-		/**
-		 * The calendar-object instance
-		 */
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		count: {
 			type: Number,
 			default: null,
@@ -72,6 +65,7 @@ export default {
 
 	computed: {
 		...mapStores(useDavRestrictionsStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		/**
 		 * The minimum date the user can select in the until date-picker
 		 *

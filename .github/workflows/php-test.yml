@@ -4,19 +4,38 @@ name: PHP Tests
 on: pull_request
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      backend: ${{ steps.changes.outputs.backend }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 1
+          sparse-checkout: .github/changes-filters.yml
+          sparse-checkout-cone-mode: false
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: changes
+        continue-on-error: true
+        with:
+          filters: .github/changes-filters.yml
+
   unit-tests:
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.backend != 'false'
     strategy:
       matrix:
         php-versions: [ '8.3', '8.4', '8.5' ]
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
+            nextcloud-versions: 'stable35'
+          - php-versions: '8.4'
             nextcloud-versions: 'stable34'
-          - php-versions: '8.5'
-            nextcloud-versions: 'stable33'
-          - php-versions: '8.3'
-            nextcloud-versions: 'stable32'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
     env:
       CI: true
@@ -36,7 +55,7 @@ jobs:
     - name: Install Nextcloud
       run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
     - name: Checkout the app
-      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       with:
         path: nextcloud/apps/calendar
     - name: Install dependencies
@@ -57,17 +76,17 @@ jobs:
 
   integration-tests:
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.backend != 'false'
     strategy:
       matrix:
         php-versions: [ '8.3', '8.4', '8.5' ]
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
+            nextcloud-versions: 'stable35'
+          - php-versions: '8.4'
             nextcloud-versions: 'stable34'
-          - php-versions: '8.5'
-            nextcloud-versions: 'stable33'
-          - php-versions: '8.3'
-            nextcloud-versions: 'stable32'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} integration tests
     env:
       CI: true
@@ -87,7 +106,7 @@ jobs:
       - name: Install Nextcloud
         run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - name: Checkout the app
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           path: nextcloud/apps/calendar
       - name: Install dependencies
@@ -100,7 +119,7 @@ jobs:
         run: composer run test:integration
 
   summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs:
       - unit-tests
       - integration-tests

@@ -54,7 +54,7 @@ import {
 	NcColorPicker,
 } from '@nextcloud/vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
-import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import PropertyMixin from '@/mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertyColor',

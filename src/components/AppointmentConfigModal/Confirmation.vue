@@ -45,7 +45,7 @@ async function copyLink(): Promise<void> {
 	<div class="app-config-modal-confirmation">
 		<EmptyContent :name="title">
 			<template #icon>
-				<CheckIcon />
+				<CheckIcon decorative />
 			</template>
 		</EmptyContent>
 		<div class="app-config-modal-confirmation__buttons">

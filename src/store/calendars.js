@@ -4,14 +4,14 @@ import { translate as t } from '@nextcloud/l10n'
 import { Timezone } from '@nextcloud/timezones'
 import pLimit from 'p-limit'
 import { defineStore } from 'pinia'
-import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar.js'
-import { mapCDavObjectToCalendarObject } from '../models/calendarObject.js'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '@/models/calendar.js'
+import { mapCDavObjectToCalendarObject } from '@/models/calendarObject.js'
 import {
 	CALDAV_BIRTHDAY_CALENDAR,
 	CALDAV_PERSONAL_CALENDAR,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
-} from '../models/consts.js'
+} from '@/models/consts.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,18 +22,18 @@ import {
 	findAll,
 	findAllDeletedCalendars,
 	findPublicCalendarsByTokens,
-} from '../services/caldavService.js'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import { uidToHexColor } from '../utils/color.js'
-import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
-import logger from '../utils/logger.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
-import useCalendarObjectsStore from './calendarObjects.js'
-import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
-import useImportFilesStore from './importFiles.js'
-import useImportStateStore from './importState.js'
-import usePrincipalsStore from './principals.js'
-import useSettingsStore from './settings.js'
+} from '@/services/caldavService.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import useImportFilesStore from '@/store/importFiles.js'
+import useImportStateStore from '@/store/importState.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import { uidToHexColor } from '@/utils/color.js'
+import { dateFactory, getUnixTimestampFromDate } from '@/utils/date.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 export default defineStore('calendars', {
 	state: () => {
@@ -283,7 +283,7 @@ export default defineStore('calendars', {
 		async loadCollections() {
 			const principalsStore = usePrincipalsStore()
 			const { calendars, trashBins, scheduleInboxes, subscriptions } = await findAll()
-			console.info('calendar home scanned', calendars, trashBins, subscriptions)
+			logger.info('calendar home scanned', { calendars, trashBins, subscriptions })
 			calendars.map((calendar) => mapDavCollectionToCalendar(calendar, principalsStore.getCurrentUserPrincipal)).forEach((calendar) => {
 				this.addCalendarMutation({ calendar })
 			})
@@ -323,7 +323,7 @@ export default defineStore('calendars', {
 		 */
 		async loadDeletedCalendarObjects() {
 			const vobjects = await this.trashBin.findDeletedObjects() /// TODO what is this?
-			console.info('vobjects loaded', { vobjects })
+			logger.info('vobjects loaded', { vobjects })
 
 			vobjects.forEach((vobject) => {
 				try {
@@ -335,7 +335,7 @@ export default defineStore('calendars', {
 					}
 					this.deletedCalendarObjects.push(calendarObject)
 				} catch (error) {
-					console.error('could not convert calendar object', vobject, error)
+					logger.error('could not convert calendar object', { vobject, error })
 				}
 			})
 		},
@@ -457,7 +457,7 @@ export default defineStore('calendars', {
 					await this.deleteCalendar({ calendar })
 				} catch (error) {
 					showError(t('calendar', 'An error occurred, unable to delete the calendar.'))
-					console.error(error)
+					logger.error(error)
 				} finally {
 					clearInterval(deleteInterval)
 				}
@@ -641,6 +641,30 @@ export default defineStore('calendars', {
 		},
 
 		/**
+		 * Change whether alarm notifications are disabled for a calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to modify
+		 * @param {boolean} data.disableAlarmNotifications whether alarm notifications should be disabled
+		 * @return {Promise}
+		 */
+		async changeCalendarDisableAlarmNotifications({ calendar, disableAlarmNotifications }) {
+			const disableAlarmNotificationsChanged = calendar.disableAlarmNotifications !== disableAlarmNotifications
+
+			if (!disableAlarmNotificationsChanged) {
+				return
+			}
+
+			calendar.dav.disableAlarmNotifications = disableAlarmNotifications
+
+			await calendar.dav.update()
+
+			if (this.calendarsById[calendar.id]) {
+				this.calendarsById[calendar.id].disableAlarmNotifications = disableAlarmNotifications
+			}
+		},
+
+		/**
 		 * Share calendar with User or Group
 		 *
 		 * @param {object} data destructuring object
@@ -766,7 +790,8 @@ export default defineStore('calendars', {
 					calendarObjects.push(calendarObject)
 					calendarObjectIds.push(calendarObject.id)
 				} catch (e) {
-					console.error(`could not convert calendar object of calendar ${calendar.id}`, e, {
+					logger.error(`could not convert calendar object of calendar ${calendar.id}`, {
+						e,
 						response: r,
 					})
 				}
@@ -893,7 +918,7 @@ export default defineStore('calendars', {
 							davObject = await calendar.dav.createVObject(ics)
 						} catch (error) {
 							importStateStore.denied++
-							console.error(error)
+							logger.error(error)
 							return
 						}
 
@@ -948,7 +973,7 @@ export default defineStore('calendars', {
 			await Promise.all(requests)
 
 			for (const { calendar, newOrder } of calendarsToUpdate) {
-				console.debug(calendar, newOrder)
+				logger.debug('Reordered calendar', { calendar, newOrder })
 				this.calendarsById[calendar.id].order = newOrder
 			}
 		},

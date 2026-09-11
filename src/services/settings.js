@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import HttpClient from '@nextcloud/axios'
-import { getLinkToConfig } from '../utils/settings.js'
+import { getLinkToConfig } from '@/utils/settings.js'
 
 /**
  *

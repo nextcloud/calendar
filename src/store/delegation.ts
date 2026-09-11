@@ -6,11 +6,11 @@ import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import useCalendarsStore from './calendars.js'
-import usePrincipalsStore from './principals.js'
 import { mapDavCollectionToCalendar } from '@/models/calendar.js'
 import { mapDavToPrincipal } from '@/models/principal.js'
 import { findCalendarsAtUrl, findPrincipalByUrl, getClient } from '@/services/caldavService.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
 import logger from '@/utils/logger.js'
 
 export interface DelegatePrincipal {
@@ -65,8 +65,8 @@ export default defineStore('delegation', () => {
 			return
 		}
 
-		let writeUrls: string[] = []
-		let readUrls: string[] = []
+		let writeUrls: string[]
+		let readUrls: string[]
 		try {
 			const delegateUrls = await getClient().getDelegatesForPrincipal(currentUser.url)
 			writeUrls = delegateUrls.write
@@ -126,8 +126,9 @@ export default defineStore('delegation', () => {
 	/**
 	 * Add a user as a delegate with the given permission level.
 	 *
-	 * @param principalUrl - Absolute URL of the principal to add
-	 * @param permission - The permission level to grant
+	 * @param data The destructuring object
+	 * @param data.principalUrl - Absolute URL of the principal to add
+	 * @param data.permission - The permission level to grant
 	 */
 	async function addDelegate({ principalUrl, permission = 'write' as 'write' | 'read' }): Promise<void> {
 		const principalsStore = usePrincipalsStore()
@@ -143,7 +144,8 @@ export default defineStore('delegation', () => {
 	/**
 	 * Remove a delegate from whichever proxy group(s) they are in.
 	 *
-	 * @param principalUrl - Absolute URL of the principal to remove
+	 * @param data The destructuring object
+	 * @param data.principalUrl - Absolute URL of the principal to remove
 	 */
 	async function removeDelegate({ principalUrl }: { principalUrl: string }): Promise<void> {
 		const principalsStore = usePrincipalsStore()

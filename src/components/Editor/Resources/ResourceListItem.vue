@@ -12,6 +12,7 @@
 			:isSuggestion="isSuggestion"
 			:participationStatus="participationStatus"
 			:scheduleStatus="scheduleStatus"
+			:availability="availability"
 			:organizerDisplayName="organizerDisplayName"
 			:commonName="commonName" />
 		<div class="resource-list-item__displayname">
@@ -82,15 +83,15 @@ import { mapStores } from 'pinia'
 import CalendarSearch from 'vue-material-design-icons/CalendarSearch.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
-import RoomAvailabilityModal from '../FreeBusy/RoomAvailabilityModal.vue'
-import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
-import { formatRoomType } from '../../../models/resourceProps.js'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import usePrincipalsStore from '../../../store/principals.js'
-import { removeMailtoPrefix } from '../../../utils/attendee.js'
-import logger from '../../../utils/logger.js'
+import AvatarParticipationStatus from '@/components/Editor/AvatarParticipationStatus.vue'
+import RoomAvailabilityModal from '@/components/Editor/FreeBusy/RoomAvailabilityModal.vue'
+import { mapPrincipalObjectToAttendeeObject } from '@/models/attendee.js'
+import { formatRoomType } from '@/models/resourceProps'
+import { principalPropertySearchByDisplaynameOrEmail } from '@/services/caldavService.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import usePrincipalsStore from '@/store/principals.js'
+import { removeMailtoPrefix } from '@/utils/attendee.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'ResourceListItem',
@@ -125,6 +126,11 @@ export default {
 		isViewedByOrganizer: {
 			type: Boolean,
 			default: false,
+		},
+
+		availability: {
+			type: String, // 'checking' | 'available' | 'unavailable' | null
+			default: null,
 		},
 	},
 

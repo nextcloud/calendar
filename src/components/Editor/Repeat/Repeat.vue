@@ -33,18 +33,18 @@
 			<div class="property-repeat__options">
 				<h2>{{ $t('calendar', 'Repeat event') }}</h2>
 				<RepeatFreqInterval
-					v-if="!isRecurrenceException && !isReadOnly"
+					v-if="!isEditingExceptionInstance && !isReadOnly"
 					:frequency="recurrenceRule.frequency"
 					:interval="recurrenceRule.interval"
 					@changeInterval="changeInterval"
 					@changeFrequency="changeFrequency" />
 				<RepeatFreqWeeklyOptions
-					v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
+					v-if="isFreqWeekly && !isEditingExceptionInstance && !isReadOnly"
 					:byDay="recurrenceRule.byDay"
 					@addByDay="addByDay"
 					@removeByDay="removeByDay" />
 				<RepeatFreqMonthlyOptions
-					v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
+					v-if="isFreqMonthly && !isEditingExceptionInstance && !isReadOnly"
 					:byDay="recurrenceRule.byDay"
 					:byMonthDay="recurrenceRule.byMonthDay"
 					:bySetPosition="recurrenceRule.bySetPosition"
@@ -55,7 +55,7 @@
 					@changeToBySetPosition="changeToBySetPositionMonthly"
 					@changeToByMonthDay="changeToByDayMonthly" />
 				<RepeatFreqYearlyOptions
-					v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
+					v-if="isFreqYearly && !isEditingExceptionInstance && !isReadOnly"
 					:byDay="recurrenceRule.byDay"
 					:byMonth="recurrenceRule.byMonth"
 					:byMonthDay="recurrenceRule.byMonthDay"
@@ -69,8 +69,7 @@
 					@changeToBySetPosition="changeToBySetPositionYearly"
 					@changeToByMonthDay="changeToByDayYearly" />
 				<RepeatEndRepeat
-					v-if="isRepeating && !isRecurrenceException && !isReadOnly"
-					:calendarObjectInstance="calendarObjectInstance"
+					v-if="isRepeating && !isEditingExceptionInstance && !isReadOnly"
 					:until="recurrenceRule.until"
 					:count="recurrenceRule.count"
 					@setInfinite="setInfinite"
@@ -78,11 +77,11 @@
 					@setCount="setCount"
 					@changeToCount="changeToCount"
 					@changeToUntil="changeToUntil" />
-				<RepeatUnsupportedWarning v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
-				<RepeatExceptionWarning v-if="isRecurrenceException" />
+				<RepeatUnsupportedWarning v-if="recurrenceRule.isUnsupported && !isEditingExceptionInstance" />
+				<RepeatExceptionWarning v-if="isEditingExceptionInstance" />
 			</div>
 			<div
-				v-if="!isRecurrenceException && !isReadOnly"
+				v-if="!isEditingExceptionInstance && !isReadOnly"
 				class="property-repeat__options__footer">
 				<NcButton variant="primary" @click="saveAndClose">
 					{{ $t('calendar', 'Set repetition') }}
@@ -94,19 +93,19 @@
 
 <script>
 import { NcActionButton as ActionButton, NcActions as Actions, NcButton, NcModal } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
+import { mapState, mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/Check.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
-import RepeatEndRepeat from './RepeatEndRepeat.vue'
-import RepeatExceptionWarning from './RepeatExceptionWarning.vue'
-import RepeatFreqInterval from './RepeatFreqInterval.vue'
-import RepeatFreqMonthlyOptions from './RepeatFreqMonthlyOptions.vue'
-import RepeatFreqWeeklyOptions from './RepeatFreqWeeklyOptions.vue'
-import RepeatFreqYearlyOptions from './RepeatFreqYearlyOptions.vue'
-import RepeatSummary from './RepeatSummary.vue'
-import RepeatUnsupportedWarning from './RepeatUnsupportedWarning.vue'
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import RepeatEndRepeat from '@/components/Editor/Repeat/RepeatEndRepeat.vue'
+import RepeatExceptionWarning from '@/components/Editor/Repeat/RepeatExceptionWarning.vue'
+import RepeatFreqInterval from '@/components/Editor/Repeat/RepeatFreqInterval.vue'
+import RepeatFreqMonthlyOptions from '@/components/Editor/Repeat/RepeatFreqMonthlyOptions.vue'
+import RepeatFreqWeeklyOptions from '@/components/Editor/Repeat/RepeatFreqWeeklyOptions.vue'
+import RepeatFreqYearlyOptions from '@/components/Editor/Repeat/RepeatFreqYearlyOptions.vue'
+import RepeatSummary from '@/components/Editor/Repeat/RepeatSummary.vue'
+import RepeatUnsupportedWarning from '@/components/Editor/Repeat/RepeatUnsupportedWarning.vue'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 
 export default {
 	name: 'Repeat',
@@ -130,22 +129,6 @@ export default {
 
 	props: {
 		/**
-		 * The calendar-object instance
-		 */
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
-		/**
-		 * The recurrence-rule to display
-		 */
-		recurrenceRule: {
-			type: Object,
-			required: true,
-		},
-
-		/**
 		 * Whether or not the event is read-only
 		 */
 		isReadOnly: {
@@ -154,26 +137,25 @@ export default {
 		},
 
 		/**
-		 * Whether or not the user is editing the master-item
-		 * If so, we are enforcing "This and all future" and
-		 * don't allow to just save this occurrence
+		 * Whether or not the user is editing the base instance.
+		 * Recurrence-rule changes on a non-base instance require a future update.
 		 */
-		isEditingMasterItem: {
+		isEditingBaseInstance: {
 			type: Boolean,
 			required: true,
 		},
 
 		/**
-		 * Whether or not this instance of the event is a recurrence-exception.
+		 * Whether or not the user is editing a recurrence-exception.
 		 * If yes, you can't modify the recurrence-rule
 		 */
-		isRecurrenceException: {
+		isEditingExceptionInstance: {
 			type: Boolean,
 			required: true,
 		},
 	},
 
-	emits: ['forceThisAndAllFuture'],
+	emits: ['requireFutureUpdate'],
 
 	data() {
 		return {
@@ -183,6 +165,11 @@ export default {
 
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		recurrenceRule() {
+			return this.calendarObjectInstance.recurrenceRule
+		},
+
 		/**
 		 * Whether or not this event is recurring
 		 *
@@ -265,7 +252,6 @@ export default {
 		 */
 		changeFrequency(frequency) {
 			this.calendarObjectInstanceStore.changeRecurrenceFrequency({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 				frequency,
 			})
@@ -384,7 +370,6 @@ export default {
 		 */
 		changeToBySetPositionMonthly() {
 			this.calendarObjectInstanceStore.changeMonthlyRecurrenceFromByDayToBySetPosition({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -396,7 +381,6 @@ export default {
 		 */
 		changeToByDayMonthly() {
 			this.calendarObjectInstanceStore.changeMonthlyRecurrenceFromBySetPositionToByDay({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -408,7 +392,6 @@ export default {
 		 */
 		changeToBySetPositionYearly() {
 			this.calendarObjectInstanceStore.changeYearlyRecurrenceFromByDayToBySetPosition({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -420,7 +403,6 @@ export default {
 		 */
 		changeToByDayYearly() {
 			this.calendarObjectInstanceStore.changeYearlyRecurrenceFromBySetPositionToByDay({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -438,7 +420,6 @@ export default {
 
 		changeToUntil() {
 			this.calendarObjectInstanceStore.enableRecurrenceLimitByUntil({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -453,7 +434,6 @@ export default {
 		 */
 		setUntil(until) {
 			this.calendarObjectInstanceStore.changeRecurrenceUntil({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 				until,
 			})
@@ -487,8 +467,8 @@ export default {
 				})
 			}
 
-			if (!this.isEditingMasterItem) {
-				this.$emit('forceThisAndAllFuture')
+			if (!this.isEditingBaseInstance) {
+				this.$emit('requireFutureUpdate')
 			}
 
 			this.calendarObjectInstanceStore.calendarObjectInstance.canModifyAllDay = this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.canModifyAllDay()

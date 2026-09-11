@@ -66,10 +66,11 @@ import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCircle
 import {
 	circleGetMembers,
 	circleSearchByName,
-} from '../../../services/circleService.js'
-import isCirclesEnabled from '../../../services/isCirclesEnabled.js'
-import { removeMailtoPrefix } from '../../../utils/attendee.js'
-import { randomId } from '../../../utils/randomId.js'
+} from '@/services/circleService.js'
+import isCirclesEnabled from '@/services/isCirclesEnabled.js'
+import { removeMailtoPrefix } from '@/utils/attendee.js'
+import logger from '@/utils/logger.js'
+import { randomId } from '@/utils/randomId.js'
 
 export default {
 	name: 'InviteesListSearch',
@@ -203,7 +204,7 @@ export default {
 				// emails yet. Change approved by @miaulalala and @ChristophWurst.
 				results = await circleGetMembers(circleId)
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				return []
 			}
 			results.data.forEach((member) => {
@@ -220,7 +221,7 @@ export default {
 					groupName,
 				})
 			} catch (error) {
-				console.error('Failed to fetch contact group members', error)
+				logger.error('Failed to fetch contact group members', { error })
 				return []
 			}
 
@@ -239,7 +240,7 @@ export default {
 					search: query,
 				})
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				return []
 			}
 
@@ -301,7 +302,7 @@ export default {
 			try {
 				results = await circleSearchByName(query)
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				return []
 			}
 

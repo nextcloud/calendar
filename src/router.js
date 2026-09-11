@@ -3,17 +3,21 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
 import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { createRouter, createWebHistory } from 'vue-router'
-import Calendar from './views/Calendar.vue'
-import EditFull from './views/EditFull.vue'
-import EditSimple from './views/EditSimple.vue'
+import Calendar from '@/views/Calendar.vue'
+import EditFull from '@/views/EditFull.vue'
+import EditSimple from '@/views/EditSimple.vue'
+import useProposalStore from '@/store/proposalStore'
+import logger from '@/utils/logger.js'
 import {
 	getDefaultEndDateForNewEvent,
 	getDefaultStartDateForNewEvent,
 	getInitialView,
 	getPreferredEditorRoute,
-} from './utils/router.js'
+} from '@/utils/router.js'
 
 const webRootWithIndexPHP = getRootUrl() + '/index.php'
 const doesURLContainIndexPHP = window.location.pathname.startsWith(webRootWithIndexPHP)
@@ -97,6 +101,10 @@ const router = createRouter({
 			path: '/edit/:object/:recurrenceId',
 			redirect: (to) => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/${to.params.object}/${to.params.recurrenceId}`,
 		},
+		{
+			path: '/proposal/view/:proposalId',
+			redirect: (to) => `/${getInitialView()}/now/proposal/${to.params.proposalId}`,
+		},
 		/**
 		 * This is the main route that contains the current view and viewed day
 		 * It has to be last, so that other routes starting with /p/, etc. match first
@@ -133,6 +141,32 @@ const router = createRouter({
 					path: '/:view/:firstDay/new/full/:allDay/:dtstart/:dtend',
 					name: 'NewFullView',
 					component: EditFull,
+				},
+				{
+					path: '/:view/:firstDay/proposal/:proposalId',
+					name: 'ProposalViewLink',
+					beforeEnter: async (to) => {
+						const proposalStore = useProposalStore()
+						const proposalId = Number(to.params.proposalId)
+
+						try {
+							const found = await proposalStore.openProposal(proposalId)
+							if (!found) {
+								showError(t('calendar', 'This meeting proposal no longer exists'))
+							}
+						} catch (error) {
+							logger.error('Failed to open meeting proposal', { error })
+							showError(t('calendar', 'Failed to open meeting proposal'))
+						}
+
+						return {
+							name: 'CalendarView',
+							params: {
+								view: to.params.view,
+								firstDay: to.params.firstDay,
+							},
+						}
+					},
 				},
 			],
 		},

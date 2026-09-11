@@ -24,23 +24,14 @@ use function array_merge;
 use function array_values;
 
 class AppointmentConfigController extends Controller {
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
 
-	/** @var string|null */
-	private $userId;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IRequest $request,
-		AppointmentConfigService $appointmentService,
-		LoggerInterface $logger,
-		?string $userId) {
+	public function __construct(
+		IRequest $request,
+		private AppointmentConfigService $appointmentConfigService,
+		private LoggerInterface $logger,
+		private ?string $userId,
+	) {
 		parent::__construct(Application::APP_ID, $request);
-		$this->appointmentConfigService = $appointmentService;
-		$this->userId = $userId;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -91,21 +82,74 @@ class AppointmentConfigController extends Controller {
 		if ($expectedKeys !== $actualKeys) {
 			throw new InvalidArgumentException('Invalid value for availability');
 		}
+		if (!is_string($availability['timezoneId']) || $availability['timezoneId'] === '') {
+			throw new InvalidArgumentException('Invalid value for availability timezone');
+		}
+		try {
+			new \DateTimeZone($availability['timezoneId']);
+		} catch (\Exception $e) {
+			throw new InvalidArgumentException('Invalid value for availability timezone', 0, $e);
+		}
 
 		$expectedDayKeys = ['FR', 'MO', 'SA', 'SU', 'TH', 'TU', 'WE'];
+		if (!is_array($availability['slots'])) {
+			throw new InvalidArgumentException('Invalid value for availability slots');
+		}
 		$actualDayKeys = array_keys($availability['slots']);
 		sort($actualDayKeys);
 		if ($expectedDayKeys !== $actualDayKeys) {
 			throw new InvalidArgumentException('Invalid value for availability slots');
 		}
+		foreach ($availability['slots'] as $daySlots) {
+			if (!is_array($daySlots)) {
+				throw new InvalidArgumentException('Invalid value for availability slots');
+			}
+		}
 
 		$slots = array_merge(...array_values($availability['slots']));
 		foreach ($slots as $slot) {
+			if (!is_array($slot) || !isset($slot['start'], $slot['end']) || !is_int($slot['start']) || !is_int($slot['end']) || $slot['start'] >= $slot['end']) {
+				throw new InvalidArgumentException('Invalid value for availability slot');
+			}
 			$slotKeys = array_keys($slot);
 			sort($slotKeys);
 			if ($slotKeys !== ['end', 'start']) {
 				throw new InvalidArgumentException('Invalid value for availability slot');
 			}
+		}
+	}
+
+	/**
+	 * @throws InvalidArgumentException
+	 */
+	private function validateValues(
+		int $length,
+		int $increment,
+		int $preparationDuration,
+		int $followupDuration,
+		int $timeBeforeNextSlot,
+		?int $dailyMax,
+		?int $start,
+		?int $end,
+		?int $futureLimit,
+	): void {
+		if ($length <= 0) {
+			throw new InvalidArgumentException('Length must be greater than zero');
+		}
+		if ($increment < 5 * 60) {
+			throw new InvalidArgumentException('Increment must be at least 5 minutes');
+		}
+		if ($preparationDuration < 0 || $followupDuration < 0 || $timeBeforeNextSlot < 0) {
+			throw new InvalidArgumentException('Durations must not be negative');
+		}
+		if ($dailyMax !== null && $dailyMax <= 0) {
+			throw new InvalidArgumentException('Daily maximum must be greater than zero');
+		}
+		if ($futureLimit !== null && $futureLimit <= 0) {
+			throw new InvalidArgumentException('Future limit must be greater than zero');
+		}
+		if ($start !== null && $end !== null && $start >= $end) {
+			throw new InvalidArgumentException('Start must be before end');
 		}
 	}
 
@@ -154,6 +198,7 @@ class AppointmentConfigController extends Controller {
 			return JsonResponse::fail();
 		}
 		try {
+			$this->validateValues($length, $increment, $preparationDuration, $followupDuration, $timeBeforeNextSlot, $dailyMax, $start, $end, $futureLimit);
 			$this->validateAvailability($availability);
 		} catch (InvalidArgumentException $e) {
 			return JsonResponse::fail($e->getMessage(), Http::STATUS_UNPROCESSABLE_ENTITY);
@@ -232,6 +277,7 @@ class AppointmentConfigController extends Controller {
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 		try {
+			$this->validateValues($length, $increment, $preparationDuration, $followupDuration, $timeBeforeNextSlot, $dailyMax, $start, $end, $futureLimit);
 			$this->validateAvailability($availability);
 		} catch (InvalidArgumentException $e) {
 			return JsonResponse::fail($e->getMessage(), Http::STATUS_UNPROCESSABLE_ENTITY);

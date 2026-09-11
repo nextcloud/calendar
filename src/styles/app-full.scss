@@ -62,7 +62,12 @@
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 4);
 	justify-content: flex-start;
+	// This is the usuall size of input and selects provided by @nextcloud/vue.
+	// We never want to be smaller.
+	min-height: var(--default-clickable-area);
+}
 
+.property-select-multiple, .property-color, .property-repeat__summary {
 	&__input {
 		width: unset !important;
 		flex-grow: 1;
@@ -70,17 +75,8 @@
 		.v-select {
 			width: 100%;
 			margin: 0 !important;
-			overflow-x: hidden;
-
-			.vs__dropdown-toggle {
-				overflow-y: visible !important;
-			}
 		}
 	}
-}
-
-.vs__selected-options {
-	max-width: calc(100% - var(--default-clickable-area) - var(--default-grid-baseline));
 }
 
 .property-repeat__summary__content {
@@ -130,10 +126,30 @@
 	gap: calc(var(--default-grid-baseline) * 4);
 }
 
-.invitees-list {
+.invitees-list,
+.resource-list {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--default-grid-baseline) * 2);
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: calc(var(--default-grid-baseline) * 9);
+
+		&__title {
+			display: flex;
+			gap: calc(var(--default-grid-baseline) * 2);
+			font-size: calc(var(--default-font-size) * 1.2);
+			align-items: center;
+			font-weight: bold;
+
+			&__text {
+				margin-inline-start: calc(var(--default-grid-baseline) * 2);
+			}
+		}
+	}
 }
 
 .resource-search {
@@ -318,10 +334,6 @@
 	align-items: center;
 	min-height: 44px;
 
-	&__displayname {
-		margin-inline-start: calc(var(--default-grid-baseline) * 2);
-	}
-
 	&__actions {
 		margin-inline-start: auto;
 	}
@@ -334,7 +346,8 @@
 }
 
 .invitees-search__vselect {
-	margin-inline-start: calc(var(--default-grid-baseline) * 4 + 20px);
+	// !important because needs to override selector styles set by selector .v-select.select
+	margin-bottom: 0 !important;
 }
 
 .resource-search-list-item,
@@ -373,8 +386,4 @@
 
 textarea {
 	padding: 5px 12px !important;
-}
-
-.property-select__input {
-	height: 34px;
 }

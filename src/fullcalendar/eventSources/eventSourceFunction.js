@@ -3,16 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate as t } from '@nextcloud/l10n'
-import usePrincipalsStore from '../../store/principals.js'
-import useSettingsStore from '../../store/settings.js'
-import useTasksStore from '../../store/unscheduledTasks.js'
-import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import useTasksStore from '@/store/unscheduledTasks.js'
+import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
 	getHexForColorName,
-	hexToRGB,
-	isLight,
-} from '../../utils/color.js'
-import logger from '../../utils/logger.js'
+} from '@/utils/color.js'
+import logger from '@/utils/logger.js'
 /**
  * convert an array of calendar-objects to events
  *
@@ -42,13 +40,12 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 		}
 		for (const object of allObjectsInTimeRange) {
 			const classNames = []
-			let didEveryoneDecline = false
 
 			// You are an organizer
 			if (object.getFirstPropertyFirstValue('ORGANIZER') === `mailto:${principalsStore.getCurrentUserPrincipalEmail}`) {
 				// Check if all the attendees have declined the event
 				if (object.hasProperty('ATTENDEE')) {
-					didEveryoneDecline = true
+					let didEveryoneDecline = true
 					for (const attendeeProperty of object.getPropertyIterator('ATTENDEE')) {
 						const hasDeclined = attendeeProperty.participationStatus === 'DECLINED'
 						if (!hasDeclined) {
@@ -98,12 +95,33 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				// if there is no due date, we store the task in the
 				// tasksstore, so user can add it to the calendar if
 				// he wants
-				if (object.endDate === null) {
-					jsStart = null
-					jsEnd = null
-				} else {
-					jsStart = object.endDate.getInTimezone(timezone).jsDate
+				jsStart = null
+				jsEnd = null
+				// Pick up the start and end dates if available.
+				if (object.startDate) {
+					jsStart = object.startDate.getInTimezone(timezone).jsDate
+				}
+				if (object.endDate) {
 					jsEnd = object.endDate.getInTimezone(timezone).jsDate
+				}
+				let hasOnlyOneDate = false
+				if (jsStart === null && jsEnd !== null) {
+					// Task has no start date.  Display the start
+					// of the task as its due date.
+					jsStart = new Date(jsEnd)
+					hasOnlyOneDate = true
+				} else if (jsStart !== null && jsEnd === null) {
+					// Task has no due date.  Display the end of
+					// the task as its start date.
+					jsEnd = new Date(jsStart)
+					hasOnlyOneDate = true
+				}
+				if (hasOnlyOneDate && !object.isAllDay()) {
+					// A timed task with only one date would otherwise render as
+					// a zero-length slot in the time grid, too short for its
+					// checkbox and title to be legible. Give it a visible
+					// minimum span instead.
+					jsEnd = new Date(jsEnd.getTime() + 30 * 60 * 1000)
 				}
 			} else {
 				// We do not want to display anything that's neither
@@ -170,7 +188,6 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					calendarOrder: calendar.order,
 					calendarName: calendar.displayName,
 					calendarId: calendar.id,
-					darkText: isLight(hexToRGB(calendar.color)),
 					objectType: object.name,
 					percent: object.percent || null,
 					davUrl: calendarObject.dav.url,
@@ -202,7 +219,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
-			if (object.name === 'VTODO' && object.endDate === null && object.percent !== 100 && object.status !== 'COMPLETED') {
+			if (object.name === 'VTODO' && object.startDate === null && object.endDate === null && object.percent !== 100 && object.status !== 'COMPLETED') {
 				fcEvent.create = true
 				tasksStore.appendTask(calendar.id, fcEvent)
 			} else {

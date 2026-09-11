@@ -102,9 +102,6 @@ OC.L10N.register(
     "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები",
-    "Hidden" : "უჩინარი",
-    "Show week numbers" : "კვირის ნომრების ჩვენება",
-    "Edit event" : "მოვლენის ცვლილება"
+    "Categories" : "კატეგორიები"
 },
 "nplurals=2; plural=(n!=1);");

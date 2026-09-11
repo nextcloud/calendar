@@ -2,27 +2,25 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import useSettingsStore from '../../../../src/store/settings.js'
-import useCalendarObjectsStore from '../../../../src/store/calendarObjects.js'
-import useCalendarsStore from '../../../../src/store/calendars.js'
-import useFetchedTimeRangesStore from '../../../../src/store/fetchedTimeRanges.js'
-import { setActivePinia, createPinia } from 'pinia'
-
-import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
-import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
-import { setConfig } from '../../../../src/services/settings.js'
-import { logInfo } from '../../../../src/utils/logger.js'
-import { CALDAV_BIRTHDAY_CALENDAR } from '../../../../src/models/consts'
+import { createPinia, setActivePinia } from 'pinia'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '@/models/calendar.js'
+import { CALDAV_BIRTHDAY_CALENDAR } from '@/models/consts.js'
+import { enableBirthdayCalendar } from '@/services/caldavService.js'
+import { setConfig } from '@/services/settings.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import useSettingsStore from '@/store/settings.js'
+import { logInfo } from '@/utils/logger.js'
 
-vi.mock('../../../../src/services/caldavService.js')
-vi.mock('../../../../src/models/calendar.js')
+vi.mock('@/services/caldavService.js')
+vi.mock('@/models/calendar.js')
 vi.mock('@nextcloud/calendar-js')
-vi.mock('../../../../src/services/settings.js')
-vi.mock('../../../../src/utils/logger.js')
+vi.mock('@/services/settings.js')
+vi.mock('@/utils/logger.js')
 
 describe('store/settings test suite', () => {
-
 	beforeEach(() => {
 		enableBirthdayCalendar.mockClear()
 		mapDavCollectionToCalendar.mockClear()
@@ -444,8 +442,6 @@ Initial settings:
 
 	it('should provide an action to toggle the task sidebar - false to true', async () => {
 		const settingsStore = useSettingsStore()
-		const calendarObjectsStore = useCalendarObjectsStore()
-		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
 
 		expect.assertions(3)
 
@@ -638,5 +634,4 @@ Initial settings:
 			'DESCRIPTION',
 		])
 	})
-
 })

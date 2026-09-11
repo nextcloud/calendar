@@ -4,11 +4,25 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { showError } from '@nextcloud/dialogs'
 import router from '@/router.js'
+
+vi.mock('@nextcloud/dialogs', () => ({
+	showError: vi.fn(),
+}))
+
+vi.mock('@nextcloud/l10n', () => ({
+	t: (app, text) => text,
+}))
 
 vi.mock('@nextcloud/router', () => ({
 	generateUrl: (path) => '/' + path,
 	getRootUrl: () => '',
+}))
+
+const openProposalMock = vi.fn()
+vi.mock('@/store/proposalStore', () => ({
+	default: () => ({ openProposal: openProposalMock }),
 }))
 
 vi.mock('@nextcloud/initial-state', () => ({
@@ -34,6 +48,9 @@ describe('router redirect test suite', () => {
 		// Simulate a large screen so getPreferredEditorRoute() returns 'popover'
 		// (jsdom defaults window.innerWidth to 0, which would force 'full' unconditionally)
 		window.innerWidth = 1920
+
+		openProposalMock.mockReset()
+		showError.mockClear()
 	})
 
 	it('redirects / to the initial view', async () => {
@@ -74,5 +91,34 @@ describe('router redirect test suite', () => {
 	it('redirects /new/:allDay/:dtstart/:dtend with the real param values', async () => {
 		await router.push('/new/0/2026-05-12/2026-05-13')
 		expect(router.currentRoute.value.path).toBe('/dayGridMonth/2026-05-12/new/popover/0/2026-05-12/2026-05-13')
+	})
+
+	it('redirects /proposal/view/:proposalId to the initial view and opens the proposal', async () => {
+		openProposalMock.mockResolvedValueOnce(true)
+
+		await router.push('/proposal/view/123')
+
+		expect(openProposalMock).toHaveBeenCalledWith(123)
+		expect(showError).not.toHaveBeenCalled()
+		expect(router.currentRoute.value.path).toBe('/dayGridMonth/now')
+	})
+
+	it('shows an error but still redirects when the proposal no longer exists', async () => {
+		openProposalMock.mockResolvedValueOnce(false)
+
+		await router.push('/proposal/view/999')
+
+		expect(openProposalMock).toHaveBeenCalledWith(999)
+		expect(showError).toHaveBeenCalledTimes(1)
+		expect(router.currentRoute.value.path).toBe('/dayGridMonth/now')
+	})
+
+	it('shows an error but still redirects when looking up the proposal fails', async () => {
+		openProposalMock.mockRejectedValueOnce(new Error('network error'))
+
+		await router.push('/proposal/view/123')
+
+		expect(showError).toHaveBeenCalledTimes(1)
+		expect(router.currentRoute.value.path).toBe('/dayGridMonth/now')
 	})
 })

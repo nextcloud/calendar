@@ -23,7 +23,7 @@
 
 <script>
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import RepeatFreqSelect from './RepeatFreqSelect.vue'
+import RepeatFreqSelect from '@/components/Editor/Repeat/RepeatFreqSelect.vue'
 
 export default {
 	name: 'RepeatFreqInterval',

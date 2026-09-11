@@ -18,7 +18,6 @@ export default defineConfig({
 		include: ['tests/javascript/unit/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
 		setupFiles: [
 			'tests/javascript/unit/setup.js',
-			'tests/assets/loadAsset.js',
 		],
 		globals: true,
 		environment: 'jsdom',

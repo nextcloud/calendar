@@ -25,7 +25,6 @@ use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -33,48 +32,20 @@ use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
 
 class BookingController extends Controller {
-	/** @var BookingService */
-	private $bookingService;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IMailer */
-	private $mailer;
-	private IConfig $systemConfig;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		ITimeFactory $timeFactory,
-		IInitialState $initialState,
-		BookingService $bookingService,
-		AppointmentConfigService $appointmentConfigService,
-		IURLGenerator $urlGenerator,
-		LoggerInterface $logger,
-		IMailer $mailer,
-		IConfig $systemConfig) {
+		private ITimeFactory $timeFactory,
+		private IInitialState $initialState,
+		private BookingService $bookingService,
+		private AppointmentConfigService $appointmentConfigService,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private IMailer $mailer,
+		private IConfig $systemConfig,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->bookingService = $bookingService;
-		$this->timeFactory = $timeFactory;
-		$this->appointmentConfigService = $appointmentConfigService;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
-		$this->mailer = $mailer;
-		$this->systemConfig = $systemConfig;
 	}
 
 	/**
@@ -94,16 +65,21 @@ class BookingController extends Controller {
 	): JsonResponse {
 		try {
 			$tz = new DateTimeZone($timeZone);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->error('Timezone invalid', ['exception' => $e]);
-			return JsonResponse::fail('Invalid time zone', Http::STATUS_UNPROCESSABLE_ENTITY);
+			return JsonResponse::fail('Invalid timezone', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		// Convert selected date to requesters selected timezone adjusted start and end of day in epoch
-		$startTimeInTz = (new DateTime($dateSelected, $tz))
-			->getTimestamp();
-		$endTimeInTz = (new DateTime($dateSelected, $tz))
-			->modify('+1 day')
-			->getTimestamp();
+		try {
+			// Convert selected date to requesters selected timezone adjusted start and end of day in epoch
+			$startTimeInTz = (new DateTime($dateSelected, $tz))
+				->getTimestamp();
+			$endTimeInTz = (new DateTime($dateSelected, $tz))
+				->modify('+1 day')
+				->getTimestamp();
+		} catch (\Exception $e) {
+			$this->logger->error('Date invalid', ['exception' => $e]);
+			return JsonResponse::fail('Invalid date', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
 
 		if ($startTimeInTz > $endTimeInTz) {
 			$this->logger->warning('Invalid time range - end time ' . $endTimeInTz . ' before start time ' . $startTimeInTz);

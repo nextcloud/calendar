@@ -9,13 +9,14 @@ import {
 	PRINCIPAL_PREFIX_CIRCLE,
 	PRINCIPAL_PREFIX_GROUP,
 	PRINCIPAL_PREFIX_USER,
-} from './consts.js'
+} from '@/models/consts.js'
+import { mapDavToRoomPrincipalProperties } from '@/models/principal/principal'
 
 /**
  * Creates a complete principal-object based on given props
  *
  * @param {object} props Principal-props already provided
- * @return {any}
+ * @return {object}
  */
 function getDefaultPrincipalObject(props) {
 	return { // Id of the principal
@@ -91,6 +92,11 @@ function mapDavToPrincipal(dav) {
 	const url = dav.principalUrl
 	const userId = dav.userId
 
+	let roomProperties
+	if (isCalendarRoom) {
+		roomProperties = mapDavToRoomPrincipalProperties(dav)
+	}
+
 	return getDefaultPrincipalObject({
 		id,
 		calendarUserType,
@@ -107,6 +113,7 @@ function mapDavToPrincipal(dav) {
 		principalId,
 		userId,
 		scheduleDefaultCalendarUrl,
+		...roomProperties,
 	})
 }
 

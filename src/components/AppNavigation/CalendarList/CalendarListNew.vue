@@ -28,8 +28,9 @@ import Web from 'vue-material-design-icons/Web.vue'
 import useCalendarsStore from '@/store/calendars.js'
 import useSettingsStore from '@/store/settings.js'
 import { uidToHexColor } from '@/utils/color.js'
+import logger from '@/utils/logger.js'
 
-const PublicCalendarSubscriptionPicker = defineAsyncComponent(() => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'))
+const PublicCalendarSubscriptionPicker = defineAsyncComponent(() => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '@/components/Subscription/PublicCalendarSubscriptionPicker.vue'))
 
 const calendarsStore = useCalendarsStore()
 const settingsStore = useSettingsStore()
@@ -145,7 +146,7 @@ async function createNewCalendar(event: Event): Promise<void> {
 			color: uidToHexColor(displayName),
 		})
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		showError(t('calendar', 'An error occurred, unable to create the calendar.'))
 	} finally {
 		showCreateCalendarSaving.value = false
@@ -178,7 +179,7 @@ async function createNewCalendarTaskList(event: Event): Promise<void> {
 			components: ['VEVENT', 'VTODO'],
 		})
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		showError(t('calendar', 'An error occurred, unable to create the calendar.'))
 	} finally {
 		showCreateCalendarTaskListSaving.value = false
@@ -201,7 +202,7 @@ async function createNewSubscription(event: Event): Promise<void> {
 		url = new URL(link)
 		hostname = url.hostname
 	} catch (error) {
-		console.error(error)
+		logger.error(error)
 		showError(t('calendar', 'Please enter a valid link (starting with http://, https://, webcal://, or webcals://)'))
 		return
 	}
@@ -216,7 +217,7 @@ async function createNewSubscription(event: Event): Promise<void> {
 			source: link,
 		})
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		showError(t('calendar', 'An error occurred, unable to create the calendar.'))
 	} finally {
 		showCreateSubscriptionSaving.value = false
@@ -290,10 +291,8 @@ function closeMenu(): void {
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateCalendarSaving">
-					<template #icon>
-						<div class="icon icon-loading-small" />
-					</template>
+					v-if="showCreateCalendarSaving"
+					icon="icon-loading-small">
 					{{ t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
@@ -314,10 +313,8 @@ function closeMenu(): void {
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateCalendarTaskListSaving">
-					<template #icon>
-						<div class="icon icon-loading-small" />
-					</template>
+					v-if="showCreateCalendarTaskListSaving"
+					icon="icon-loading-small">
 					{{ t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
@@ -339,10 +336,8 @@ function closeMenu(): void {
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateSubscriptionSaving">
-					<template #icon>
-						<div class="icon icon-loading-small" />
-					</template>
+					v-if="showCreateSubscriptionSaving"
+					icon="icon-loading-small">
 					{{ t('calendar', 'Creating subscription …') }}
 				</ActionText>
 				<ActionButton

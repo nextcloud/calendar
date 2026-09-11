@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getBusySlots } from '../../services/freeBusySlotService.js'
+import { getBusySlots } from '@/services/freeBusySlotService.js'
 
 /**
  * Returns an event source for free-busy

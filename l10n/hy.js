@@ -55,7 +55,6 @@ OC.L10N.register(
     "Weekly" : "Շաբաթական",
     "second" : "երկրորդ",
     "Other" : "Այլ",
-    "Confirmed" : "Հաստատված",
-    "Edit event" : "Խմբագրել դեպքը"
+    "Confirmed" : "Հաստատված"
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,7 +7,7 @@ import {
 	PRINCIPAL_PREFIX_GROUP,
 	PRINCIPAL_PREFIX_REMOTE_USER,
 	PRINCIPAL_PREFIX_USER,
-} from './consts.js'
+} from '@/models/consts.js'
 
 /**
  * Creates a complete calendar-share-object based on given props

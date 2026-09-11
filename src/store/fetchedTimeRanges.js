@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
-import useCalendarObjectsStore from './calendarObjects.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
 
 export default defineStore('fetchedTimeRanges', {
 	state: () => {

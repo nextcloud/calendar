@@ -7,7 +7,7 @@
 import { isRTL as isRTLFn, t } from '@nextcloud/l10n'
 import { NcButton, NcDateTimePicker } from '@nextcloud/vue'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
@@ -45,9 +45,14 @@ const view = computed<string>(() => {
 	return route.params.view
 })
 
-function dateFormatWrapper(date: Date): string {
-	return formatDateRange(date, view.value, settingsStore.momentLocale, false)
-}
+type NcDateTimePickerFormatProp = InstanceType<typeof NcDateTimePicker>['$props']['format']
+const dateFormatFn = computed<NcDateTimePickerFormatProp>(() => {
+	const momentLocaleValue = settingsStore.momentLocale
+	const viewValue = view.value
+	return function(date: Date) {
+		return formatDateRange(date, viewValue, momentLocaleValue)
+	}
+})
 
 const previousLabel = computed(() => {
 	switch (view.value) {
@@ -172,7 +177,7 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 		</NcButton>
 		<NcDateTimePicker
 			class="datepicker-button-section__datepicker"
-			:format="dateFormatWrapper"
+			:format="dateFormatFn"
 			:modelValue="selectedDate"
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
 			@update:modelValue="navigateToDate" />
@@ -196,12 +201,17 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 		border-radius: 0 !important;
 		text-align: center;
 		border: 1px solid var(--color-primary-element-light-hover) !important;
-		font-weight: bold;
+		font-weight: var(--font-weight-element);
 		background-color: var(--color-primary-element-light) !important;
 		margin: 0 !important;
 
 		padding: 0 !important;
 		width: calc(var(--default-grid-baseline) * 54) !important;
+
+		&:hover {
+			background-color: var(--color-primary-element-light-hover) !important;
+			box-shadow: none;
+		}
 	}
 
 	:deep(.dp__input_not_clearable) {

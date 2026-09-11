@@ -11,13 +11,8 @@ import type { ProposalInterface, ProposalParticipantInterface } from '@/types/pr
 import type {
 	TalkRoom,
 	TalkRoomAddParticipantRequest,
-	TalkRoomAddParticipantResponse,
 	TalkRoomCreateRequest,
-	TalkRoomCreateResponse,
-	TalkRoomFetchParticipantsResponse,
-	TalkRoomFetchResponse,
 	TalkRoomListRequest,
-	TalkRoomListResponse,
 	TalkRoomParticipant,
 } from '@/types/talk'
 
@@ -87,7 +82,7 @@ export async function listRooms(params?: TalkRoomListRequest): Promise<TalkRoom[
 		}
 		return data
 	} catch (error) {
-		console.error('Failed to list Talk rooms:', error)
+		logger.error('Failed to list Talk rooms:', { error })
 		throw new Error('Failed to list Talk rooms', { cause: error as Error })
 	}
 }
@@ -106,7 +101,7 @@ export async function createRoom(params: TalkRoomCreateRequest): Promise<TalkRoo
 		const data = await transceivePost<TalkRoomCreateRequest, TalkRoom | TalkRoom[]>('room', params)
 		return Array.isArray(data) ? data[0] : data
 	} catch (error) {
-		console.error('Failed to create Talk room:', error)
+		logger.error('Failed to create Talk room:', { error })
 		throw new Error('Failed to create Talk room', { cause: error as Error })
 	}
 }
@@ -136,7 +131,8 @@ export async function createRoomFromProposal(proposal: ProposalInterface): Promi
 								return
 							}
 							resolve({ email: participant.address })
-						} catch {
+						} catch (error) {
+							logger.error('Failed to resolve participant to a user account', { error })
 							resolve({ email: participant.address })
 						}
 					} else {
@@ -209,7 +205,7 @@ export async function addParticipantAsModerator(token: string, userId: string): 
 			attendeeId: participant.attendeeId,
 		})
 	} catch (error) {
-		console.error('Failed to promote user to moderator:', error)
+		logger.error('Failed to promote user to moderator:', { error })
 		throw new Error('Failed to promote user to moderator', { cause: error as Error })
 	}
 }
@@ -402,11 +398,11 @@ async function transceiveGet<TRequest extends object | undefined, TResponse>(pat
 		// If not an OCS envelope, return the data as-is
 		return response.data as TResponse
 	} catch (error) {
-		console.error('Talk service transmission error', error)
+		logger.error('Talk service transmission error', { error })
 		if (error.response) {
 			if (error.response.data && typeof error.response.data === 'object' && 'ocs' in error.response.data) {
 				const ocsError = error.response.data as OcsEnvelope<OcsErrorData>
-				console.error('Talk service transmission error', ocsError)
+				logger.error('Talk service transmission error', { ocsError })
 				if (ocsError.ocs.meta.message) {
 					throw new Error(`Talk service error: ${ocsError.ocs.meta.message}`)
 				}
@@ -462,11 +458,11 @@ async function transceivePost<TRequest extends object, TResponse>(path: string, 
 		// If not an OCS envelope, return the data as-is
 		return response.data as TResponse
 	} catch (error) {
-		console.error('Talk service transmission error', error)
+		logger.error('Talk service transmission error', { error })
 		if (error.response) {
 			if (error.response.data && typeof error.response.data === 'object' && 'ocs' in error.response.data) {
 				const ocsError = error.response.data as OcsEnvelope<OcsErrorData>
-				console.error('Talk service transmission error', ocsError)
+				logger.error('Talk service transmission error', { ocsError })
 				if (ocsError.ocs.meta.message) {
 					throw new Error(`Talk service error: ${ocsError.ocs.meta.message}`)
 				}

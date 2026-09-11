@@ -277,22 +277,23 @@ import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
-import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
-import dateFormat from '../../../filters/dateFormat.js'
-import formatDateRange from '../../../filters/dateRangeFormat.js'
+import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
+import dateFormat from '@/filters/dateFormat.js'
+import formatDateRange from '@/filters/dateRangeFormat.js'
 // Import event sources
-import freeBusyEventSource from '../../../fullcalendar/eventSources/freeBusyEventSource.js'
+import freeBusyEventSource from '@/fullcalendar/eventSources/freeBusyEventSource.js'
 // Import localization plugins
-import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
-import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
-import momentPlugin from '../../../fullcalendar/localization/momentPlugin.js'
+import { getDateFormattingConfig } from '@/fullcalendar/localization/dateFormattingConfig.js'
+import { getFullCalendarLocale } from '@/fullcalendar/localization/localeProvider.js'
+import momentPlugin from '@/fullcalendar/localization/momentPlugin.js'
 // Import timezone plugins
-import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
-import { getBusySlots, getFirstFreeSlot } from '../../../services/freeBusySlotService.js'
-import useCalendarsStore from '../../../store/calendars.js'
-import useSettingsStore from '../../../store/settings.js'
-import { uidToHexColor } from '../../../utils/color.js'
+import VTimezoneNamedTimezone from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 import { adjustAttendeeTime, getAttendeeDetails } from '@/services/attendeeDetails'
+import { getBusySlots, getFirstFreeSlot } from '@/services/freeBusySlotService.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
+import { uidToHexColor } from '@/utils/color.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'FreeBusy',
@@ -726,7 +727,7 @@ export default {
 				this.freeSlots = freeSlots
 			} catch (error) {
 				// Handle error here
-				console.error('Error occurred while finding free slots:', error)
+				logger.error('Error occurred while finding free slots:', { error })
 				throw error // Re-throwing the error to handle it in the caller
 			}
 		},

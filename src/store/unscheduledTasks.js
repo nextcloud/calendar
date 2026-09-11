@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import useCalendarsStore from './calendars.js'
+import useCalendarsStore from '@/store/calendars.js'
 
 export default defineStore('tasks', {
 	state: () => {
@@ -47,8 +47,8 @@ export default defineStore('tasks', {
 		/**
 		 * Append a single task to the store
 		 *
-		 * @param calendarid calendar id of the task
-		 * @param task The task to append to the store
+		 * @param {string} calendarid calendar id of the task
+		 * @param {object} task The task to append to the store
 		 */
 		appendTask(calendarid, task) {
 			if (!this.map[calendarid]) {
@@ -66,8 +66,8 @@ export default defineStore('tasks', {
 		/**
 		 * Removes a single task from the store
 		 *
-		 * @param calendarid calendar id of the task
-		 * @param task The task to remove from the store
+		 * @param {string} calendarid calendar id of the task
+		 * @param {object} task The task to remove from the store
 		 */
 		removeTask(calendarid, task) {
 			if (!this.map[calendarid]) {

@@ -15,7 +15,6 @@
 			v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
-			:calendarObjectInstance="calendarObjectInstance"
 			:isReadOnly="isReadOnly"
 			@removeAlarm="removeAlarm" />
 	</div>
@@ -23,10 +22,10 @@
 
 <script>
 import { mapState, mapStores } from 'pinia'
-import AlarmListItem from './AlarmListItem.vue'
-import AlarmListNew from './AlarmListNew.vue'
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import useSettingsStore from '../../../store/settings.js'
+import AlarmListItem from '@/components/Editor/Alarm/AlarmListItem.vue'
+import AlarmListNew from '@/components/Editor/Alarm/AlarmListNew.vue'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useSettingsStore from '@/store/settings.js'
 
 export default {
 	name: 'AlarmList',
@@ -40,15 +39,11 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
 	},
 
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		...mapState(useSettingsStore, ['forceEventAlarmType']),
 		alarms() {
 			return this.calendarObjectInstance.alarms.slice().sort((a, b) => {
@@ -67,7 +62,6 @@ export default {
 		 */
 		addAlarm(totalSeconds) {
 			this.calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
-				calendarObjectInstance: this.calendarObjectInstance,
 				type: this.forceEventAlarmType || 'DISPLAY',
 				totalSeconds,
 			})
@@ -80,7 +74,6 @@ export default {
 		 */
 		removeAlarm(alarm) {
 			this.calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
-				calendarObjectInstance: this.calendarObjectInstance,
 				alarm,
 			})
 		},

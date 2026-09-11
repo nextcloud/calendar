@@ -15,6 +15,7 @@ export function getNextcloudVersion(): number {
 /**
  * Whether the current Nextcloud version is equal or higher than the given version
  *
+ * @param version The major version number to compare against
  * @return True if supported
  */
 export function isAfterVersion(version: number): boolean {

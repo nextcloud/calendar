@@ -11,7 +11,7 @@ import {
 } from '@nextcloud/vue'
 import { computed, ref } from 'vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import AppointmentConfigListItem from './AppointmentConfigList/AppointmentConfigListItem.vue'
+import AppointmentConfigListItem from '@/components/AppNavigation/AppointmentConfigList/AppointmentConfigListItem.vue'
 import AppointmentConfigModal from '@/components/AppointmentConfigModal.vue'
 import NoEmailAddressWarning from '@/components/AppointmentConfigModal/NoEmailAddressWarning.vue'
 import AppointmentConfig from '@/models/appointmentConfig.js'

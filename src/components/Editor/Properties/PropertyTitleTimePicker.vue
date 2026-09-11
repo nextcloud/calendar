@@ -140,9 +140,9 @@ import { NcButton, NcTimezonePicker } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import CalendarIcon from 'vue-material-design-icons/CalendarOutline.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
-import DatePicker from '../../Shared/DatePicker.vue'
-import getTimezoneManager from '../../../services/timezoneDataProviderService.js'
-import useSettingsStore from '../../../store/settings.js'
+import DatePicker from '@/components/Shared/DatePicker.vue'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useSettingsStore from '@/store/settings.js'
 import { getDateFromDateTimeValue } from '@/utils/date'
 
 export default {

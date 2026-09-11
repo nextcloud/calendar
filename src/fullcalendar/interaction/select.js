@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import useSettingsStore from '../../store/settings.js'
-import { errorCatch } from '../utils/errors.js'
+import { errorCatch } from '@/fullcalendar/utils/errors.js'
+import useSettingsStore from '@/store/settings.js'
 
 /**
  * Provides a function to select a time-range in the calendar-grid.
@@ -14,7 +14,7 @@ import { errorCatch } from '../utils/errors.js'
  * @param {object} router The Vue router
  * @param {object} route The Vue route
  * @param {Window} window The window object
- * @return {Function}
+ * @return {(info: {start: Date, end: Date, allDay: boolean}) => void}
  */
 export default function(router, route, window) {
 	const settingsStore = useSettingsStore()

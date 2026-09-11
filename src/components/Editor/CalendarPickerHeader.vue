@@ -88,7 +88,7 @@
 <script>
 import { NcActionButton, NcActions, NcAvatar } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
-import usePrincipalsStore from '../../store/principals.js'
+import usePrincipalsStore from '@/store/principals.js'
 
 export default {
 	name: 'CalendarPickerHeader',

@@ -21,7 +21,7 @@
 import { translate as t } from '@nextcloud/l10n'
 import { getReadableTimezoneName, getSortedTimezoneList } from '@nextcloud/timezones'
 import { NcSelect } from '@nextcloud/vue'
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
 
 export default {
 	name: 'TimezoneSelect',

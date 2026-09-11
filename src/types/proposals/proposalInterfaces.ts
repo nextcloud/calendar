@@ -8,7 +8,7 @@ import type {
 	ProposalParticipantAttendance,
 	ProposalParticipantRealm,
 	ProposalParticipantStatus,
-} from './proposalEnums.ts'
+} from '@/types/proposals/proposalEnums.ts'
 
 export interface ProposalParticipantInterface {
 	id: number | null
@@ -45,6 +45,7 @@ export interface ProposalInterface {
 	description: string | null
 	location: string | null
 	duration: number | null
+	responseNotify: boolean
 	participants: ProposalParticipantInterface[]
 	dates: ProposalDateInterface[]
 	votes: ProposalVoteInterface[]

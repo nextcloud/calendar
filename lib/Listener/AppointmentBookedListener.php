@@ -20,30 +20,13 @@ use Psr\Log\LoggerInterface;
 
 class AppointmentBookedListener implements IEventListener {
 
-	/** @var IBroker */
-	private $broker;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	private IL10N $l10n;
-
-	/** @var ITimeFactory $timeFactory , */
-	private $timeFactory;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IBroker $broker,
-		IUserManager $userManager,
-		IL10N $l10n,
-		ITimeFactory $timeFactory,
-		LoggerInterface $logger) {
-		$this->broker = $broker;
-		$this->userManager = $userManager;
-		$this->l10n = $l10n;
-		$this->timeFactory = $timeFactory;
-		$this->logger = $logger;
+	public function __construct(
+		private IBroker $broker,
+		private IUserManager $userManager,
+		private IL10N $l10n,
+		private ITimeFactory $timeFactory,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	#[\Override]

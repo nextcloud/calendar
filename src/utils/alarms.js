@@ -5,10 +5,11 @@
 
 import { AttendeeProperty, Property } from '@nextcloud/calendar-js'
 import { translate as t } from '@nextcloud/l10n'
-import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
-import useCalendarsStore from '../store/calendars.js'
-import useSettingsStore from '../store/settings.js'
-import { isAfterVersion } from './nextcloudVersion.ts'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 /**
  * Get the factor for a given unit
@@ -104,7 +105,7 @@ export function getTotalSecondsFromAmountAndUnitForTimedEvents(amount, unit, isB
  * Gets the amount of days / weeks, unit, hours and minutes from total seconds
  *
  * @param {number} totalSeconds Total amount of seconds
- * @return {{amount: *, unit: *, hours: *, minutes: *}}
+ * @return {{amount: number, unit: string, hours: number, minutes: number}}
  */
 export function getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds) {
 	const dayFactor = getFactorForAlarmUnit('days')
@@ -123,7 +124,7 @@ export function getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds) {
 	}
 
 	let amount = 0
-	let unit = null
+	let unit
 	if (dayPart === 0) {
 		unit = 'days'
 	} else if (dayPart % 7 === 0) {
@@ -217,7 +218,7 @@ export function updateDefaultAlarm(calendarId, calendarObjectInstance) {
 	const calendar = calendarsStore.getCalendarById(calendarId)
 
 	if (!calendar || !calendarObjectInstance) {
-		console.error('Missing calendar or calendar object instance to update default alarm for.')
+		logger.error('Missing calendar or calendar object instance to update default alarm for.')
 		return
 	}
 
@@ -295,7 +296,7 @@ export function getDefaultReminderForEvent({ calendar, isAllDay }) {
  *
  * https://www.rfc-editor.org/rfc/rfc5545#section-3.6.6
  *
- * @param {AbstractRecurringComponent} eventComponent
+ * @param {AbstractRecurringComponent} eventComponent The event component to propagate alarm data for
  */
 export function updateAlarms(eventComponent) {
 	for (const alarmComponent of eventComponent.getAlarmIterator()) {

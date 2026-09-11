@@ -53,8 +53,8 @@ import {
 	NcCheckboxRadioSwitch,
 } from '@nextcloud/vue'
 import { useId } from 'vue'
-import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
-import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
+import RepeatFirstLastSelect from '@/components/Editor/Repeat/RepeatFirstLastSelect.vue'
+import RepeatOnTheSelect from '@/components/Editor/Repeat/RepeatOnTheSelect.vue'
 
 export default {
 	name: 'RepeatFreqMonthlyOptions',

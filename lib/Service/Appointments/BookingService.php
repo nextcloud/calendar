@@ -20,7 +20,6 @@ use OCA\Calendar\Exception\NoSlotFoundException;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
-use OCP\DB\Exception;
 use OCP\DB\Exception as DbException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
@@ -32,65 +31,32 @@ class BookingService {
 	/** @var int the expiry of a booking confirmation */
 	public const EXPIRY = 86400;
 
-	/** @var AvailabilityGenerator */
-	private $availabilityGenerator;
-
-	/** @var SlotExtrapolator */
-	private $extrapolator;
-
-	/** @var DailyLimitFilter */
-	private $dailyLimitFilter;
-
-	/** @var EventConflictFilter */
-	private $eventConflictFilter;
-
-	/** @var BookingCalendarWriter */
-	private $calendarWriter;
-
-	/** @var BookingMapper */
-	private $bookingMapper;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var MailService */
-	private $mailService;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(AvailabilityGenerator $availabilityGenerator,
-		SlotExtrapolator $extrapolator,
-		DailyLimitFilter $dailyLimitFilter,
-		EventConflictFilter $eventConflictFilter,
-		BookingMapper $bookingMapper,
-		BookingCalendarWriter $calendarWriter,
-		ISecureRandom $random,
-		MailService $mailService,
-		IEventDispatcher $eventDispatcher,
-		LoggerInterface $logger) {
-		$this->availabilityGenerator = $availabilityGenerator;
-		$this->extrapolator = $extrapolator;
-		$this->dailyLimitFilter = $dailyLimitFilter;
-		$this->eventConflictFilter = $eventConflictFilter;
-		$this->calendarWriter = $calendarWriter;
-		$this->bookingMapper = $bookingMapper;
-		$this->random = $random;
-		$this->mailService = $mailService;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private AvailabilityGenerator $availabilityGenerator,
+		private SlotExtrapolator $extrapolator,
+		private DailyLimitFilter $dailyLimitFilter,
+		private EventConflictFilter $eventConflictFilter,
+		private BookingMapper $bookingMapper,
+		private BookingCalendarWriter $calendarWriter,
+		private ISecureRandom $random,
+		private MailService $mailService,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
 	 * @throws NoSlotFoundException|ClientException|DbException
 	 */
 	public function confirmBooking(Booking $booking, AppointmentConfig $config): Booking {
-		$bookingSlot = current($this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd()));
+		$availableSlots = $this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd());
+		$selectedSlot = $this->findMatchingSlot(
+			$availableSlots,
+			$booking->getStart(),
+			$booking->getEnd(),
+		);
 
-		if (!$bookingSlot) {
+		if ($selectedSlot === null) {
 			throw new NoSlotFoundException('Slot for booking is not available any more');
 		}
 
@@ -132,16 +98,21 @@ class BookingService {
 	 * @throws ServiceException|DbException|NoSlotFoundException|InvalidArgumentException
 	 */
 	public function book(AppointmentConfig $config, int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
-		$bookingSlot = current($this->getAvailableSlots($config, $start, $end));
+		$availableSlots = $this->getAvailableSlots($config, $start, $end);
+		$selectedSlot = $this->findMatchingSlot(
+			$availableSlots,
+			$start,
+			$end,
+		);
 
-		if (!$bookingSlot) {
+		if ($selectedSlot === null) {
 			throw new NoSlotFoundException('Could not find slot for booking');
 		}
 
 		try {
 			$tz = new DateTimeZone($timeZone);
-		} catch (Exception $e) {
-			throw new InvalidArgumentException('Could not make sense of the timezone', $e->getCode(), $e);
+		} catch (\Exception $e) {
+			throw new InvalidArgumentException('Could not make sense of the timezone', previous: $e);
 		}
 
 		$booking = new Booking();
@@ -151,12 +122,12 @@ class BookingService {
 		$booking->setDisplayName($displayName);
 		$booking->setDescription($description);
 		$booking->setEmail($email);
-		$booking->setStart($start);
-		$booking->setEnd($end);
+		$booking->setStart($selectedSlot->getStart());
+		$booking->setEnd($selectedSlot->getEnd());
 		$booking->setTimezone($tz->getName());
 		try {
 			$this->bookingMapper->insert($booking);
-		} catch (Exception $e) {
+		} catch (DbException $e) {
 			throw new ServiceException('Could not create booking', 0, $e);
 		}
 
@@ -206,6 +177,21 @@ class BookingService {
 		]);
 
 		return $available;
+	}
+
+	/**
+	 * Find the slot within $slots whose bounds exactly match $start and $end.
+	 *
+	 * @param Interval[] $slots
+	 */
+	private function findMatchingSlot(array $slots, int $start, int $end): ?Interval {
+		foreach ($slots as $slot) {
+			if ($slot->getStart() === $start && $slot->getEnd() === $end) {
+				return $slot;
+			}
+		}
+
+		return null;
 	}
 
 	/**

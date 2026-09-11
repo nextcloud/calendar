@@ -29,7 +29,7 @@ class AppointmentConfigMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = Server::get(\OCP\IDBConnection::class);
+		$this->db = Server::get(IDBConnection::class);
 		$this->mapper = new AppointmentConfigMapper(
 			$this->db
 		);

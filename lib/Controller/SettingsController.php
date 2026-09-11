@@ -20,11 +20,6 @@ use OCP\IRequest;
  * @package OCA\Calendar\Controller
  */
 class SettingsController extends Controller {
-	/** @var IConfig */
-	private $config;
-
-	/** @var string */
-	private $userId;
 
 	/**
 	 * SettingsController constructor.
@@ -34,13 +29,13 @@ class SettingsController extends Controller {
 	 * @param IConfig $config
 	 * @param string $userId
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IConfig $config,
-		string $userId) {
+		private IConfig $config,
+		private string $userId,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	/**

@@ -148,6 +148,8 @@
     "Wheelchair accessible" : "D anekcum i at ukersi n yimeεdar",
     "unavailable" : "ulac-it",
     "Any" : "Menwala",
+    "Building" : "Akerrus",
+    "Clear filters" : "Sfeḍ imsizedgen",
     "Yes" : "Ih",
     "No" : "Uhu",
     "Maybe" : "Ahat",
@@ -156,7 +158,7 @@
     "Subscribe" : "Lteɣ",
     "Select a date" : "Fren Azemz",
     "Personal" : "Udmawan",
-    "Discard changes" : "Sefsex ibeddilen",
+    "Discard" : "Agi",
     "All day" : "Ass kamel",
     "Invite" : "Snubget",
     "Discard changes?" : "Sefsex ibeddilen?",
@@ -182,16 +184,11 @@
     "W" : "Ha",
     "No events" : "Ulac tidyanin",
     "Other" : "Wayeḍ",
+    "Phone" : "Tiliɣri",
     "Confirmed" : "Yettwasentem",
     "Canceled" : "Yettwasemmet",
     "Categories" : "Taggayin",
     "Custom color" : "Ini yugnen",
-    "User not found" : "Ur yettwaf ara useqdac",
-    "Calendars" : "Iwitayen",
-    "Hidden" : "Udrig",
-    "Show keyboard shortcuts" : "Sken inegzumen n unasiw",
-    "Pick a date" : "Fren azemz",
-    "Time:" : "Akud:",
-    "Edit event" : "Edit event"
+    "User not found" : "Ur yettwaf ara useqdac"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

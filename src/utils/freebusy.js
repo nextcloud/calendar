@@ -4,7 +4,7 @@
  */
 
 import { createFreeBusyRequest, getParserManager } from '@nextcloud/calendar-js'
-import { findSchedulingOutbox } from '../services/caldavService.js'
+import { findSchedulingOutbox } from '@/services/caldavService.js'
 
 /**
  * Gets the corresponding color for a given Free/Busy type

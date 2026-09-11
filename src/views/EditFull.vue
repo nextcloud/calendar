@@ -27,7 +27,7 @@
 			<template v-else-if="isError">
 				<NcEmptyContent :name="$t('calendar', 'Event does not exist')" :description="error">
 					<template #icon>
-						<CalendarBlank :size="20" decorative />
+						<CalendarBlank decorative />
 					</template>
 				</NcEmptyContent>
 			</template>
@@ -49,12 +49,14 @@
 						<SaveButtons
 							v-if="showSaveButtons"
 							class="app-full-tab__buttons"
-							:canCreateRecurrenceException="canCreateRecurrenceException"
+							:canUpdateOccurrence="canUpdate('occurrence')"
+							:canUpdateFuture="canUpdate('future')"
+							:canUpdateSeries="canUpdate('series')"
 							:isNew="isNew"
 							:isReadOnly="isReadOnly"
-							:forceThisAndAllFuture="forceThisAndAllFuture"
-							@saveThisOnly="prepareAccessForAttachments(false)"
-							@saveThisAndAllFuture="prepareAccessForAttachments(true)" />
+							@saveOccurrence="prepareAccessForAttachments('occurrence')"
+							@saveFuture="prepareAccessForAttachments('future')"
+							@saveSeries="prepareAccessForAttachments('series')" />
 						<div class="app-full__actions__inner" :class="[{ 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
 								<NcActionButton v-if="eventLink && !isNew" @click="copyEventLink()">
@@ -69,30 +71,35 @@
 									</template>
 									{{ $t('calendar', 'Export') }}
 								</NcActionLink>
-								<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" @click="duplicateEvent()">
+								<NcActionButton v-if="!isNew && canDuplicate" @click="duplicateEvent()">
 									<template #icon>
 										<ContentDuplicate :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Duplicate') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="!isNew && !isRecurringInstance && canDelete('occurrence')" @click="deleteAndLeave('occurrence')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="!isNew && isRecurringInstance && canDelete('occurrence')" @click="deleteAndLeave('occurrence')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete this occurrence') }}
 								</NcActionButton>
-								<NcActionSeparator v-if="canDelete && canCreateRecurrenceException && !isNew" />
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(true)">
+								<NcActionButton v-if="!isNew && isRecurringInstance && canDelete('future')" @click="deleteAndLeave('future')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
-									{{ $t('calendar', 'Delete this and all future') }}
+									{{ $t('calendar', 'Delete this and future occurrences') }}
+								</NcActionButton>
+								<NcActionButton v-if="!isNew && isRecurringInstance && canDelete('series')" @click="deleteAndLeave('series')">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete entire series') }}
 								</NcActionButton>
 							</NcActions>
 						</div>
@@ -127,15 +134,13 @@
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 
-							<!-- TODO: If not editing the master item, force updating this and all future   -->
+							<!-- TODO: If not editing the base instance, force updating this and all future   -->
 							<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 							<Repeat
-								:calendarObjectInstance="calendarObjectInstance"
-								:recurrenceRule="calendarObjectInstance.recurrenceRule"
 								:isReadOnly="isReadOnly || isViewedByOrganizer === false"
-								:isEditingMasterItem="isEditingMasterItem"
-								:isRecurrenceException="isRecurrenceException"
-								@forceThisAndAllFuture="forceModifyingFuture" />
+								:isEditingBaseInstance="isEditingBaseInstance"
+								:isEditingExceptionInstance="isEditingExceptionInstance"
+								@requireFutureUpdate="requireFutureUpdate" />
 						</div>
 
 						<div class="app-full__header__details-calendar">
@@ -163,9 +168,8 @@
 					</div>
 
 					<InvitationResponseButtons
-						v-if="isViewedByAttendee"
+						v-if="isViewedByAttendee && !isCancelled"
 						:attendee="userAsAttendee"
-						:calendarId="calendarId"
 						:narrow="true"
 						:growHorizontally="true"
 						@close="closeEditorAndSkipAction" />
@@ -190,12 +194,10 @@
 							@update:value="updateDescription" />
 
 						<AlarmList
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly" />
 
 						<AttachmentsList
 							v-if="!isLoading"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly" />
 					</div>
 
@@ -206,7 +208,6 @@
 							<IconVideo :size="20" class="property-text__icon property-add-talk__icon" />
 							<AddTalkModal
 								v-if="isTalkModalOpen"
-								:calendarObjectInstance="calendarObjectInstance"
 								:delegatorUserId="delegatorUserId"
 								@close="isTalkModalOpen = false"
 								@updateLocation="updateLocation"
@@ -303,7 +304,7 @@
 								<NcButton
 									variant="primary"
 									:disabled="showPreloader"
-									@click="acceptAttachmentsModal(thisAndAllFuture)">
+									@click="acceptAttachmentsModal()">
 									{{ t('calendar', 'Invite') }}
 								</NcButton>
 							</div>
@@ -316,7 +317,6 @@
 						<InviteesList
 							v-if="!isLoading"
 							:calendar="selectedCalendar"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
 							:isSharedWithMe="isSharedWithMe"
 							:showHeader="true"
@@ -326,7 +326,6 @@
 					<div class="app-full-footer__right">
 						<ResourceList
 							v-if="!isLoading"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly || isViewedByOrganizer === false" />
 					</div>
 				</div>
@@ -352,7 +351,6 @@ import {
 	NcActionButton,
 	NcActionLink,
 	NcActions,
-	NcActionSeparator,
 	NcButton,
 	NcCheckboxRadioSwitch,
 	NcDialog,
@@ -370,29 +368,29 @@ import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
-import AddTalkModal from '../components/Editor/AddTalkModal.vue'
-import AlarmList from '../components/Editor/Alarm/AlarmList.vue'
-import AttachmentsList from '../components/Editor/Attachments/AttachmentsList.vue'
-import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
-import InvitationResponseButtons from '../components/Editor/InvitationResponseButtons.vue'
-import InviteesList from '../components/Editor/Invitees/InviteesList.vue'
-import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
-import PropertySelect from '../components/Editor/Properties/PropertySelect.vue'
-import PropertySelectMultiple from '../components/Editor/Properties/PropertySelectMultiple.vue'
-import PropertyText from '../components/Editor/Properties/PropertyText.vue'
-import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
-import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
-import Repeat from '../components/Editor/Repeat/Repeat.vue'
-import ResourceList from '../components/Editor/Resources/ResourceList.vue'
-import SaveButtons from '../components/Editor/SaveButtons.vue'
-import EditorMixin from '../mixins/EditorMixin.js'
-import { shareFile } from '../services/attachmentService.js'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
-import usePrincipalsStore from '../store/principals.js'
-import useSettingsStore from '../store/settings.js'
-import logger from '../utils/logger.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
+import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
+import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
+import AttachmentsList from '@/components/Editor/Attachments/AttachmentsList.vue'
+import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
+import InvitationResponseButtons from '@/components/Editor/InvitationResponseButtons.vue'
+import InviteesList from '@/components/Editor/Invitees/InviteesList.vue'
+import PropertyColor from '@/components/Editor/Properties/PropertyColor.vue'
+import PropertySelect from '@/components/Editor/Properties/PropertySelect.vue'
+import PropertySelectMultiple from '@/components/Editor/Properties/PropertySelectMultiple.vue'
+import PropertyText from '@/components/Editor/Properties/PropertyText.vue'
+import PropertyTitle from '@/components/Editor/Properties/PropertyTitle.vue'
+import PropertyTitleTimePicker from '@/components/Editor/Properties/PropertyTitleTimePicker.vue'
+import Repeat from '@/components/Editor/Repeat/Repeat.vue'
+import ResourceList from '@/components/Editor/Resources/ResourceList.vue'
+import SaveButtons from '@/components/Editor/SaveButtons.vue'
+import EditorMixin from '@/mixins/EditorMixin.js'
+import { shareFile } from '@/services/attachmentService.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 export default {
 	name: 'EditFull',
@@ -429,7 +427,6 @@ export default {
 		IconVideo,
 		HelpCircleIcon,
 		NcActions,
-		NcActionSeparator,
 		Close,
 	},
 
@@ -439,7 +436,7 @@ export default {
 
 	data() {
 		return {
-			thisAndAllFuture: false,
+			saveScope: 'occurrence',
 			doNotShare: false,
 			showModal: false,
 			showModalNewAttachments: [],
@@ -448,7 +445,7 @@ export default {
 			showPreloader: false,
 			cancelButtons: [
 				{
-					label: t('calendar', 'Discard changes'),
+					label: t('calendar', 'Discard'),
 					variant: 'secondary',
 					icon: IconDelete,
 					callback: () => { this.cancel(true) },
@@ -544,31 +541,15 @@ export default {
 		},
 	},
 
-	mounted() {
-		window.addEventListener('keydown', this.keyboardCloseEditor)
-		window.addEventListener('keydown', this.keyboardSaveEvent)
-		window.addEventListener('keydown', this.keyboardDeleteEvent)
-		window.addEventListener('keydown', this.keyboardDuplicateEvent)
-	},
-
-	beforeUnmount() {
-		window.removeEventListener('keydown', this.keyboardCloseEditor)
-		window.removeEventListener('keydown', this.keyboardSaveEvent)
-		window.removeEventListener('keydown', this.keyboardDeleteEvent)
-		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
-	},
-
 	methods: {
 		updateLocation(location) {
 			this.calendarObjectInstanceStore.changeLocation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				location,
 			})
 		},
 
 		updateDescription(description) {
 			this.calendarObjectInstanceStore.changeDescription({
-				calendarObjectInstance: this.calendarObjectInstance,
 				description,
 			})
 		},
@@ -592,7 +573,6 @@ export default {
 		 */
 		updateAccessClass(accessClass) {
 			this.calendarObjectInstanceStore.changeAccessClass({
-				calendarObjectInstance: this.calendarObjectInstance,
 				accessClass,
 			})
 		},
@@ -604,7 +584,6 @@ export default {
 		 */
 		updateStatus(status) {
 			this.calendarObjectInstanceStore.changeStatus({
-				calendarObjectInstance: this.calendarObjectInstance,
 				status,
 			})
 		},
@@ -616,7 +595,6 @@ export default {
 		 */
 		updateTimeTransparency(timeTransparency) {
 			this.calendarObjectInstanceStore.changeTimeTransparency({
-				calendarObjectInstance: this.calendarObjectInstance,
 				timeTransparency,
 			})
 		},
@@ -628,7 +606,6 @@ export default {
 		 */
 		updateInvitationForwarding(invitationForwarding) {
 			this.calendarObjectInstanceStore.changeInvitationForwarding({
-				calendarObjectInstance: this.calendarObjectInstance,
 				invitationForwarding,
 			})
 		},
@@ -640,7 +617,6 @@ export default {
 		 */
 		addCategory(category) {
 			this.calendarObjectInstanceStore.addCategory({
-				calendarObjectInstance: this.calendarObjectInstance,
 				category,
 			})
 		},
@@ -652,7 +628,6 @@ export default {
 		 */
 		removeCategory(category) {
 			this.calendarObjectInstanceStore.removeCategory({
-				calendarObjectInstance: this.calendarObjectInstance,
 				category,
 			})
 		},
@@ -664,7 +639,6 @@ export default {
 		 */
 		updateColor(customColor) {
 			this.calendarObjectInstanceStore.changeCustomColor({
-				calendarObjectInstance: this.calendarObjectInstance,
 				customColor,
 			})
 		},
@@ -717,7 +691,7 @@ export default {
 							// toastify success
 						} catch (e) {
 							// toastify err
-							console.error(e)
+							logger.error(e)
 						}
 						return attachment
 					})
@@ -735,7 +709,7 @@ export default {
 				this.showModal = false
 				this.showModalNewAttachments = []
 				this.showModalUsers = []
-				this.saveEvent(this.thisAndAllFuture)
+				this.saveEvent(this.saveScope)
 			}, 500)
 			// trigger save event after make each attachment access
 			// 1) if !isPrivate get attachments NOT SHARED  and SharedType is empry -> API ADD SHARE
@@ -759,8 +733,8 @@ export default {
 			return name.split('/').pop()
 		},
 
-		prepareAccessForAttachments(thisAndAllFuture = false) {
-			this.thisAndAllFuture = thisAndAllFuture
+		prepareAccessForAttachments(scope) {
+			this.saveScope = scope
 			const newAttachments = this.calendarObjectInstance.attachments.filter((attachment) => {
 				// get only new attachments
 				// TODO get NOT only new attachments =) Maybe we should filter all attachments without share-type, 'cause event can be private and AFTER save owner could add new participant
@@ -780,14 +754,14 @@ export default {
 					return false
 				})
 			} else {
-				this.saveEvent(thisAndAllFuture)
+				this.saveEvent(this.saveScope)
 			}
 		},
 
-		saveEvent(thisAndAllFuture = false) {
+		saveEvent(scope) {
 			// if there is new attachments and !private, then make modal with users and files/
 			// maybe check shared access before add file
-			this.saveAndLeave(thisAndAllFuture)
+			this.saveAndLeave(scope)
 			this.calendarObjectInstance.attachments = this.calendarObjectInstance.attachments.map((attachment) => {
 				if (attachment.isNew) {
 					delete attachment.isNew
@@ -973,12 +947,6 @@ export default {
 		flex-direction: column;
 		gap: calc(var(--default-grid-baseline) * 4);
 
-		:deep(.property-select__input) {
-			max-width: calc(var(--total-width) * 1 / 3 - var(--column-gap) / 2 - 36px);
-			display: flex;
-			align-items: center;
-		}
-
 		.multiselect__tag {
 			padding: var(--default-grid-baseline);
 			border-radius: var(--border-radius-element);
@@ -1011,10 +979,6 @@ export default {
 @media screen and (max-width: 915px) {
 	.app-full-body__right {
 		width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2) !important;
-
-		.property-select__input {
-			max-width: 100% !important;
-		}
 	}
 }
 
@@ -1045,10 +1009,6 @@ export default {
 @media screen and (max-width: 840px) {
 	.app-full-footer__right {
 		width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2) !important;
-
-		.property-select__input {
-			max-width: 100% !important;
-		}
 	}
 }
 

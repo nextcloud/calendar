@@ -38,8 +38,8 @@ import IconAccepted from 'vue-material-design-icons/CheckCircleOutline.vue'
 import IconDeclined from 'vue-material-design-icons/CloseCircleOutline.vue'
 import IconTentative from 'vue-material-design-icons/HelpCircleOutline.vue'
 import IconNoResponse from 'vue-material-design-icons/MinusCircleOutline.vue'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 import { adjustAttendeeTime } from '@/services/attendeeDetails'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 
 export default {
 	name: 'AvatarParticipationStatus',
@@ -87,6 +87,11 @@ export default {
 		isSuggestion: {
 			type: Boolean,
 			default: false,
+		},
+
+		availability: {
+			type: String, // 'checking' | 'available' | 'unavailable' | null
+			default: null,
 		},
 
 		attendeeIsOrganizer: {
@@ -170,7 +175,7 @@ export default {
 					}
 				case 'DELEGATED':
 					return {
-						icon: IconDelegated,
+						...delegatedIcon,
 						text: t('calendar', 'Invitation is delegated'),
 					}
 				case 'DECLINED':
@@ -202,14 +207,32 @@ export default {
 				// No status or status 1.0 indicate that the invitation is pending
 				if (!this.scheduleStatus || this.scheduleStatus === '1.0') {
 					if (this.isResource) {
+						switch (this.availability) {
+							case 'available':
+								return {
+									...acceptedIcon,
+									text: t('calendar', 'Still available'),
+								}
+							case 'unavailable':
+								return {
+									...declinedIcon,
+									text: t('calendar', 'Already booked'),
+								}
+							case 'checking':
+								return {
+									icon: IconNoResponse,
+									text: t('calendar', 'Checking availability'),
+								}
+						}
+
 						return {
-							icon: IconNoResponse,
+							...noResponseIcon,
 							text: t('calendar', 'Will be booked after saving, if available'),
 						}
 					}
 
 					return {
-						icon: IconNoResponse,
+						...noResponseIcon,
 						text: t('calendar', 'Invitation will be sent'),
 					}
 				}
@@ -219,32 +242,32 @@ export default {
 				if (this.scheduleStatus[0] === '3' || this.scheduleStatus[0] === '5') {
 					if (this.isResource) {
 						return {
-							icon: IconNoResponse,
+							...noResponseIcon,
 							text: t('calendar', 'Failed to check availability'),
 						}
 					}
 
 					return {
-						icon: IconNoResponse,
+						...noResponseIcon,
 						text: t('calendar', 'Failed to deliver invitation'),
 					}
 				}
 
 				return {
-					icon: IconNoResponse,
+					...noResponseIcon,
 					text: t('calendar', 'Awaiting response'),
 				}
 			}
 
 			if (this.isResource) {
 				return {
-					icon: IconNoResponse,
+					...noResponseIcon,
 					text: t('calendar', 'Checking availability'),
 				}
 			}
 
 			return {
-				icon: IconNoResponse,
+				...noResponseIcon,
 				text: t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
 					organizerName: this.organizerDisplayName,
 				}),

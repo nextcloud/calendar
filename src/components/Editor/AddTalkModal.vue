@@ -12,9 +12,12 @@
 		<div class="modal-content">
 			<NcEmptyContent
 				v-if="loading"
-				icon="icon-loading"
 				class="modal__content__loading"
-				:description="t('calendar', 'Fetching Talk rooms…')" />
+				:description="t('calendar', 'Fetching Talk rooms…')">
+				<template #icon>
+					<NcLoadingIcon decorative />
+				</template>
+			</NcEmptyContent>
 			<NcEmptyContent
 				v-else-if="talkConversations.length === 0"
 				:description="t('calendar', 'No Talk room available')" />
@@ -87,13 +90,15 @@ import {
 	NcFormBoxButton,
 	NcFormGroup,
 	NcListItem,
+	NcLoadingIcon,
 	NcModal,
 } from '@nextcloud/vue'
 import md5 from 'md5'
-import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
 import IconAdd from 'vue-material-design-icons/Plus.vue'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 import { addParticipantAsModerator, createRoom, generateRoomUrl, listRooms } from '@/services/talkService'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import logger from '@/utils/logger.js'
 
 // Ref https://github.com/nextcloud/spreed/blob/main/docs/constants.md
 const CONVERSATION_TYPE_GROUP = 2
@@ -117,14 +122,10 @@ export default {
 		NcFormBoxButton,
 		NcListItem,
 		NcFormGroup,
+		NcLoadingIcon,
 	},
 
 	props: {
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		delegatorUserId: {
 			type: String,
 			default: null,
@@ -150,7 +151,7 @@ export default {
 	},
 
 	computed: {
-		...mapStores(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		/**
 		 * @return {object[]} Talk conversations sorted by most recent activity
 		 */
@@ -180,7 +181,7 @@ export default {
 						&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_VIDEO_VERIFICATION))
 					&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_EVENT)
 			} catch (error) {
-				console.error('Error fetching Talk conversations:', error)
+				logger.error('Error fetching Talk conversations:', { error })
 				showError(this.$t('calendar', 'Error fetching Talk conversations.'))
 			} finally {
 				this.loading = false
@@ -202,7 +203,6 @@ export default {
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
 					this.calendarObjectInstanceStore.changeLocation({
-						calendarObjectInstance: this.calendarObjectInstance,
 						location: url,
 					})
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
@@ -213,7 +213,6 @@ export default {
 						: url
 
 					this.calendarObjectInstanceStore.changeDescription({
-						calendarObjectInstance: this.calendarObjectInstance,
 						description: updatedDescription,
 					})
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))
@@ -221,7 +220,7 @@ export default {
 
 				this.selectedConversation = conversation
 			} catch (error) {
-				console.error('Error applying conversation to event:', error)
+				logger.error('Error applying conversation to event:', { error })
 				showError(this.$t('calendar', 'Failed to apply Talk room.'))
 			} finally {
 				this.closeModal()
@@ -250,7 +249,7 @@ export default {
 					try {
 						await addParticipantAsModerator(room.token, this.delegatorUserId)
 					} catch (error) {
-						console.error('Failed to add delegator as moderator:', error)
+						logger.error('Failed to add delegator as moderator:', { error })
 					}
 				}
 
@@ -272,7 +271,7 @@ export default {
 				}
 				this.closeModal()
 			} catch (error) {
-				console.error('Error creating Talk room:', error)
+				logger.error('Error creating Talk room:', { error })
 				showError(this.$t('calendar', 'Error creating Talk conversation'))
 			} finally {
 				this.creatingTalkRoom = false

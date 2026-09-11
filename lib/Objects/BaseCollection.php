@@ -15,15 +15,14 @@ namespace OCA\Calendar\Objects;
  */
 class BaseCollection extends \ArrayObject {
 
-	private $type;
-
 	/**
 	 * @param class-string<T>|string $type
 	 * @param array<T> $data
 	 */
-	public function __construct($type, $data = []) {
-		// Ensure that all data entries are of the specified type
-		$this->type = $type;
+	public function __construct(
+		private $type,
+		$data = [],
+	) {
 		foreach ($data as $value) {
 			if (!$this->validate($value)) {
 				throw new \InvalidArgumentException('Type error');

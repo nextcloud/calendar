@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { errorCatch } from '../utils/errors.js'
+import { errorCatch } from '@/fullcalendar/utils/errors.js'
 
 /**
  * Figure out whether or not an event can be dropped at a certain place

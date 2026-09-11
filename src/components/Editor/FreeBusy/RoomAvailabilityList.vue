@@ -58,10 +58,11 @@
 
 <script>
 import { NcButton, NcDialog } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
-import RoomAvailabilityModal from './RoomAvailabilityModal.vue'
-import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
-import usePrincipalsStore from '../../../store/principals.js'
+import { mapState, mapStores } from 'pinia'
+import RoomAvailabilityModal from '@/components/Editor/FreeBusy/RoomAvailabilityModal.vue'
+import { mapPrincipalObjectToAttendeeObject } from '@/models/attendee.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import usePrincipalsStore from '@/store/principals.js'
 
 export default {
 	name: 'RoomAvailabilityList',
@@ -72,11 +73,6 @@ export default {
 	},
 
 	props: {
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		showDialog: {
 			type: Boolean,
 			default: true,
@@ -94,6 +90,8 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+
 		rooms() {
 			return this.principalsStore.getRoomPrincipals
 		},

@@ -4,8 +4,8 @@
  */
 import convert from 'color-convert'
 import css3Colors from 'css-color-names'
-import closestColor from './closestColor.js'
-import { uidToColor } from './uidToColor.js'
+import closestColor from '@/utils/closestColor.js'
+import { uidToColor } from '@/utils/uidToColor.js'
 
 /**
  * Detect if a color is light or dark
@@ -24,16 +24,6 @@ export function isLight({ red, green, blue }) {
 /**
  * Get a text-color that's readable on a given background color
  *
- * @param {string} hexColor The hex color to get a text color for
- * @return {string} the matching text color
- */
-export function generateTextColorForHex(hexColor) {
-	return generateTextColorForRGB(hexToRGB(hexColor))
-}
-
-/**
- * Get a text-color that's readable on a given background color
- *
  * @param {object} data The destructuring object
  * @param {number} data.red Red part of the RGB
  * @param {number} data.green Green part of the RGB
@@ -42,20 +32,6 @@ export function generateTextColorForHex(hexColor) {
  */
 export function generateTextColorForRGB({ red, green, blue }) {
 	return isLight({ red, green, blue }) ? '#000000' : '#FAFAFA'
-}
-
-/**
- * Convert hex string to RGB
- *
- * @param {string} hexColor The hex color to convert
- * @return {string} the RGB result
- */
-export function hexToRGB(hexColor) {
-	if (hexColor === null) {
-		return { red: 0, green: 0, blue: 0 }
-	}
-	const [red, green, blue] = convert.hex.rgb(hexColor.slice(1))
-	return { red, green, blue }
 }
 
 /**
@@ -73,7 +49,7 @@ export function uidToHexColor(uid) {
  * Detects a color from a given string
  *
  * @param {string} color The color to get the real RGB hex string from
- * @return {string|boolean|*} String if color detected, boolean if not
+ * @return {string|boolean} String if color detected, boolean if not
  */
 export function detectColor(color) {
 	if (/^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(color)) { // #ff00ff and #f0f

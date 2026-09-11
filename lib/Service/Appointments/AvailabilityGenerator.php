@@ -21,14 +21,11 @@ use function max;
 use function min;
 
 class AvailabilityGenerator {
-	/** @var ITimeFactory */
-	private $timeFactory;
 
 	public function __construct(
-		ITimeFactory $timeFactory,
+		private ITimeFactory $timeFactory,
 		private LoggerInterface $logger,
 	) {
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**

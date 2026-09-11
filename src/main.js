@@ -4,19 +4,19 @@ import { translate, translatePlural } from '@nextcloud/l10n'
 import { linkTo } from '@nextcloud/router'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
-import App from './App.vue'
-import AppointmentConfig from './models/appointmentConfig.js'
-import router from './router.js'
-import windowTitleService from './services/windowTitleService.js'
-import useAppointmentConfigsStore from './store/appointmentConfigs.js'
-import logger from './utils/logger.js'
+import App from '@/App.vue'
+import AppointmentConfig from '@/models/appointmentConfig.js'
+import router from '@/router.js'
+import windowTitleService from '@/services/windowTitleService.js'
+import useAppointmentConfigsStore from '@/store/appointmentConfigs.js'
+import logger from '@/utils/logger.js'
 
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import 'core-js/stable/index.js'
-import '../css/calendar.scss'
+import '@/styles/calendar.scss'
 
 const pinia = createPinia()
 

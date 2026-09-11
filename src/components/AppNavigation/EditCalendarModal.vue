@@ -43,6 +43,9 @@
 					{{ $t('calendar', 'Never show me as busy (set this calendar to transparent)') }}
 				</NcCheckboxRadioSwitch>
 			</template>
+			<NcCheckboxRadioSwitch v-if="isAfterVersion36" v-model="disableAlarmNotifications">
+				{{ $t('calendar', 'Disable alarm notifications for this calendar') }}
+			</NcCheckboxRadioSwitch>
 			<template v-if="!calendar.isSharedWithMe && isAfterVersion">
 				<div class="edit-calendar-modal__default-alarm">
 					<label for="default-alarm-partday-select" class="edit-calendar-modal__default-alarm__label">
@@ -130,20 +133,20 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import DownloadIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-import InternalLink from './EditCalendarModal/InternalLink.vue'
-import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
-import ShareItem from './EditCalendarModal/ShareItem.vue'
-import SharingSearch from './EditCalendarModal/SharingSearch.vue'
-import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
-import alarmFormat from '../../filters/alarmFormat.js'
-import useCalendarsStore from '../../store/calendars.js'
-import useSettingsStore from '../../store/settings.js'
+import InternalLink from '@/components/AppNavigation/EditCalendarModal/InternalLink.vue'
+import PublishCalendar from '@/components/AppNavigation/EditCalendarModal/PublishCalendar.vue'
+import ShareItem from '@/components/AppNavigation/EditCalendarModal/ShareItem.vue'
+import SharingSearch from '@/components/AppNavigation/EditCalendarModal/SharingSearch.vue'
+import { getDefaultAlarms } from '@/defaults/defaultAlarmProvider.js'
+import alarmFormat from '@/filters/alarmFormat.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-} from '../../utils/alarms.js'
-import logger from '../../utils/logger.js'
-import { isAfterVersion } from '../../utils/nextcloudVersion.ts'
+} from '@/utils/alarms.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 export default {
 	name: 'EditCalendarModal',
@@ -170,6 +173,7 @@ export default {
 			calendarColor: undefined,
 			calendarColorChanged: false,
 			isTransparent: false,
+			disableAlarmNotifications: false,
 			calendarName: undefined,
 			calendarNameChanged: false,
 			selectedDefaultAlarmPartDay: null,
@@ -330,6 +334,15 @@ export default {
 		isAfterVersion() {
 			return isAfterVersion(34)
 		},
+
+		/**
+		 * Whether the per-calendar disable alarm notifications feature is supported (Nextcloud 36+)
+		 *
+		 * @return {boolean}
+		 */
+		isAfterVersion36() {
+			return isAfterVersion(36)
+		},
 	},
 
 	watch: {
@@ -343,6 +356,7 @@ export default {
 			this.calendarNameChanged = false
 			this.calendarColorChanged = false
 			this.isTransparent = calendar.transparency === 'transparent'
+			this.disableAlarmNotifications = calendar.disableAlarmNotifications || false
 
 			// Initialize default alarm for part-day events
 			if (calendar.defaultAlarmPartDay === null) {
@@ -448,6 +462,24 @@ export default {
 		},
 
 		/**
+		 * Save the calendar disableAlarmNotifications preference.
+		 */
+		async saveDisableAlarmNotifications() {
+			try {
+				await this.calendarsStore.changeCalendarDisableAlarmNotifications({
+					calendar: this.calendar,
+					disableAlarmNotifications: this.disableAlarmNotifications,
+				})
+			} catch (error) {
+				logger.error('Failed to save calendar disable alarm notifications preference', {
+					calendar: this.calendar,
+					error,
+				})
+				throw error
+			}
+		},
+
+		/**
 		 * Save unsaved changes and close the modal.
 		 *
 		 * @return {Promise<void>}
@@ -461,6 +493,9 @@ export default {
 					await this.saveColor()
 				}
 				await this.saveTransparency()
+				if (this.isAfterVersion36) {
+					await this.saveDisableAlarmNotifications()
+				}
 				if (this.calendarNameChanged) {
 					await this.saveName()
 				}
@@ -468,6 +503,7 @@ export default {
 					await this.saveDefaultAlarm()
 				}
 			} catch (error) {
+				logger.error('Failed to save calendar changes', { error })
 				showError(this.$t('calendar', 'Failed to save calendar name and color'))
 			}
 

@@ -7,7 +7,7 @@ import {
 	generateOcsUrl,
 	linkTo,
 } from '@nextcloud/router'
-import logger from '../utils/logger.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Finds circles by displayname
@@ -74,7 +74,7 @@ async function circleGetMembers(circleId) {
 			},
 		})
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		return []
 	}
 	return results

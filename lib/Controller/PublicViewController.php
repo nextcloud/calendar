@@ -24,20 +24,6 @@ use OCP\IURLGenerator;
  * @package OCA\Calendar\Controller
  */
 class PublicViewController extends Controller {
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * @var IInitialStateService
-	 */
-	private $initialStateService;
-
-	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
 
 	/**
 	 * @param string $appName
@@ -46,15 +32,14 @@ class PublicViewController extends Controller {
 	 * @param IInitialStateService $initialStateService
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IConfig $config,
-		IInitialStateService $initialStateService,
-		IURLGenerator $urlGenerator) {
+		private IConfig $config,
+		private IInitialStateService $initialStateService,
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->initialStateService = $initialStateService;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**

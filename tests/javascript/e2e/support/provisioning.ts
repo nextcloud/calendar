@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { type APIRequestContext, request } from '@playwright/test'
-import { type UserAccount } from './users.ts'
+import type { APIRequestContext } from '@playwright/test'
+import type { UserAccount } from './users.ts'
+
+import { request } from '@playwright/test'
 
 const ADMIN_ACCOUNT = {
 	userId: 'admin',
@@ -39,7 +41,7 @@ export class ProvisioningFacade {
 
 	async createUser({
 		displayName = 'userDefault',
-		email = 'userDefault@example.com'
+		email = 'userDefault@example.com',
 	} = {}) {
 		const user = {
 			userId: `user-${crypto.randomUUID()}`,
@@ -48,8 +50,8 @@ export class ProvisioningFacade {
 		const userRequestData = {
 			userid: user.userId,
 			password: user.password,
-			displayName: displayName,
-			email: email
+			displayName,
+			email,
 		}
 		const api = await this.getAPI()
 

@@ -42,7 +42,7 @@
 
 <script>
 import { NcModal as Modal, NcButton } from '@nextcloud/vue'
-import ImportScreenRow from './ImportScreenRow.vue'
+import ImportScreenRow from '@/components/AppNavigation/Settings/ImportScreenRow.vue'
 
 export default {
 	name: 'ImportScreen',

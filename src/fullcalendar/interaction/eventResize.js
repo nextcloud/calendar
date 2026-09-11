@@ -1,17 +1,18 @@
+import { getDurationValueFromFullCalendarDuration } from '@/fullcalendar/duration.js'
+import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import useCalendarObjectsStore from '../../store/calendarObjects.js'
-import useCalendarsStore from '../../store/calendars.js'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
-import { getDurationValueFromFullCalendarDuration } from '../duration.js'
-import { errorCatchAsync } from '../utils/errors.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Returns a function to resize an event
  *
- * @return {Function}
+ * @return {(info: {event: EventDef, startDelta: object, endDelta: object, revert: () => void}) => Promise<void>}
  */
 export default function() {
 	const calendarsStore = useCalendarsStore()
@@ -34,14 +35,14 @@ export default function() {
 		try {
 			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
 		} catch (error) {
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
 
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
+			logger.debug('Recurrence-id not found')
 			revert()
 			return
 		}
@@ -65,7 +66,7 @@ export default function() {
 			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 		}
 	}, 'eventResize')

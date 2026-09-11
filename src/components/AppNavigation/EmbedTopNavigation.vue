@@ -16,10 +16,11 @@ import {
 } from '@nextcloud/vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
-import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
-import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
-import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
+import AppNavigationHeaderDatePicker from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
+import AppNavigationHeaderTodayButton from '@/components/AppNavigation/EmbedHeader/EmbedHeaderTodayButton.vue'
+import AppNavigationHeaderViewButtons from '@/components/AppNavigation/EmbedHeader/EmbedHeaderViewButtons.vue'
 import useCalendarsStore from '@/store/calendars.js'
+import logger from '@/utils/logger.js'
 
 withDefaults(defineProps<{
 	isWidget?: boolean
@@ -45,7 +46,7 @@ async function copySubscriptionLink(calendar: CalendarInterface): Promise<void> 
 		await navigator.clipboard.writeText(url.toString())
 		showSuccess(t('calendar', 'Calendar link copied to clipboard.'))
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		showError(t('calendar', 'Calendar link could not be copied to clipboard.'))
 	}
 }

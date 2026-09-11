@@ -13,7 +13,7 @@
 			class="invitation-response-buttons__button"
 			:disabled="loading"
 			@click="accept">
-			{{ t('calendar', 'Accept') }}
+			{{ acceptLabel }}
 		</NcButton>
 		<NcButton
 			v-if="!isDeclined"
@@ -21,7 +21,7 @@
 			class="invitation-response-buttons__button"
 			:disabled="loading"
 			@click="decline">
-			{{ t('calendar', 'Decline') }}
+			{{ declineLabel }}
 		</NcButton>
 		<template v-if="!isTentative">
 			<NcButton
@@ -29,7 +29,7 @@
 				class="invitation-response-buttons__button"
 				:disabled="loading"
 				@click="tentative">
-				{{ t('calendar', 'Tentative') }}
+				{{ tentativeLabel }}
 			</NcButton>
 			<Actions v-else>
 				<ActionButton
@@ -38,7 +38,7 @@
 					<template #icon>
 						<CalendarQuestionIcon :size="20" />
 					</template>
-					{{ t('calendar', 'Tentative') }}
+					{{ tentativeLabel }}
 				</ActionButton>
 			</Actions>
 		</template>
@@ -54,8 +54,8 @@ import {
 } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestionOutline.vue'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
-import logger from '../../utils/logger.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'InvitationResponseButtons',
@@ -69,11 +69,6 @@ export default {
 	props: {
 		attendee: {
 			type: Object,
-			required: true,
-		},
-
-		calendarId: {
-			type: String,
 			required: true,
 		},
 
@@ -109,6 +104,45 @@ export default {
 		isTentative() {
 			return this.attendee.participationStatus === 'TENTATIVE'
 		},
+
+		responseScope() {
+			const eventComponent = this.calendarObjectInstanceStore.calendarObjectInstance?.eventComponent
+			if (!eventComponent?.isPartOfRecurrenceSet()) {
+				return null
+			}
+
+			return eventComponent.isRecurrenceException() ? 'occurrence' : 'series'
+		},
+
+		acceptLabel() {
+			if (this.responseScope === 'occurrence') {
+				return this.t('calendar', 'Accept this occurrence')
+			}
+			if (this.responseScope === 'series') {
+				return this.t('calendar', 'Accept entire series')
+			}
+			return this.t('calendar', 'Accept')
+		},
+
+		declineLabel() {
+			if (this.responseScope === 'occurrence') {
+				return this.t('calendar', 'Decline this occurrence')
+			}
+			if (this.responseScope === 'series') {
+				return this.t('calendar', 'Decline entire series')
+			}
+			return this.t('calendar', 'Decline')
+		},
+
+		tentativeLabel() {
+			if (this.responseScope === 'occurrence') {
+				return this.t('calendar', 'Tentative for this occurrence')
+			}
+			if (this.responseScope === 'series') {
+				return this.t('calendar', 'Tentative for entire series')
+			}
+			return this.t('calendar', 'Tentative')
+		},
 	},
 
 	methods: {
@@ -117,7 +151,8 @@ export default {
 				await this.setParticipationStatus('ACCEPTED')
 				showSuccess(this.t('calendar', 'The invitation has been accepted successfully.'))
 				this.$emit('close')
-			} catch (e) {
+			} catch (error) {
+				logger.error('Failed to accept the invitation', { error })
 				showError(this.t('calendar', 'Failed to accept the invitation.'))
 			}
 		},
@@ -127,7 +162,8 @@ export default {
 				await this.setParticipationStatus('DECLINED')
 				showSuccess(this.t('calendar', 'The invitation has been declined successfully.'))
 				this.$emit('close')
-			} catch (e) {
+			} catch (error) {
+				logger.error('Failed to decline the invitation', { error })
 				showError(this.t('calendar', 'Failed to decline the invitation.'))
 			}
 		},
@@ -137,7 +173,8 @@ export default {
 				await this.setParticipationStatus('TENTATIVE')
 				showSuccess(this.t('calendar', 'Your participation has been marked as tentative.'))
 				this.$emit('close')
-			} catch (e) {
+			} catch (error) {
+				logger.error('Failed to set the participation status to tentative', { error })
 				showError(this.t('calendar', 'Failed to set the participation status to tentative.'))
 			}
 		},
@@ -151,15 +188,9 @@ export default {
 		async setParticipationStatus(participationStatus) {
 			this.loading = true
 			try {
-				this.calendarObjectInstanceStore.changeAttendeesParticipationStatus({
+				await this.calendarObjectInstanceStore.saveAttendeeParticipationResponse({
 					attendee: this.attendee,
 					participationStatus,
-				})
-				// TODO: What about recurring events? Add new buttons like "Accept this and all future"?
-				// Currently, this will only accept a single occurrence.
-				await this.calendarObjectInstanceStore.saveCalendarObjectInstance({
-					thisAndAllFuture: false,
-					calendarId: this.calendarId,
 				})
 			} catch (error) {
 				logger.error('Failed to set participation status', { error, participationStatus })

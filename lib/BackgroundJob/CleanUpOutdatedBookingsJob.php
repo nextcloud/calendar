@@ -15,18 +15,12 @@ use Psr\Log\LoggerInterface;
 use function method_exists;
 
 class CleanUpOutdatedBookingsJob extends TimedJob {
-	/** @var LoggerInterface */
-	private LoggerInterface $logger;
-
-	/** @var BookingService */
-	private $service;
-
-	public function __construct(ITimeFactory $time,
-		BookingService $service,
-		LoggerInterface $logger) {
+	public function __construct(
+		ITimeFactory $time,
+		private BookingService $service,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($time);
-		$this->service = $service;
-		$this->logger = $logger;
 
 		$this->setInterval(24 * 60 * 60);
 		/**

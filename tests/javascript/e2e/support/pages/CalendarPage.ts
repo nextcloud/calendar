@@ -40,7 +40,7 @@ export class CalendarPage {
 		await this.page.getByRole('button', { name: 'Create new event' }).click()
 
 		// Wait for autofocus (`v-focus`) to complete before continuing with any further actions.
-        // Focus changing suddenly in between other actions can break tests.
+		// Focus changing suddenly in between other actions can break tests.
 		await this.page.getByRole('textbox', { name: 'Title' })
 			.and(this.page.locator(':focus'))
 			.waitFor({ state: 'attached' })

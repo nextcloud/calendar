@@ -5,15 +5,6 @@
 
 <template>
 	<div class="resource-search">
-		<NcButton class="button availability" @click="openRoomAvailability">
-			{{ $t('calendar', 'Show all rooms') }}
-		</NcButton>
-
-		<RoomAvailabilityList
-			v-if="showRoomAvailabilityModal"
-			:showDialog="showRoomAvailabilityModal"
-			:calendarObjectInstance="calendarObjectInstance"
-			@update:showDialog="setShowRoomAvailabilityModal" />
 		<NcSelect
 			v-model="selectedResource"
 			class="resource-search__multiselect"
@@ -78,24 +69,21 @@ import {
 	NcActionCheckbox as ActionCheckbox,
 	NcActions as Actions,
 	NcAvatar as Avatar,
-	NcButton,
 	NcSelect,
 } from '@nextcloud/vue'
 import debounce from 'debounce'
-import { mapStores } from 'pinia'
-import RoomAvailabilityList from '../FreeBusy/RoomAvailabilityList.vue'
-import ResourceRoomType from './ResourceRoomType.vue'
-import ResourceSeatingCapacity from './ResourceSeatingCapacity.vue'
-import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
-import { checkResourceAvailability } from '../../../services/freeBusyService.js'
-import usePrincipalsStore from '../../../store/principals.js'
-import logger from '../../../utils/logger.js'
+import { mapState, mapStores } from 'pinia'
+import ResourceRoomType from '@/components/Editor/Resources/ResourceRoomType.vue'
+import ResourceSeatingCapacity from '@/components/Editor/Resources/ResourceSeatingCapacity.vue'
+import { advancedPrincipalPropertySearch } from '@/services/caldavService.js'
+import { checkResourceAvailability } from '@/services/freeBusyService.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import usePrincipalsStore from '@/store/principals.js'
+import logger from '@/utils/logger.js'
 export default {
 	name: 'ResourceListSearch',
 	components: {
-		RoomAvailabilityList,
 		Avatar,
-		NcButton,
 		NcSelect,
 		ResourceSeatingCapacity,
 		Actions,
@@ -106,11 +94,6 @@ export default {
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
-			required: true,
-		},
-
-		calendarObjectInstance: {
-			type: Object,
 			required: true,
 		},
 	},
@@ -124,11 +107,13 @@ export default {
 			matches: [],
 			capacity: NaN,
 			roomType: '',
-			isAvailable: true,
+			// Show busy resources too (annotated per result) instead of
+			// hiding them, so the search doesn't hide the exact conflict
+			// information this feature is meant to surface.
+			isAvailable: false,
 			isAccessible: false,
 			hasProjector: false,
 			hasWhiteboard: false,
-			showRoomAvailabilityModal: false,
 			selectedResource: null,
 			rooms: [],
 		}
@@ -136,6 +121,7 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		placeholder() {
 			return this.$t('calendar', 'Search for resources or rooms')
 		},
@@ -171,15 +157,12 @@ export default {
 	},
 
 	methods: {
-		openRoomAvailability() {
-			this.showRoomAvailabilityModal = true
-		},
-
-		setShowRoomAvailabilityModal(value) {
-			this.showRoomAvailabilityModal = value
-		},
 
 		findResources: debounce(async function(query) {
+			if (!this.calendarObjectInstance) {
+				// Do not continue if event editor was closed in the meantime.
+				return
+			}
 			this.isLoading = true
 			let matches = []
 
@@ -210,6 +193,10 @@ export default {
 			} catch (error) {
 				logger.debug('Could not find resources', { error })
 				return []
+			}
+			if (!this.calendarObjectInstance) {
+				// Do not continue if event editor was closed in the meantime.
+				return
 			}
 
 			// Build options
@@ -286,9 +273,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-.button.availability {
-      margin-bottom: 8px;
-}
-</style>

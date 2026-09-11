@@ -6,8 +6,8 @@
 import { loadState } from '@nextcloud/initial-state'
 import { listen } from '@nextcloud/notify_push'
 import debounce from 'debounce'
-import useCalendarsStore from '../store/calendars.js'
-import logger from '../utils/logger.js'
+import useCalendarsStore from '@/store/calendars.js'
+import logger from '@/utils/logger.js'
 
 interface PushMessageBody {
 	calendarUrl: string

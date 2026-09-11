@@ -20,6 +20,7 @@ use OCP\Util;
  * @template-implements IEventListener<Event|RenderReferenceEvent>
  */
 class CalendarReferenceListener implements IEventListener {
+
 	public function __construct(
 		private CalendarInitialStateService $calendarInitialStateService,
 	) {
@@ -33,5 +34,6 @@ class CalendarReferenceListener implements IEventListener {
 
 		$this->calendarInitialStateService->run();
 		Util::addScript(Application::APP_ID, 'calendar-reference');
+		Util::addStyle(Application::APP_ID, 'calendar-reference');
 	}
 }

@@ -40,11 +40,12 @@
 	</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { ProposalParticipantInterface } from '@/types/proposals/proposalInterfaces'
 
 // types, object and stores
 import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
 import OptionalIcon from 'vue-material-design-icons/AccountQuestionOutline'
 // icons
 import RequiredIcon from 'vue-material-design-icons/AccountStarOutline'
@@ -53,60 +54,30 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 // components
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import { ProposalParticipantAttendance, ProposalParticipantRealm } from '@/types/proposals/proposalEnums'
+import { ProposalParticipantAttendance } from '@/types/proposals/proposalEnums'
 
-export default {
-	name: 'ProposalParticipantItem',
+const props = defineProps<{
+	proposalParticipant: ProposalParticipantInterface
+}>()
 
-	components: {
-		NcAvatar,
-		NcActions,
-		NcActionButton,
-		RequiredIcon,
-		OptionalIcon,
-		DestroyIcon,
-	},
+const emit = defineEmits<{
+	participantRemove: [address: string]
+	participantAttendance: [attendance: ProposalParticipantAttendance]
+}>()
 
-	props: {
-		proposalParticipant: {
-			type: Object as () => ProposalParticipantInterface,
-			required: true,
-		},
-	},
+const participantName = computed<string>(() => props.proposalParticipant.name || props.proposalParticipant.address)
 
-	emits: ['participantRemove', 'participantAttendance'],
+const participantAttendance = computed<boolean>(() => props.proposalParticipant.attendance === ProposalParticipantAttendance.Required)
 
-	data() {
-		return {
-			ProposalParticipantAttendance,
-			ProposalParticipantRealm,
-		}
-	},
+function onParticipantRemove(): void {
+	emit('participantRemove', props.proposalParticipant.address)
+}
 
-	computed: {
-		participantName(): string {
-			return this.proposalParticipant.name || this.proposalParticipant.address
-		},
-
-		participantAttendance(): boolean {
-			return this.proposalParticipant.attendance === ProposalParticipantAttendance.Required
-		},
-	},
-
-	methods: {
-		t,
-
-		onParticipantRemove() {
-			this.$emit('participantRemove', this.proposalParticipant.address)
-		},
-
-		onParticipantAttendance() {
-			const newAttendance = this.proposalParticipant.attendance === ProposalParticipantAttendance.Required
-				? ProposalParticipantAttendance.Optional
-				: ProposalParticipantAttendance.Required
-			this.$emit('participantAttendance', newAttendance)
-		},
-	},
+function onParticipantAttendance(): void {
+	const newAttendance = props.proposalParticipant.attendance === ProposalParticipantAttendance.Required
+		? ProposalParticipantAttendance.Optional
+		: ProposalParticipantAttendance.Required
+	emit('participantAttendance', newAttendance)
 }
 </script>
 

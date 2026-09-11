@@ -25,7 +25,7 @@
 <script>
 import { getLanguage, isRTL, t } from '@nextcloud/l10n'
 import { NcTextField } from '@nextcloud/vue'
-import focus from '../../../directives/focus.js'
+import focus from '@/directives/focus.js'
 
 export default {
 	name: 'PropertyTitle',

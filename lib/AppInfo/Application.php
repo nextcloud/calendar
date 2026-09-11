@@ -87,5 +87,6 @@ class Application extends App implements IBootstrap {
 		// The contacts menu/avatar is potentially shown everywhere so an event based loading
 		// mechanism doesn't make sense here
 		Util::addScript(self::APP_ID, 'calendar-contacts-menu');
+		Util::addStyle(self::APP_ID, 'calendar-contacts-menu');
 	}
 }

@@ -4,21 +4,21 @@
  */
 import { showWarning } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import useCalendarObjectsStore from '../../store/calendarObjects.js'
-import useCalendarsStore from '../../store/calendars.js'
-import usePrincipalsStore from '../../store/principals.js'
-import { isOrganizer } from '../../utils/attendee.js'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
-import logger from '../../utils/logger.js'
-import { getDurationValueFromFullCalendarDuration } from '../duration.js'
-import { errorCatchAsync } from '../utils/errors.js'
+import { getDurationValueFromFullCalendarDuration } from '@/fullcalendar/duration.js'
+import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import { isOrganizer } from '@/utils/attendee.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Returns a function to drop an event at a different position
  *
  * @param {object} fcAPI The fullcalendar api
- * @return {Function}
+ * @return {(info: {event: EventDef, delta: object, revert: () => void}) => Promise<void>}
  */
 export default function(fcAPI) {
 	const calendarsStore = useCalendarsStore()
@@ -50,14 +50,14 @@ export default function(fcAPI) {
 		try {
 			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
 		} catch (error) {
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
 
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
+			logger.debug('Recurrence-id not found')
 			revert()
 			return
 		}
@@ -88,7 +88,7 @@ export default function(fcAPI) {
 			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
@@ -105,7 +105,7 @@ export default function(fcAPI) {
 			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 		}
 	}, 'eventDrop')

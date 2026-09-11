@@ -11,20 +11,20 @@ namespace OCA\Calendar\Controller;
 use Exception;
 use OCA\Calendar\Service\ContactsService;
 use OCA\Calendar\Service\ServiceException;
+use OCA\Circles\Api\v1\Circles;
 use OCA\Circles\Exceptions\CircleNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\QueryException;
 use OCP\Contacts\IManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
-use Psr\Log\LoggerInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Class ContactController
@@ -48,7 +48,6 @@ class ContactController extends Controller {
 		private IAppConfig $appConfig,
 		private IConfig $config,
 		private IGroupManager $groupManager,
-		private LoggerInterface $logger,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -58,10 +57,8 @@ class ContactController extends Controller {
 	 * Search for a location based on a contact's name or address
 	 *
 	 * @param string $search Name or address to search for
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function searchLocation(string $search): JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
 			return new JSONResponse();
@@ -98,10 +95,8 @@ class ContactController extends Controller {
 	 * Search for a contact based on a contact's name or email-address
 	 *
 	 * @param string $search Name or email to search for
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function searchAttendee(string $search):JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
 			return new JSONResponse();
@@ -114,7 +109,7 @@ class ContactController extends Controller {
 		$shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareeEnumerationInGroupOnly = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
-		$shareeEnumerationFullMatchUserId = $shareeEnumerationFullMatch && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+		$shareeEnumerationFullMatchUserId = $shareeEnumerationFullMatch && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 		$shareeEnumerationFullMatchEmail = $shareeEnumerationFullMatch && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 		if ($shareeGroupsOnlyRestriction) {
 			$excludedGroups = json_decode(
@@ -290,12 +285,9 @@ class ContactController extends Controller {
 	 * Query members of a circle by circleId
 	 *
 	 * @param string $circleId CircleId to query for members
-	 * @return JSONResponse
 	 * @throws Exception
-	 * @throws \OCP\AppFramework\QueryException
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function getCircleMembers(string $circleId):JSONResponse {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return new JSONResponse();
@@ -305,8 +297,8 @@ class ContactController extends Controller {
 		}
 
 		try {
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId, true);
-		} catch (QueryException $ex) {
+			$circle = Circles::detailsCircle($circleId, true);
+		} catch (ContainerExceptionInterface $ex) {
 			return new JSONResponse();
 		} catch (CircleNotFoundException $ex) {
 			return new JSONResponse();
@@ -349,10 +341,8 @@ class ContactController extends Controller {
 	 * Get a contact's photo based on their email-address
 	 *
 	 * @param string $search Exact email-address to match
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function searchPhoto(string $search):JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);

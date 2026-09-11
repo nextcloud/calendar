@@ -51,6 +51,19 @@ export default defineStore('proposal', () => {
 	}
 
 	/**
+	 * Open a proposal matching the given id in the view modal, if it exists.
+	 */
+	async function openProposal(id: number): Promise<boolean> {
+		const proposals = await listProposals()
+		const proposal = proposals.find((storedProposal) => storedProposal.id === id)
+		if (!proposal) {
+			return false
+		}
+		showModal('view', proposal)
+		return true
+	}
+
+	/**
 	 * Retrieve all proposals accessible to the current user.
 	 */
 	async function listProposals(): Promise<Proposal[]> {
@@ -137,6 +150,7 @@ export default defineStore('proposal', () => {
 		hideModal,
 		listProposals,
 		fetchProposalByToken,
+		openProposal,
 		storeProposal,
 		destroyProposal,
 		convertProposal,

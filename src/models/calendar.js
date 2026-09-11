@@ -1,10 +1,10 @@
+import { mapDavShareeToCalendarShareObject } from '@/models/calendarShare.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { detectColor, uidToHexColor } from '../utils/color.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
-import { mapDavShareeToCalendarShareObject } from './calendarShare.js'
+import { detectColor, uidToHexColor } from '@/utils/color.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 /**
  * Creates a complete calendar-object based on given props
@@ -72,6 +72,8 @@ function getDefaultCalendarObject(props = {}) {
 		defaultAlarmPartDay: null,
 		// Default alarm/reminder for full-day events in seconds (null if disabled)
 		defaultAlarmFullDay: null,
+		// Whether alarm notifications/reminders are disabled for this calendar
+		disableAlarmNotifications: false,
 		...props,
 	}
 }
@@ -117,15 +119,11 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	const defaultAlarmPartDay = isAfterVersion(34) && calendar.defaultAlarmPartDay !== undefined ? calendar.defaultAlarmPartDay : null
 	// Default alarm for full-day events in this calendar (in seconds)
 	const defaultAlarmFullDay = isAfterVersion(34) && calendar.defaultAlarmFullDay !== undefined ? calendar.defaultAlarmFullDay : null
+	const disableAlarmNotifications = isAfterVersion(36) && calendar.disableAlarmNotifications !== undefined ? Boolean(calendar.disableAlarmNotifications) : false
 
-	let isSharedWithMe = false
-	if (!currentUserPrincipal) {
-		// If the user is not authenticated, the calendar
-		// will always be marked as shared with them
-		isSharedWithMe = true
-	} else {
-		isSharedWithMe = (owner !== currentUserPrincipal.url)
-	}
+	// If the user is not authenticated, the calendar
+	// will always be marked as shared with them
+	const isSharedWithMe = !currentUserPrincipal || (owner !== currentUserPrincipal.url)
 
 	let enabled
 	if (!currentUserPrincipal) {
@@ -177,6 +175,7 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		transparency,
 		defaultAlarmPartDay,
 		defaultAlarmFullDay,
+		disableAlarmNotifications,
 		dav: calendar,
 	})
 }

@@ -31,6 +31,8 @@ use OCA\Calendar\Objects\Proposal\ProposalResponseDateCollection;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
 use OCA\Calendar\Objects\Proposal\ProposalVoteObject;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
@@ -40,6 +42,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Mail\Provider\IManager as IMailManager;
+use OCP\Notification\IManager as INotificationManager;
+use OCP\Notification\INotification;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -58,6 +62,7 @@ class ProposalServiceTest extends TestCase {
 	protected IMailer|MockObject $systemMailManager;
 	protected IMailManager|MockObject $userMailManager;
 	protected IManager|MockObject $calendarManager;
+	protected INotificationManager|MockObject $notificationManager;
 	protected ProposalService $service;
 	protected IUser|MockObject $user;
 
@@ -77,6 +82,7 @@ class ProposalServiceTest extends TestCase {
 		$this->systemMailManager = $this->createMock(IMailer::class);
 		$this->userMailManager = $this->createMock(IMailManager::class);
 		$this->calendarManager = $this->createMock(Manager::class);
+		$this->notificationManager = $this->createMock(INotificationManager::class);
 		$this->user = $this->createMock(IUser::class);
 
 		$this->user->method('getUID')->willReturn('testuser');
@@ -96,7 +102,8 @@ class ProposalServiceTest extends TestCase {
 			$this->userManager,
 			$this->systemMailManager,
 			$this->userMailManager,
-			$this->calendarManager
+			$this->calendarManager,
+			$this->notificationManager
 		);
 	}
 
@@ -286,7 +293,7 @@ class ProposalServiceTest extends TestCase {
 			->willReturn([]);
 
 		// Mock calendar manager for syncCalendarBlockers
-		$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+		$calendar = $this->createMock(ICreateFromString::class);
 		$calendar->expects($this->any())->method('isDeleted')->willReturn(false);
 		$calendar->expects($this->any())->method('getUri')->willReturn('test-calendar-uri');
 		$calendar->expects($this->any())->method('search')->willReturn([]);
@@ -338,7 +345,7 @@ class ProposalServiceTest extends TestCase {
 			->method('update');
 
 		// Mock calendar manager for syncCalendarBlockers
-		$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+		$calendar = $this->createMock(ICreateFromString::class);
 		$calendar->expects($this->any())->method('isDeleted')->willReturn(false);
 		$calendar->expects($this->any())->method('getUri')->willReturn('test-calendar-uri');
 		$calendar->expects($this->any())->method('search')->willReturn([]);
@@ -414,7 +421,7 @@ class ProposalServiceTest extends TestCase {
 			->with('testuser', 1);
 
 		// Mock calendar manager for syncCalendarBlockers
-		$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+		$calendar = $this->createMock(ICreateFromString::class);
 		$calendar->expects($this->any())->method('isDeleted')->willReturn(false);
 		$calendar->expects($this->any())->method('getUri')->willReturn('test-calendar-uri');
 		$calendar->expects($this->any())->method('search')->willReturn([]);
@@ -483,6 +490,53 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalParticipantMapper->expects($this->once())
 			->method('update')
 			->with($participantEntry);
+
+		$notification = $this->createMock(INotification::class);
+		$notification->method('setApp')->willReturn($notification);
+		$notification->method('setUser')->willReturn($notification);
+		$notification->method('setDateTime')->willReturn($notification);
+		$notification->method('setObject')->willReturn($notification);
+		$notification->method('setSubject')->willReturn($notification);
+		$this->notificationManager->method('createNotification')->willReturn($notification);
+		$this->notificationManager->expects($this->once())
+			->method('notify')
+			->with($notification);
+
+		$this->service->storeResponse($response);
+	}
+
+	public function testStoreResponseSuccessResponseNotifyDisabled(): void {
+		$response = $this->createProposalResponse('token123');
+		$participantEntry = $this->createParticipantEntry(1, 1, 'test@example.com', 'token123');
+		$proposalEntry = $this->createProposalEntry(1, 'Test Proposal', false);
+
+		$this->proposalParticipantMapper->expects($this->once())
+			->method('fetchByToken')
+			->with('token123')
+			->willReturn($participantEntry);
+
+		$this->proposalMapper->expects($this->once())
+			->method('fetchById')
+			->with('testuser', 1)
+			->willReturn($proposalEntry);
+
+		$this->proposalDateMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([]);
+
+		$this->proposalVoteMapper->expects($this->once())
+			->method('deleteByParticipantId')
+			->with('testuser', 1);
+
+		$this->proposalParticipantMapper->expects($this->once())
+			->method('update')
+			->with($participantEntry);
+
+		$this->notificationManager->expects($this->never())
+			->method('createNotification');
+		$this->notificationManager->expects($this->never())
+			->method('notify');
 
 		$this->service->storeResponse($response);
 	}
@@ -555,9 +609,9 @@ class ProposalServiceTest extends TestCase {
 			->with('testuser', 1)
 			->willReturn([$voteEntry]);
 		// calendar manager
-		$calendar = $this->createMock(\OCP\Calendar\ICalendar::class);
-		if (interface_exists(\OCP\Calendar\ICreateFromString::class)) {
-			$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+		$calendar = $this->createMock(ICalendar::class);
+		if (interface_exists(ICreateFromString::class)) {
+			$calendar = $this->createMock(ICreateFromString::class);
 			$calendar->method('isDeleted')->willReturn(false);
 			$calendar->expects($this->once())
 				->method('createFromString')
@@ -631,7 +685,7 @@ class ProposalServiceTest extends TestCase {
 		$proposalEntry = $this->createProposalEntry(1, 'Convert Proposal');
 		$proposalEntry->setDuration(30);
 		// date entry
-		$dateEntry = new \OCA\Calendar\Db\ProposalDateEntry();
+		$dateEntry = new ProposalDateEntry();
 		$dateEntry->setId(10);
 		$dateEntry->setPid(1);
 		$dateEntry->setUid('testuser');
@@ -709,11 +763,12 @@ class ProposalServiceTest extends TestCase {
 		$this->assertSame('NEEDS-ACTION', $this->service->convertProposalAttendeeAttendance($dateObj, $participantObj, $votes));
 	}
 
-	private function createProposalEntry(int $id, string $title): ProposalDetailsEntry {
+	private function createProposalEntry(int $id, string $title, bool $responseNotify = true): ProposalDetailsEntry {
 		$entry = new ProposalDetailsEntry();
 		$entry->setId($id);
 		$entry->setTitle($title);
 		$entry->setUid('testuser');
+		$entry->setResponseNotify($responseNotify);
 		return $entry;
 	}
 

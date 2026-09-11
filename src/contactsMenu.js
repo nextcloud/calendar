@@ -10,7 +10,7 @@ import { linkTo } from '@nextcloud/router'
 import { registerContactsMenuAction } from '@nextcloud/vue/functions/contactsMenu'
 
 import 'core-js/stable/index.js'
-import '../css/calendar.scss'
+import '@/styles/calendar.scss'
 
 // CSP config for webpack dynamic chunk loading
 
@@ -33,7 +33,7 @@ registerContactsMenuAction({
 	enabled: (entry) => entry.isUser,
 	callback: async (args) => {
 		const { createApp } = await import('vue')
-		const { default: ContactsMenuAvailability } = await import('./views/ContactsMenuAvailability.vue')
+		const { default: ContactsMenuAvailability } = await import('@/views/ContactsMenuAvailability.vue')
 		const { createPinia } = await import('pinia')
 		const { translatePlural } = await import('@nextcloud/l10n')
 

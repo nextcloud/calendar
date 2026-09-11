@@ -5,8 +5,8 @@
 
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
-import AppointmentConfig from '../models/appointmentConfig.js'
-import logger from '../utils/logger.js'
+import AppointmentConfig from '@/models/appointmentConfig.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Create a new appointment config in the backend

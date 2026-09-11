@@ -4,6 +4,7 @@
  */
 
 import { recommended } from '@nextcloud/eslint-config'
+import eslintPluginPath from 'eslint-plugin-path'
 import pluginVue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
 import vitest from '@vitest/eslint-plugin'
@@ -20,13 +21,15 @@ export default [
 		},
 		rules: {
 			// Relax some rules for now. Can be improved later on (baseline).
-			'no-console': 'warn',
-			'@typescript-eslint/no-unused-vars': 'warn',
 			'vue/multi-word-component-names': 'warn',
+			// Force to use the caught errors e.g. log, rethrow or comment about explicit exceptions.
+			'no-restricted-syntax': ['error', {
+				selector: 'CatchClause[param=null]',
+				message: 'Bind the caught error: use `catch (error)`.',
+			}],
 			'preserve-caught-error': 'warn',
 			'@nextcloud/no-deprecated-library-props': 'warn',
 			'vue/custom-event-name-casing': 'warn',
-			'no-useless-assignment': 'warn',
 			// JSDocs are welcome but lint:fix should not create empty ones
 			'jsdoc/require-jsdoc': ['warn', { enableFixer: false }],
 			'jsdoc/require-param': ['warn', { enableFixer: false }],
@@ -46,6 +49,15 @@ export default [
 			globals: {
 				...vitest.environments.env.globals,
 			},
+		},
+	},
+	{
+		files: ['**/*.js', '**/*.vue', '**/*.ts'],
+		plugins: {
+			path: eslintPluginPath,
+		},
+		rules: {
+			'path/only-absolute-imports': 'error',
 		},
 	},
 ]

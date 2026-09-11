@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,8 +12,9 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class NotifierTest extends \PHPUnit\Framework\TestCase {
+class NotifierTest extends TestCase {
 	/** @var Notifier */
 	protected $notifier;
 	/** @var IFactory|MockObject */
@@ -166,6 +168,79 @@ class NotifierTest extends \PHPUnit\Framework\TestCase {
 			->with('{display_name} ({email}) booked the appointment "{config_display_name}" on {date_time}.', $messageRichData);
 
 		$return = $this->notifier->prepare($notification, 'de');
+		$this->assertEquals($notification, $return);
+	}
+
+	public function testPrepareProposalResponse(): void {
+		/** @var INotification|MockObject $notification */
+		$notification = $this->createMock(INotification::class);
+
+		$parameters = [
+			'id' => 123,
+			'name' => 'Team Sync',
+			'participantId' => 456,
+			'participantName' => 'Alice',
+		];
+
+		$richParams = [
+			'proposal' => [
+				'type' => 'highlight',
+				'id' => '123',
+				'name' => 'Team Sync',
+				'link' => 'link/to/calendar',
+			],
+			'participant' => [
+				'type' => 'highlight',
+				'id' => '456',
+				'name' => 'Alice',
+			],
+		];
+
+		$this->url->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('calendar.view.view', ['id' => 123])
+			->willReturn('link/to/calendar');
+		$this->url->expects($this->once())
+			->method('imagePath')
+			->with('calendar', 'calendar.png')
+			->willReturn('img/calendar/calendar.png');
+		$this->url->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('img/calendar/calendar.png')
+			->willReturn('https://cloud.example.com/img/calendar/calendar.png');
+
+		$notification->expects($this->once())
+			->method('getApp')
+			->willReturn('calendar');
+		$notification->expects($this->once())
+			->method('getSubject')
+			->willReturn('proposal_response');
+		$notification->expects($this->once())
+			->method('getSubjectParameters')
+			->willReturn($parameters);
+		$this->factory->expects($this->once())
+			->method('get')
+			->with('calendar', 'fr')
+			->willReturn($this->l);
+
+		$notification->expects($this->once())
+			->method('setIcon')
+			->with('https://cloud.example.com/img/calendar/calendar.png')
+			->willReturnSelf();
+		$notification->expects($this->once())
+			->method('setParsedSubject')
+			->with('Alice responded to your meeting proposal "Team Sync"')
+			->willReturnSelf();
+		$notification->expects($this->once())
+			->method('setRichSubject')
+			->with('{participant} responded to your meeting proposal {proposal}', $richParams)
+			->willReturnSelf();
+		$notification->expects($this->once())
+			->method('setLink')
+			->with('link/to/calendar')
+			->willReturnSelf();
+
+		$return = $this->notifier->prepare($notification, 'fr');
 		$this->assertEquals($notification, $return);
 	}
 }

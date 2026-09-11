@@ -21,8 +21,8 @@ import { NcFormBoxButton } from '@nextcloud/vue'
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
 import IconFolderOpen from 'vue-material-design-icons/FolderOpenOutline.vue'
-import useSettingsStore from '../../../store/settings.js'
-import logger from '../../../utils/logger.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'SettingsAttachmentsFolder',
@@ -74,7 +74,7 @@ export default {
 					showSuccess(this.$t('calendar', 'Attachments folder successfully saved.'))
 				})
 				.catch((error) => {
-					console.error(error)
+					logger.error(error)
 					showError(this.$t('calendar', 'Error on saving attachments folder.'))
 				})
 		},

@@ -66,8 +66,9 @@ import {
 	NcCheckboxRadioSwitch,
 } from '@nextcloud/vue'
 import { useId } from 'vue'
-import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
-import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
+import RepeatFirstLastSelect from '@/components/Editor/Repeat/RepeatFirstLastSelect.vue'
+import RepeatOnTheSelect from '@/components/Editor/Repeat/RepeatOnTheSelect.vue'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'RepeatFreqYearlyOptions',
@@ -113,7 +114,7 @@ export default {
 		 */
 		byMonthOptions() {
 			const monthNamesShort = getMonthNamesShort()
-			console.debug(this.byMonth)
+			logger.debug('byMonthOptions', { byMonth: this.byMonth })
 			return monthNamesShort.map((monthName, index) => ({
 				label: monthName,
 				value: index + 1,

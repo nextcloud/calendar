@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { type Locator, type Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 
 /**
  * Encapsulate interactions with the free-busy dialog.
@@ -18,7 +18,7 @@ export class FreeBusyDialog {
 	async addAttende(name: string) {
 		const attendeesInput = this.locator.getByRole('combobox', { name: 'Search for attendees' })
 		await attendeesInput.fill(name)
-		await this.page.getByRole('option', { name: name }).click()
+		await this.page.getByRole('option', { name }).click()
 	}
 
 	async removeUser(name: string) {

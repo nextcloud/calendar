@@ -33,6 +33,7 @@ import { generateRemoteUrl } from '@nextcloud/router'
 import { NcActionButton, NcActions } from '@nextcloud/vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'InternalLink',
@@ -63,7 +64,7 @@ export default {
 				await navigator.clipboard.writeText(url)
 				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
 			}
 		},

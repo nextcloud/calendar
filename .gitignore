@@ -85,6 +85,9 @@ node_modules/
 src/fonts
 *.clover
 
+# CSS extracted from the JS build (CssExtractRspackPlugin)
+css/
+
 # just sane ignores
 .*.sw[po]
 *.bak
@@ -105,9 +108,6 @@ RCS/*
 .phpunit.result.cache
 
 coverage/
-
-js/public
-css/public
 
 /playwright-report
 /test-results

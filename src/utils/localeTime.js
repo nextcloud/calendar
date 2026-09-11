@@ -4,11 +4,13 @@
  */
 
 import { getCanonicalLocale } from '@nextcloud/l10n'
+import logger from '@/utils/logger.js'
 
 const locale = [getCanonicalLocale(), undefined].find((locale) => {
 	try {
 		(new Date()).toLocaleString(locale)
-	} catch {
+	} catch (error) {
+		logger.error('Failed to format date with canonical locale', { error })
 		return false
 	}
 
@@ -18,8 +20,8 @@ const locale = [getCanonicalLocale(), undefined].find((locale) => {
 /**
  * Format a time stamp as local time
  *
- * @param timeStamp {Number} unix times stamp in seconds
- * @param timeZoneId {string} IANA time zone identifier
+ * @param {number} timeStamp unix times stamp in seconds
+ * @param {string} timeZoneId IANA time zone identifier
  * @return {string} the formatted time
  */
 export function timeStampToLocaleTime(timeStamp, timeZoneId) {
@@ -33,8 +35,8 @@ export function timeStampToLocaleTime(timeStamp, timeZoneId) {
 /**
  * Format a time stamp as local date
  *
- * @param timeStamp {Number} unix times stamp in seconds
- * @param timeZoneId {string} IANA time zone identifier
+ * @param {number} timeStamp unix times stamp in seconds
+ * @param {string} timeZoneId IANA time zone identifier
  * @return {string} the formatted date
  */
 export function timeStampToLocaleDate(timeStamp, timeZoneId) {

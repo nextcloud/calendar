@@ -4,11 +4,12 @@
  */
 
 import { t } from '@nextcloud/l10n'
+import logger from '@/utils/logger.js'
 
 /**
  * Parse PROPFIND error when uploading a file and return a readable message.
  *
- * @param exception the error object
+ * @param {Error} exception the error object
  */
 async function parseUploadError(exception) {
 	try {
@@ -19,7 +20,7 @@ async function parseUploadError(exception) {
 
 		return messageElement?.textContent
 	} catch (parseError) {
-		console.error(t('calendar', 'Error while parsing a PROPFIND error'), parseError)
+		logger.error(t('calendar', 'Error while parsing a PROPFIND error'), { parseError })
 	}
 }
 

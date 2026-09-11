@@ -107,46 +107,47 @@ import {
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import PlaylistCheckIcon from 'vue-material-design-icons/PlaylistCheck.vue'
-import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
-import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
-import CalendarList from '../components/AppNavigation/CalendarList.vue'
-import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
-import EditCalendarModal from '../components/AppNavigation/EditCalendarModal.vue'
-import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
-import ProposalList from '../components/AppNavigation/Proposal/ProposalList.vue'
-import Settings from '../components/AppNavigation/Settings.vue'
-import UnscheduledTasksList from '../components/AppNavigation/UnscheduledTasksList.vue'
-import CalendarGrid from '../components/CalendarGrid.vue'
-import EmptyCalendar from '../components/EmptyCalendar.vue'
-import EditSimple from './EditSimple.vue'
-import ProposalEditor from './Proposal/ProposalEditor.vue'
-import eventClick from '../fullcalendar/interaction/eventClick.js'
-import { mapDavCollectionToCalendar } from '../models/calendar.js'
+import AppNavigationHeader from '@/components/AppNavigation/AppNavigationHeader.vue'
+import AppointmentConfigList from '@/components/AppNavigation/AppointmentConfigList.vue'
+import CalendarList from '@/components/AppNavigation/CalendarList.vue'
+import Trashbin from '@/components/AppNavigation/CalendarList/Trashbin.vue'
+import EditCalendarModal from '@/components/AppNavigation/EditCalendarModal.vue'
+import EmbedTopNavigation from '@/components/AppNavigation/EmbedTopNavigation.vue'
+import ProposalList from '@/components/AppNavigation/Proposal/ProposalList.vue'
+import Settings from '@/components/AppNavigation/Settings.vue'
+import UnscheduledTasksList from '@/components/AppNavigation/UnscheduledTasksList.vue'
+import CalendarGrid from '@/components/CalendarGrid.vue'
+import EmptyCalendar from '@/components/EmptyCalendar.vue'
+import EditSimple from '@/views/EditSimple.vue'
+import ProposalEditor from '@/views/Proposal/ProposalEditor.vue'
+import eventClick from '@/fullcalendar/interaction/eventClick.js'
+import { mapDavCollectionToCalendar } from '@/models/calendar.js'
 // Import CalDAV related methods
 import {
 	findAllCalendars,
 	initializeClientForPublicView,
 	initializeClientForUserView,
-} from '../services/caldavService.js'
-import { isNotifyPushAvailable, registerNotifyPushSyncListener } from '../services/notifyService.ts'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import useCalendarObjectsStore from '../store/calendarObjects.js'
-import useCalendarsStore from '../store/calendars.js'
-import useDelegationStore from '../store/delegation.ts'
-import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
-import usePrincipalsStore from '../store/principals.js'
-import useSettingsStore from '../store/settings.js'
-import useWidgetStore from '../store/widget.js'
+} from '@/services/caldavService.js'
+import { isNotifyPushAvailable, registerNotifyPushSyncListener } from '@/services/notifyService.ts'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useDelegationStore from '@/store/delegation.ts'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
 // Import others
-import { uidToHexColor } from '../utils/color.js'
+import { uidToHexColor } from '@/utils/color.js'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam,
-} from '../utils/date.js'
-import logger from '../utils/logger.js'
-import loadMomentLocalization from '../utils/moment.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
+} from '@/utils/date.js'
+import logger from '@/utils/logger.js'
+import loadMomentLocalization from '@/utils/moment.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
+import { getViewMode, ViewMode } from '@/utils/router.js'
 
 import '@nextcloud/dialogs/style.css'
 
@@ -237,35 +238,36 @@ export default {
 			return getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now')
 		},
 
+		// The mode this calendar is currently rendered in. This is the single
+		// source of truth for public/embedded/widget state
+		viewMode() {
+			if (this.isWidget) {
+				return this.isPublic ? ViewMode.PUBLIC : ViewMode.WIDGET
+			}
+			return getViewMode(this.$route?.name)
+		},
+
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
-			return !this.isPublicShare
-				&& !this.isEmbedded
-				&& !this.isWidget
+			return this.isAuthenticatedUser
 				&& this.$route?.name !== 'EditPopoverView'
 				&& this.$route?.name !== 'EditFullView'
 		},
 
 		isSelectable() {
-			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
+			return this.isAuthenticatedUser
 		},
 
 		isAuthenticatedUser() {
-			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
+			return this.viewMode === ViewMode.USER
 		},
 
 		isPublicShare() {
-			if (this.isWidget) {
-				return false
-			}
-			return this.$route.name.startsWith('Public')
+			return this.viewMode === ViewMode.PUBLIC
 		},
 
 		isEmbedded() {
-			if (this.isWidget) {
-				return false
-			}
-			return this.$route.name.startsWith('Embed')
+			return this.viewMode === ViewMode.EMBEDDED
 		},
 
 		showWidgetEventDetails() {
@@ -348,7 +350,7 @@ export default {
 		})
 		this.settingsStore.initializeCalendarJsConfig()
 
-		if (this.$route?.name.startsWith('Public') || this.$route?.name.startsWith('Embed') || this.isPublic) {
+		if (this.viewMode === ViewMode.PUBLIC || this.viewMode === ViewMode.EMBEDDED) {
 			await initializeClientForPublicView()
 			const tokens = this.isWidget ? [this.referenceToken] : this.$route.params.tokens.split('-')
 			const calendars = await this.calendarsStore.getPublicCalendars({ tokens })

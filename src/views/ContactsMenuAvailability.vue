@@ -20,16 +20,16 @@
 <script>
 import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { mapStores } from 'pinia'
-import FreeBusy from '../components/Editor/FreeBusy/FreeBusy.vue'
+import FreeBusy from '@/components/Editor/FreeBusy/FreeBusy.vue'
 import {
 	mapAttendeePropertyToAttendeeObject,
 	mapPrincipalObjectToAttendeeObject,
-} from '../models/attendee.js'
-import { initializeClientForUserView } from '../services/caldavService.js'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import usePrincipalsStore from '../store/principals.js'
-import useSettingsStore from '../store/settings.js'
-import loadMomentLocalization from '../utils/moment.js'
+} from '@/models/attendee.js'
+import { initializeClientForUserView } from '@/services/caldavService.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import loadMomentLocalization from '@/utils/moment.js'
 
 export default {
 	name: 'ContactsMenuAvailability',

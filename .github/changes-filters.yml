@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+backend:
+  - '.github/workflows/**'
+  - 'appinfo/**'
+  - 'lib/**'
+  - 'templates/**'
+  - 'tests/php/**'
+  - 'vendor/**'
+  - 'vendor-bin/**'
+  - 'composer/**'
+  - 'composer.json'
+  - 'composer.lock'
+  - 'phpunit.integration.xml'
+  - 'phpunit.unit'
+  - '.php-cs-fixer.dist.php'
+  - 'psalm.xml'

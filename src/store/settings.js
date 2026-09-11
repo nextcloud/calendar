@@ -1,20 +1,20 @@
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { defineStore } from 'pinia'
-import { mapDavCollectionToCalendar } from '../models/calendar.js'
-import * as AttachmentService from '../services/attachmentService.js'
+import { mapDavCollectionToCalendar } from '@/models/calendar.js'
+import * as AttachmentService from '@/services/attachmentService.js'
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { enableBirthdayCalendar } from '../services/caldavService.js'
-import { setConfig } from '../services/settings.js'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import { logInfo } from '../utils/logger.js'
-import useCalendarObjectsStore from './calendarObjects.js'
-import useCalendarsStore from './calendars.js'
-import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
-import usePrincipalsStore from './principals.js'
-import useTasksStore from './unscheduledTasks.js'
+import { enableBirthdayCalendar } from '@/services/caldavService.js'
+import { setConfig } from '@/services/settings.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useTasksStore from '@/store/unscheduledTasks.js'
+import { logInfo } from '@/utils/logger.js'
 
 export default defineStore('settings', {
 	state: () => {
@@ -339,14 +339,14 @@ export default defineStore('settings', {
 		 * @param {boolean} data.talkEnabled Whether or not the talk app is enabled
 		 * @param {boolean} data.tasksEnabled Whether ot not the tasks app is enabled
 		 * @param {string} data.timezone The timezone to view the calendar in. Either an Olsen timezone or "automatic"
-		 * @param {boolean} data.hideEventExport
-		 * @param {string} data.forceEventAlarmType
+		 * @param {boolean} data.hideEventExport Whether or not to hide the event export option
+		 * @param {string} data.forceEventAlarmType Forces newly created alarms to be of this type
 		 * @param {boolean} data.disableAppointments Allow to disable the appointments feature
 		 * @param {boolean} data.tasksSidebar Enable the tasks sidebar for unscheduled tasks
-		 * @param {boolean} data.canSubscribeLink
+		 * @param {boolean} data.canSubscribeLink Whether or not the user can subscribe to calendars via link
 		 * @param {string} data.attachmentsFolder Default user's attachments folder
 		 * @param {boolean} data.showResources Show or hide the resources tab
-		 * @param {string} data.publicCalendars
+		 * @param {string} data.publicCalendars The list of public calendars configured by the administrator
 		 */
 		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
 			logInfo(`

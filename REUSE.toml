@@ -48,7 +48,7 @@ SPDX-FileCopyrightText = "2021 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["src/resources/holiday_calendars.json", "vendor-bin/cs-fixer/composer.json", "vendor-bin/cs-fixer/composer.lock", "vendor-bin/phpunit/composer.json", "vendor-bin/phpunit/composer.lock", "vendor-bin/psalm/composer.json", "vendor-bin/psalm/composer.lock"]
+path = ["src/resources/holiday_calendars.json", "vendor-bin/cs-fixer/composer.json", "vendor-bin/cs-fixer/composer.lock", "vendor-bin/phpunit/composer.json", "vendor-bin/phpunit/composer.lock", "vendor-bin/psalm/composer.json", "vendor-bin/psalm/composer.lock", "vendor-bin/rector/composer.json", "vendor-bin/rector/composer.lock"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

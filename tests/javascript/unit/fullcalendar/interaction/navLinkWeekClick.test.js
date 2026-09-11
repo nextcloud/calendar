@@ -2,12 +2,11 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import navLinkWeekClick from '../../../../../src/fullcalendar/interaction/navLinkWeekClick.js'
-import { getYYYYMMDDFromDate } from '../../../../../src/utils/date.js'
-vi.mock('../../../../../src/utils/date.js')
+import navLinkWeekClick from '@/fullcalendar/interaction/navLinkWeekClick.js'
+import { getYYYYMMDDFromDate } from '@/utils/date.js'
+vi.mock('@/utils/date.js')
 
 describe('fullcalendar/eventClick test suite', () => {
-
 	beforeEach(() => {
 		getYYYYMMDDFromDate.mockClear()
 	})
@@ -43,7 +42,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				otherParam: '456',
 				view: 'timeGridWeek',
 				firstDay: 'first-day-param-of-date',
-			}
+			},
 		})
 	})
 
@@ -78,7 +77,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				otherParam: '456',
 				view: 'timeGridWeek',
 				firstDay: 'first-day-param-of-date',
-			}
+			},
 		})
 	})
 
@@ -113,7 +112,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				otherParam: '456',
 				view: 'timeGridWeek',
 				firstDay: 'first-day-param-of-date',
-			}
+			},
 		})
 	})
 

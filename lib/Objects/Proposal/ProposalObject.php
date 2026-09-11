@@ -21,6 +21,7 @@ class ProposalObject {
 	private ?string $description = null;
 	private ?string $location = null;
 	private ?int $duration = null;
+	private bool $responseNotify = true;
 	private ProposalParticipantCollection $participants;
 	private ProposalDateCollection $dates;
 	private ProposalVoteCollection $votes;
@@ -42,6 +43,7 @@ class ProposalObject {
 			'description' => $this->description,
 			'location' => $this->location,
 			'duration' => $this->duration,
+			'responseNotify' => $this->responseNotify,
 			'participants' => $this->participants->toJson($context),
 			'dates' => $this->dates->toJson(),
 			'votes' => $this->votes->toJson(),
@@ -70,6 +72,9 @@ class ProposalObject {
 		if (isset($data['duration']) && !is_int($data['duration'])) {
 			throw new \InvalidArgumentException('Duration must be an integer');
 		}
+		if (isset($data['responseNotify']) && !is_bool($data['responseNotify'])) {
+			throw new \InvalidArgumentException('ResponseNotify must be a boolean');
+		}
 		// assign values
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
@@ -95,6 +100,7 @@ class ProposalObject {
 		$entry->setDescription($this->description);
 		$entry->setLocation($this->location);
 		$entry->setDuration($this->duration);
+		$entry->setResponseNotify($this->responseNotify);
 		return $entry;
 	}
 
@@ -106,6 +112,7 @@ class ProposalObject {
 		$this->description = $entry->getDescription();
 		$this->location = $entry->getLocation();
 		$this->duration = $entry->getDuration();
+		$this->responseNotify = $entry->getResponseNotify();
 	}
 
 	public function getId(): ?int {
@@ -170,6 +177,14 @@ class ProposalObject {
 
 	public function setDuration(?int $value): void {
 		$this->duration = $value;
+	}
+
+	public function getResponseNotify(): bool {
+		return $this->responseNotify;
+	}
+
+	public function setResponseNotify(bool $value): void {
+		$this->responseNotify = $value;
 	}
 
 	public function getParticipants(): ProposalParticipantCollection {

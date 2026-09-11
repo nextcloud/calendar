@@ -4,27 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a77e29f1fa7de4637d8c89ec1afa30d0",
+    "content-hash": "958e913b3c6a8abc0c796c57b7831c31",
     "packages": [],
     "packages-dev": [
         {
             "name": "christophwurst/nextcloud_testing",
-            "version": "v2.0.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_testing.git",
-                "reference": "7087e2bb880c0ff34ba3b894b734627916daa4b3"
+                "reference": "e944a27c4d4129df7d3aaf79f855d13ed001266b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_testing/zipball/7087e2bb880c0ff34ba3b894b734627916daa4b3",
-                "reference": "7087e2bb880c0ff34ba3b894b734627916daa4b3",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_testing/zipball/e944a27c4d4129df7d3aaf79f855d13ed001266b",
+                "reference": "e944a27c4d4129df7d3aaf79f855d13ed001266b",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0",
                 "php-webdriver/webdriver": "^1.9",
-                "phpunit/phpunit": "^9.0|^10.0|^11.0"
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -45,9 +45,9 @@
             "description": "Simple and fast unit and integration testing framework for Nextcloud, based on PHPUnit",
             "support": {
                 "issues": "https://github.com/ChristophWurst/nextcloud_testing/issues",
-                "source": "https://github.com/ChristophWurst/nextcloud_testing/tree/v2.0.0"
+                "source": "https://github.com/ChristophWurst/nextcloud_testing/tree/v3.0.0"
             },
-            "time": "2026-03-19T12:31:27+00:00"
+            "time": "2026-07-23T11:18:38+00:00"
         },
         {
             "name": "myclabs/deep-copy",

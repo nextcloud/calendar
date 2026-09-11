@@ -3,6 +3,142 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type {
+	AppointmentSavePayload,
+	AppointmentSlot as AppointmentSlotData,
+	AppointmentUserInfo,
+	AppointmentVisitorInfo,
+	PublicAppointmentConfig,
+} from '@/types/appointments.ts'
+
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import {
+	NcAvatar as Avatar,
+	NcDateTimePicker as DateTimePicker,
+	NcEmptyContent,
+	NcGuestContent,
+	NcLoadingIcon,
+	NcTimezonePicker as TimezonePicker,
+} from '@nextcloud/vue'
+import { onMounted, ref, watch } from 'vue'
+import AppointmentBookingConfirmation from '@/components/Appointments/AppointmentBookingConfirmation.vue'
+import AppointmentDetails from '@/components/Appointments/AppointmentDetails.vue'
+import AppointmentSlot from '@/components/Appointments/AppointmentSlot.vue'
+import { bookSlot, findSlots } from '@/services/appointmentService.js'
+import logger from '@/utils/logger.js'
+
+import '@nextcloud/dialogs/style.css'
+
+const props = defineProps<{
+	config: PublicAppointmentConfig
+	userInfo: AppointmentUserInfo
+	visitorInfo: AppointmentVisitorInfo
+}>()
+
+// Try to determine the current timezone, and fall back to UTC otherwise
+const defaultTimeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+
+// Build the real first possible date and time
+const now = new Date()
+const selectedDate = ref(new Date(Math.max(
+	props.config.start ? props.config.start * 1000 : now.getTime(),
+	now.getTime(),
+)))
+if (props.config.timeBeforeNextSlot) {
+	selectedDate.value.setSeconds(selectedDate.value.getSeconds() + props.config.timeBeforeNextSlot)
+}
+
+const minimumDate = new Date(selectedDate.value.getTime())
+// Make it one sec before midnight so it shows the next full day as available
+minimumDate.setHours(0, 0, 0)
+minimumDate.setSeconds(minimumDate.getSeconds() - 1)
+
+const loadingSlots = ref(false)
+const timeZone = ref(defaultTimeZoneId)
+const slots = ref<AppointmentSlotData[]>([])
+const selectedSlot = ref<AppointmentSlotData>()
+const bookingConfirmed = ref(false)
+const bookingError = ref(false)
+const bookingLoading = ref(false)
+const bookingRateLimit = ref(false)
+
+watch(selectedDate, () => {
+	fetchSlots()
+})
+
+watch(timeZone, () => {
+	// TODO: fix the @nextcloud/vue component to emit @change
+	fetchSlots()
+})
+
+watch(selectedSlot, () => {
+	bookingError.value = false
+})
+
+async function fetchSlots(): Promise<void> {
+	slots.value = []
+	loadingSlots.value = true
+
+	const selectedDay = selectedDate.value.getFullYear().toString() + '-'
+		+ (selectedDate.value.getMonth() + 1).toString() + '-'
+		+ selectedDate.value.getDate().toString()
+
+	try {
+		slots.value = await findSlots(
+			props.config,
+			selectedDay,
+			timeZone.value,
+		)
+	} catch (e) {
+		showError(t('calendar', 'Could not fetch slots'))
+		logger.error('Could not fetch slots', { e })
+	} finally {
+		loadingSlots.value = false
+	}
+}
+
+async function onSave({ slot, displayName, email, description, timeZone: slotTimeZone }: AppointmentSavePayload): Promise<void> {
+	bookingLoading.value = true
+	logger.info('slot will be booked', {
+		slot,
+		description,
+		email,
+		displayName,
+		timeZone: slotTimeZone,
+	})
+
+	bookingError.value = false
+	bookingRateLimit.value = false
+	try {
+		await bookSlot(props.config, slot, displayName, email, description, slotTimeZone)
+
+		logger.info('appointment booked')
+
+		selectedSlot.value = undefined
+		bookingConfirmed.value = true
+	} catch (e) {
+		logger.error('could not book appointment', { e })
+		if (e?.response?.status === 429) {
+			bookingRateLimit.value = true
+		} else {
+			bookingError.value = true
+		}
+	} finally {
+		bookingLoading.value = false
+	}
+}
+
+function onSlotClicked(slot: AppointmentSlotData): void {
+	selectedSlot.value = slot
+}
+
+onMounted(async () => {
+	await fetchSlots()
+})
+</script>
+
 <template>
 	<div class="booking__container">
 		<NcGuestContent v-if="!selectedSlot && !bookingConfirmed">
@@ -45,7 +181,7 @@
 				<div class="booking__slot-selection">
 					<h5>{{ $t('calendar', 'Select slot') }}</h5>
 					<div class="booking__slots">
-						<Loading v-if="loadingSlots" class="loading" :size="24" />
+						<NcLoadingIcon v-if="loadingSlots" :size="24" />
 						<NcEmptyContent
 							v-else-if="slots.length === 0 && !loadingSlots"
 							:title="$t('calendar', 'No slots available')"
@@ -85,184 +221,16 @@
 	</div>
 </template>
 
-<script>
-import { showError } from '@nextcloud/dialogs'
-import {
-	NcAvatar as Avatar,
-	NcDateTimePicker as DateTimePicker,
-	NcEmptyContent,
-	NcGuestContent,
-	NcTimezonePicker as TimezonePicker,
-} from '@nextcloud/vue'
-import { h } from 'vue'
-import MDILoading from 'vue-material-design-icons/Loading.vue'
-import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
-import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
-import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
-import { bookSlot, findSlots } from '../../services/appointmentService.js'
-
-import '@nextcloud/dialogs/style.css'
-
-function Loading(props) {
-	return h(MDILoading, {
-		class: 'animation-rotate',
-		...props,
-	})
-}
-
-export default {
-	name: 'Booking',
-	components: {
-		AppointmentSlot,
-		Avatar,
-		DateTimePicker,
-		TimezonePicker,
-		AppointmentDetails,
-		AppointmentBookingConfirmation,
-		NcGuestContent,
-		Loading,
-		NcEmptyContent,
-	},
-
-	props: {
-		config: {
-			required: true,
-			type: Object,
-		},
-
-		userInfo: {
-			required: true,
-			type: Object,
-		},
-
-		visitorInfo: {
-			required: true,
-			type: Object,
-		},
-	},
-
-	data() {
-		// Try to determine the current timezone, and fall back to UTC otherwise
-		const defaultTimeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
-
-		// Build the real first possible date and time
-		const now = new Date()
-		const selectedDate = new Date(Math.max(
-			this.config.start ? this.config.start * 1000 : now,
-			now,
-		))
-		if (this.config.timeBeforeNextSlot) {
-			selectedDate.setSeconds(selectedDate.getSeconds() + this.config.timeBeforeNextSlot)
-		}
-
-		const minimumDate = new Date(selectedDate.getTime())
-		// Make it one sec before midnight so it shows the next full day as available
-		minimumDate.setHours(0, 0, 0)
-		minimumDate.setSeconds(minimumDate.getSeconds() - 1)
-
-		return {
-			loadingSlots: false,
-			minimumDate,
-			selectedDate,
-			endDate: this.config.end ? new Date(this.config.end * 1000) : undefined,
-			timeZone: defaultTimeZoneId,
-			slots: [],
-			selectedSlot: undefined,
-			bookingConfirmed: false,
-			bookingError: false,
-			bookingLoading: false,
-			bookingRateLimit: false,
-		}
-	},
-
-	watch: {
-		selectedDate() {
-			this.fetchSlots()
-		},
-
-		timeZone() {
-			// TODO: fix the @nextcloud/vue component to emit @change
-			this.fetchSlots()
-		},
-
-		selectedSlot() {
-			this.bookingError = false
-		},
-	},
-
-	async mounted() {
-		await this.fetchSlots()
-	},
-
-	methods: {
-		async fetchSlots() {
-			this.slots = []
-			this.loadingSlots = true
-
-			const selectedDay = this.selectedDate.getFullYear().toString() + '-'
-				+ (this.selectedDate.getMonth() + 1).toString() + '-'
-				+ this.selectedDate.getDate().toString()
-
-			try {
-				this.slots = await findSlots(
-					this.config,
-					selectedDay,
-					this.timeZone,
-				)
-			} catch (e) {
-				showError(this.$t('calendar', 'Could not fetch slots'))
-				console.error('Could not fetch slots', e)
-			} finally {
-				this.loadingSlots = false
-			}
-		},
-
-		async onSave({ slot, displayName, email, description, timeZone }) {
-			this.bookingLoading = true
-			console.info('slot will be booked', {
-				slot,
-				description,
-				email,
-				displayName,
-				timeZone,
-			})
-
-			this.bookingError = false
-			this.bookingRateLimit = false
-			try {
-				await bookSlot(this.config, slot, displayName, email, description, timeZone)
-
-				console.info('appointment booked')
-
-				this.selectedSlot = undefined
-				this.bookingConfirmed = true
-			} catch (e) {
-				console.error('could not book appointment', e)
-				if (e?.response?.status === 429) {
-					this.bookingRateLimit = true
-				} else {
-					this.bookingError = true
-				}
-			} finally {
-				this.bookingLoading = false
-			}
-		},
-
-		onSlotClicked(slot) {
-			this.selectedSlot = slot
-		},
-	},
-}
-</script>
-
 <style lang="scss">
 // Need to be unscoped to target the mount point
 #appointment-booking {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: safe center;
 	width: 100%;
-	height: 100%;
+	align-self: flex-start;
+	min-height: 100%;
+	height: auto;
 }
 </style>
 
@@ -270,9 +238,10 @@ export default {
 .booking__container {
 	display: flex;
 	width: 100%;
-	height: 100vh;
+	align-self: stretch;
+	min-height: 100vh;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: safe center;
 	align-items: center;
 }
 
@@ -280,16 +249,23 @@ export default {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	align-items: flex-start;
 	max-width: 100%;
 	gap: calc(var(--default-grid-baseline) * 6);
 	padding-top: calc(var(--default-grid-baseline) * 4);
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
 	padding-inline: calc(var(--default-grid-baseline) * 4);
-	margin-bottom: var(--footer-height);
+}
+
+.booking__config-user-info {
+	flex: 1 1 320px;
+	min-width: 0;
+	max-width: 640px;
 }
 
 .booking__description {
 	white-space: break-spaces;
+	overflow-wrap: break-word;
 }
 
 .booking__date-selection {
@@ -303,6 +279,11 @@ export default {
 	flex-direction: column;
 	max-height: 440px;
 	overflow-y: auto;
+}
+
+.booking__date-selection,
+.booking__slot-selection {
+	flex: 0 0 auto;
 }
 
 .booking__slot-selection {

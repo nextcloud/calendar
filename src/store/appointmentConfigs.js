@@ -4,8 +4,8 @@
  */
 
 import { defineStore } from 'pinia'
-import { createConfig, deleteConfig, updateConfig } from '../services/appointmentConfigService.js'
-import logger from '../utils/logger.js'
+import { createConfig, deleteConfig, updateConfig } from '@/services/appointmentConfigService.js'
+import logger from '@/utils/logger.js'
 
 export default defineStore('appointmentConfigs', {
 	state: () => {

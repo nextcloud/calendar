@@ -6,13 +6,14 @@ import { showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import useSettingsStore from '../../store/settings.js'
-import useWidgetStore from '../../store/widget.js'
+import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
 import {
 	getPrefixedRoute,
-	isPublicOrEmbeddedRoute,
-} from '../../utils/router.js'
-import { errorCatchAsync } from '../utils/errors.js'
+	getViewMode,
+	ViewMode,
+} from '@/utils/router.js'
 
 /**
  * Returns a function for click action on event. This will open the editor.
@@ -23,7 +24,7 @@ import { errorCatchAsync } from '../utils/errors.js'
  * @param {Window} window The window object
  * @param {boolean} isWidget Whether the calendar is embedded in a widget
  * @param {object} ref The ref object of CalendarGrid component
- * @return {Function}
+ * @return {(info: {event: EventDef}) => Promise<void>}
  */
 export default function(router, route, window, isWidget = false, ref = undefined) {
 	const widgetStore = useWidgetStore()
@@ -94,12 +95,12 @@ function handleEventClick(event, router, route, window, isWidget = false) {
  * @param {EventDef} event FullCalendar event
  * @param {object} route The current Vue route
  * @param {Window} window The window object
- * @param isWidget
+ * @param {boolean} isWidget Whether the calendar is embedded as a widget
  */
 function handleToDoClick(event, route, window, isWidget = false) {
 	const settingsStore = useSettingsStore()
 
-	if (isWidget || isPublicOrEmbeddedRoute(route.name)) {
+	if (getViewMode(route.name, isWidget) !== ViewMode.USER) {
 		return
 	}
 
@@ -114,5 +115,5 @@ function handleToDoClick(event, route, window, isWidget = false) {
 		return
 	}
 	const url = `apps/tasks/calendars/${encodeURIComponent(calendarId)}/tasks/${encodeURIComponent(taskId)}`
-	window.location.href = generateUrl(url)
+	window.open(generateUrl(url), '_blank')
 }

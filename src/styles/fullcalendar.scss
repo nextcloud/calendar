@@ -194,19 +194,11 @@
 	}
 
 	// Reminder icon on events with alarms set
-	.fc-event-nc-alarms {
+	&.fc-event-nc-alarms {
 		.icon-event-reminder {
-			background-color: inherit;
-			background-position: right;
 			position: absolute;
 			top: 0;
 			inset-inline-end: 0;
-			&--light {
-				background-image: var(--icon-calendar-reminder-fffffe)
-			}
-			&--dark {
-				background-image: var(--icon-calendar-reminder-000001)
-			}
 		}
 	}
 
@@ -219,6 +211,22 @@
 			margin: 4px 4px 0 0;
 			line-height: 1;
 		}
+	}
+
+	.fc-task-checkbox {
+		border-style: solid;
+		border-width: 2px;
+		border-radius: 4px;
+		height: 16px;
+		width: 16px;
+	}
+
+	.fc-task-checkbox--checked {
+		border-style: solid;
+		border-width: 8px;
+		border-radius: 4px;
+		height: 16px;
+		width: 16px;
 	}
 
 	.fc-list-event-checkbox {
@@ -243,7 +251,10 @@
 	}
 
 	svg {
+		width: 1em;
 		margin-inline-end: 2px;
+		fill: var(--color-main-text);
+		vertical-align: middle;
 	}
 
 	@media only screen and (max-width: 767px) {
@@ -373,4 +384,3 @@
 [data-themes*="highcontrast"] {
 	@include _fc-high-contrast-events;
 }
-

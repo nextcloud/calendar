@@ -25,6 +25,7 @@ use function get_class;
  * @psalm-suppress MissingTemplateParam
  */
 class JsonResponse extends Base {
+
 	public function __construct($data = [],
 		int $statusCode = Http::STATUS_OK) {
 		parent::__construct($data, $statusCode);

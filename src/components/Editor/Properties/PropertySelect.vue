@@ -6,8 +6,7 @@
 <template>
 	<div
 		v-if="display"
-		class="property-select"
-		:class="{ 'property-select--readonly': isReadOnly }">
+		class="property-select">
 		<component
 			:is="icon"
 			:title="info"
@@ -17,11 +16,12 @@
 			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
 		<div
-			class="property-select__input"
-			:class="{ 'property-select__input--readonly': isReadOnly }">
+			class="property-select__input">
+			<!-- Ignore default margin, because we use flex gap for spacing. -->
 			<NcSelect
 				v-if="!isReadOnly"
 				v-model="selectedValue"
+				:style="{ marginBlock: 0 }"
 				:options="options"
 				:searchable="false"
 				:name="readableName"
@@ -31,8 +31,7 @@
 				:ariaLabelCombobox="readableName"
 				:ariaLabelListbox="readableName"
 				label="label" />
-			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div v-else>{{ selectedValue.label }}</div>
+			<span v-else>{{ selectedValue.label }}</span>
 		</div>
 	</div>
 </template>
@@ -40,7 +39,7 @@
 <script>
 import { NcSelect } from '@nextcloud/vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
-import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import PropertyMixin from '@/mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertySelect',
@@ -83,12 +82,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.property-select__input {
+	// Makes input always use full width.
+	flex: auto;
 
-.property-select {
-	&__input {
-		// 34px left and right need to be subtracted. See https://github.com/nextcloud/calendar/pull/3361
-		width: calc(100% - 34px - 34px);
-	}
+	display: flex;
+	// Makes content take full width.
+	flex-direction: column;
+	// Centers content if it is smaller than the minimal width.
+	// Relevant if readonly text is shown instead of a select.
+	justify-content: center;
 }
-
 </style>

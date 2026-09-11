@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import logger from '../../../utils/logger.js'
-import { uidToColor } from '../../../utils/uidToColor.js'
+import logger from '@/utils/logger.js'
+import { uidToColor } from '@/utils/uidToColor.js'
 
 export default {
 	name: 'PropertySelectMultipleColoredOption',
