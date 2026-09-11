@@ -87,9 +87,9 @@ export default {
 	flex: auto;
 
 	display: flex;
-	// Makes content take full widht.
+	// Makes content take full width.
 	flex-direction: column;
-	// Centers content if it is smaller then the minimal widht.
+	// Centers content if it is smaller than the minimal width.
 	// Relevant if readonly text is shown instead of a select.
 	justify-content: center;
 }
