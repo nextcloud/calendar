@@ -184,7 +184,7 @@ class BookingCalendarWriter {
 		$defaultReminder = $this->config->getUserValue(
 			$config->getUserId(),
 			Application::APP_ID,
-			'defaultReminder',
+			'defaultReminderPartDay',
 			'none'
 		);
 		if ($defaultReminder !== 'none') {

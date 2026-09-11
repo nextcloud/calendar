@@ -358,59 +358,6 @@ class SettingsControllerTest extends TestCase {
 	 * @param string $value
 	 * @param int $expectedStatusCode
 	 *
-	 * @dataProvider setDefaultReminderWithAllowedValueDataProvider
-	 */
-	public function testSetDefaultReminderWithAllowedValue(string $value,
-		int $expectedStatusCode):void {
-		if ($expectedStatusCode === 200) {
-			$this->config->expects($this->once())
-				->method('setUserValue')
-				->with('user123', $this->appName, 'defaultReminder', $value);
-		}
-
-		$actual = $this->controller->setConfig('defaultReminder', $value);
-
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
-		$this->assertEquals([], $actual->getData());
-		$this->assertEquals($expectedStatusCode, $actual->getStatus());
-	}
-
-	public function setDefaultReminderWithAllowedValueDataProvider():array {
-		return [
-			['none', 200],
-			['-0', 200],
-			['0', 200],
-			['-300', 200],
-			['-600', 200],
-			['-900', 200],
-			['-1200', 200],
-			['-2400', 200],
-			['-2400', 200],
-			['not-none', 422],
-			['NaN', 422],
-			['0.1', 422],
-			['1', 422],
-			['300', 422],
-		];
-	}
-
-	public function testSetDefaultReminderWithException():void {
-		$this->config->expects($this->once())
-			->method('setUserValue')
-			->with('user123', $this->appName, 'defaultReminder', 'none')
-			->will($this->throwException(new \Exception));
-
-		$actual = $this->controller->setConfig('defaultReminder', 'none');
-
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
-		$this->assertEquals([], $actual->getData());
-		$this->assertEquals(500, $actual->getStatus());
-	}
-
-	/**
-	 * @param string $value
-	 * @param int $expectedStatusCode
-	 *
 	 * @dataProvider setDefaultReminderPartDayWithAllowedValueDataProvider
 	 */
 	public function testSetDefaultReminderPartDayWithAllowedValue(string $value,
@@ -429,7 +376,22 @@ class SettingsControllerTest extends TestCase {
 	}
 
 	public function setDefaultReminderPartDayWithAllowedValueDataProvider():array {
-		return $this->setDefaultReminderWithAllowedValueDataProvider();
+		return [
+			['none', 200],
+			['-0', 200],
+			['0', 200],
+			['-300', 200],
+			['-600', 200],
+			['-900', 200],
+			['-1200', 200],
+			['-2400', 200],
+			['-2400', 200],
+			['not-none', 422],
+			['NaN', 422],
+			['0.1', 422],
+			['1', 422],
+			['300', 422],
+		];
 	}
 
 	public function testSetDefaultReminderPartDayWithException():void {
