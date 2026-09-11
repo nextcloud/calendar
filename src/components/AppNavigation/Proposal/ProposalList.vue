@@ -20,8 +20,8 @@
 
 		<template v-if="!userHasEmailAddress">
 			<NcAppNavigationItem
-				:name="t('calendar', 'A configured email address is required to use meeting proposals')"
-				@click="window.open(generateUrl('settings/user'), '_blank').focus()">
+				:href="userSettingsUrl"
+				:name="t('calendar', 'A configured email address is required to use meeting proposals')">
 				<template #icon>
 					<WarningIcon :size="20" class="proposal-list__warning-icon" />
 				</template>
@@ -97,7 +97,7 @@ import type { Proposal } from '@/models/proposals/proposals'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { computed, onMounted, ref, watch } from 'vue'
 // icons
 import WarningIcon from 'vue-material-design-icons/AlertCircleOutline'
@@ -127,6 +127,7 @@ const showDeleteDialog = ref(false)
 const pendingDeleteProposal = ref<Proposal | null>(null)
 
 const userHasEmailAddress = computed(() => (principalStore?.getCurrentUserPrincipal?.emailAddress?.length ?? 0) > 0)
+const userSettingsUrl = generateUrl('settings/user', {}, { baseURL: getBaseUrl() })
 
 const deleteDialogMessage = computed(() => {
 	const title = pendingDeleteProposal.value?.title ?? t('calendar', 'No title')

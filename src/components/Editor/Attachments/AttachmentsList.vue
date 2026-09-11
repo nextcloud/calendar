@@ -70,11 +70,22 @@
 		<NcDialog
 			v-if="showOpenConfirmation"
 			v-model:open="showOpenConfirmation"
-			:name="t('calendar', 'Confirmation')"
-			:buttons="openConfirmationButtons">
+			:name="t('calendar', 'Confirmation')">
 			<p class="external-link-message">
 				{{ openConfirmationMessage }}
 			</p>
+			<template #actions>
+				<NcButton @click="showOpenConfirmation = false">
+					{{ t('calendar', 'Cancel') }}
+				</NcButton>
+				<NcButton
+					:href="openConfirmationUrl"
+					target="_blank"
+					rel="noopener noreferrer"
+					variant="primary">
+					{{ t('calendar', 'Proceed') }}
+				</NcButton>
+			</template>
 		</NcDialog>
 	</div>
 </template>
@@ -85,6 +96,7 @@ import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import {
 	NcActionButton,
 	NcActions,
+	NcButton,
 	NcDialog,
 	NcListItem,
 } from '@nextcloud/vue'
@@ -110,6 +122,7 @@ export default {
 		NcListItem,
 		NcActions,
 		NcActionButton,
+		NcButton,
 		Upload,
 		Close,
 		Folder,
@@ -130,7 +143,7 @@ export default {
 			uploading: false,
 			showOpenConfirmation: false,
 			openConfirmationMessage: '',
-			openConfirmationButtons: [],
+			openConfirmationUrl: '',
 		}
 	},
 
@@ -276,21 +289,7 @@ export default {
 		 */
 		showConfirmationDialog(message, url) {
 			this.openConfirmationMessage = message
-			this.openConfirmationButtons = [
-				{
-					label: t('calendar', 'Cancel'),
-					callback: () => {
-						this.showOpenConfirmation = false
-					},
-				},
-				{
-					label: t('calendar', 'Proceed'),
-					type: 'primary',
-					callback: () => {
-						window.open(url.href, '_blank', 'noopener noreferrer')
-					},
-				},
-			]
+			this.openConfirmationUrl = url.href
 			this.showOpenConfirmation = true
 		},
 	},
