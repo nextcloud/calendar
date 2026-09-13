@@ -87,6 +87,7 @@ class PublicViewController extends Controller {
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
+		$defaultShowDeclinedAppointments = $this->config->getAppValue($this->appName, 'showDeclinedAppointments', 'yes');
 		$defaultTasksSidebar = $this->config->getAppValue($this->appName, 'tasksSidebar', 'yes');
 		$defaultCanSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes');
 
@@ -105,6 +106,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $defaultSlotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'default_reminder', $defaultDefaultReminder);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $defaultShowTasks === 'yes');
+		$this->initialStateService->provideInitialState($this->appName, 'show_declined_appointments', $defaultShowDeclinedAppointments === 'yes');
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_sidebar', $defaultTasksSidebar === 'yes');
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', false);
 		$this->initialStateService->provideInitialState($this->appName, 'hide_event_export', false);
