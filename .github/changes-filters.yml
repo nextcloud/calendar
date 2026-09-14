@@ -12,6 +12,6 @@ backend:
   - 'composer.json'
   - 'composer.lock'
   - 'phpunit.integration.xml'
-  - 'phpunit.unit'
+  - 'phpunit.unit.xml'
   - '.php-cs-fixer.dist.php'
   - 'psalm.xml'
