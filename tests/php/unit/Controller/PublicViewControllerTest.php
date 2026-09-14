@@ -86,7 +86,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(17))
+		$this->initialStateService->expects(self::exactly(18))
 			->method('provideInitialState')
 			->willReturnMap([
 				['calendar', 'app_version', '1.0.0'],
@@ -101,6 +101,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'timezone', 'defaultTimezone'],
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'show_tasks', true],
+				['calendar', 'show_declined', true],
 				['calendar', 'tasks_sidebar', true],
 				['calendar', 'tasks_enabled', false],
 				['calendar', 'hide_event_export', false],
@@ -180,6 +181,7 @@ class PublicViewControllerTest extends TestCase {
 			['calendar', 'timezone', 'defaultTimezone'],
 			['calendar', 'slot_duration', 'defaultSlotDuration'],
 			['calendar', 'show_tasks', false],
+			['calendar', 'show_declined', true],
 			['calendar', 'tasks_sidebar', false],
 			['calendar', 'tasks_enabled', false],
 			['calendar', 'hide_event_export', false],
@@ -189,7 +191,7 @@ class PublicViewControllerTest extends TestCase {
 		];
 		$callIndex = 0;
 
-		$this->initialStateService->expects(self::exactly(18))
+		$this->initialStateService->expects(self::exactly(19))
 			->method('provideInitialState')
 			->willReturnCallback(function ($appName, $key, $value) use (&$callIndex, $expectedCalls) {
 				$this->assertEquals($expectedCalls[$callIndex][0], $appName);

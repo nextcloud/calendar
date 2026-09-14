@@ -42,6 +42,7 @@ describe('store/settings test suite', () => {
 			talkEnabled: false,
 			eventLimit: null,
 			showTasks: null,
+			showDeclined: null,
 			showWeekends: null,
 			showWeekNumbers: null,
 			skipPopover: null,
@@ -71,6 +72,7 @@ describe('store/settings test suite', () => {
 			talkEnabled: false,
 			eventLimit: null,
 			showTasks: null,
+			showDeclined: null,
 			showWeekends: null,
 			showWeekNumbers: null,
 			skipPopover: null,
@@ -99,6 +101,7 @@ describe('store/settings test suite', () => {
 			firstRun: true,
 			showWeekNumbers: true,
 			showTasks: false,
+			showDeclined: false,
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
@@ -128,6 +131,7 @@ Initial settings:
 	- FirstRun: true
 	- ShowWeekNumbers: true
 	- ShowTasks: false
+	- ShowDeclined: false
 	- ShowWeekends: true
 	- SkipPopover: true
 	- SlotDuration: 00:30:00
@@ -151,6 +155,7 @@ Initial settings:
 			firstRun: true,
 			showWeekNumbers: true,
 			showTasks: false,
+			showDeclined: false,
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
@@ -435,6 +440,33 @@ Initial settings:
 		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
 	})
 
+	it('should provide an action to toggle visibility of declined appointments - false to true', async () => {
+		const settingsStore = useSettingsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+
+		expect.assertions(7)
+
+		settingsStore.showDeclined = false
+		calendarObjectsStore.modificationCount = 42
+		fetchedTimeRangesStore.lastTimeRangeInsertId = 20
+		fetchedTimeRangesStore.fetchedTimeRanges = ['foobar']
+		fetchedTimeRangesStore.fetchedTimeRangesById = { foobar: 'baz' }
+
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.toggleShowDeclined()
+
+		expect(setConfig).toHaveBeenCalledTimes(1)
+		expect(setConfig).toHaveBeenNthCalledWith(1, 'showDeclined', 'yes')
+
+		expect(settingsStore.showDeclined).toEqual(true)
+		expect(calendarObjectsStore.modificationCount).toEqual(43)
+		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
+		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
+		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
+	})
+
 	it('should provide an action to toggle the task sidebar - false to true', async () => {
 		const settingsStore = useSettingsStore()
 
@@ -473,6 +505,33 @@ Initial settings:
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showTasks', 'no')
 
 		expect(settingsStore.showTasks).toEqual(false)
+		expect(calendarObjectsStore.modificationCount).toEqual(43)
+		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
+		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
+		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
+	})
+
+	it('should provide an action to toggle the visibility of declined appointments - true to false', async () => {
+		const settingsStore = useSettingsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+
+		expect.assertions(7)
+
+		settingsStore.showDeclined = true
+		calendarObjectsStore.modificationCount = 42
+		fetchedTimeRangesStore.lastTimeRangeInsertId = 20
+		fetchedTimeRangesStore.fetchedTimeRanges = ['foobar']
+		fetchedTimeRangesStore.fetchedTimeRangesById = { foobar: 'baz' }
+
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.toggleShowDeclined()
+
+		expect(setConfig).toHaveBeenCalledTimes(1)
+		expect(setConfig).toHaveBeenNthCalledWith(1, 'showDeclined', 'no')
+
+		expect(settingsStore.showDeclined).toEqual(false)
 		expect(calendarObjectsStore.modificationCount).toEqual(43)
 		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
 		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
