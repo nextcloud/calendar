@@ -1,16 +1,17 @@
+/*!
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import {
 	createEvent,
 	DateTimeValue,
 	getParserManager,
 } from '@nextcloud/calendar-js'
-import { getTimezoneManager } from '@nextcloud/timezones'
 import { defineStore } from 'pinia'
 import { markRaw } from 'vue'
-/**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
 import { mapCalendarJsToCalendarObject } from '@/models/calendarObject.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
 import useCalendarsStore from '@/store/calendars.js'
 import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
 import logger from '@/utils/logger.js'
