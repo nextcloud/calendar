@@ -75,7 +75,8 @@
 
 		<NcAppSidebar
 			v-if="isAuthenticatedUser"
-			v-show="tasksSidebar && tasksSidebarEnabled"
+			:open="tasksSidebar && tasksSidebarEnabled"
+			noToggle
 			:name="t('calendar', 'Unscheduled tasks')"
 			@close="toggletasksSidebar()">
 			<NcAppSidebarTab id="settings-tab" name="Settings">
