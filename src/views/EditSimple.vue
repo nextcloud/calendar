@@ -20,6 +20,7 @@
 			:auto-hide="false"
 			:placement="placement"
 			:boundary="boundaryElement"
+			auto-boundary-max-size
 			popover-base-class="event-popover"
 			:triggers="[]">
 			<template #trigger="{ attrs }">
@@ -482,8 +483,6 @@ export default {
 .event-popover__inner {
 	width: unset !important;
 	min-width: 500px !important;
-	max-height: 90vh !important; // leaving some margin makes scrolling easier and ensures elements aren't cut off
-	overflow-y: auto !important;
 }
 
 .modal-mask {
