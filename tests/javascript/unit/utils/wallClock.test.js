@@ -2,7 +2,14 @@
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
 import { wallClockToInstant } from '@/utils/wallClock.js'
+
+// Registering the default timezones is what teaches the manager both the IANA
+// zones and Microsoft's aliases; without it every lookup misses.
+beforeAll(() => {
+	getTimezoneManager()
+})
 
 /**
  * Build the Date the editor would hold for a given wall-clock reading.
@@ -29,11 +36,6 @@ describe('utils/wallClock test suite', () => {
 		expect(wallClockToInstant(new Date(NaN), 'Europe/Berlin')).toEqual(null)
 	})
 
-	it('should read the digits as UTC when no timezone is given', () => {
-		const instant = wallClockToInstant(wallClock(2026, 9, 24, 10, 0), null)
-		expect(instant.toISOString()).toEqual('2026-09-24T10:00:00.000Z')
-	})
-
 	it('should apply the timezone offset in effect at that moment', () => {
 		// Central European Summer Time, UTC+2.
 		expect(wallClockToInstant(wallClock(2026, 9, 24, 10, 0), 'Europe/Berlin').toISOString())
@@ -53,9 +55,7 @@ describe('utils/wallClock test suite', () => {
 	})
 
 	it('should settle on the right side of a DST transition', () => {
-		// Europe/Berlin springs forward at 02:00 on 2026-03-29. A single-pass
-		// conversion guesses the offset from the pre-transition side and lands
-		// an hour out for readings just after the change.
+		// Europe/Berlin springs forward at 02:00 on 2026-03-29.
 		expect(wallClockToInstant(wallClock(2026, 3, 29, 1, 30), 'Europe/Berlin').toISOString())
 			.toEqual('2026-03-29T00:30:00.000Z')
 		expect(wallClockToInstant(wallClock(2026, 3, 29, 3, 30), 'Europe/Berlin').toISOString())
@@ -67,10 +67,20 @@ describe('utils/wallClock test suite', () => {
 			.toEqual('2026-10-25T03:30:00.000Z')
 	})
 
-	it('should degrade to the floating reading for a timezone id it cannot resolve', () => {
-		// A foreign client can put a TZID in the event that this browser has
-		// never heard of. That must not throw a RangeError at the editor.
-		expect(wallClockToInstant(wallClock(2026, 9, 24, 10, 0), 'Mars/Olympus_Mons').toISOString())
-			.toEqual('2026-09-24T10:00:00.000Z')
+	// The regression that motivated going through the timezone manager rather
+	// than Intl.DateTimeFormat: an event invited from Outlook carries
+	// Microsoft's timezone name, which Intl rejects outright.
+	it('should understand Microsoft timezone names as written by Outlook', () => {
+		expect(wallClockToInstant(wallClock(2026, 9, 18, 10, 0), 'Romance Standard Time').toISOString())
+			.toEqual('2026-09-18T08:00:00.000Z')
+		expect(wallClockToInstant(wallClock(2026, 9, 18, 10, 0), 'W. Europe Standard Time').toISOString())
+			.toEqual('2026-09-18T08:00:00.000Z')
+		expect(wallClockToInstant(wallClock(2026, 9, 18, 10, 0), 'Pacific Standard Time').toISOString())
+			.toEqual('2026-09-18T17:00:00.000Z')
+	})
+
+	it('should return null rather than a wrong answer when the timezone is unknown', () => {
+		expect(wallClockToInstant(wallClock(2026, 9, 24, 10, 0), 'Mars/Olympus_Mons')).toEqual(null)
+		expect(wallClockToInstant(wallClock(2026, 9, 24, 10, 0), null)).toEqual(null)
 	})
 })
