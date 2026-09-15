@@ -11,7 +11,7 @@
 			multiple
 			:aria-label="t('calendar', 'Upload files as attachments')"
 			@change="onLocalAttachmentSelected">
-		<div class="attachments-summary">
+		<div v-if="showSummary" class="attachments-summary">
 			<div class="attachments-summary-inner">
 				<Paperclip :size="20" />
 				<div v-if="attachments.length > 0" class="attachments-summary-inner-label">
@@ -40,7 +40,7 @@
 				</NcActionButton>
 			</NcActions>
 		</div>
-		<div v-if="attachments.length > 0">
+		<div v-if="showList">
 			<ul class="attachments-list">
 				<NcListItem
 					v-for="attachment in attachments"
@@ -123,6 +123,11 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+
+		compact: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
@@ -143,6 +148,14 @@ export default {
 
 		attachments() {
 			return this.calendarObjectInstance.attachments
+		},
+
+		showSummary() {
+			return !this.compact || this.attachments.length > 1
+		},
+
+		showList() {
+			return this.attachments.length > 0 && (!this.compact || this.attachments.length === 1)
 		},
 	},
 
