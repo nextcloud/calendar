@@ -133,6 +133,13 @@ function buildAriaLabel(event) {
 export default errorCatch(function({ event, el }) {
 	// Set aria-label for screen reader accessibility
 	el.setAttribute('aria-label', buildAriaLabel(event))
+
+	if (event.extendedProps.objectType === 'VTODO' && event.url) {
+		const link = el.matches('a') ? el : el.querySelector('a[href]')
+		link?.setAttribute('target', '_blank')
+		link?.setAttribute('rel', 'noopener noreferrer')
+		el.classList.remove('fc-event-forced-url')
+	}
 	if (el.classList.contains('fc-event-nc-alarms')) {
 		const notificationIcon = document.createElement('span')
 		notificationIcon.classList.add('icon-event-reminder')
