@@ -37,6 +37,7 @@
 				<referencedClass name="OCA\Circles\Api\v1\Circles" />
 				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException" />
 				<referencedClass name="OCA\Calendar\Controller\Exception" />
+				<referencedClass name="OCA\DAV\CalDAV\CalDavBackend" />
 				<referencedClass name="OCA\DAV\CalDAV\Calendar" />
 				<referencedClass name="OCA\DAV\CalDAV\CalendarHome" />
 				<referencedClass name="OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer" />
@@ -45,6 +46,7 @@
 				<referencedClass name="Sabre\VObject\Component\VCalendar" />
 				<referencedClass name="Sabre\VObject\Component\VEvent" />
 				<referencedClass name="Sabre\VObject\Component\VTimezone" />
+				<referencedClass name="Sabre\VObject\Reader" />
 				<referencedClass name="Sabre\VObject\TimeZoneUtil" />
 				<referencedClass name="Symfony\Component\HttpFoundation\IpUtils" />
 				<referencedClass name="Symfony\Component\Console\Command\Command" />
