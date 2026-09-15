@@ -176,6 +176,15 @@
 								:isEditingExceptionInstance="isEditingExceptionInstance"
 								@requireFutureUpdate="requireFutureUpdate" />
 						</div>
+
+						<ConflictWarning
+							v-if="hasConflicts"
+							:conflicts="conflictsToList"
+							:additionalCount="additionalConflictCount"
+							:totalCount="conflictingEvents.length"
+							:timezoneId="currentUserTimezone"
+							@showFreeBusy="showMore" />
+
 						<div class="event-popover__location-row">
 							<PropertyText
 								:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
@@ -301,6 +310,7 @@ import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
 import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
 import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
 import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
+import ConflictWarning from '@/components/Editor/ConflictWarning.vue'
 import InvitationResponseButtons
 	from '@/components/Editor/InvitationResponseButtons.vue'
 import InviteesList from '@/components/Editor/Invitees/InviteesList.vue'
@@ -310,6 +320,7 @@ import PropertyTitleTimePicker
 	from '@/components/Editor/Properties/PropertyTitleTimePicker.vue'
 import Repeat from '@/components/Editor/Repeat/Repeat.vue'
 import SaveButtons from '@/components/Editor/SaveButtons.vue'
+import ConflictCheckMixin from '@/mixins/ConflictCheckMixin.js'
 import EditorMixin from '@/mixins/EditorMixin.js'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import useSettingsStore from '@/store/settings.js'
@@ -341,6 +352,7 @@ export default {
 		Delete,
 		InvitationResponseButtons,
 		CalendarPickerHeader,
+		ConflictWarning,
 		InviteesList,
 		NcButton,
 		EditIcon,
@@ -352,6 +364,7 @@ export default {
 
 	mixins: [
 		EditorMixin,
+		ConflictCheckMixin,
 	],
 
 	props: {
