@@ -296,6 +296,7 @@ OC.L10N.register(
     "Appearance" : "Görünüm",
     "Birthday calendar" : "Doğum günü takvimi",
     "Tasks in calendar" : "Görevler takvimde",
+    "Show declined appointments" : "Reddedilen randevuları görüntüle",
     "Weekends" : "Hafta sonları",
     "Week numbers" : "Hafta numaraları",
     "Limit number of events shown in Month view" : "Aylık görünümde görüntülenecek etkinlik sayısı sınırlansın",

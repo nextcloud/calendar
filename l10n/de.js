@@ -296,6 +296,7 @@ OC.L10N.register(
     "Appearance" : "Aussehen",
     "Birthday calendar" : "Geburtstagskalender",
     "Tasks in calendar" : "Aufgaben im Kalender",
+    "Show declined appointments" : "Abgelehnte Termine anzeigen",
     "Weekends" : "Wochenenden",
     "Week numbers" : "Wochennummern",
     "Limit number of events shown in Month view" : "Die Anzahl der in der Monatsansicht angezeigten Termine begrenzen",
