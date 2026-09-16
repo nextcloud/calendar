@@ -296,6 +296,7 @@ OC.L10N.register(
     "Appearance" : "Appearance",
     "Birthday calendar" : "Birthday calendar",
     "Tasks in calendar" : "Tasks in calendar",
+    "Show declined appointments" : "Show declined appointments",
     "Weekends" : "Weekends",
     "Week numbers" : "Week numbers",
     "Limit number of events shown in Month view" : "Limit number of events shown in Month view",

@@ -296,6 +296,7 @@ OC.L10N.register(
     "Appearance" : "Välimus",
     "Birthday calendar" : "Sünnipäevade kalender",
     "Tasks in calendar" : "Ülesanded kalendris ",
+    "Show declined appointments" : "Näita tagasilükatud kohtumisettepanekuid",
     "Weekends" : "Nädalavahetused",
     "Week numbers" : "Nädalanumbrid",
     "Limit number of events shown in Month view" : "Piira kuuvaates kuvatavate sündmuste arvu",
