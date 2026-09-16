@@ -4,6 +4,22 @@
  */
 
 /**
+ * Raw principal object as returned by a cdav-library principal search
+ * before it is normalized into a {@link BasePrincipalProperties}-shaped model.
+ *
+ * @see {@link https://github.com/nextcloud/cdav-library/blob/main/src/models/principal.js} for the available properties
+ */
+export interface RawDavPrincipal {
+	calendarUserType: string
+	groupId: string
+	userId: string
+	principalScheme: string
+	url: string
+	displayname: string
+	email?: string
+}
+
+/**
  * Properties shared between all principal types.
  */
 export interface BasePrincipalProperties {
