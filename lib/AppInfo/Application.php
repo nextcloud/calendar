@@ -16,6 +16,7 @@ use OCA\Calendar\Listener\NotifyPushListener;
 use OCA\Calendar\Listener\UserDeletedListener;
 use OCA\Calendar\Notification\Notifier;
 use OCA\Calendar\Profile\AppointmentsAction;
+use OCA\Calendar\Reference\EventReferenceProvider;
 use OCA\Calendar\Reference\ReferenceProvider;
 use OCA\Calendar\UserMigration\Migrator;
 use OCP\AppFramework\App;
@@ -52,6 +53,8 @@ class Application extends App implements IBootstrap {
 		$context->registerDashboardWidget(CalendarWidget::class);
 
 		$context->registerProfileLinkAction(AppointmentsAction::class);
+
+		$context->registerReferenceProvider(EventReferenceProvider::class);
 
 		$context->registerReferenceProvider(ReferenceProvider::class);
 
