@@ -5,7 +5,6 @@
 import { showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
 import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
 import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
@@ -28,7 +27,7 @@ import {
  */
 export default function(router, route, window, isWidget = false, ref = undefined) {
 	const widgetStore = useWidgetStore()
-	return errorCatchAsync(function({ event }) {
+	return errorCatchAsync(function({ event, jsEvent }) {
 		if (isWidget) {
 			widgetStore.setWidgetRef({ widgetRef: ref.fullCalendar.$el })
 		}
@@ -38,7 +37,7 @@ export default function(router, route, window, isWidget = false, ref = undefined
 				break
 
 			case 'VTODO':
-				handleToDoClick(event, route, window, isWidget)
+				handleToDoClick(event, route, jsEvent, isWidget)
 				break
 		}
 	}, 'eventClick')
@@ -94,13 +93,14 @@ function handleEventClick(event, router, route, window, isWidget = false) {
  *
  * @param {EventDef} event FullCalendar event
  * @param {object} route The current Vue route
- * @param {Window} window The window object
+ * @param {MouseEvent} jsEvent The native click event
  * @param {boolean} isWidget Whether the calendar is embedded as a widget
  */
-function handleToDoClick(event, route, window, isWidget = false) {
+function handleToDoClick(event, route, jsEvent, isWidget = false) {
 	const settingsStore = useSettingsStore()
 
 	if (getViewMode(route.name, isWidget) !== ViewMode.USER) {
+		jsEvent?.preventDefault()
 		return
 	}
 
@@ -111,9 +111,8 @@ function handleToDoClick(event, route, window, isWidget = false) {
 	emit('calendar:handle-todo-click', { calendarId, taskId })
 
 	if (!settingsStore.tasksEnabled) {
+		jsEvent?.preventDefault()
 		showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
 		return
 	}
-	const url = `apps/tasks/calendars/${encodeURIComponent(calendarId)}/tasks/${encodeURIComponent(taskId)}`
-	window.open(generateUrl(url), '_blank')
 }
