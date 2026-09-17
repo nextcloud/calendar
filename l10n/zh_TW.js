@@ -296,6 +296,7 @@ OC.L10N.register(
     "Appearance" : "外觀",
     "Birthday calendar" : "生日日曆",
     "Tasks in calendar" : "日曆中的待辦事項",
+    "Show declined appointments" : "顯示被拒絕的預約",
     "Weekends" : "週末",
     "Week numbers" : "週數",
     "Limit number of events shown in Month view" : "限制月份檢視中顯示的事件數量",
