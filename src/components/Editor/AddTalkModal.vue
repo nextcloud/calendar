@@ -192,6 +192,30 @@ export default {
 			this.selectedRoom = conversation
 		},
 
+		/**
+		 * Record the conversation as the event's conference.
+		 *
+		 * CONFERENCE (RFC 7986) is the property meant for a virtual meeting
+		 * URL, which LOCATION is not: a hybrid meeting needs LOCATION for the
+		 * room it takes place in. Writing it keeps the link available to
+		 * clients even when LOCATION describes a physical room.
+		 *
+		 * @param {string} url The conversation URL
+		 */
+		setConference(url) {
+			const eventComponent = this.calendarObjectInstance?.eventComponent
+			if (!eventComponent?.addConference) {
+				return
+			}
+
+			// Replace an earlier conversation rather than stacking a second one
+			for (const conference of [...eventComponent.getConferenceList()]) {
+				eventComponent.deleteProperty(conference)
+			}
+
+			eventComponent.addConference(url, this.$t('calendar', 'Nextcloud Talk'), ['AUDIO', 'VIDEO', 'CHAT'])
+		},
+
 		async selectConversation(conversation) {
 			try {
 				const url = generateRoomUrl(conversation)
@@ -200,6 +224,8 @@ export default {
 					showError(this.$t('calendar', 'Conversation does not have a valid URL.'))
 					return
 				}
+
+				this.setConference(url)
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
 					this.calendarObjectInstanceStore.changeLocation({
@@ -257,6 +283,8 @@ export default {
 				if (!url) {
 					throw new Error('Failed to generate URL from token')
 				}
+
+				this.setConference(url)
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
 					this.$emit('updateLocation', url)
