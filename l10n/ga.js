@@ -296,6 +296,7 @@ OC.L10N.register(
     "Appearance" : "Dealramh",
     "Birthday calendar" : "Féilire breithlá",
     "Tasks in calendar" : "Tascanna sa fhéilire",
+    "Show declined appointments" : "Taispeáin coinneanna diúltaithe",
     "Weekends" : "Deireadh seachtaine",
     "Week numbers" : "Uimhreacha na seachtaine",
     "Limit number of events shown in Month view" : "Teorainn a chur le líon na n-imeachtaí a thaispeántar san amharc Míosa",
