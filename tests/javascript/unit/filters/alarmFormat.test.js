@@ -180,6 +180,33 @@ describe('format/alarmFormat test suite', () => {
 		expect(alarmFormat(alarm, false, 'Europe/Berlin', 'de')).toMatchSnapshot()
 	})
 
+	it('should not html-escape the humanized time of a relative trigger', () => {
+		const alarm = {
+			type: 'EMAIL',
+			isRelative: true,
+			absoluteDate: null,
+			absoluteTimezoneId: null,
+			relativeIsBefore: true,
+			relativeIsRelatedToStart: true,
+			relativeAmountTimed: 1,
+			relativeUnitTimed: 'hours',
+			relativeAmountAllDay: 0,
+			relativeUnitAllDay: 'days',
+			relativeHoursAllDay: 0,
+			relativeMinutesAllDay: 0,
+			relativeTrigger: -3600,
+		}
+
+		alarmFormat(alarm, false, 'Europe/Rome', 'it')
+
+		expect(translate).toHaveBeenCalledWith(
+			'calendar',
+			'{time} before the event starts',
+			{ time: 'un\'ora' },
+			{ escape: false },
+		)
+	})
+
 	it('should format a relative trigger before the event ends', () => {
 		const alarm = {
 			type: 'EMAIL',
