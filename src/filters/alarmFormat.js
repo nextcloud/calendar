@@ -40,6 +40,7 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 						{
 							formattedHourMinute,
 						},
+						{ escape: false },
 					)
 				} else {
 					return n(
@@ -50,12 +51,13 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 						{
 							formattedHourMinute,
 						},
+						{ escape: false },
 					)
 				}
 			}
 			return t('calendar', 'on the day of the event at {formattedHourMinute}', {
 				formattedHourMinute,
-			})
+			}, { escape: false })
 		} else {
 			// Alarms at the event's start or end
 			if (alarm.relativeTrigger === 0) {
@@ -70,16 +72,16 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeIsRelatedToStart) {
-					return t('calendar', '{time} before the event starts', { time })
+					return t('calendar', '{time} before the event starts', { time }, { escape: false })
 				} else {
-					return t('calendar', '{time} before the event ends', { time })
+					return t('calendar', '{time} before the event ends', { time }, { escape: false })
 				}
 			}
 
 			if (alarm.relativeIsRelatedToStart) {
-				return t('calendar', '{time} after the event starts', { time })
+				return t('calendar', '{time} after the event starts', { time }, { escape: false })
 			} else {
-				return t('calendar', '{time} after the event ends', { time })
+				return t('calendar', '{time} after the event ends', { time }, { escape: false })
 			}
 		}
 	} else {
@@ -87,12 +89,12 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 		if (currentUserTimezone === alarm.absoluteTimezoneId) {
 			return t('calendar', 'on {time}', {
 				time: moment(alarm.absoluteDate).locale(locale).format('LLLL'),
-			})
+			}, { escape: false })
 		} else {
 			return t('calendar', 'on {time} ({timezoneId})', {
 				time: moment(alarm.absoluteDate).locale(locale).format('LLLL'),
 				timezoneId: alarm.absoluteTimezoneId,
-			})
+			}, { escape: false })
 		}
 	}
 }
