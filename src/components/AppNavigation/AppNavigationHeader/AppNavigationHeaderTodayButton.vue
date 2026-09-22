@@ -13,11 +13,6 @@ const route = useRoute()
 const router = useRouter()
 
 async function today(): Promise<void> {
-	// Don't push new route when day didn't change
-	if (route.params.firstDay === 'now') {
-		return
-	}
-
 	const name = route.name!
 	const params = {
 		...route.params,
