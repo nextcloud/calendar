@@ -176,7 +176,7 @@
 								:isEditingExceptionInstance="isEditingExceptionInstance"
 								@requireFutureUpdate="requireFutureUpdate" />
 						</div>
-						<div class="event-popover__location-row">
+						<div v-if="!isViewing || hasLocation" class="event-popover__location-row">
 							<PropertyText
 								:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
 								:propModel="rfcProps.location"
@@ -231,6 +231,10 @@
 							<AlarmList
 								:isReadOnly="isReadOnlyOrViewing" />
 						</div>
+						<AttachmentsList
+							v-if="!isLoading && isViewing"
+							:isReadOnly="true"
+							compact />
 					</div>
 
 					<!-- Footer -->
@@ -300,6 +304,7 @@ import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
 import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
 import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
+import AttachmentsList from '@/components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
 import InvitationResponseButtons
 	from '@/components/Editor/InvitationResponseButtons.vue'
@@ -332,6 +337,7 @@ export default {
 		ActionLink,
 		AlarmList,
 		Bell,
+		AttachmentsList,
 		EmptyContent,
 		CalendarBlank,
 		Close,
@@ -938,6 +944,8 @@ export default {
 		flex: 1;
 		flex-direction: column;
 		gap: calc(var(--default-grid-baseline) * 4);
+		margin-inline-start: calc(var(--default-grid-baseline) * -1);
+		padding-inline-start: var(--default-grid-baseline);
 		padding-inline-end: calc(var(--default-grid-baseline) * 4);
 		overflow-y: auto;
 		overflow-x: hidden;
