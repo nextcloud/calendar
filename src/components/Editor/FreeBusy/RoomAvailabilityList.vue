@@ -123,58 +123,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.icon-close {
-	display: block;
-	height: 100%;
-}
-
-.modal__content {
-	padding: 50px;
-	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
-	margin-bottom: 95px;
-	&__actions{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 20px;
-		&__select{
-			width: 260px;
-		}
-		&__date{
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			& > *{
-				margin-inline-start: 5px;
-			}
-		}
-	}
-	&__header {
-		padding: 20px;
-		margin-bottom: 20px;
-		h3{
-			font-weight: 500;
-		}
-		&__attendees{
-			&__user-bubble{
-				margin-inline-end: 5px;
-			}
-		}
-	}
-	&__footer{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-top: 20px;
-		&__title{
-			h3{
-				font-weight: 500;
-			}
-			&__timezone{
-				color: var(--color-text-lighter);
-			}
-		}
-	}
+.modal__content__header {
+	padding: 20px;
+	margin-bottom: 20px;
 }
 
 :deep(.vs__search ) {

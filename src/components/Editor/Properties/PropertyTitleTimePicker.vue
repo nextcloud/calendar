@@ -521,12 +521,6 @@ export default {
 	}
 }
 
-.property-title-time-picker__button {
-	display: flex;
-	gap: var(--default-grid-baseline);
-	font-weight: normal;
-}
-
 :deep(button.vs__open-indicator-button) {
 	padding: 0 !important;
 }

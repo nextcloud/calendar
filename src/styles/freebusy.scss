@@ -3,42 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-.modal--scheduler {
-	position: relative;
-
-	.fc-bgevent {
-		opacity: .8;
-	}
-
-	.blocking-event-free-busy {
-		border-color: var(--color-primary-element);
-		border-style: solid;
-		border-inline-start-width: 2px;
-		border-inline-end-width: 2px;
-		background-color: transparent !important;
-		opacity: 0.7 !important;
-		z-index: 2;
-	}
-
-	.blocking-event-free-busy.blocking-event-free-busy--first-row {
-		border-radius: var(--border-radius) var(--border-radius) 0 0;
-		border-block-start-width: 2px;
-	}
-
-	.blocking-event-free-busy.blocking-event-free-busy--last-row {
-		border-radius: 0 0 var(--border-radius) var(--border-radius) ;
-		border-block-end-width: 2px;
-	}
-
-	.loading-indicator {
-		width: 100%;
-		position: absolute;
-		top: 0;
-		height: 50px;
-		margin-top: 75px;
-	}
-}
-
 .freebusy-caption {
 	margin-top: 10px;
 
