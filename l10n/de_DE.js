@@ -352,7 +352,7 @@ OC.L10N.register(
     "Minimum time before next slot" : "Mindestzeit bis zum nächsten Slot",
     "Max slots per day" : "Maximale Zeitfenster pro Tag",
     "Limit how far in the future appointments can be booked" : "Begrenzung, wie weit in der Zukunft Termine gebucht werden können",
-    "It seems a rate limit has been reached. Please try again later." : "Es scheint, dass ein Ratenlimit erreicht wurde. Bitte versuchen Sie es später noch einmal.",
+    "It seems a rate limit has been reached. Please try again later." : "Es scheint, dass ein Limit erreicht wurde. Bitte später noch einmal versuchen.",
     "Please confirm your reservation" : "Bitte bestätigen Sie Ihre Reservierung",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Wir haben Ihnen eine E-Mail mit Details gesendet. Bitte bestätigen Sie Ihren Termin über den Link in der E-Mail. Sie können diese Seite jetzt schließen.",
     "Your name" : "Ihr Name",
