@@ -12,6 +12,17 @@
 				<NcCounterBubble :count="invitees.length + 1" />
 				<NcButton
 					variant="tertiary"
+					:disabled="!attendeesMailtoLink"
+					:aria-label="t('calendar', 'Send email to all attendees')"
+					:title="t('calendar', 'Send email to all attendees')"
+					:href="attendeesMailtoLink || undefined"
+					:tag="attendeesMailtoLink ? 'a' : 'button'">
+					<template #icon>
+						<EmailMultipleOutline :size="20" />
+					</template>
+				</NcButton>
+				<NcButton
+					variant="tertiary"
 					:disabled="invitees.length === 0"
 					:aria-label="t('calendar', 'Copy attendees to clipboard')"
 					:title="t('calendar', 'Copy attendees to clipboard')"
@@ -90,6 +101,7 @@ import { NcButton, NcCounterBubble } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultipleOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
+import EmailMultipleOutline from 'vue-material-design-icons/EmailMultipleOutline.vue'
 import FreeBusy from '@/components/Editor/FreeBusy/FreeBusy.vue'
 import InviteesListItem from '@/components/Editor/Invitees/InviteesListItem.vue'
 import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
@@ -114,6 +126,7 @@ export default {
 		AccountMultipleIcon,
 		NcCounterBubble,
 		ContentCopy,
+		EmailMultipleOutline,
 	},
 
 	props: {
@@ -239,6 +252,14 @@ export default {
 			}
 
 			return filteredInvitees
+		},
+
+		attendeesMailtoLink() {
+			const emails = this.inviteesWithoutOrganizer
+				.map((attendee) => removeMailtoPrefix(attendee.uri))
+				.filter(Boolean)
+
+			return emails.length > 0 ? `mailto:${emails.join(',')}` : null
 		},
 
 		isOrganizer() {
