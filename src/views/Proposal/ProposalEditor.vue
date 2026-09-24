@@ -25,10 +25,14 @@
 					{{ selectedProposal?.location || t('calendar', 'No Location') }}
 				</div>
 				<div class="proposal-viewer__content-details">
-					<div class="proposal-viewer__content-duration-and-actions">
-						<div class="proposal-viewer__content-duration">
-							<DurationIcon />
-							{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}
+					<div class="proposal-viewer__content-duration">
+						<DurationIcon />
+						{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}
+					</div>
+					<div class="proposal-viewer__content-participants-and-actions">
+						<div class="proposal-viewer__content-participants">
+							<ParticipantsIcon decorative />
+							{{ participantSummary }}
 						</div>
 						<div class="proposal-viewer__content-actions">
 							<NcButton
@@ -220,6 +224,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue'
+import ParticipantsIcon from 'vue-material-design-icons/AccountOutline'
 import PreviousSpanIcon from 'vue-material-design-icons/ChevronLeft'
 import NextSpanIcon from 'vue-material-design-icons/ChevronRight'
 import DurationIcon from 'vue-material-design-icons/ClockOutline'
@@ -250,7 +255,7 @@ import { getBusySlots } from '@/services/freeBusySlotService.js'
 import usePrincipalStore from '@/store/principals.js'
 import useProposalStore from '@/store/proposalStore'
 import useSettingsStore from '@/store/settings.js'
-import { ProposalParticipantRealm } from '@/types/proposals/proposalEnums'
+import { ProposalParticipantRealm, ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
 import logger from '@/utils/logger.js'
 
 // Helper interface for participants emitted by InviteesListSearch
@@ -318,6 +323,15 @@ const modalTitle = computed<string>(() => {
 const modalEditLabel = computed<string>(() => !selectedProposal.value || selectedProposal.value.id ? t('calendar', 'Update meeting proposal') : t('calendar', 'Create meeting proposal'))
 
 const modalEditSaveLabel = computed<string>(() => !selectedProposal.value || selectedProposal.value.id ? t('calendar', 'Update') : t('calendar', 'Create'))
+
+const participantSummary = computed<string>(() => {
+	const participants = selectedProposal.value?.participants ?? []
+	const responded = participants.filter(({ status }) => status === ProposalParticipantStatus.Responded).length
+	return t('calendar', '{responded} of {invited} responded', {
+		invited: participants.length,
+		responded,
+	})
+})
 
 const modalEditSaveState = computed<boolean>(() => {
 	if (!selectedProposal.value) {
@@ -1017,14 +1031,15 @@ onBeforeUnmount(() => {
 	gap: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-viewer__content-duration-and-actions {
+.proposal-viewer__content-participants-and-actions {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
 .proposal-viewer__content-location,
-.proposal-viewer__content-duration {
+.proposal-viewer__content-duration,
+.proposal-viewer__content-participants {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 2);
