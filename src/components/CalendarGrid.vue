@@ -171,7 +171,7 @@ export default {
 				droppable: true,
 				eventReceive: this.handleEventReceive,
 				eventShortHeight: 38,
-				loading: this.scrollMonthViewToToday,
+				loading: this.scrollViewToToday,
 			}
 		},
 
@@ -322,15 +322,15 @@ export default {
 
 	methods: {
 		/**
-		 * Scroll the month view to today when loading the calendar,
+		 * Scroll the month or list view to today when loading the calendar,
 		 * so people can directly see today's date and events.
 		 */
-		scrollMonthViewToToday(isLoading) {
+		scrollViewToToday(isLoading) {
 			if (isLoading) {
 				return
 			}
 			const calendarApi = this.$refs.fullCalendar.getApi()
-			if (calendarApi.view.type !== 'dayGridMonth') {
+			if (calendarApi.view.type !== 'dayGridMonth' && calendarApi.view.type !== 'listMonth') {
 				return
 			}
 			this.$nextTick(() => {
