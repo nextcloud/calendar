@@ -86,7 +86,7 @@ src/fonts
 *.clover
 
 # CSS extracted from the JS build (CssExtractRspackPlugin)
-css/
+/css/
 
 # just sane ignores
 .*.sw[po]

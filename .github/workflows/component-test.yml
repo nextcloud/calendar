@@ -6,7 +6,7 @@
 # SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: MIT
 
-name: Node tests
+name: Component tests
 
 on:
   pull_request:
@@ -20,7 +20,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: node-tests-${{ github.head_ref || github.run_id }}
+  group: component-tests-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -80,16 +80,19 @@ jobs:
           npm ci
           npm run build --if-present
 
-      - name: Test
-        run: npm run test --if-present
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
-      - name: Test and process coverage
-        run: npm run test:unit:coverage
+      - name: Run component tests
+        run: npm run test:component
 
-      - name: Collect coverage
-        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+      - name: Upload component test reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          files: ./coverage/lcov.info
+          path: playwright-report
+          retention-days: 7
+          if-no-files-found: error
 
   summary:
     permissions:
@@ -99,7 +102,7 @@ jobs:
 
     if: always()
 
-    name: npm-test-summary
+    name: component-test-summary
 
     steps:
       - name: Summary status
