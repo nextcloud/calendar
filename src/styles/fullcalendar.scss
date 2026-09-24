@@ -59,7 +59,8 @@
 
 // Today highlighting
 .fc-day-today {
-	&.fc-col-header-cell {
+	&.fc-col-header-cell,
+	&.fc-list-day {
 		a, span {
 			padding: 2px 6px;
 			font-weight: bold;
