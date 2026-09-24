@@ -290,14 +290,6 @@ onMounted(async () => {
 	min-width: 180px;
 }
 
-:deep(.mx-input-wrapper) {
-	display: none;
-}
-
-:deep(.mx-datepicker-main) {
-	border: 0;
-}
-
 :deep(.textarea__main-wrapper) {
 	height: unset !important;
 }

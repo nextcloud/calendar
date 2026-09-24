@@ -319,11 +319,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.icon-close {
-	display: block;
-	height: 100%;
-}
-
 .modal__content {
 	padding: 15px;
 	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
@@ -333,9 +328,6 @@ export default {
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 20px;
-		&__select{
-			width: 260px;
-		}
 		&__date{
 			display: flex;
 			justify-content: space-between;
@@ -347,23 +339,6 @@ export default {
 	}
 	&__header{
 		margin-bottom: 20px;
-		h3{
-			font-weight: 500;
-		}
-	}
-	&__footer{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-top: 20px;
-		&__title{
-			h3{
-				font-weight: 500;
-			}
-			&__timezone{
-				color: var(--color-text-lighter);
-			}
-		}
 	}
 }
 

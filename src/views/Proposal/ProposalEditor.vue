@@ -1035,14 +1035,6 @@ onBeforeUnmount(() => {
 	gap: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-viewer__row-actions {
-	display: flex;
-	gap: calc(var(--default-grid-baseline) * 2);
-	background-color: var(--color-main-background);
-	flex-shrink: 0;
-	padding-top: calc(var(--default-grid-baseline) * 2);
-}
-
 .proposal-viewer__content-matrix {
 	padding-top: calc(var(--default-grid-baseline) * 4);
 	padding-bottom: calc(var(--default-grid-baseline) * 2);

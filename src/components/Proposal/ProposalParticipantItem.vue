@@ -93,10 +93,6 @@ function onParticipantAttendance(): void {
 	}
 }
 
-.proposal-participant__status {
-	flex-shrink: 0;
-}
-
 .proposal-participant__avatar {
 	flex-shrink: 0;
 }

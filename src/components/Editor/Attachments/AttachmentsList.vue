@@ -360,17 +360,10 @@ export default {
 		:deep(.list-item) {
 			padding: 0 8px;
 		}
-		:deep(.list-item-content__wrapper) {
-			height: 44px;
-		}
 
 		:deep(.list-item-content) {
 			// Align text with other properties
 			padding-inline-start: 18px;
-		}
-
-		:deep(.line-one__title) {
-			font-weight: unset;
 		}
 	}
 }
