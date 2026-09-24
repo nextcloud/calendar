@@ -5,7 +5,7 @@
 
 <template>
 	<div class="calendar-list-wrapper">
-		<CalendarListNew />
+		<CalendarListNew v-if="!isPublic" />
 		<template v-if="!isPublic">
 			<Draggable
 				v-model="sortedCalendars.personal"
