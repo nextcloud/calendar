@@ -157,16 +157,7 @@ export default {
 			return (this.calendarObjectInstance?.canModifyAllDay ?? false) || !(this.calendarObject?.existsOnServer ?? true)
 		},
 		/**
-		 * Returns the color the illustration should be colored in
-		 *
-		 * @return {string}
-		 */
-		illustrationColor() {
-			return this.color || this.selectedCalendarColor
-		},
-		/**
 		 * Returns the color of the calendar selected by the user
-		 * This is used to color illustration
 		 *
 		 * @return {string}
 		 */
