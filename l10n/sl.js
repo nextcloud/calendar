@@ -303,7 +303,6 @@ OC.L10N.register(
     "Out of office" : "Službena odsotnost",
     "Attendees:" : "Udeleženci:",
     "Done" : "Končano",
-    "Room name" : "Ime sobe",
     "Busy (tentative)" : "Načrtovano delo",
     "Unknown" : "Neopredeljeno",
     "Find a time" : "Najdi čas",
@@ -342,7 +341,6 @@ OC.L10N.register(
     "End repeat" : "Končaj:",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Ta dogodek ima vpisano izjemo ponavljanja, zato pravila ponovitve ni mogoče dodati.",
     "first" : "1.",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Spremembe ponavljajočega dogodka bodo uveljavljene za to in vse prihodnje ponovitve.",
     "Repeat every" : "Ponovi na",
     "By day of the month" : "Na dan v mesecu",
     "On the" : "Na",
@@ -382,8 +380,6 @@ OC.L10N.register(
     "No" : "Ne",
     "Maybe" : "Morda",
     "Create" : "Ustvari",
-    "Type to search time zone" : "Vpišite niz za iskanje časovnega pasu",
-    "Global" : "Splošno",
     "Holidays in {region}" : "Prazniki v regiji {region}",
     "Public holiday calendars" : "Koledarji praznikov",
     "Public calendars" : "Javni koledarji",
@@ -508,6 +504,10 @@ OC.L10N.register(
     "Imported {filename}" : "Uvožena datoteka {filename}",
     "This is an event reminder." : "To je opomnik dogodka.",
     "Appointment not found" : "Sestanka ni mogoče najti",
-    "User not found" : "Uporabnika ni mogoče najti"
+    "User not found" : "Uporabnika ni mogoče najti",
+    "Room name" : "Ime sobe",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Spremembe ponavljajočega dogodka bodo uveljavljene za to in vse prihodnje ponovitve.",
+    "Type to search time zone" : "Vpišite niz za iskanje časovnega pasu",
+    "Global" : "Splošno"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

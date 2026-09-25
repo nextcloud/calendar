@@ -69,7 +69,6 @@
     "Hours" : "საათი",
     "Minutes" : "წუთი",
     "Done" : "დასრულდა",
-    "Room name" : "ოთახის სახელი",
     "Unknown" : "ამოუცნობი",
     "Accept" : "მიღება",
     "Decline" : "ურაყოფა",
@@ -84,7 +83,6 @@
     "available" : "ხელმისაწვდომი",
     "Yes" : "დიახ",
     "Maybe" : "შესაძლოა",
-    "Global" : "გლობალური",
     "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
     "All day" : "მთელი დღე",
@@ -100,6 +98,8 @@
     "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები"
+    "Categories" : "კატეგორიები",
+    "Room name" : "ოთახის სახელი",
+    "Global" : "გლობალური"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

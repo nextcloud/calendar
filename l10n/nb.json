@@ -310,11 +310,9 @@
     "Out of office" : "Fraværende",
     "Attendees:" : "Deltakere:",
     "Done" : "Ferdig",
-    "Search room" : "Søk rom",
-    "Room name" : "Romnavn",
-    "Check room availability" : "Sjekk rom tilgjengelighet",
     "Busy (tentative)" : "Opptatt (foreløpig)",
     "Unknown" : "Ukjent",
+    "Check room availability" : "Sjekk rom tilgjengelighet",
     "Find a time" : "Finn et tidspunkt",
     "Accept" : "Aksepter",
     "Decline" : "Avslå",
@@ -355,7 +353,6 @@
     "End repeat" : "Avslutt gjentakelse",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Denne hendelsen er gjentakelsesunntaket for et gjentakelsessett. Du kan ikke legge til en gjentakelsesregel til den.",
     "first" : "første",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Endringer i gjentakelsesregelen vil kun gjelde for denne og alle fremtidige hendelser.",
     "Repeat every" : "Gjenta hver",
     "By day of the month" : "På en dag i måneden",
     "On the" : "På den",
@@ -393,8 +390,6 @@
     "No" : "Nei",
     "Maybe" : "Kanskje",
     "Create" : "Opprett",
-    "Type to search time zone" : "Skriv for å søke etter tidssone",
-    "Global" : "Global",
     "Holidays in {region}" : "Helligdager i {region}",
     "An error occurred, unable to read public calendars." : "Det oppstod en feil, kan ikke lese offentlige kalendere.",
     "An error occurred, unable to subscribe to calendar." : "Det oppstod en feil, kan ikke abonnere på kalenderen.",
@@ -525,6 +520,11 @@
     "This is an event reminder." : "Dette er en hendelsespåminnelse.",
     "Error while parsing a PROPFIND error" : "Feil under analyse av en PROPFIND-feil",
     "Appointment not found" : "Avtale ikke funnet",
-    "User not found" : "Fant ikke brukeren"
+    "User not found" : "Fant ikke brukeren",
+    "Search room" : "Søk rom",
+    "Room name" : "Romnavn",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Endringer i gjentakelsesregelen vil kun gjelde for denne og alle fremtidige hendelser.",
+    "Type to search time zone" : "Skriv for å søke etter tidssone",
+    "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

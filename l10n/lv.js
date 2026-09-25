@@ -271,7 +271,6 @@ OC.L10N.register(
     "Availability of attendees, resources and rooms" : "Dalībnieku, resursu un telpu pieejamība",
     "Out of office" : "Ārpus biroja",
     "Done" : "Pabeigts",
-    "Room name" : "Sapulču telpas nosaukums",
     "Busy (tentative)" : "Aizņemts (nenoteikts)",
     "Unknown" : "Nezināms",
     "Find a time" : "Atrast laiku",
@@ -307,7 +306,6 @@ OC.L10N.register(
     "End repeat" : "Beigt atkārtošanu",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Šis notikums ir atkārtojuma izņēmums no atkārtojumu kopas. Tam nevar pievienot atkārtojuma kārtulu.",
     "first" : "pirmais",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Izmaiņas atkārtošanās kārtulai tiks piemērotas tikai šim un visiem turpmākajiem notikumiem.",
     "Repeat every" : "Atkārtot katru",
     "By day of the month" : "Mēneša dienā",
     "weekday" : "darba diena",
@@ -336,8 +334,6 @@ OC.L10N.register(
     "Maybe the share was deleted or has expired?" : "Varbūt kopīgojums tika izdzēsts, vai arī ir beidzies tā derīgums?",
     "Yes" : "Jā",
     "No" : "Nē",
-    "Type to search time zone" : "Rakstīt, lai meklētu laika zonu",
-    "Global" : "Globāls",
     "Holidays in {region}" : "Brīvdienas {region}",
     "An error occurred, unable to read public calendars." : "Atgadījās kļūda, nevarēja nolasīt publiskos kalendārus.",
     "An error occurred, unable to subscribe to calendar." : "Atgadījās kļūda, neizdevās abonēt kalendāru.",
@@ -439,6 +435,10 @@ OC.L10N.register(
     "Imported {filename}" : "Ievietota {filename}",
     "This is an event reminder." : "Šis ir notikuma atgādinājums.",
     "Appointment not found" : "Tikšanās nav atrasta",
-    "User not found" : "Lietotājs nav atrasts"
+    "User not found" : "Lietotājs nav atrasts",
+    "Room name" : "Sapulču telpas nosaukums",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Izmaiņas atkārtošanās kārtulai tiks piemērotas tikai šim un visiem turpmākajiem notikumiem.",
+    "Type to search time zone" : "Rakstīt, lai meklētu laika zonu",
+    "Global" : "Globāls"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

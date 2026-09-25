@@ -285,7 +285,6 @@ OC.L10N.register(
     "Out of office" : "Fuera de la oficina",
     "Attendees:" : "Asistentes:",
     "Done" : "Hecho",
-    "Room name" : "Nombre de la sala",
     "Busy (tentative)" : "Ocupado (tentativo)",
     "Unknown" : "Desconocido",
     "Accept" : "Aceptar",
@@ -323,7 +322,6 @@ OC.L10N.register(
     "End repeat" : "Finalizar repetición",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Este evento es una excepción de la recurrencia de un conjunto de repeticiones. No puedes agregar una regla de recurrencia a él.",
     "first" : "primero",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Los cambios en la regla de recurrencia solo se aplicarán a esta y a todas las siguientes ocurrencias.",
     "Repeat every" : "Repetir cada",
     "By day of the month" : "Por día del mes",
     "On the" : "El",
@@ -358,8 +356,6 @@ OC.L10N.register(
     "Maybe the share was deleted or has expired?" : "¿Tal vez la compartición fue eliminada o ha expirado?",
     "Maybe" : "Tal vez",
     "Create" : "Crear",
-    "Type to search time zone" : "Escribe para buscar la zona horaria",
-    "Global" : "Global",
     "Holidays in {region}" : "Vacaciones en {región}",
     "Public holiday calendars" : "Calendarios de días festivos públicos",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Los calendarios de días festivos públicos son proporcionados por Thunderbird. Los datos del calendario se descargarán desde {website}",
@@ -480,6 +476,10 @@ OC.L10N.register(
     "Imported {filename}" : "Importado {filename}",
     "This is an event reminder." : "Esto es un recordatorio de evento.",
     "Appointment not found" : "Cita no encontrada",
-    "User not found" : "No se encontró el usuario"
+    "User not found" : "No se encontró el usuario",
+    "Room name" : "Nombre de la sala",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Los cambios en la regla de recurrencia solo se aplicarán a esta y a todas las siguientes ocurrencias.",
+    "Type to search time zone" : "Escribe para buscar la zona horaria",
+    "Global" : "Global"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

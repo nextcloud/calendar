@@ -71,7 +71,6 @@ OC.L10N.register(
     "Hours" : "საათი",
     "Minutes" : "წუთი",
     "Done" : "დასრულდა",
-    "Room name" : "ოთახის სახელი",
     "Unknown" : "ამოუცნობი",
     "Accept" : "მიღება",
     "Decline" : "ურაყოფა",
@@ -86,7 +85,6 @@ OC.L10N.register(
     "available" : "ხელმისაწვდომი",
     "Yes" : "დიახ",
     "Maybe" : "შესაძლოა",
-    "Global" : "გლობალური",
     "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
     "All day" : "მთელი დღე",
@@ -102,6 +100,8 @@ OC.L10N.register(
     "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები"
+    "Categories" : "კატეგორიები",
+    "Room name" : "ოთახის სახელი",
+    "Global" : "გლობალური"
 },
 "nplurals=2; plural=(n!=1);");

@@ -80,7 +80,6 @@
     "Hours" : "Orët",
     "Minutes" : "Minutat",
     "Done" : "U bë",
-    "Room name" : "Emri i dhomës",
     "Unknown" : "I/E panjohur",
     "Accept" : "Prano",
     "Decline" : "Refuzo",
@@ -96,7 +95,6 @@
     "available" : "në gjëndje",
     "Yes" : "Po",
     "Create" : "Krijo",
-    "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
     "Discard" : "Hidh poshtë",
@@ -114,6 +112,8 @@
     "When shared hide this event" : "Kur ndahet fshihe këtë veprimtari",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë"
+    "Categories" : "Kategoritë",
+    "Room name" : "Emri i dhomës",
+    "Global" : "Globale"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

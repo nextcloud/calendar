@@ -81,7 +81,6 @@ OC.L10N.register(
     "Resources" : "Hulpbronne",
     "available" : "beskikbaar",
     "Clear filters" : "Maak filter skoon",
-    "Global" : "Globaal",
     "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
     "All day" : "Heeldag",
@@ -94,6 +93,7 @@ OC.L10N.register(
     "second" : "sekonde",
     "Other" : "Ander",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë"
+    "Categories" : "Kategorieë",
+    "Global" : "Globaal"
 },
 "nplurals=2; plural=(n != 1);");

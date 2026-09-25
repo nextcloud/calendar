@@ -79,7 +79,6 @@
     "Resources" : "Hulpbronne",
     "available" : "beskikbaar",
     "Clear filters" : "Maak filter skoon",
-    "Global" : "Globaal",
     "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
     "All day" : "Heeldag",
@@ -92,6 +91,7 @@
     "second" : "sekonde",
     "Other" : "Ander",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë"
+    "Categories" : "Kategorieë",
+    "Global" : "Globaal"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

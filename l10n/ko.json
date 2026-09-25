@@ -293,7 +293,6 @@
     "Out of office" : "자리에 없음",
     "Attendees:" : "참석자:",
     "Done" : "완료",
-    "Room name" : "방 번호",
     "Busy (tentative)" : "바쁨 (잠정적으로)",
     "Unknown" : "알 수 없음",
     "Accept" : "수락",
@@ -331,7 +330,6 @@
     "End repeat" : "반복 종료",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "이 일정은 특정 반복 일정의 예외로 지정되어 있습니다. 이 일정에 다른 반복 규칙을 지정할 수 없습니다.",
     "first" : "첫 번째",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "반복 규칙은 이번 및 그 이후의 일정에만 적용됩니다.",
     "Repeat every" : "반복 주기",
     "By day of the month" : "일자 지정",
     "On the" : "조건 지정",
@@ -367,8 +365,6 @@
     "No" : "아니오",
     "Maybe" : "아마도",
     "Create" : "생성",
-    "Type to search time zone" : "시간대를 찾기 위해 입력하세요.",
-    "Global" : "국제",
     "Holidays in {region}" : "{region}의 휴일",
     "An error occurred, unable to read public calendars." : "오류가 발생하여 공개 달력을 읽을 수 없습니다.",
     "An error occurred, unable to subscribe to calendar." : "오류가 발생하여 달력을 구독할 수 없습니다.",
@@ -490,6 +486,10 @@
     "Imported {filename}" : "{filename} 가져옴",
     "This is an event reminder." : "일정에 대한 알림입니다.",
     "Appointment not found" : "약속을 찾을 수 없음",
-    "User not found" : "사용자를 찾을 수 없음"
+    "User not found" : "사용자를 찾을 수 없음",
+    "Room name" : "방 번호",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "반복 규칙은 이번 및 그 이후의 일정에만 적용됩니다.",
+    "Type to search time zone" : "시간대를 찾기 위해 입력하세요.",
+    "Global" : "국제"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

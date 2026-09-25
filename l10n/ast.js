@@ -213,7 +213,6 @@ OC.L10N.register(
     "Out of office" : "Fuera de la oficina",
     "Attendees:" : "Asistentes:",
     "Done" : "Fecho",
-    "Room name" : "Nome de la sala",
     "Find a time" : "Atopar una hora",
     "Accept" : "Aceptar",
     "Decline" : "Refugar",
@@ -253,7 +252,6 @@ OC.L10N.register(
     "Yes" : "Sí",
     "No" : "Non",
     "Create" : "Crear",
-    "Global" : "Global",
     "An error occurred, unable to read public calendars." : "Prodúxose un error, nun ye posible lleer los calendariu públicos.",
     "An error occurred, unable to subscribe to calendar." : "Prodúxose un error, nun ye posible soscribise al calendariu.",
     "Subscribe" : "Soscribise",
@@ -299,6 +297,8 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Prodúxose un error, nun ye posible desaniciar el calendariu",
     "Imported {filename}" : "Importóse «{filename}»",
     "This is an event reminder." : "Esto ye un recordatoriu del eventu.",
-    "User not found" : "Nun s'atopó l'usuariu"
+    "User not found" : "Nun s'atopó l'usuariu",
+    "Room name" : "Nome de la sala",
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

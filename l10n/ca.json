@@ -327,11 +327,9 @@
     "Out of office" : "Fora de l'oficina",
     "Attendees:" : "Assistents:",
     "Done" : "Fet",
-    "Search room" : "Cerca sala",
-    "Room name" : "Nom de la sala",
-    "Check room availability" : "Consulta la disponibilitat de l'habitació",
     "Busy (tentative)" : "Ocupat (provisional)",
     "Unknown" : "Desconegut",
+    "Check room availability" : "Consulta la disponibilitat de l'habitació",
     "Find a time" : "Troba un moment",
     "Accept" : "Accepta",
     "Decline" : "Rebutja",
@@ -375,7 +373,6 @@
     "End repeat" : "Finalitza la repetició",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Aquest esdeveniment és l'excepció de recurrència d'un conjunt de recurrència. No hi podeu afegir una regla de recurrència.",
     "first" : "primer",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Els canvis a la regla de recurrència només afectarà en aquesta i futures ocurrències.",
     "Repeat every" : "Repeteix cada",
     "By day of the month" : "Per dia del mes",
     "On the" : "Al",
@@ -416,8 +413,6 @@
     "No" : "No",
     "Maybe" : "Potser",
     "Create" : "Crea",
-    "Type to search time zone" : "Escriviu per cercar la zona horària",
-    "Global" : "Global",
     "Holidays in {region}" : "Festius a {region}",
     "An error occurred, unable to read public calendars." : "S'ha produït un error, no es poden llegir els calendaris públics.",
     "An error occurred, unable to subscribe to calendar." : "S'ha produït un error, no es pot subscriure al calendari.",
@@ -560,6 +555,11 @@
     "This is an event reminder." : "Això és un recordatori de l'esdeveniment.",
     "Error while parsing a PROPFIND error" : "S'ha produït un error en analitzar un error PROPFIND",
     "Appointment not found" : "No s'ha trobat la cita",
-    "User not found" : "No s'ha trobat l'usuari"
+    "User not found" : "No s'ha trobat l'usuari",
+    "Search room" : "Cerca sala",
+    "Room name" : "Nom de la sala",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Els canvis a la regla de recurrència només afectarà en aquesta i futures ocurrències.",
+    "Type to search time zone" : "Escriviu per cercar la zona horària",
+    "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

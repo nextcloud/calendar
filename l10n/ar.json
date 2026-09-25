@@ -329,11 +329,9 @@
     "Out of office" : "خارج المكتب",
     "Attendees:" : "الحُضُور:",
     "Done" : "تمّ",
-    "Search room" : "البحث في الغرفة",
-    "Room name" : "اسم الغرفة",
-    "Check room availability" : "تحقَّق من توافر الغرفة",
     "Busy (tentative)" : "مشغولٌ (حاليّاً)",
     "Unknown" : "غير معروف",
+    "Check room availability" : "تحقَّق من توافر الغرفة",
     "Find a time" : "إيجاد وقت",
     "Accept" : "قبول",
     "Decline" : "رفض",
@@ -377,7 +375,6 @@
     "End repeat" : "نهاية التكرار",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "هذا الحدث هو استثناء من مجموعة التكرار. لا يمكنك إضافة شرط تكرار إليه.",
     "first" : "أول",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "التغيير في قاعدة التكرار سوف يُطبّق فقط على هذا التكرار و على التكرارات المستقبلية.",
     "Repeat every" : "تكرار كل",
     "By day of the month" : "بحسب اليوم من الشهر",
     "On the" : "في الـ",
@@ -416,8 +413,6 @@
     "No" : "لا",
     "Maybe" : "ربما",
     "Create" : "إنشاء",
-    "Type to search time zone" : "أكتب للبحث في المنطقة الزمنية ",
-    "Global" : "عالمي",
     "Holidays in {region}" : "العطلات الرسمية في {region}",
     "An error occurred, unable to read public calendars." : "حدث خطأ؛ تعذّرت قراءة التقاويم العمومية.",
     "An error occurred, unable to subscribe to calendar." : "حدث خطأ؛ تعذّر الاشتراك في التقويم.",
@@ -560,6 +555,11 @@
     "This is an event reminder." : "هذا تذكير بحدث",
     "Error while parsing a PROPFIND error" : "حدث خطأ أثناء تحليل PROFIND",
     "Appointment not found" : "الموعد غير موجود",
-    "User not found" : "المستخدم غير موجود"
+    "User not found" : "المستخدم غير موجود",
+    "Search room" : "البحث في الغرفة",
+    "Room name" : "اسم الغرفة",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "التغيير في قاعدة التكرار سوف يُطبّق فقط على هذا التكرار و على التكرارات المستقبلية.",
+    "Type to search time zone" : "أكتب للبحث في المنطقة الزمنية ",
+    "Global" : "عالمي"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
