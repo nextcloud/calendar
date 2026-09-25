@@ -118,7 +118,6 @@ OC.L10N.register(
     "Hours" : "Oras",
     "Minutes" : "Minutas",
     "Out of office" : "Fòra del burèu",
-    "Room name" : "Nom de la sala",
     "Busy (tentative)" : "Ocupat (provisòri)",
     "Unknown" : "Desconegut",
     "Accept" : "Acceptar",
@@ -151,8 +150,6 @@ OC.L10N.register(
     "Yes" : "Òc",
     "No" : "Non",
     "Create" : "Crear",
-    "Type to search time zone" : "Picar per cercar un fus orari",
-    "Global" : "Global",
     "Subscribe" : "S'abonar",
     "Personal" : "Personal",
     "All day" : "Tota la jornada",
@@ -192,6 +189,9 @@ OC.L10N.register(
     "Categories" : "Categorias",
     "Custom color" : "Color personalizada",
     "Error while sharing file" : "Error pendent lo partiment del fichièr",
-    "User not found" : "Utilizaire pas trobat"
+    "User not found" : "Utilizaire pas trobat",
+    "Room name" : "Nom de la sala",
+    "Type to search time zone" : "Picar per cercar un fus orari",
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n > 1);");

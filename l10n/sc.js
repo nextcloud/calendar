@@ -188,7 +188,6 @@ OC.L10N.register(
     "Availability of attendees, resources and rooms" : "Disponibilidade de partetzipantes, resursas e aposentos",
     "Out of office" : "Foras de serbìtziu",
     "Attendees:" : "Partetzipadores:",
-    "Room name" : "Nùmene istantza",
     "Busy (tentative)" : "Ocupadu (intentu)",
     "Unknown" : "Non connotu",
     "Accept" : "Atzeta",
@@ -218,7 +217,6 @@ OC.L10N.register(
     "End repeat" : "Acabba ripetitzione",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Custu eventu est s'etzetzione de una filera de recurrèntzias. No ddi podes agiùnghere una règula de recurrèntzia.",
     "first" : "primu",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Is càmbios a sa règula de recurrèntzia s'ant a aplicare isceti a custa e a is occurrèntzias imbenientes.",
     "Repeat every" : "Repite cada",
     "By day of the month" : "Pro die de su mese",
     "On the" : "Su",
@@ -241,8 +239,6 @@ OC.L10N.register(
     "Yes" : "Si",
     "No" : "No",
     "Create" : "Crea",
-    "Type to search time zone" : "Iscrire pro chircare fusu oràriu",
-    "Global" : "Globale",
     "Subscribed" : "Sutaiscritu",
     "Subscribe" : "Sutaiscrie",
     "Personal" : "Personale",
@@ -338,6 +334,10 @@ OC.L10N.register(
     "Error while sharing file" : "Errore in sa cumpartzidura de s'archìviu",
     "An error occurred, unable to delete the calendar." : "B'at àpidu un'errore, no at fatu a cantzellare su calendàriu.",
     "Imported {filename}" : "Importadu {filename}",
-    "User not found" : "Utèntzia no agatada"
+    "User not found" : "Utèntzia no agatada",
+    "Room name" : "Nùmene istantza",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Is càmbios a sa règula de recurrèntzia s'ant a aplicare isceti a custa e a is occurrèntzias imbenientes.",
+    "Type to search time zone" : "Iscrire pro chircare fusu oràriu",
+    "Global" : "Globale"
 },
 "nplurals=2; plural=(n != 1);");

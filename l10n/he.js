@@ -240,7 +240,6 @@ OC.L10N.register(
     "Out of office" : "מחוץ למשרד",
     "Attendees:" : "משתתפים:",
     "Done" : "הסתיים",
-    "Room name" : "שם החדר",
     "Busy (tentative)" : "תפוס (טנטטיבי)",
     "Unknown" : "לא ידוע",
     "Accept" : "אשר",
@@ -269,7 +268,6 @@ OC.L10N.register(
     "after" : "לאחר",
     "End repeat" : "סיום חזרה",
     "first" : "ראשון",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "שינויים ב-recurrence-rule יחולו רק על האירוע הזה ועל כל אירועים עתידיים.",
     "Repeat every" : "חזור על כל",
     "By day of the month" : "לפי היום בחודש",
     "On the" : "על",
@@ -288,7 +286,6 @@ OC.L10N.register(
     "Public calendar does not exist" : "לוח השנה הציבורי אינו קיים",
     "Maybe the share was deleted or has expired?" : "אולי השיתוף נמחק או פג תוקפו?",
     "Create" : "יצירה",
-    "Global" : "גלובלי",
     "Subscribe" : "הרשמה",
     "Personal" : "אישי",
     "Discard" : "התעלמות",
@@ -378,6 +375,9 @@ OC.L10N.register(
     "Error while sharing file" : "שגיאה בשיתוף הקובץ",
     "An error occurred, unable to delete the calendar." : "אירעה שגיאה, לא ניתן למחוק את היומן.",
     "Imported {filename}" : "יובא {filename} ",
-    "User not found" : "המשתמש לא נמצא"
+    "User not found" : "המשתמש לא נמצא",
+    "Room name" : "שם החדר",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "שינויים ב-recurrence-rule יחולו רק על האירוע הזה ועל כל אירועים עתידיים.",
+    "Global" : "גלובלי"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");
