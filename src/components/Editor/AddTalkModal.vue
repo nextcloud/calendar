@@ -193,22 +193,35 @@ export default {
 		},
 
 		/**
-		 * Add the conversation as the event's conference.
+		 * Add the conversation as the event's conference, and add its link to the
+		 * location if it is empty or append it to the description otherwise.
 		 *
 		 * @param {string} url The conversation URL
 		 */
-		setConference(url) {
+		applyConversationLink(url) {
 			const eventComponent = this.calendarObjectInstance?.eventComponent
-			if (!eventComponent?.addConference) {
+			if (eventComponent?.addConference) {
+				// Replace an earlier conversation rather than stacking a second one
+				for (const conference of [...eventComponent.getConferenceList()]) {
+					eventComponent.deleteProperty(conference)
+				}
+
+				eventComponent.addConference(url, this.$t('calendar', 'Nextcloud Talk'), ['AUDIO', 'VIDEO', 'CHAT'])
+			}
+
+			if ((this.calendarObjectInstance.location ?? '').trim() === '') {
+				this.$emit('updateLocation', url)
+				showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
 				return
 			}
 
-			// Replace an earlier conversation rather than stacking a second one
-			for (const conference of [...eventComponent.getConferenceList()]) {
-				eventComponent.deleteProperty(conference)
-			}
+			const NEW_LINE = '\r\n'
+			const description = this.calendarObjectInstance.description
+				? this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url
+				: url
 
-			eventComponent.addConference(url, this.$t('calendar', 'Nextcloud Talk'), ['AUDIO', 'VIDEO', 'CHAT'])
+			this.$emit('updateDescription', description)
+			showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))
 		},
 
 		async selectConversation(conversation) {
@@ -220,25 +233,7 @@ export default {
 					return
 				}
 
-				this.setConference(url)
-
-				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
-					this.calendarObjectInstanceStore.changeLocation({
-						location: url,
-					})
-					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
-				} else {
-					const NEW_LINE = '\r\n'
-					const updatedDescription = this.calendarObjectInstance.description
-						? this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url
-						: url
-
-					this.calendarObjectInstanceStore.changeDescription({
-						description: updatedDescription,
-					})
-					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))
-				}
-
+				this.applyConversationLink(url)
 				this.selectedConversation = conversation
 			} catch (error) {
 				logger.error('Error applying conversation to event:', { error })
@@ -249,7 +244,6 @@ export default {
 		},
 
 		async createTalkRoom(type) {
-			const NEW_LINE = '\r\n'
 			try {
 				this.creatingTalkRoom = true
 
@@ -279,19 +273,7 @@ export default {
 					throw new Error('Failed to generate URL from token')
 				}
 
-				this.setConference(url)
-
-				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
-					this.$emit('updateLocation', url)
-					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
-				} else {
-					const newDescription = this.calendarObjectInstance.description
-						? this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE
-						: url
-
-					this.$emit('updateDescription', newDescription)
-					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))
-				}
+				this.applyConversationLink(url)
 				this.closeModal()
 			} catch (error) {
 				logger.error('Error creating Talk room:', { error })
