@@ -3,6 +3,103 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { CalendarInterface, CalendarShareInterface } from '@/types/calendar.ts'
+
+import { showInfo } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { NcActionButton, NcActions, NcAvatar, NcCheckboxRadioSwitch } from '@nextcloud/vue'
+import { computed, onMounted, ref } from 'vue'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
+import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import logger from '@/utils/logger.js'
+
+const props = defineProps<{
+	calendar: CalendarInterface
+	sharee: CalendarShareInterface
+}>()
+
+const calendarsStore = useCalendarsStore()
+const principalsStore = usePrincipalsStore()
+
+const updatingSharee = ref(false)
+const shareeEmail = ref('')
+const isWriteable = ref(props.sharee.writeable)
+
+const displayName = computed<string>(() => {
+	if (props.sharee.isCircle) {
+		return t('calendar', '{teamDisplayName} (Team)', {
+			teamDisplayName: props.sharee.displayName ?? '',
+		})
+	}
+
+	return props.sharee.displayName ?? ''
+})
+
+const canBeSharedWritable = computed<boolean>(() => {
+	return props.calendar.canCreateObject || props.calendar.canModifyObject
+})
+
+/**
+ * Unshares the calendar from the given sharee
+ */
+async function unshare(): Promise<void> {
+	updatingSharee.value = true
+	try {
+		await calendarsStore.unshareCalendar({
+			calendar: props.calendar,
+			uri: props.sharee.uri,
+		})
+		updatingSharee.value = false
+	} catch (error) {
+		logger.error(error)
+		showInfo(t('calendar', 'An error occurred while unsharing the calendar.'))
+
+		updatingSharee.value = false
+	}
+}
+
+/**
+ * Toggles the write-permission of the share
+ */
+async function updatePermission(): Promise<void> {
+	updatingSharee.value = true
+	try {
+		await calendarsStore.toggleCalendarShareWritable({
+			calendar: props.calendar,
+			uri: props.sharee.uri,
+		})
+		updatingSharee.value = false
+	} catch (error) {
+		logger.error(error)
+		showInfo(t('calendar', 'An error occurred, unable to change the permission of the share.'))
+
+		updatingSharee.value = false
+	}
+}
+
+async function updateShareeEmail(): Promise<void> {
+	if (props.sharee.isGroup || props.sharee.isCircle) {
+		return
+	}
+
+	const shareeUrl = (props.sharee.uri ?? '').replace('principal:', '/remote.php/dav/') + '/'
+
+	await principalsStore.fetchPrincipalByUrl({ url: shareeUrl })
+
+	const principal = principalsStore.getPrincipalByUrl(shareeUrl)
+
+	shareeEmail.value = principal.emailAddress
+}
+
+onMounted(() => {
+	updateShareeEmail()
+})
+</script>
+
 <template>
 	<div class="share-item">
 		<AccountMultiple v-if="sharee.isGroup" :size="20" class="share-item__group-icon" />
@@ -21,7 +118,7 @@
 			v-model="isWriteable"
 			:disabled="updatingSharee"
 			@update:modelValue="updatePermission">
-			{{ $t('calendar', 'can edit and see confidential events') }}
+			{{ t('calendar', 'can edit and see confidential events') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcActions>
@@ -31,147 +128,11 @@
 				<template #icon>
 					<Delete :size="20" decorative />
 				</template>
-				{{ $t('calendar', 'Unshare with {displayName}', { displayName: sharee.displayName }) }}
+				{{ t('calendar', 'Unshare with {displayName}', { displayName: sharee.displayName }) }}
 			</NcActionButton>
 		</NcActions>
 	</div>
 </template>
-
-<script>
-import {
-	showInfo,
-} from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcAvatar, NcCheckboxRadioSwitch } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
-import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
-import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import useCalendarsStore from '@/store/calendars.js'
-import usePrincipalsStore from '@/store/principals.js'
-import logger from '@/utils/logger.js'
-import { randomId } from '@/utils/randomId.js'
-
-export default {
-	name: 'ShareItem',
-	components: {
-		NcActions,
-		NcActionButton,
-		NcAvatar,
-		NcCheckboxRadioSwitch,
-		AccountGroupIcon,
-		AccountMultiple,
-		Delete,
-	},
-
-	props: {
-		calendar: {
-			type: Object,
-			required: true,
-		},
-
-		sharee: {
-			type: Object,
-			required: true,
-		},
-	},
-
-	data() {
-		return {
-			id: randomId(),
-			updatingSharee: false,
-			shareeEmail: '',
-			isWriteable: this.sharee.writeable,
-		}
-	},
-
-	computed: {
-		...mapStores(useCalendarsStore, usePrincipalsStore),
-
-		/**
-		 * @return {string}
-		 */
-		displayName() {
-			if (this.sharee.isCircle) {
-				return t('calendar', '{teamDisplayName} (Team)', {
-					teamDisplayName: this.sharee.displayName,
-				})
-			}
-
-			return this.sharee.displayName
-		},
-
-		/**
-		 * @return {boolean}
-		 */
-		canBeSharedWritable() {
-			return this.calendar.canCreateObject || this.calendar.canModifyObject
-		},
-
-	},
-
-	mounted() {
-		this.updateShareeEmail()
-	},
-
-	methods: {
-		/**
-		 * Unshares the calendar from the given sharee
-		 *
-		 * @return {Promise<void>}
-		 */
-		async unshare() {
-			this.updatingSharee = true
-			try {
-				await this.calendarsStore.unshareCalendar({
-					calendar: this.calendar,
-					uri: this.sharee.uri,
-				})
-				this.updatingSharee = false
-			} catch (error) {
-				logger.error(error)
-				showInfo(this.$t('calendar', 'An error occurred while unsharing the calendar.'))
-
-				this.updatingSharee = false
-			}
-		},
-
-		/**
-		 * Toggles the write-permission of the share
-		 *
-		 * @return {Promise<void>}
-		 */
-		async updatePermission() {
-			this.updatingSharee = true
-			try {
-				await this.calendarsStore.toggleCalendarShareWritable({
-					calendar: this.calendar,
-					uri: this.sharee.uri,
-				})
-				this.updatingSharee = false
-			} catch (error) {
-				logger.error(error)
-				showInfo(this.$t('calendar', 'An error occurred, unable to change the permission of the share.'))
-
-				this.updatingSharee = false
-			}
-		},
-
-		async updateShareeEmail() {
-			if (this.sharee.isGroup || this.sharee.isCircle) {
-				return
-			}
-
-			const shareeUrl = this.sharee.uri.replace('principal:', '/remote.php/dav/') + '/'
-
-			await this.principalsStore.fetchPrincipalByUrl({ url: shareeUrl })
-
-			const principal = this.principalsStore.getPrincipalByUrl(shareeUrl)
-
-			this.shareeEmail = principal.emailAddress
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .share-item {
