@@ -361,6 +361,7 @@ OC.L10N.register(
     "Back" : "Kembali",
     "Book appointment" : "Pesan janji temu",
     "Error fetching Talk conversations." : "Kesalahan saat mengambil percakapan Talk.",
+    "Nextcloud Talk" : "Talk Nextcloud",
     "Conversation does not have a valid URL." : "Percakapan tidak memiliki URL yang valid.",
     "Successfully added Talk conversation link to location." : "Berhasil menambahkan tautan percakapan Talk ke lokasi.",
     "Successfully added Talk conversation link to description." : "Berhasil menambahkan tautan percakapan Talk ke deskripsi.",

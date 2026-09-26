@@ -176,6 +176,7 @@ OC.L10N.register(
     "Weekdays" : "Díes de la selmana",
     "Your email address" : "La to direición de corréu electrónicu",
     "Back" : "Atrás",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Amount" : "Cantidá",
     "Notification" : "Avisu",
     "Email" : "Corréu electrónicu",

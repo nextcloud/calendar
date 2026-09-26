@@ -108,6 +108,7 @@ OC.L10N.register(
     "Friday" : "Gwener",
     "Sunday" : "Sul",
     "Your email address" : "O chom-lec'h postel",
+    "Nextcloud Talk" : "Flap Nextcloud",
     "Select conversation" : "Choaz un diviz",
     "Notification" : "Kemennadenn",
     "Email" : "Postel",

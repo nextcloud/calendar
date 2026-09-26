@@ -270,6 +270,7 @@ OC.L10N.register(
     "Back" : "Itzuli",
     "Book appointment" : "Erreserbatu hitzordua",
     "Error fetching Talk conversations." : "Errorea Hizketaldiaken elkarrizketak eskuratzean.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "Elkarrizketak ez dauka baliozko URLrik.",
     "Successfully added Talk conversation link to location." : "Hizketaldiaken elkarrizketa arrakastaz lotu da kokapenarekin.",
     "Successfully added Talk conversation link to description." : "Hizketaldiaken elkarrizketa arrakastaz lotu da deskribapenarekin.",

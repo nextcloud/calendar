@@ -357,6 +357,7 @@ OC.L10N.register(
     "Back" : "Atgal",
     "Book appointment" : "Rezervuokite susitikimą",
     "Error fetching Talk conversations." : "Klaida gaunant „Pokalbiai“ pokalbius.",
+    "Nextcloud Talk" : "„Nextcloud Pokalbiai“",
     "Conversation does not have a valid URL." : "Pokalbis neturi galiojančio URL.",
     "Successfully added Talk conversation link to location." : "„Pokalbiai“ pokalbio nuoroda sėkmingai pridėta prie vietos.",
     "Successfully added Talk conversation link to description." : "„Pokalbiai“ pokalbio nuoroda sėkmingai pridėta prie aprašymo.",

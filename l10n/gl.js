@@ -357,6 +357,7 @@ OC.L10N.register(
     "Back" : "Atras",
     "Book appointment" : "Concertar cita",
     "Error fetching Talk conversations." : "Produciuse un erro ao recuperar as conversas en Parladoiro",
+    "Nextcloud Talk" : "Parladoiro de Nextcloud",
     "Conversation does not have a valid URL." : "A conversa non ten un URL válido.",
     "Successfully added Talk conversation link to location." : "Engadiuse correctamente a ligazón da conversa en Parladoiro á localización.",
     "Successfully added Talk conversation link to description." : "Engadiuse correctamente a ligazón da conversa en Parladoiro á descrición.",

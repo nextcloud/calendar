@@ -355,6 +355,7 @@
     "Back" : "Назад",
     "Book appointment" : "Записаться на прием",
     "Error fetching Talk conversations." : "Ошибка получения списка обсуждений Talk",
+    "Nextcloud Talk" : "Конференции для Nextcloud",
     "Conversation does not have a valid URL." : "Ссылка на обсуждение некорректна",
     "Successfully added Talk conversation link to location." : "Ссылка на обсуждение в приложении Конференции добавлена в местоположение события.",
     "Successfully added Talk conversation link to description." : "Ссылка на обсуждение в приложении Конференции добавлена в описание события.",

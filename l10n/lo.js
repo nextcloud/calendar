@@ -283,6 +283,7 @@ OC.L10N.register(
     "Back" : "ກັບຄືນ",
     "Book appointment" : "Book appointment",
     "Error fetching Talk conversations." : "Error fetching Talk conversations.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "Conversation does not have a valid URL.",
     "Successfully added Talk conversation link to location." : "Successfully added Talk conversation link to location.",
     "Successfully added Talk conversation link to description." : "Successfully added Talk conversation link to description.",

@@ -288,6 +288,7 @@ OC.L10N.register(
     "Back" : "–ë—É—Ü–∞—Ö",
     "Book appointment" : "Уулзалт захиалах",
     "Error fetching Talk conversations." : "Talk яриа авахад алдаа гарлаа.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "Яриа хүчинтэй URL-гүй байна.",
     "Successfully added Talk conversation link to location." : "Talk яриа холбоосыг байршилд амжилттай нэмлээ.",
     "Successfully added Talk conversation link to description." : "Talk яриа холбоосыг тайлбарт амжилттай нэмлээ.",

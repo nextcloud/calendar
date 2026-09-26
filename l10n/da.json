@@ -287,6 +287,7 @@
     "Back" : "Tilbage",
     "Book appointment" : "Book aftale",
     "Error fetching Talk conversations." : "Fejl under hentning af Talk samtaler.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "Samtaler har ikke en gyldig URL.",
     "Successfully added Talk conversation link to location." : "Tilføjede Talk samtale link til placering.",
     "Successfully added Talk conversation link to description." : "Tilføjede Talk samtale link til beskrivelse.",

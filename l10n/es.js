@@ -317,6 +317,7 @@ OC.L10N.register(
     "Back" : "Atrás",
     "Book appointment" : "Reservar cita",
     "Error fetching Talk conversations." : "Error al obtener conversaciones de Talk.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "La conversación no tiene una URL válida.",
     "Successfully added Talk conversation link to location." : "Se ha añadió el enlace a la sala de Talk en la ubicación exitosamente.",
     "Successfully added Talk conversation link to description." : "Se ha añadió el enlace a la sala de Talk en la descripción exitosamente.",

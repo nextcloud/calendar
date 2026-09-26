@@ -304,6 +304,7 @@
     "Could not book the appointment. Please try again later or contact the organizer." : "Não foi possível agendar a reunião. Tente novamente mais tarde ou entre em contacto com o organizador.",
     "Back" : "Voltar",
     "Error fetching Talk conversations." : "Erro ao buscar conversas do Talk.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "A conversa não tem um URL válido.",
     "Successfully added Talk conversation link to location." : "Adicionado com sucesso o link da conversa do Talk à localização.",
     "Successfully added Talk conversation link to description." : "Adicionado com sucesso o link da conversa do Talk na descrição.",

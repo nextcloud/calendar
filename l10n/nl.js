@@ -359,6 +359,7 @@ OC.L10N.register(
     "Back" : "Terug",
     "Book appointment" : "Boek afspraak",
     "Error fetching Talk conversations." : "Fout bij ophalen Talk gesprekken",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "Gesprek heeft geen geldige URL",
     "Successfully added Talk conversation link to location." : "Geslaagde toevoeging Talk gesprekskoppeling aan locatie. ",
     "Successfully added Talk conversation link to description." : "Geslaagde toevoeging Talk gesprekskoppeling aan omschrijving. ",

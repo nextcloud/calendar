@@ -297,6 +297,7 @@ OC.L10N.register(
     "Back" : "Orqaga",
     "Book appointment" : "Uchrashuvni tayinlash",
     "Error fetching Talk conversations." : "Talk suhbatlarini olishda xatolik yuz berdi.",
+    "Nextcloud Talk" : "Keyingi bulut suhbati",
     "Conversation does not have a valid URL." : "Suhbatda yaroqli URL manzili yo‘q.",
     "Successfully added Talk conversation link to location." : "Muloqot suhbati havolasi joylashuvga muvaffaqiyatli qo‘shildi.",
     "Successfully added Talk conversation link to description." : "Tavsifga Talk suhbati havolasi muvaffaqiyatli qo‘shildi.",
