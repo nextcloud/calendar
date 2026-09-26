@@ -356,6 +356,7 @@ OC.L10N.register(
     "Back" : "Πίσω",
     "Book appointment" : "Κλείσιμο ραντεβού",
     "Error fetching Talk conversations." : "Σφάλμα κατά την ανάκτηση των συνομιλιών Talk.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "Η συνομιλία δεν έχει έγκυρη διεύθυνση URL.",
     "Successfully added Talk conversation link to location." : "Ο σύνδεσμος της συνομιλίας Talk προστέθηκε με επιτυχία στην τοποθεσία.",
     "Successfully added Talk conversation link to description." : "Ο σύνδεσμος της συνομιλίας Talk προστέθηκε με επιτυχία στην περιγραφή.",

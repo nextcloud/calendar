@@ -361,6 +361,7 @@ OC.L10N.register(
     "Back" : "Назад",
     "Book appointment" : "Зарезервувати зустріч",
     "Error fetching Talk conversations." : "Помилка під час отримання розмов Talk.",
+    "Nextcloud Talk" : "Розмови Nextcloud",
     "Conversation does not have a valid URL." : "Ця розмова Talk не містить дійсної адреси URL.",
     "Successfully added Talk conversation link to location." : "Успішно додано посилання на розмову Talk до розташування",
     "Successfully added Talk conversation link to description." : "Успішно додано посилання на розмову Talk до опису",

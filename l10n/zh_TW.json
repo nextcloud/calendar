@@ -360,6 +360,7 @@
     "Back" : "返回",
     "Book appointment" : "預約",
     "Error fetching Talk conversations." : "擷取 Talk 對話時發生錯誤",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "對話沒有有效的 URL。",
     "Successfully added Talk conversation link to location." : "成功在位置中新增 Talk 對話連結。",
     "Successfully added Talk conversation link to description." : "成功在描述中新增 Talk 對話連結。",

@@ -497,6 +497,7 @@ OC.L10N.register(
     "Non-participant" : "Nicht-Teilnehmer",
     "Attendees copied to clipboard" : "Teilnehmer wurden in die Zwischenablage kopiert",
     "Failed to copy attendees to clipboard" : "Teilnehmer konnten nicht in die Zwischenablage kopiert werden",
+    "Send email to all attendees" : "Allen Teilnehmern eine E-Mail senden",
     "Copy attendees to clipboard" : "Teilnehmer in die Zwischenablage kopieren",
     "_%n more attendee_::_%n more attendees_" : ["%n weiterer Teilnehmer","%n weitere Teilnehmer"],
     "Remove group" : "Gruppe entfernen",

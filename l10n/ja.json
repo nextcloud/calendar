@@ -355,6 +355,7 @@
     "Back" : "戻る",
     "Book appointment" : "予約する",
     "Error fetching Talk conversations." : "Talkの会話の取得中にエラーが発生しました。",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "会話に有効なURLがありません。",
     "Successfully added Talk conversation link to location." : "トークへのリンクをロケーションに追加しました。",
     "Successfully added Talk conversation link to description." : "Talkの会話リンクを説明に正常に追加しました。",

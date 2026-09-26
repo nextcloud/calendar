@@ -249,6 +249,7 @@
     "Back" : "Torna",
     "Book appointment" : "Reserva cita",
     "Error fetching Talk conversations." : "S'ha produït un error en recuperar les converses a Converses.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "La conversa no té un URL vàlid.",
     "Successfully added Talk conversation link to location." : "S'ha afegit correctament l'enllaç de Converses a la ubicació.",
     "Successfully added Talk conversation link to description." : "S'ha afegit correctament l'enllaç de Converses a la descripció.",

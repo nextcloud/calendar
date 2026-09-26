@@ -77,6 +77,7 @@ OC.L10N.register(
     "Sunday" : "Domingo",
     "Your email address" : "Su dirección de correo electrónico",
     "Back" : "Volver",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Notification" : "Notificación",
     "Email" : "Correo electrónico",
     "seconds" : "segundos",

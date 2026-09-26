@@ -361,6 +361,7 @@ OC.L10N.register(
     "Back" : "Tillbaka",
     "Book appointment" : "Boka möte",
     "Error fetching Talk conversations." : "Det gick inte att hämta Talk-konversationer.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "Konversationen har ingen giltig webbadress.",
     "Successfully added Talk conversation link to location." : "Länk till Talk-konversation har lagts till på platsen.",
     "Successfully added Talk conversation link to description." : "Länk till Talk-konversation har lagts till i beskrivningen.",

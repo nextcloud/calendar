@@ -357,6 +357,7 @@ OC.L10N.register(
     "Back" : "بازگشت",
     "Book appointment" : "رزرو وقت",
     "Error fetching Talk conversations." : "خطا در دریافت مکالمات Talk",
+    "Nextcloud Talk" : "نکست‌کلود تاک",
     "Conversation does not have a valid URL." : "مکالمه آدرس معتبری ندارد",
     "Successfully added Talk conversation link to location." : "پیوند مکالمه Talk با موفقیت به مکان اضافه شد",
     "Successfully added Talk conversation link to description." : "پیوند مکالمه Talk با موفقیت به توضیحات اضافه شد",

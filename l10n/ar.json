@@ -251,6 +251,7 @@
     "Back" : "عودة",
     "Book appointment" : "إحجِز موعداً",
     "Error fetching Talk conversations." : "خطأ في جلب محادثات Talk.",
+    "Nextcloud Talk" : "تطبيق \"المحادثة\" talk من نكست كلاود",
     "Conversation does not have a valid URL." : "عنوان URL للمحادثة غير صحيح.",
     "Successfully added Talk conversation link to location." : "تمت إضافة رابط المحادثة إلى الموقع بنجاح.",
     "Successfully added Talk conversation link to description." : "تمت إضافة رابط المحادثة إلى الوصف بنجاح.",

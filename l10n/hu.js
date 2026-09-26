@@ -361,6 +361,7 @@ OC.L10N.register(
     "Back" : "Vissza",
     "Book appointment" : "Találkozó lefoglalása",
     "Error fetching Talk conversations." : "Hiba a beszélgetések lekérésekor.",
+    "Nextcloud Talk" : "Nextcloud Beszélgetés",
     "Conversation does not have a valid URL." : "A beszélgetés nem tartalmaz érvényes webcímet.",
     "Successfully added Talk conversation link to location." : "Beszélgetés hivatkozás sikeresen hozzáadva a helyhez.",
     "Successfully added Talk conversation link to description." : "Beszélgetés hivatkozás sikeresen hozzáadva a leíráshoz.",

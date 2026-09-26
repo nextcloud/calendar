@@ -248,6 +248,7 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "No se pudo reservar la cita. Por favor, intente de nuevo más tarde o contacte al organizador.",
     "Back" : "Atrás",
     "Book appointment" : "Reservar cita",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "on" : "el",
     "at" : "a las",
     "before at" : "antes de las",

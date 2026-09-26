@@ -288,6 +288,7 @@ OC.L10N.register(
     "Back" : "قايتىش",
     "Book appointment" : "ئۇچرىشىشنى زاكاس قىل",
     "Error fetching Talk conversations." : "پاراڭ سۆھپىتىنى چۈشۈرۈشتە خاتالىق",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "سۆھبەتنىڭ بىر ئىناۋەتلىك ئۇلىنىشى يوق",
     "Successfully added Talk conversation link to location." : "ئورۇنغان پاراڭ سۆھپەت ئۇلىنىشنى قېتىش مۇۋاپىقىيەتلىك بولدى",
     "Successfully added Talk conversation link to description." : "چۈشەندۈرۈشكە پاراڭ سۆھپەت ئۇلىنىشنى قېتىش مۇۋاپىقىيەتلىك بولدى",

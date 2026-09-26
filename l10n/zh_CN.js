@@ -355,6 +355,7 @@ OC.L10N.register(
     "Back" : "返回",
     "Book appointment" : "登记预约",
     "Error fetching Talk conversations." : "获取 Talk 对话时出错。",
+    "Nextcloud Talk" : "Nextcloud 通话",
     "Conversation does not have a valid URL." : "对话没有有效的 URL。",
     "Successfully added Talk conversation link to location." : "已成功将 Talk 对话链接添加到位置。",
     "Successfully added Talk conversation link to description." : "已成功将 Talk 对话链接添加到描述。",

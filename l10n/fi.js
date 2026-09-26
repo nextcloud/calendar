@@ -319,6 +319,7 @@ OC.L10N.register(
     "Back" : "Takaisin",
     "Book appointment" : "Varaa tapaaminen",
     "Error fetching Talk conversations." : "Virhe noudettaessa Talk-keskusteluja.",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Conversation does not have a valid URL." : "Keskustelulla ei ole kelvollista URL-osoitetta.",
     "Successfully added Talk conversation link to location." : "Talk-keskustelulinkki lisätty sijaintiin.",
     "Successfully added Talk conversation link to description." : "Talk-keskustelulinkki lisätty kuvaukseen.",
