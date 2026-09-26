@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { createEvent, DateTimeValue, getParserManager } from '@nextcloud/calendar-js'
+import { createEvent, DateTimeValue, DurationValue, getParserManager } from '@nextcloud/calendar-js'
 import { showWarning } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import { createPinia, setActivePinia } from 'pinia'
@@ -535,35 +535,6 @@ describe('store/calendarObjectInstance test suite', () => {
 			expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledWith({ calendarObject })
 		})
 
-		it.each(['occurrence', 'future'] as const)('refuses to save %s-wide changes while editing the primary occurrence of a series', async (scope) => {
-			const store = useCalendarObjectInstanceStore()
-			const calendarObjectsStore = useCalendarObjectsStore()
-			const baseComponent = setUpBaseComponent(1000, 2000)
-			const primaryOccurrence = setUpEventComponent(1000, 1000, 2000)
-			// "occurrence"/"future" would otherwise reach createRecurrenceException(), which
-			// isn't stubbed here - if the early return is ever bypassed, this throws loudly
-			// instead of silently succeeding against an undefined method.
-			const calendarObject = {
-				calendarId: 'calendar-1',
-				calendarComponent: {
-					getComponentIterator: vi.fn().mockReturnValue([baseComponent, primaryOccurrence]),
-				},
-			}
-			store.calendarObject = calendarObject
-			store.calendarObjectInstance = { eventComponent: primaryOccurrence }
-			vi.spyOn(calendarObjectsStore, 'updateCalendarObject').mockResolvedValue()
-			mockedisBaseOccurrence.mockReturnValue(true)
-
-			await store.saveCalendarObjectInstance({
-				scope,
-				calendarId: 'calendar-1',
-			})
-
-			expect(baseComponent.deleteAllProperties).not.toHaveBeenCalled()
-			expect(baseComponent.addProperty).not.toHaveBeenCalled()
-			expect(calendarObjectsStore.updateCalendarObject).not.toHaveBeenCalled()
-		})
-
 		it('does not consult isBaseOccurrence() for a brand new, never-forked event', async () => {
 			// Regression test: isBaseOccurrence() calls isPartOfRecurrenceSet(), which
 			// needs a recurrence-manager/master item a brand new event doesn't have yet
@@ -1060,6 +1031,55 @@ describe('store/calendarObjectInstance test suite', () => {
 			expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledWith({ calendarObject })
 		})
 
+		it('creates a real recurrence-exception when saving an edited first occurrence with occurrence scope (real calendar-js)', async () => {
+			const ics = [
+				'BEGIN:VCALENDAR',
+				'VERSION:2.0',
+				'PRODID:-//Nextcloud//calendar-js tests//EN',
+				'BEGIN:VEVENT',
+				'UID:first-occurrence-create-test',
+				'DTSTART:20260907T100000Z',
+				'DTEND:20260907T110000Z',
+				'DTSTAMP:20260901T000000Z',
+				'SUMMARY:Original title',
+				'RRULE:FREQ=WEEKLY;COUNT=3',
+				'END:VEVENT',
+				'END:VCALENDAR',
+			].join('\r\n')
+
+			const parser = getParserManager().getParserForFileType('text/calendar')
+			parser.parse(ics)
+			const calendarComponent = parser.getItemIterator().next().value
+			const masterComponent = [...calendarComponent.getComponentIterator()][0]
+			const firstOccurrence = masterComponent.recurrenceManager.getOccurrenceAtExactly(masterComponent.startDate)
+			const firstOccurrenceRecurrenceId = firstOccurrence.getReferenceRecurrenceId()
+			firstOccurrence.updatePropertyWithValue('SUMMARY', 'Edited title')
+			firstOccurrence.markDirty()
+
+			const calendarObject = { calendarId: 'personal', calendarComponent }
+			const store = useCalendarObjectInstanceStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
+			store.calendarObject = calendarObject
+			store.calendarObjectInstance = { eventComponent: markRaw(firstOccurrence) }
+			vi.spyOn(calendarObjectsStore, 'updateCalendarObject').mockResolvedValue()
+			vi.spyOn(calendarObjectsStore, 'createCalendarObjectFromFork').mockResolvedValue()
+			mockedisBaseOccurrence.mockReturnValue(true)
+
+			await store.saveCalendarObjectInstance({
+				scope: 'occurrence',
+				calendarId: 'personal',
+			})
+
+			const components = [...calendarComponent.getComponentIterator()]
+			const exceptionComponent = components.find((component) => component.hasProperty('RECURRENCE-ID'))
+			expect(masterComponent.title).toBe('Original title')
+			expect(exceptionComponent).toBeDefined()
+			expect(exceptionComponent.title).toBe('Edited title')
+			expect(exceptionComponent.getFirstPropertyFirstValue('RECURRENCE-ID').compare(firstOccurrenceRecurrenceId)).toBe(0)
+			expect(calendarObjectsStore.createCalendarObjectFromFork).not.toHaveBeenCalled()
+			expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledWith({ calendarObject })
+		})
+
 		it('preserves the original RRULE when saving series scope from a non-primary occurrence (real calendar-js)', async () => {
 			// Regression test for a real bug: forkItem() adjusts a forked occurrence's
 			// own RRULE COUNT down to "occurrences remaining from this point" (needed
@@ -1219,12 +1239,7 @@ describe('store/calendarObjectInstance test suite', () => {
 			expect(calendarObjectsStore.updateCalendarObject).not.toHaveBeenCalled()
 		})
 
-		it.each(['occurrence', 'future'] as const)('refuses to delete %s scope from the primary occurrence of a series', async (scope) => {
-			// canDelete() in EditorMixin already restricts the primary occurrence to
-			// "series" only in the UI, mirroring canUpdate()'s rule for
-			// saveCalendarObjectInstance - this is the backend-side enforcement of
-			// that same rule, so a caller that bypasses the UI can't delete just one
-			// occurrence (or truncate the series) starting from the primary occurrence.
+		it.each(['occurrence', 'future'] as const)('deletes %s scope from the primary occurrence of a series', async (scope) => {
 			const store = useCalendarObjectInstanceStore()
 			const calendarObjectsStore = useCalendarObjectsStore()
 			const eventComponent = setUpEventComponent(true)
@@ -1237,8 +1252,63 @@ describe('store/calendarObjectInstance test suite', () => {
 
 			await store.deleteCalendarObjectInstance({ scope })
 
-			expect(eventComponent.removeThisOccurrence).not.toHaveBeenCalled()
+			expect(eventComponent.removeThisOccurrence).toHaveBeenCalledWith(scope === 'future')
+			expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledWith({ calendarObject })
 			expect(calendarObjectsStore.deleteCalendarObject).not.toHaveBeenCalled()
+		})
+
+		it.each([
+			{ scope: 'occurrence' as const, expectedEmpty: false },
+			{ scope: 'future' as const, expectedEmpty: true },
+		])('removes the first occurrence with real calendar-js for scope "$scope"', async ({ scope, expectedEmpty }) => {
+			const ics = [
+				'BEGIN:VCALENDAR',
+				'VERSION:2.0',
+				'PRODID:-//Nextcloud//calendar-js tests//EN',
+				'BEGIN:VEVENT',
+				'UID:first-occurrence-delete-test',
+				'DTSTART:20260907T100000Z',
+				'DTEND:20260907T110000Z',
+				'DTSTAMP:20260901T000000Z',
+				'SUMMARY:Recurring event',
+				'RRULE:FREQ=WEEKLY;COUNT=3',
+				'END:VEVENT',
+				'END:VCALENDAR',
+			].join('\r\n')
+
+			const parser = getParserManager().getParserForFileType('text/calendar')
+			parser.parse(ics)
+			const calendarComponent = parser.getItemIterator().next().value
+			const masterComponent = [...calendarComponent.getComponentIterator()][0]
+			const firstOccurrence = masterComponent.recurrenceManager.getOccurrenceAtExactly(masterComponent.startDate)
+			const rangeEnd = masterComponent.startDate.clone()
+			rangeEnd.addDuration(DurationValue.fromSeconds(14 * 24 * 60 * 60))
+			const firstOccurrenceRecurrenceId = firstOccurrence.getReferenceRecurrenceId()
+			const nextOccurrenceRecurrenceId = masterComponent.recurrenceManager.getAllOccurrencesBetween(masterComponent.startDate, rangeEnd)[1].getReferenceRecurrenceId()
+			const calendarObject = { calendarId: 'personal', calendarComponent }
+			const store = useCalendarObjectInstanceStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
+			store.calendarObject = calendarObject
+			store.calendarObjectInstance = { eventComponent: markRaw(firstOccurrence) }
+			vi.spyOn(calendarObjectsStore, 'deleteCalendarObject').mockResolvedValue()
+			vi.spyOn(calendarObjectsStore, 'updateCalendarObject').mockResolvedValue()
+
+			await store.deleteCalendarObjectInstance({ scope })
+
+			const remainingOccurrences = masterComponent.recurrenceManager.getAllOccurrencesBetween(masterComponent.startDate, rangeEnd)
+			expect({
+				deleted: calendarObjectsStore.deleteCalendarObject.mock.calls.length > 0,
+				updated: calendarObjectsStore.updateCalendarObject.mock.calls.length > 0,
+				remainingCount: remainingOccurrences.length,
+				hasFirstOccurrence: remainingOccurrences.some((occurrence) => occurrence.getReferenceRecurrenceId().compare(firstOccurrenceRecurrenceId) === 0),
+				hasNextOccurrence: remainingOccurrences.some((occurrence) => occurrence.getReferenceRecurrenceId().compare(nextOccurrenceRecurrenceId) === 0),
+			}).toEqual({
+				deleted: expectedEmpty,
+				updated: !expectedEmpty,
+				remainingCount: expectedEmpty ? 0 : 2,
+				hasFirstOccurrence: false,
+				hasNextOccurrence: !expectedEmpty,
+			})
 		})
 	})
 

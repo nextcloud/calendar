@@ -1555,12 +1555,6 @@ export default defineStore('calendarObjectInstance', {
 					logger.error('Only "this occurrence" can be updated while editing an existing recurrence exception')
 					return
 				}
-				// Do not permit "this occurrence"/"this and future" edits on the primary
-				if (isForkedItem && (scope === 'occurrence' || scope === 'future') && isBaseOccurrence(calendarObject, eventComponent)) {
-					logger.error('Only "series" can be updated while editing the primary occurrence of a series')
-					return
-				}
-
 				let original = null
 				let fork = null
 
@@ -1636,13 +1630,6 @@ export default defineStore('calendarObjectInstance', {
 			// Singleton event or deleting all occurrences - delete the whole calendar-object
 			if (!eventComponent.isPartOfRecurrenceSet() || scope === 'series') {
 				await calendarObjectsStore.deleteCalendarObject({ calendarObject: this.calendarObject })
-				return
-			}
-
-			// Do not permit "this occurrence"/"this and future" deletes on the primary
-			// occurrence of a series - only "series" makes sense there
-			if ((scope === 'occurrence' || scope === 'future') && isBaseOccurrence(this.calendarObject, eventComponent)) {
-				logger.error('Only "series" can be deleted while editing the primary occurrence of a series')
 				return
 			}
 
