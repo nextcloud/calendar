@@ -741,9 +741,6 @@ export default {
 			if (this.isViewedByAttendee) {
 				return scope === 'series' || (this.isEditingExceptionInstance && scope === 'occurrence')
 			}
-			if (!this.isEditingExceptionInstance && this.isEditingBaseInstance && scope !== 'series') {
-				return false
-			}
 
 			return ['occurrence', 'future', 'series'].includes(scope)
 		},
@@ -818,9 +815,6 @@ export default {
 			}
 			if (this.isViewedByAttendee) {
 				return scope === 'series' || (this.isEditingExceptionInstance && scope === 'occurrence')
-			}
-			if (!this.isEditingExceptionInstance && this.isEditingBaseInstance && scope !== 'series') {
-				return false
 			}
 
 			return ['occurrence', 'future', 'series'].includes(scope)
