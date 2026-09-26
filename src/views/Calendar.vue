@@ -95,7 +95,6 @@
 import {
 	showWarning,
 } from '@nextcloud/dialogs'
-import { loadState } from '@nextcloud/initial-state'
 // Import vue components
 import {
 	NcAppContent as AppContent,
@@ -325,30 +324,7 @@ export default {
 	},
 
 	async beforeMount() {
-		this.settingsStore.loadSettingsFromServer({
-			appVersion: loadState('calendar', 'app_version'),
-			eventLimit: loadState('calendar', 'event_limit'),
-			firstRun: loadState('calendar', 'first_run'),
-			showWeekends: loadState('calendar', 'show_weekends'),
-			showWeekNumbers: loadState('calendar', 'show_week_numbers'),
-			skipPopover: loadState('calendar', 'skip_popover'),
-			slotDuration: loadState('calendar', 'slot_duration'),
-			defaultReminderPartDay: loadState('calendar', 'default_reminder_part_day'),
-			defaultReminderFullDay: loadState('calendar', 'default_reminder_full_day'),
-			talkEnabled: loadState('calendar', 'talk_enabled'),
-			tasksEnabled: loadState('calendar', 'tasks_enabled'),
-			timezone: loadState('calendar', 'timezone'),
-			showTasks: loadState('calendar', 'show_tasks'),
-			showDeclined: loadState('calendar', 'show_declined'),
-			hideEventExport: loadState('calendar', 'hide_event_export'),
-			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
-			disableAppointments: loadState('calendar', 'disable_appointments', false),
-			canSubscribeLink: loadState('calendar', 'can_subscribe_link', false),
-			attachmentsFolder: loadState('calendar', 'attachments_folder', false),
-			showResources: loadState('calendar', 'show_resources', true),
-			publicCalendars: loadState('calendar', 'publicCalendars', []),
-			tasksSidebar: loadState('calendar', 'tasks_sidebar', true),
-		})
+		this.settingsStore.loadSettingsFromServer(getSettingsFromInitialState())
 		this.settingsStore.initializeCalendarJsConfig()
 
 		if (this.viewMode === ViewMode.PUBLIC || this.viewMode === ViewMode.EMBEDDED) {
