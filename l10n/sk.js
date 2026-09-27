@@ -663,6 +663,7 @@ OC.L10N.register(
     "Edit meeting proposal" : "Upraviť návrh stretnutia",
     "Create meeting proposal" : "Vytvoriť návrh stretnutia",
     "Update meeting proposal" : "Návrh na aktualizačné stretnutie",
+    "{responded} of {invited} responded" : "{responded} z {invited} odpovedali",
     "Create a meeting for \"{date}\"? This will create a calendar event with all participants." : "Vytvoriť stretnutie na \"{date}\"? Týmto sa vytvorí udalosť v kalendári so všetkými účastníkmi.",
     "Create meeting" : "Vytvoriť stretnutie",
     "Saving proposal \"{title}\"" : "Ukladanie návrhu \"{title}\"",
