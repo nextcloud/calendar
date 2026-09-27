@@ -75,7 +75,8 @@
 
 		<NcAppSidebar
 			v-if="isAuthenticatedUser"
-			v-show="tasksSidebar && tasksSidebarEnabled"
+			:open="tasksSidebar && tasksSidebarEnabled"
+			noToggle
 			:name="t('calendar', 'Unscheduled tasks')"
 			@close="toggletasksSidebar()">
 			<NcAppSidebarTab id="settings-tab" name="Settings">
@@ -332,13 +333,13 @@ export default {
 			showWeekNumbers: loadState('calendar', 'show_week_numbers'),
 			skipPopover: loadState('calendar', 'skip_popover'),
 			slotDuration: loadState('calendar', 'slot_duration'),
-			defaultReminder: loadState('calendar', 'default_reminder'),
-			defaultReminderPartDay: loadState('calendar', 'default_reminder_part_day', loadState('calendar', 'default_reminder')),
-			defaultReminderFullDay: loadState('calendar', 'default_reminder_full_day', loadState('calendar', 'default_reminder')),
+			defaultReminderPartDay: loadState('calendar', 'default_reminder_part_day'),
+			defaultReminderFullDay: loadState('calendar', 'default_reminder_full_day'),
 			talkEnabled: loadState('calendar', 'talk_enabled'),
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),
 			showTasks: loadState('calendar', 'show_tasks'),
+			showDeclined: loadState('calendar', 'show_declined'),
 			hideEventExport: loadState('calendar', 'hide_event_export'),
 			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
 			disableAppointments: loadState('calendar', 'disable_appointments', false),

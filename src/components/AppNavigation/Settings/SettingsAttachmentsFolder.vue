@@ -21,6 +21,7 @@ import { NcFormBoxButton } from '@nextcloud/vue'
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
 import IconFolderOpen from 'vue-material-design-icons/FolderOpenOutline.vue'
+import usePrincipalsStore from '@/store/principals.js'
 import useSettingsStore from '@/store/settings.js'
 import logger from '@/utils/logger.js'
 
@@ -33,7 +34,7 @@ export default {
 	},
 
 	computed: {
-		...mapStores(useSettingsStore),
+		...mapStores(useSettingsStore, usePrincipalsStore),
 		...mapState(useSettingsStore, {
 			attachmentsFolder: (store) => store.attachmentsFolder || '/',
 		}),
@@ -41,6 +42,7 @@ export default {
 
 	methods: {
 		async selectCalendarFolder() {
+			const userId = this.principalsStore.getCurrentUserPrincipal.dav.userId
 			const picker = getFilePickerBuilder(t('calendar', 'Select the default location for attachments'))
 				.setMultiSelect(false)
 				.addButton({
@@ -50,6 +52,8 @@ export default {
 				})
 				.addMimeTypeFilter('httpd/unix-directory')
 				.allowDirectories()
+				// Exclude folders not owned by the current user
+				.setFilter((node) => node.owner === userId)
 				.build()
 			const path = await picker.pick()
 			this.saveAttachmentsFolder(path)

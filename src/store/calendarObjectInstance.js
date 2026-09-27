@@ -482,9 +482,9 @@ export default defineStore('calendarObjectInstance', {
 			this.calendarObjectInstance.eventComponent.removeAttendee(attendee.attendeeProperty)
 			// Also remove members if attendee is a group
 			if (attendee.attendeeProperty.userType === 'GROUP') {
-				attendee.members.forEach(function(member) {
+				attendee.members.forEach((member) => {
 					if (Array.isArray(member.attendeeProperty.member) && member.attendeeProperty.member.length > 1) {
-						const removeIndex = member.attendeeProperty.member.findIndex(function(groupname) {
+						const removeIndex = member.attendeeProperty.member.findIndex((groupname) => {
 							if (groupname === attendee.uri) {
 								return true
 							}

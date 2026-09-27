@@ -1241,4 +1241,55 @@ describe('store/calendarObjectInstance test suite', () => {
 			expect(calendarObjectsStore.deleteCalendarObject).not.toHaveBeenCalled()
 		})
 	})
+
+	describe('removeAttendee', () => {
+		it('removes the members when a group is removed', () => {
+			const start = DateTimeValue.fromJSDate(new Date('2026-09-07T10:00:00Z'), true)
+			const end = DateTimeValue.fromJSDate(new Date('2026-09-07T11:00:00Z'), true)
+			const calendarComponent = createEvent(start, end)
+			const calendarObject = { calendarComponent, calendarId: 'personal', existsOnServer: false }
+			const eventComponent = calendarComponent.getVObjectIterator().next().value
+			const store = useCalendarObjectInstanceStore()
+			store.calendarObject = calendarObject
+			store.calendarObjectInstance = markRaw({ eventComponent: markRaw(eventComponent), attendees: [] })
+			store.addAttendee({
+				commonName: 'Team X',
+				uri: 'mailto:team-x@example.com',
+				calendarUserType: 'GROUP',
+				member: undefined,
+				organizer: {
+					displayname: 'User A',
+					emailAddress: 'user-a@example.com',
+				},
+			})
+			store.addAttendee({
+				commonName: 'User B',
+				uri: 'mailto:user-b@example.com',
+				calendarUserType: 'INDIVIDUAL',
+				member: ['mailto:team-x@example.com'],
+				organizer: {
+					displayname: 'User A',
+					emailAddress: 'user-a@example.com',
+				},
+			})
+			store.addAttendee({
+				commonName: 'User C',
+				uri: 'mailto:user-c@example.com',
+				calendarUserType: 'INDIVIDUAL',
+				member: ['mailto:team-x@example.com'],
+				organizer: {
+					displayname: 'User A',
+					emailAddress: 'user-a@example.com',
+				},
+			})
+			const members = store.calendarObjectInstance.attendees.filter((attendee) => attendee.attendeeProperty.userType === 'INDIVIDUAL')
+			const group = store.calendarObjectInstance.attendees.find((attendee) => attendee.attendeeProperty.userType === 'GROUP')
+			group.members = members
+
+			store.removeAttendee({ attendee: group })
+
+			expect(store.calendarObjectInstance.attendees).toHaveLength(0)
+			expect([...store.calendarObjectInstance.eventComponent.getAttendeeIterator()]).toHaveLength(0)
+		})
+	})
 })

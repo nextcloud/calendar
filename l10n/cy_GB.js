@@ -238,7 +238,6 @@ OC.L10N.register(
     "End repeat" : "Gorffen ailadrodd",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Mae'r digwyddiad hwn yn eithriad i ddigwyddiadau o set sy'n ailadrodd. Ni allwch ychwanegu rheol ailadrodd ato.",
     "first" : "cyntaf",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Dim ond i hwn a phob digwyddiad yn y dyfodol y bydd newidiadau i'r rheol ailadrodd yn berthnasol.",
     "Repeat every" : "Ailadrodd bob",
     "By day of the month" : "Yn ôl dydd o'r mis",
     "On the" : "Ar y",
@@ -271,8 +270,6 @@ OC.L10N.register(
     "Maybe the share was deleted or has expired?" : "Efallai bod y gyfran wedi'i dileu neu wedi dod i ben?",
     "Yes" : "Ie",
     "No" : "Na",
-    "Type to search time zone" : "Teipiwch i chwilio'r gylchfa amser",
-    "Global" : "Eang",
     "Subscribe" : "Tanysgrifio",
     "Select slot" : "Dewiswch slot",
     "No slots available" : "Dim slotiau ar gael",
@@ -374,6 +371,9 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Bu gwall, ni fu modd dileu'r calendr.",
     "Imported {filename}" : "Mewnforiwyd {filename}",
     "Appointment not found" : "Apwyntiad heb ei ganfod",
-    "User not found" : "Defnyddiwr heb ei ganfod"
+    "User not found" : "Defnyddiwr heb ei ganfod",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Dim ond i hwn a phob digwyddiad yn y dyfodol y bydd newidiadau i'r rheol ailadrodd yn berthnasol.",
+    "Type to search time zone" : "Teipiwch i chwilio'r gylchfa amser",
+    "Global" : "Eang"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

@@ -73,16 +73,6 @@ const durationSelection = computed<number>({
 		display: flex;
 		align-items: center;
 
-		&__input-wrapper {
-			flex: 0 0 calc(var(--default-grid-baseline) * 4);
-
-			input[type=checkbox] {
-				margin: 0;
-				min-height: unset;
-				cursor: pointer;
-			}
-		}
-
 		input, label {
 			display: block;
 		}

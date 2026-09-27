@@ -156,7 +156,6 @@ OC.L10N.register(
     "No" : "Uhu",
     "Maybe" : "Ahat",
     "Create" : "Snulfu-d",
-    "Global" : "Amatu",
     "Subscribe" : "Lteɣ",
     "Select a date" : "Fren Azemz",
     "Personal" : "Udmawan",
@@ -191,6 +190,7 @@ OC.L10N.register(
     "Canceled" : "Yettwasemmet",
     "Categories" : "Taggayin",
     "Custom color" : "Ini yugnen",
-    "User not found" : "Ur yettwaf ara useqdac"
+    "User not found" : "Ur yettwaf ara useqdac",
+    "Global" : "Amatu"
 },
 "nplurals=2; plural=(n != 1);");

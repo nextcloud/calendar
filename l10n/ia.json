@@ -60,7 +60,6 @@
     "Repeat" : "Repeter",
     "never" : "nunquam",
     "after" : "post",
-    "Global" : "Global",
     "Subscribe" : "Subscribe",
     "Personal" : "Personal",
     "Close" : "Clauder",
@@ -73,6 +72,7 @@
     "When shared show full event" : "Quando compartite, monstrar evento integremente",
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",
     "When shared hide this event" : "Quando compartite, celar iste evento",
-    "Confirmed" : "Confirmate"
+    "Confirmed" : "Confirmate",
+    "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

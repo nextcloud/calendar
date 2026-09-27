@@ -91,7 +91,6 @@
     "Yes" : "ใช่",
     "No" : "ไม่ตกลง",
     "Create" : "สร้าง",
-    "Global" : "ทั่วไป",
     "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
     "Close" : "ปิด",
@@ -109,6 +108,7 @@
     "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
     "Confirmed" : "ยืนยันแล้ว",
-    "Categories" : "หมวดหมู่"
+    "Categories" : "หมวดหมู่",
+    "Global" : "ทั่วไป"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

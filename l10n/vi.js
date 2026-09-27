@@ -244,7 +244,6 @@ OC.L10N.register(
     "Availability of attendees, resources and rooms" : "Tình trạng tham gia của người dự, nguồn lực và phòng ",
     "Out of office" : "Không ở văn phòng",
     "Done" : "Hoàn thành",
-    "Room name" : "Tên phòng",
     "Busy (tentative)" : "Bận (có khả năng thay đổi)",
     "Unknown" : "Không xác định",
     "Accept" : "Đồng ý",
@@ -274,7 +273,6 @@ OC.L10N.register(
     "End repeat" : "Kết thúc lập lại",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Sự kiện này là loại trừ trong một bộ sự kiện-lặp lại. Bạn không thể thêm bất cứ qui tắc-lặp lại nào vào nó. ",
     "first" : "đầu tiên",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "các thay đổi đến luật lệ định kỳ này sẽ chỉ áp dụng cho định kỳ này và các định kỳ tương lai của nó ",
     "Repeat every" : "Lặp lại mỗi",
     "By day of the month" : "Vào ngày của tháng",
     "On the" : "Trên",
@@ -308,8 +306,6 @@ OC.L10N.register(
     "Yes" : "Có",
     "No" : "Không",
     "Create" : "Tạo",
-    "Type to search time zone" : "Nhập để kiếm cho múi thời gian",
-    "Global" : "Chung",
     "Subscribed" : "Đã đăng ký",
     "Subscribe" : "Theo dõi",
     "Select slot" : "Chọn suất",
@@ -417,6 +413,10 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Một lỗi đã xảy ra, không thể xóa lịch.",
     "Imported {filename}" : " {filename} đã được nhập",
     "Appointment not found" : "Không tìm thấy cuộc hẹn",
-    "User not found" : "Không tìm thấy người dùng"
+    "User not found" : "Không tìm thấy người dùng",
+    "Room name" : "Tên phòng",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "các thay đổi đến luật lệ định kỳ này sẽ chỉ áp dụng cho định kỳ này và các định kỳ tương lai của nó ",
+    "Type to search time zone" : "Nhập để kiếm cho múi thời gian",
+    "Global" : "Chung"
 },
 "nplurals=1; plural=0;");

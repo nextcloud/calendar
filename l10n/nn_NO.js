@@ -76,7 +76,6 @@ OC.L10N.register(
     "Room type" : "Romtype",
     "Remove participant" : "Eksterne deltakarar",
     "Create" : "Opprett",
-    "Global" : "Global",
     "Personal" : "Personleg",
     "Close" : "Lukk",
     "Participants" : "Deltakarar",
@@ -91,6 +90,7 @@ OC.L10N.register(
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Confirmed" : "Stadfesta",
-    "Categories" : "Kategoriar"
+    "Categories" : "Kategoriar",
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

@@ -227,6 +227,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Please share anything that will help prepare for our meeting",
     "Could not book the appointment. Please try again later or contact the organizer." : "Could not book the appointment. Please try again later or contact the organizer.",
     "Back" : "Back",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Select conversation" : "Select conversation",
     "on" : "on",
     "at" : "at",
@@ -313,7 +314,6 @@ OC.L10N.register(
     "End repeat" : "End repeat",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it.",
     "first" : "first",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Changes to the recurrence-rule will only apply to this and all future occurrences.",
     "Repeat every" : "Repeat every",
     "By day of the month" : "By day of the month",
     "On the" : "On the",
@@ -349,8 +349,6 @@ OC.L10N.register(
     "Yes" : "კი",
     "No" : "არა",
     "Create" : "Create",
-    "Type to search time zone" : "Type to search time zone",
-    "Global" : "Global",
     "Holidays in {region}" : "Holidays in {region}",
     "An error occurred, unable to read public calendars." : "An error occurred, unable to read public calendars.",
     "An error occurred, unable to subscribe to calendar." : "An error occurred, unable to subscribe to calendar.",
@@ -476,6 +474,9 @@ OC.L10N.register(
     "Imported {filename}" : "Imported {filename}",
     "This is an event reminder." : "This is an event reminder.",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "User not found"
+    "User not found" : "User not found",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Changes to the recurrence-rule will only apply to this and all future occurrences.",
+    "Type to search time zone" : "Type to search time zone",
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n!=1);");

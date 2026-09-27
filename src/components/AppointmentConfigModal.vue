@@ -86,13 +86,7 @@ const availableCalendars = computed<CalendarInterface[]>(() => {
 })
 
 const calendar = computed<CalendarInterface | undefined>(() => {
-	if (!editing.value.targetCalendarUri) {
-		return availableCalendars.value[0]
-	}
-
-	const uri = editing.value.targetCalendarUri
-	const calendar = availableCalendars.value.find((cal) => calendarUrlToUri(cal.url) === uri)
-	return calendar || availableCalendars.value[0]
+	return findCalendarByUri(editing.value.targetCalendarUri, availableCalendars.value) ?? availableCalendars.value[0]
 })
 
 const selectableConflictCalendars = computed<CalendarInterface[]>(() => {
@@ -126,6 +120,13 @@ function reset(): void {
 		editing.value.name = `${editing.value.name} ${t('calendar', '(copy)')}`
 	}
 
+	// The target calendar may have been deleted since the config was saved.
+	// Persist the fallback calendar so a save without touching the picker
+	// doesn't keep referencing the deleted calendar.
+	if (editing.value.targetCalendarUri && !findCalendarByUri(editing.value.targetCalendarUri, availableCalendars.value) && availableCalendars.value[0]) {
+		changeCalendar(availableCalendars.value[0])
+	}
+
 	enablePreparationDuration.value = !!editing.value.preparationDuration
 	enableFollowupDuration.value = !!editing.value.followupDuration
 	enableFutureLimit.value = !!editing.value.futureLimit
@@ -142,6 +143,13 @@ function calendarUrlToUri(url: string): string {
 	const parts = url.replace(/\/$/, '').split('/')
 	// The last one is the URI
 	return parts[parts.length - 1]
+}
+
+function findCalendarByUri(uri: string | null | undefined, calendars: CalendarInterface[]): CalendarInterface | undefined {
+	if (!uri) {
+		return undefined
+	}
+	return calendars.find((calendar) => calendarUrlToUri(calendar.url) === uri)
 }
 
 function changeCalendar(calendar: CalendarInterface): void {

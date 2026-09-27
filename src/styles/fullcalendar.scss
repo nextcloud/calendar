@@ -51,7 +51,6 @@
 }
 
 // Override Nextcloud styles which highlight table rows on hover
-.fc-state-highlight.fc-day-number,
 .fc tbody tr,
 .fc tbody tr:hover,
 .fc tbody tr:focus {
@@ -60,7 +59,8 @@
 
 // Today highlighting
 .fc-day-today {
-	&.fc-col-header-cell {
+	&.fc-col-header-cell,
+	&.fc-list-day {
 		a, span {
 			padding: 2px 6px;
 			font-weight: bold;

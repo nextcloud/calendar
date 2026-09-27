@@ -225,6 +225,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Te rugăm să împărtășești orice informație ce ne poate ajuta în pregătirea pentru ședința noastră.",
     "Could not book the appointment. Please try again later or contact the organizer." : "Nu s-a putut creea evenimentul. Vă rugăm să încercați mai târziu sau să contactați organizatorul.",
     "Back" : "Înapoi",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Select conversation" : "Selectare conversație",
     "on" : "pe",
     "at" : "la",
@@ -308,7 +309,6 @@ OC.L10N.register(
     "End repeat" : "Încheie seria",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Acest eveniment este excepția de recurență a unui set recurent. Nu i se poate adăuga o regulă de recurență.",
     "first" : "primul",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Modificările regulii de recurență se vor aplica  doar de acum încolo.",
     "Repeat every" : "Se repetă la fiecare",
     "By day of the month" : "după ziua lunii",
     "On the" : "Pe",
@@ -344,8 +344,6 @@ OC.L10N.register(
     "Yes" : "Da",
     "No" : "Nu",
     "Create" : "Crează",
-    "Type to search time zone" : "Tastați pentru căutare zonă de timp",
-    "Global" : "Global",
     "Holidays in {region}" : "Sărbători în {region}",
     "Public holiday calendars" : "Calendare de sărbători legale",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Calendarele de sărbători legale sunt furnizate de Thunderbird. Datele calendarului vor fi descărcate de la {website}",
@@ -466,6 +464,9 @@ OC.L10N.register(
     "Imported {filename}" : "S-a importat {filename}",
     "This is an event reminder." : "Acesta este un memento pentru eveniment.",
     "Appointment not found" : "Programarea nu a fost găsită",
-    "User not found" : "Utilizatorul nu a fost găsit"
+    "User not found" : "Utilizatorul nu a fost găsit",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Modificările regulii de recurență se vor aplica  doar de acum încolo.",
+    "Type to search time zone" : "Tastați pentru căutare zonă de timp",
+    "Global" : "Global"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

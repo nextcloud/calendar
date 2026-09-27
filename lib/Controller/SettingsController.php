@@ -66,14 +66,14 @@ class SettingsController extends Controller {
 				return $this->setEventLimit($value);
 			case 'slotDuration':
 				return $this->setSlotDuration($value);
-			case 'defaultReminder':
-				return $this->setDefaultReminder($value);
 			case 'defaultReminderPartDay':
 				return $this->setDefaultReminderPartDay($value);
 			case 'defaultReminderFullDay':
 				return $this->setDefaultReminderFullDay($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
+			case 'showDeclined':
+				return $this->setShowDeclined($value);
 			case 'tasksSidebar':
 				return $this->setTasksSidebar($value);
 			case 'attachmentsFolder':
@@ -149,6 +149,31 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'showTasks',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * set config value for showing declined appointments
+	 *
+	 * @param $value User-selected option whether or not to show tasks
+	 * @return JSONResponse
+	 */
+	private function setShowDeclined(string $value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'showDeclined',
 				$value
 			);
 		} catch (\Exception $e) {
@@ -360,31 +385,6 @@ class SettingsController extends Controller {
 		$options = $allowPositive ? [] : ['options' => ['max_range' => 0]];
 
 		return filter_var($value, FILTER_VALIDATE_INT, $options) !== false;
-	}
-
-	/**
-	 * sets defaultReminder for user
-	 *
-	 * @param string $value User-selected option for default_reminder in agenda view
-	 * @return JSONResponse
-	 */
-	private function setDefaultReminder(string $value):JSONResponse {
-		if (!$this->isValidReminderValue($value)) {
-			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
-		}
-
-		try {
-			$this->config->setUserValue(
-				$this->userId,
-				$this->appName,
-				'defaultReminder',
-				$value
-			);
-		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-
-		return new JSONResponse();
 	}
 
 	/**

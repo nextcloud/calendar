@@ -48,7 +48,6 @@ class CalendarInitialStateService {
 		$defaultSkipPopover = $this->config->getAppValue($this->appName, 'skipPopover', 'no');
 		$defaultTimezone = $this->config->getAppValue($this->appName, 'timezone', 'automatic');
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
-		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 		$defaultTasksSidebar = $this->config->getAppValue($this->appName, 'tasksSidebar', 'yes');
 
@@ -62,10 +61,10 @@ class CalendarInitialStateService {
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
 		$attachmentsFolder = $this->config->getUserValue($this->userId, 'dav', 'attachmentsFolder', '/Calendar');
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
-		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
-		$defaultReminderPartDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderPartDay', $defaultReminder);
-		$defaultReminderFullDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderFullDay', $defaultReminder);
+		$defaultReminderPartDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderPartDay', 'none');
+		$defaultReminderFullDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderFullDay', 'none');
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
+		$showDeclined = $this->config->getUserValue($this->userId, $this->appName, 'showDeclined', 'yes') === 'yes';
 		$tasksSidebar = $this->config->getUserValue($this->userId, $this->appName, 'tasksSidebar', $defaultTasksSidebar) === 'yes';
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
 		$disableAppointments = $this->config->getAppValue($this->appName, 'disableAppointments', 'no') === 'yes';
@@ -111,10 +110,10 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('timezone', $timezone);
 		$this->initialStateService->provideInitialState('attachments_folder', $attachmentsFolder);
 		$this->initialStateService->provideInitialState('slot_duration', $slotDuration);
-		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
 		$this->initialStateService->provideInitialState('default_reminder_part_day', $defaultReminderPartDay);
 		$this->initialStateService->provideInitialState('default_reminder_full_day', $defaultReminderFullDay);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
+		$this->initialStateService->provideInitialState('show_declined', $showDeclined);
 		$this->initialStateService->provideInitialState('tasks_sidebar', $tasksSidebar);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);

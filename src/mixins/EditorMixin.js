@@ -157,16 +157,7 @@ export default {
 			return (this.calendarObjectInstance?.canModifyAllDay ?? false) || !(this.calendarObject?.existsOnServer ?? true)
 		},
 		/**
-		 * Returns the color the illustration should be colored in
-		 *
-		 * @return {string}
-		 */
-		illustrationColor() {
-			return this.color || this.selectedCalendarColor
-		},
-		/**
 		 * Returns the color of the calendar selected by the user
-		 * This is used to color illustration
 		 *
 		 * @return {string}
 		 */
@@ -694,6 +685,12 @@ export default {
 			}
 			if (!this.canUpdate(scope)) {
 				return
+			}
+
+			// If this is a new event, mark it as dirty so that it is saved even when no changes were made
+			// (e.g. when creating an event and immediately saving it without title etc.)
+			if (this.isNew) {
+				this.calendarObjectInstance.eventComponent.markDirty()
 			}
 
 			this.isLoading = true

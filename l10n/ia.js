@@ -62,7 +62,6 @@ OC.L10N.register(
     "Repeat" : "Repeter",
     "never" : "nunquam",
     "after" : "post",
-    "Global" : "Global",
     "Subscribe" : "Subscribe",
     "Personal" : "Personal",
     "Close" : "Clauder",
@@ -75,6 +74,7 @@ OC.L10N.register(
     "When shared show full event" : "Quando compartite, monstrar evento integremente",
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",
     "When shared hide this event" : "Quando compartite, celar iste evento",
-    "Confirmed" : "Confirmate"
+    "Confirmed" : "Confirmate",
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

@@ -42,11 +42,11 @@ describe('store/settings test suite', () => {
 			talkEnabled: false,
 			eventLimit: null,
 			showTasks: null,
+			showDeclined: null,
 			showWeekends: null,
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
-			defaultReminder: null,
 			defaultReminderPartDay: null,
 			defaultReminderFullDay: null,
 			tasksEnabled: false,
@@ -72,11 +72,11 @@ describe('store/settings test suite', () => {
 			talkEnabled: false,
 			eventLimit: null,
 			showTasks: null,
+			showDeclined: null,
 			showWeekends: null,
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
-			defaultReminder: null,
 			defaultReminderPartDay: null,
 			defaultReminderFullDay: null,
 			tasksEnabled: false,
@@ -101,12 +101,12 @@ describe('store/settings test suite', () => {
 			firstRun: true,
 			showWeekNumbers: true,
 			showTasks: false,
+			showDeclined: false,
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
-			defaultReminder: '-600',
-			defaultReminderPartDay: undefined,
-			defaultReminderFullDay: undefined,
+			defaultReminderPartDay: '-600',
+			defaultReminderFullDay: '32400',
 			talkEnabled: false,
 			tasksEnabled: true,
 			tasksSidebar: false,
@@ -131,12 +131,12 @@ Initial settings:
 	- FirstRun: true
 	- ShowWeekNumbers: true
 	- ShowTasks: false
+	- ShowDeclined: false
 	- ShowWeekends: true
 	- SkipPopover: true
 	- SlotDuration: 00:30:00
-	- DefaultReminder: -600
-	- DefaultReminderPartDay: undefined
-	- DefaultReminderFullDay: undefined
+	- DefaultReminderPartDay: -600
+	- DefaultReminderFullDay: 32400
 	- TalkEnabled: false
 	- TasksEnabled: true
 	- TasksSidebar: false
@@ -155,12 +155,12 @@ Initial settings:
 			firstRun: true,
 			showWeekNumbers: true,
 			showTasks: false,
+			showDeclined: false,
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
-			defaultReminder: '-600',
 			defaultReminderPartDay: '-600',
-			defaultReminderFullDay: '-600',
+			defaultReminderFullDay: '32400',
 			talkEnabled: false,
 			tasksEnabled: true,
 			tasksSidebar: false,
@@ -440,6 +440,33 @@ Initial settings:
 		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
 	})
 
+	it('should provide an action to toggle visibility of declined appointments - false to true', async () => {
+		const settingsStore = useSettingsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+
+		expect.assertions(7)
+
+		settingsStore.showDeclined = false
+		calendarObjectsStore.modificationCount = 42
+		fetchedTimeRangesStore.lastTimeRangeInsertId = 20
+		fetchedTimeRangesStore.fetchedTimeRanges = ['foobar']
+		fetchedTimeRangesStore.fetchedTimeRangesById = { foobar: 'baz' }
+
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.toggleShowDeclined()
+
+		expect(setConfig).toHaveBeenCalledTimes(1)
+		expect(setConfig).toHaveBeenNthCalledWith(1, 'showDeclined', 'yes')
+
+		expect(settingsStore.showDeclined).toEqual(true)
+		expect(calendarObjectsStore.modificationCount).toEqual(43)
+		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
+		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
+		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
+	})
+
 	it('should provide an action to toggle the task sidebar - false to true', async () => {
 		const settingsStore = useSettingsStore()
 
@@ -478,6 +505,33 @@ Initial settings:
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showTasks', 'no')
 
 		expect(settingsStore.showTasks).toEqual(false)
+		expect(calendarObjectsStore.modificationCount).toEqual(43)
+		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
+		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
+		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
+	})
+
+	it('should provide an action to toggle the visibility of declined appointments - true to false', async () => {
+		const settingsStore = useSettingsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+
+		expect.assertions(7)
+
+		settingsStore.showDeclined = true
+		calendarObjectsStore.modificationCount = 42
+		fetchedTimeRangesStore.lastTimeRangeInsertId = 20
+		fetchedTimeRangesStore.fetchedTimeRanges = ['foobar']
+		fetchedTimeRangesStore.fetchedTimeRangesById = { foobar: 'baz' }
+
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.toggleShowDeclined()
+
+		expect(setConfig).toHaveBeenCalledTimes(1)
+		expect(setConfig).toHaveBeenNthCalledWith(1, 'showDeclined', 'no')
+
+		expect(settingsStore.showDeclined).toEqual(false)
 		expect(calendarObjectsStore.modificationCount).toEqual(43)
 		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
 		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
@@ -531,43 +585,6 @@ Initial settings:
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'slotDuration', '00:30:00')
 
 		expect(settingsStore.slotDuration).toEqual('00:30:00')
-	})
-
-	it('should provide an action to set the default reminder setting - same value', async () => {
-		const settingsStore = useSettingsStore()
-
-		expect.assertions(2)
-
-		const state = {
-			defaultReminder: 'none',
-		}
-
-		settingsStore.defaultReminder = state.defaultReminder
-
-		await settingsStore.setDefaultReminder({ defaultReminder: 'none' })
-
-		expect(setConfig).toHaveBeenCalledTimes(0)
-		expect(settingsStore.defaultReminder).toEqual(state.defaultReminder)
-	})
-
-	it('should provide an action to set the default reminder setting - different value', async () => {
-		const settingsStore = useSettingsStore()
-
-		expect.assertions(3)
-
-		const state = {
-			defaultReminder: 'none',
-		}
-
-		settingsStore.defaultReminder = state.defaultReminder
-		setConfig.mockResolvedValueOnce()
-
-		await settingsStore.setDefaultReminder({ defaultReminder: '00:10:00' })
-
-		expect(setConfig).toHaveBeenCalledTimes(1)
-		expect(setConfig).toHaveBeenNthCalledWith(1, 'defaultReminder', '00:10:00')
-
-		expect(settingsStore.defaultReminder).toEqual('00:10:00')
 	})
 
 	it('should provide an action to set the timezone setting - same value', async () => {

@@ -7,7 +7,7 @@ import type { AxiosResponse } from '@nextcloud/axios'
 import type { OcsEnvelope, OcsErrorData } from '@/types/ocs'
 import type { ProposalDateInterface, ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
 
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import logger from '@/utils/logger.js'
 
@@ -24,15 +24,20 @@ class ProposalService {
 			})
 			return response.data as T
 		} catch (error) {
-			let message: string
-			if (error.response.headers['content-type'] && error.response.headers['content-type'].includes('application/json')) {
-				const ocsError = error.response.data as OcsEnvelope<OcsErrorData>
-				message = ocsError.ocs?.meta?.message ? ocsError.ocs.meta.message : `${error.response.status} ${error.response.statusText}`
-				logger.error('Proposal service transmission error', { ocsError })
-			} else {
-				message = `${error.response.status} ${error.response.statusText}`
-				logger.error('Proposal service transmission error', { error })
+			if (!isAxiosError(error)) {
+				throw error
 			}
+			const status = error.response?.status
+			const statusText = error.response?.statusText
+			let message = error.response ? `${status} ${statusText}` : error.message
+			let ocsError: OcsEnvelope<OcsErrorData> | undefined
+			if (error.response?.headers['content-type']?.includes('application/json')) {
+				ocsError = error.response.data as OcsEnvelope<OcsErrorData>
+				message = ocsError.ocs?.meta?.message || message
+			}
+			logger.error('Proposal service transmission error', { status, statusText, ocsError })
+			// Do not retain the Axios error: callers log the cause, including request configuration.
+			// eslint-disable-next-line preserve-caught-error
 			throw new Error(`Unexpected error from proposal service: ${message}`)
 		}
 	}
