@@ -661,6 +661,7 @@
     "Edit meeting proposal" : "Modifier la proposition de réunion",
     "Create meeting proposal" : "Créer une proposition de réunion",
     "Update meeting proposal" : "Mettre à jour la proposition de réunion",
+    "{responded} of {invited} responded" : "{responded} ont répondu sur {invited}",
     "Create a meeting for \"{date}\"? This will create a calendar event with all participants." : "Créer une réunion pour le {date} ? Cela créera un événement dans l'agenda avec tous les participants.",
     "Create meeting" : "Créer une réunion",
     "Saving proposal \"{title}\"" : "Enregistrement de la proposition « {title} »",

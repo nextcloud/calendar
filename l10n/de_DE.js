@@ -663,6 +663,7 @@ OC.L10N.register(
     "Edit meeting proposal" : "Besprechungsvorschlag bearbeiten",
     "Create meeting proposal" : "Besprechungsvorschlag erstellen",
     "Update meeting proposal" : "Besprechungsvorschlag aktualisieren",
+    "{responded} of {invited} responded" : "{responded} von {invited} haben geantwortet",
     "Create a meeting for \"{date}\"? This will create a calendar event with all participants." : "Besprechung für den \"{date}\" erstellen? Es wird ein Kalendereintrag mit allen Teilnehmern erstellt.",
     "Create meeting" : "Besprechung erstellen",
     "Saving proposal \"{title}\"" : "Vorschlag \"{title}\" speichern",

@@ -663,6 +663,7 @@ OC.L10N.register(
     "Edit meeting proposal" : "Toplantı önerisini düzenle",
     "Create meeting proposal" : "Toplantı önerisi oluştur",
     "Update meeting proposal" : "Toplantı önerisini güncelle",
+    "{responded} of {invited} responded" : "{responded} / {invited} tepki verdi",
     "Create a meeting for \"{date}\"? This will create a calendar event with all participants." : "\"{date}\" için bir toplantı oluşturulsun mu? Tüm katılımcılar ile bir takvim etkinliği oluşturulacak.",
     "Create meeting" : "Toplantı oluştur",
     "Saving proposal \"{title}\"" : "\"{title}\" toplantı önerisi kaydediliyor",
