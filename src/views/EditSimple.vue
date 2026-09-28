@@ -803,7 +803,7 @@ export default {
 				position: 'fixed',
 				top: `${top}px`,
 				left: `${left}px`,
-				zIndex: 9999,
+				zIndex: 9997,
 				maxWidth: '100vw',
 				maxHeight: `${maxH}px`,
 			}
@@ -863,7 +863,7 @@ export default {
 <style lang="scss" scoped>
 .modal-mask {
 	position: fixed;
-	z-index: 9998;
+	z-index: 9996;
 	//the height of header
 	top: 50px;
 	inset-inline-start: 0;
@@ -958,7 +958,10 @@ export default {
 		padding-top: calc(var(--default-grid-baseline) * 2);
 		background: var(--color-main-background);
 	}
-	.event-popover__all-day {
+	.event-popover__date-options {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		margin-inline-start: calc(var(--default-grid-baseline) * 11);
 	}
 
