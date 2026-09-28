@@ -465,12 +465,12 @@ export default {
 				readableName: t('calendar', 'Allow forwarding'),
 				icon: 'AccountPlusOutline',
 				options: [
-					{ value: 'TRUE', label: t('calendar', 'Anyone with the invitation can respond') },
-					{ value: 'FALSE', label: t('calendar', 'Only invited attendees can respond') },
+					{ value: 'TRUE', label: t('calendar', 'Anyone') },
+					{ value: 'FALSE', label: t('calendar', 'Invitee') },
 				],
 
 				multiple: false,
-				info: t('calendar', 'Choose "Only invited attendees can respond" to prevent attendees from forwarding the invitation to others.'),
+				info: t('calendar', 'Choose "Invitee" to prevent attendees from forwarding the invitation to others.'),
 				defaultValue: 'TRUE',
 			},
 		}
