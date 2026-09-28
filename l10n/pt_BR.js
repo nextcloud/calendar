@@ -663,6 +663,7 @@ OC.L10N.register(
     "Edit meeting proposal" : "Editar proposta de reunião",
     "Create meeting proposal" : "Criar proposta de reunião",
     "Update meeting proposal" : "Atualizar proposta de reunião",
+    "{responded} of {invited} responded" : "{responded} de {invited} responderam",
     "Create a meeting for \"{date}\"? This will create a calendar event with all participants." : "Criar reunião para \"{date}\"? Isso criará um evento no calendário de todos os participantes.",
     "Create meeting" : "Criar reunião",
     "Saving proposal \"{title}\"" : "Salvando proposta \"{title}\"",
