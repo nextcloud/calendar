@@ -663,6 +663,7 @@ OC.L10N.register(
     "Edit meeting proposal" : "編輯會議提案",
     "Create meeting proposal" : "建立會議提案",
     "Update meeting proposal" : "更新會議提案",
+    "{responded} of {invited} responded" : "{responded} 人已回覆，共邀請 {invited} 人",
     "Create a meeting for \"{date}\"? This will create a calendar event with all participants." : "建立「{date}」的會議？這將會建立包含所有與會者的日曆事件。",
     "Create meeting" : "創建會議",
     "Saving proposal \"{title}\"" : "正在儲存提案「{title}」",
