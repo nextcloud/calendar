@@ -106,6 +106,7 @@
 				:isReadOnly="isReadOnly"
 				:organizerDisplayName="organizerDisplayName"
 				:members="member.members"
+				:isViewedByOrganizer="isViewedByOrganizer"
 				@removeAttendee="removeAttendee(member)" />
 		</div>
 	</div>
