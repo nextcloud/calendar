@@ -24,14 +24,30 @@ jobs:
           persist-credentials: false
           ref: ${{ matrix.branch }}
 
+      - name: Determine server branch
+        id: server-branch
+        env:
+          BRANCH: ${{ matrix.branch }}
+        # main tracks server master, stable branches track the latest supported server version from appinfo/info.xml
+        run: |
+          if [ "$BRANCH" = 'main' ]; then
+            ref='refs/heads/master'
+          else
+            max_version=$(yq -p xml -oy '.info.dependencies.nextcloud."+@max-version"' appinfo/info.xml)
+            ref="refs/heads/stable${max_version}"
+          fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+
       - name: Download CSS
+        env:
+          SERVER_REF: ${{ steps.server-branch.outputs.ref }}
         # Removes sourceMappingURL from downloaded to avoid warning about missing source maps.
         # Alternativly we could pull and check in all the source maps.
         run: |
           cd tests/javascript/component/gallery/assets/server
-          curl https://nextcloud.github.io/server/apps/theming/css/default.css > apps/theming/css/default.css
-          curl https://nextcloud.github.io/server/core/css/server.css |  sed 's|/\*# sourceMappingURL=[^*]*\*/||' > core/css/server.css
-          curl https://nextcloud.github.io/server/dist/icons.css > dist/icons.css 
+          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/apps/theming/css/default.css" > apps/theming/css/default.css
+          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/core/css/server.css" | sed 's|/\*# sourceMappingURL=[^*]*\*/||' > core/css/server.css
+          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/dist/icons.css" > dist/icons.css
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
@@ -39,13 +55,13 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           committer: nextcloud-command <nextcloud-command@users.noreply.github.com>
-          commit-message: "chore(tests): update component test styling from server"
+          commit-message: "test: update component test styling from server"
           signoff: true
           branch: 'automated/${{ github.run_id }}/server-styling-update-${{ matrix.branch }}'
           title: '[${{ matrix.branch }}] chore(docs): Automated styling update from server'
           add-paths: styleguide/assets
           body: |
-            Auto-generated update of our locally cached CSS styling from https://nextcloud.github.io
+            Auto-generated update of our locally cached CSS styling from https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}
           labels: |
             dependencies
             3. to review
