@@ -20,21 +20,22 @@
 		</div>
 		<div v-else
 			class="property-color__input">
-			<ColorPicker :value="selectedColor"
-				:shown.sync="isColorPickerOpen"
+			<NcColorPicker :model-value="selectedColor"
+				:open.sync="selectorOpen"
 				:advanced-fields="true"
 				@submit="changeColor">
 				<NcButton class="property-color__color-preview"
-					:style="{'background-color': selectedColor }" />
-			</ColorPicker>
-			<Actions v-if="showColorRevertButton">
-				<ActionButton @click.prevent.stop="deleteColor">
-					<template #icon>
-						<Undo :size="20" decorative />
-					</template>
-					{{ $t('calendar', 'Remove color') }}
-				</ActionButton>
-			</Actions>
+					:aria-label="$t('calendar', 'Open color picker')"
+					:style="{ 'background-color': selectedColor }" />
+			</NcColorPicker>
+			<NcButton v-if="!isReadOnly && !!value"
+				variant="tertiary"
+				:aria-label="$t('calendar', 'Remove color')"
+				@click="deleteColor">
+				<template #icon>
+					<Undo :size="20" decorative />
+				</template>
+			</NcButton>
 		</div>
 	</div>
 </template>
@@ -42,10 +43,8 @@
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin.js'
 import {
-	NcActions as Actions,
 	NcButton,
-	NcActionButton as ActionButton,
-	NcColorPicker as ColorPicker,
+	NcColorPicker,
 } from '@nextcloud/vue'
 
 import Undo from 'vue-material-design-icons/Undo.vue'
@@ -53,10 +52,8 @@ import Undo from 'vue-material-design-icons/Undo.vue'
 export default {
 	name: 'PropertyColor',
 	components: {
-		Actions,
-		ActionButton,
 		NcButton,
-		ColorPicker,
+		NcColorPicker,
 		Undo,
 	},
 	mixins: [
@@ -74,40 +71,24 @@ export default {
 	},
 	data() {
 		return {
-			isColorPickerOpen: false,
+			selectorOpen: false,
 		}
 	},
+
 	computed: {
-		/**
-		 * The selected color is either custom or
-		 * defaults to the color of the calendar
-		 *
-		 * @return {string}
-		 */
 		selectedColor() {
 			return this.value || this.calendarColor
 		},
-		/**
-		 * Whether or not to show the delete color button
-		 *
-		 * @return {boolean}
-		 */
-		showColorRevertButton() {
-			if (this.isReadOnly) {
-				return false
-			}
-
-			return !!this.value
-		},
 	},
+
 	methods: {
+
 		/**
 		 * Changes / Sets the custom color of this event
 		 * @param {string} newColor The new Color as HEX
 		 */
 		changeColor(newColor) {
 			this.$emit('update:value', newColor)
-			this.isColorPickerOpen = false
 		},
 		/**
 		 * Removes the custom color from this event,
