@@ -145,6 +145,7 @@ export default class AppointmentConfig {
 			timeBeforeNextSlot: 0,
 			calendarFreeBusyUris: [],
 			futureLimit: 2 * 30 * 24 * 60 * 60, // 2 months
+			createTalkRoom: true,
 		})
 	}
 
