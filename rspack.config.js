@@ -58,6 +58,7 @@ module.exports = defineConfig((env) => {
 
 		entry: {
 			main: path.join(__dirname, 'src', 'main.js'),
+			appMenu: path.join(__dirname, 'src', 'app-menu.ts'),
 			reference: path.join(__dirname, 'src', 'reference.js'),
 			'contacts-menu': path.join(__dirname, 'src', 'contactsMenu.js'),
 			'appointments-booking': path.join(__dirname, 'src', 'appointments', 'main-booking.js'),
