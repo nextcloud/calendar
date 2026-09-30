@@ -1,3 +1,26 @@
+## [6.5.6](https://github.com/nextcloud/calendar/compare/v6.5.5...v6.5.6) (2026-09-30)
+
+
+### Bug Fixes
+
+* **alarmFormat:** text special characters ([d31cb4f](https://github.com/nextcloud/calendar/commit/d31cb4fabf8749ee8e6a38fd705d240915c0144d))
+* **calendar:** focus today in list view ([578e91b](https://github.com/nextcloud/calendar/commit/578e91be5d79c9624b400ea5383d329658e10b1d))
+* **calendar:** focus today in list view ([87998c4](https://github.com/nextcloud/calendar/commit/87998c48a0676e620d832108b629f76298a28c81))
+* **calendar:** hide creation header in public views ([f6a3cbb](https://github.com/nextcloud/calendar/commit/f6a3cbbdfb7ea129a21041ed996feae2642ac8d0))
+* **deps:** Fix npm audit ([c6c31ac](https://github.com/nextcloud/calendar/commit/c6c31acbed15a6be57e5bf3bb0542af6309afd50))
+* **l10n:** Update translations from Transifex ([e01373e](https://github.com/nextcloud/calendar/commit/e01373e9b2fefdae45059903c710a2e5e73995ab))
+* **l10n:** Update translations from Transifex ([332be59](https://github.com/nextcloud/calendar/commit/332be5910d36c758d2b46d1f63c20856e97615aa))
+* **l10n:** Update translations from Transifex ([03d701f](https://github.com/nextcloud/calendar/commit/03d701f3e0481f15aae48bb0efa6023f3d1a68e0))
+* **l10n:** Update translations from Transifex ([894f567](https://github.com/nextcloud/calendar/commit/894f5673c03e22cf5098bc86ec1992998ac948f5))
+* **l10n:** Update translations from Transifex ([679d81e](https://github.com/nextcloud/calendar/commit/679d81ed1e6a7b2116edb4718a2c2e339425f361))
+* **l10n:** Update translations from Transifex ([e1d9c43](https://github.com/nextcloud/calendar/commit/e1d9c435fd5e56efcf50b612f440e622ed396d90))
+* **l10n:** Update translations from Transifex ([d97ad43](https://github.com/nextcloud/calendar/commit/d97ad437f3caa30e3fe969b49dd0f458a42b46bf))
+* **l10n:** Update translations from Transifex ([3a2469f](https://github.com/nextcloud/calendar/commit/3a2469fcd482e0b2cb7055eacc35c8018c8ab3e3))
+* send invitation to participants on proposal conversion ([dde059c](https://github.com/nextcloud/calendar/commit/dde059c61e4b8ef1d36c4326ad80403bfd6edf23))
+* the event color saving issue ([33f373a](https://github.com/nextcloud/calendar/commit/33f373ac3d2b1e61d8cc2b3eac2f89ab2f94b7be))
+
+
+
 ## [6.5.5](https://github.com/nextcloud/calendar/compare/v6.5.4...v6.5.5) (2026-09-20)
 
 
