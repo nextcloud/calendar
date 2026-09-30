@@ -102,6 +102,7 @@ OC.L10N.register(
     "Sunday" : "Нядзеля",
     "Your name" : "Ваша імя",
     "Back" : "Назад",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Successfully added Talk conversation link to description." : "Спасылка на размову ў Talk паспяхова дададзена ў апісанне.",
     "Select conversation" : "Выберыце размову",
     "on" : "укл.",
