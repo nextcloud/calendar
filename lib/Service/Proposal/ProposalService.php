@@ -368,17 +368,16 @@ class ProposalService {
 			]);
 		}
 
-		// convert existing calendar blocker to event if it exists, otherwise create a new event in the user's calendar
+		// remove existing calendar blocker, as the meeting reuses its UID
 		$result = $this->findCalendarBlocker($user, $proposal);
 		if ($result !== null) {
-			$this->applyCalendarBlockersOrganizer($user, $result['calendarUri'], $result['eventUri'], $vObject);
-		} else {
-			$userCalendar->createFromString(
-				Uuid::v4()->toRfc4122() . '.ics',
-				$vObject->serialize()
-			);
+			$this->deleteCalendarBlockersOrganizer($user, $result['calendarUri'], $result['eventUri'], $proposal);
 		}
-		$this->applyCalendarBlockersParticipant($user, $proposal, 'M', $vObject);
+		// create the meeting through the scheduling server so participants receive invitations
+		$userCalendar->createFromString(
+			Uuid::v4()->toRfc4122() . '.ics',
+			$vObject->serialize()
+		);
 
 		// destroy the proposal entry
 		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
@@ -710,7 +709,7 @@ class ProposalService {
 	 */
 	private function applyCalendarBlockersOrganizer(IUser $user, string $calendarUri, ?string $eventUri, VCalendar $vObject): void {
 		/** @var \OCA\DAV\CalDAV\CalendarHome $calendarHome */
-		$calendarHome = (new InvitationResponseServer(false))->getServer()->tree->getNodeForPath('/calendars/' . $user->getUID());
+		$calendarHome = $this->getInvitationResponseServer()->getServer()->tree->getNodeForPath('/calendars/' . $user->getUID());
 		/** @var \OCA\DAV\CalDAV\Calendar $calendar */
 		$calendar = $calendarHome->getChild($calendarUri);
 
@@ -730,7 +729,7 @@ class ProposalService {
 	 */
 	private function deleteCalendarBlockersOrganizer(IUser $user, string $calendarUri, string $eventUri, ProposalObject $proposal): void {
 		/** @var \OCA\DAV\CalDAV\CalendarHome $calendarHome */
-		$calendarHome = (new InvitationResponseServer(false))->getServer()->tree->getNodeForPath('/calendars/' . $user->getUID());
+		$calendarHome = $this->getInvitationResponseServer()->getServer()->tree->getNodeForPath('/calendars/' . $user->getUID());
 		/** @var \OCA\DAV\CalDAV\Calendar $calendar */
 		$calendar = $calendarHome->getChild($calendarUri);
 
@@ -811,6 +810,10 @@ class ProposalService {
 			}
 		}
 		return null;
+	}
+
+	protected function getInvitationResponseServer(): InvitationResponseServer {
+		return new InvitationResponseServer(false);
 	}
 
 }
