@@ -25,18 +25,19 @@
 			v-else
 			class="property-color__input">
 			<NcColorPicker
-				v-model="selectedColor"
-				v-model:shown="selectorOpen"
+				v-model:open="selectorOpen"
+				:modelValue="selectedColor"
 				:advancedFields="true"
-				@update:modelValue="changeColor">
+				@submit="changeColor">
 				<NcButton
 					class="property-color__color-preview"
+					:ariaLabel="$t('calendar', 'Open color picker')"
 					:style="{ 'background-color': selectedColor }" />
 			</NcColorPicker>
 			<NcButton
 				v-if="!isReadOnly && !!value"
 				variant="tertiary"
-				:arialLabel="$t('calendar', 'Remove color')"
+				:ariaLabel="$t('calendar', 'Remove color')"
 				@click="deleteColor">
 				<template #icon>
 					<Undo :size="20" decorative />
@@ -84,22 +85,16 @@ export default {
 	data() {
 		return {
 			selectorOpen: false,
-			selectedColor: null,
 		}
 	},
 
-	mounted() {
-		this.defaultColor()
+	computed: {
+		selectedColor() {
+			return this.value || this.calendarColor
+		},
 	},
 
 	methods: {
-
-		/**
-		 * Determines the default color to show
-		 */
-		defaultColor() {
-			this.selectedColor = this.value || this.calendarColor
-		},
 
 		/**
 		 * Changes / Sets the custom color of this event
@@ -107,7 +102,6 @@ export default {
 		 * @param {string} newColor The new Color as HEX
 		 */
 		changeColor(newColor) {
-			this.selectedColor = newColor
 			this.$emit('update:value', newColor)
 		},
 
@@ -117,7 +111,6 @@ export default {
 		 */
 		deleteColor() {
 			this.$emit('update:value', null)
-			this.selectedColor = this.calendarColor
 		},
 	},
 }
