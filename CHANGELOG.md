@@ -1,3 +1,13 @@
+## [5.5.24](https://github.com/nextcloud/calendar/compare/v5.5.23...v5.5.24) (2026-10-01)
+
+
+### Bug Fixes
+
+* event color saving issue ([cb74720](https://github.com/nextcloud/calendar/commit/cb74720ece2f2147626c1e6e61418f13bc0d0a27))
+* the event color saving issue ([75aee9d](https://github.com/nextcloud/calendar/commit/75aee9d5c23fcb75017ebcfc8a3f6782fab49d30))
+
+
+
 ## [5.5.23](https://github.com/nextcloud/calendar/compare/v5.5.22...v5.5.23) (2026-08-11)
 
 
