@@ -50,6 +50,7 @@ OC.L10N.register(
     "No" : "Ոչ",
     "Personal" : "Անձնական",
     "Close" : "Փակել",
+    "New event" : "Նոր իրադարձություն",
     "Daily" : "Օրական",
     "Weekly" : "Շաբաթական",
     "second" : "երկրորդ",

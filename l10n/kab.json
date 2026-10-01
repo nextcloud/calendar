@@ -1,6 +1,7 @@
 { "translations": {
     "Hello," : "Azul,",
     "Open »%s«" : "Ldi »%s«",
+    "Event" : "Tadyant",
     "Calendar" : "Awitay",
     "Confirm" : "Sergeg",
     "Description:" : "Aglam:",
@@ -15,7 +16,6 @@
     "Next week" : "Dduṛt d-iteddun",
     "Next year" : "Qabel",
     "Next month" : "Aggur d-iteddun",
-    "Event" : "Tadyant",
     "Today" : "Ass-a",
     "Day" : "Ass",
     "Week" : "Amalas",

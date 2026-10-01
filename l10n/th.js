@@ -96,6 +96,7 @@ OC.L10N.register(
     "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
     "Close" : "ปิด",
+    "New event" : "เหตุการณ์ใหม่",
     "Selected" : "เลือกอยู่",
     "Submit" : "ส่ง",
     "Anniversary" : "วันครบรอบ",

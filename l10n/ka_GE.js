@@ -89,6 +89,7 @@ OC.L10N.register(
     "Personal" : "პირადი",
     "All day" : "მთელი დღე",
     "Close" : "დახურვა",
+    "New event" : "ახალი მოვლენა",
     "Participants" : "მონაწილეები",
     "Submit" : "გაგზავნა",
     "Anniversary" : "დაბადების დღე",

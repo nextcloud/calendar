@@ -155,6 +155,7 @@ OC.L10N.register(
     "All day" : "Tota la jornada",
     "Untitled event" : "Eveniment sens nom",
     "Close" : "Tampar",
+    "New event" : "Eveniment novèl",
     "Selected" : "Seleccionat",
     "Participants" : "Participants",
     "Submit" : "Transmetre",

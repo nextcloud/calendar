@@ -65,6 +65,7 @@ OC.L10N.register(
     "Subscribe" : "Subscribe",
     "Personal" : "Personal",
     "Close" : "Clauder",
+    "New event" : "Nove evento",
     "Anniversary" : "Anniversario de evento",
     "Week {number} of {year}" : "Septimana {number} de {year}",
     "Daily" : "Cata die",

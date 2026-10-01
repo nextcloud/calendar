@@ -102,6 +102,7 @@ OC.L10N.register(
     "Discard" : "Hidh poshtë",
     "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
+    "New event" : "Veprimtari e re",
     "Submit" : "Dërgo",
     "Anniversary" : "Përvjetor",
     "Week {number} of {year}" : "Java e {number} e {year}",

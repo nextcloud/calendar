@@ -89,6 +89,7 @@ OC.L10N.register(
     "Personal" : "Personal",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
+    "New event" : "Nuevo evento",
     "Participants" : "Participantes",
     "Submit" : "Enviar",
     "Anniversary" : "Aniversario",

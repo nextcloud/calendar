@@ -89,6 +89,7 @@ OC.L10N.register(
     "Personal" : "Perséinlech",
     "Invite" : "Invitéieren",
     "Close" : "Zoumaachen",
+    "New event" : "Neit Evenement",
     "Selected" : "Ausgewielt",
     "Submit" : "Iwwermëttelen",
     "Week {number} of {year}" : "Woch {Nummer} vum {Joer}",
