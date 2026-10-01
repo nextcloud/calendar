@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Hello," : "Azul,",
     "Open »%s«" : "Ldi »%s«",
+    "Event" : "Tadyant",
     "Calendar" : "Awitay",
     "Confirm" : "Sergeg",
     "Description:" : "Aglam:",
@@ -17,7 +18,6 @@ OC.L10N.register(
     "Next week" : "Dduṛt d-iteddun",
     "Next year" : "Qabel",
     "Next month" : "Aggur d-iteddun",
-    "Event" : "Tadyant",
     "Today" : "Ass-a",
     "Day" : "Ass",
     "Week" : "Amalas",
