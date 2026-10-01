@@ -20,7 +20,7 @@
 		</div>
 		<div v-else
 			class="property-color__input">
-			<NcColorPicker :model-value="selectedColor"
+			<NcColorPicker v-model="pendingColor"
 				:open.sync="selectorOpen"
 				:advanced-fields="true"
 				@submit="changeColor">
@@ -72,12 +72,21 @@ export default {
 	data() {
 		return {
 			selectorOpen: false,
+			pendingColor: '',
 		}
 	},
 
 	computed: {
 		selectedColor() {
 			return this.value || this.calendarColor
+		},
+	},
+
+	watch: {
+		selectorOpen(isOpen) {
+			if (isOpen) {
+				this.pendingColor = this.selectedColor || ''
+			}
 		},
 	},
 
