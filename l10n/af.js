@@ -85,6 +85,7 @@ OC.L10N.register(
     "Personal" : "Persoonlik",
     "All day" : "Heeldag",
     "Close" : "Sluit",
+    "New event" : "Nuwe geleentheid",
     "Submit" : "Dien in",
     "Anniversary" : "Herdenking",
     "Week {number} of {year}" : "Week {number} van {year}",

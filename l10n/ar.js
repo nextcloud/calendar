@@ -456,6 +456,7 @@ OC.L10N.register(
     "Close" : "إغلاق",
     "Modifications will not get propagated to the organizer and other attendees" : "التعديلات لن يتم إذاعتها على المنظم والمشاركين الآخرين",
     "This event was cancelled" : "الحدثُ تمّ إلغاؤه",
+    "New event" : "حدث جديد",
     "Selected" : "مُحدّدة",
     "Participants" : "المشارِكون",
     "Submit" : "إرسال ",
