@@ -253,6 +253,9 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 		}
 
 		logger.debug('Updating room participants', { room })
+		// Calendar invitations already include the link to Calendar-owned conversations.
+		// Inviting external attendees by email here would send a second invitation.
+		const shouldInviteByEmail = room.type === 3 && room.objectType !== 'event'
 
 		// Collect attendees that need to be added
 		const attendeesToProcess: CalendarAttendee[] = []
@@ -291,8 +294,8 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 							return
 						}
 
-						// For public rooms, add as email guest
-						if (room.type === 3) {
+						// For non-event public rooms, add as email guest
+						if (shouldInviteByEmail) {
 							logger.debug('Adding attendee as email guest', { email: participantEmail })
 							resolve({ email: participantEmail })
 						} else {
@@ -301,8 +304,8 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 						}
 					} catch (error) {
 						logger.info('Could not resolve attendee', { email: participantEmail, error })
-						// For public rooms, fall back to email
-						if (room.type === 3) {
+						// For non-event public rooms, fall back to email
+						if (shouldInviteByEmail) {
 							resolve({ email: participantEmail })
 						} else {
 							resolve({})
