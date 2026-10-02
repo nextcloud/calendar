@@ -28,7 +28,7 @@
 				:placeholder="placeholder"
 				:clearable="false"
 				:inputId="readableName + '-select-input'"
-				:ariaLabelCombobox="readableName"
+				:inputLabel="readableName"
 				:ariaLabelListbox="readableName"
 				label="label" />
 			<span v-else>{{ selectedValue.label }}</span>
