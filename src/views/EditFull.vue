@@ -466,11 +466,11 @@ export default {
 				icon: 'AccountPlusOutline',
 				options: [
 					{ value: 'TRUE', label: t('calendar', 'Anyone') },
-					{ value: 'FALSE', label: t('calendar', 'Invitee') },
+					{ value: 'FALSE', label: t('calendar', 'Invited people') },
 				],
 
 				multiple: false,
-				info: t('calendar', 'Choose "Invitee" to prevent attendees from forwarding the invitation to others.'),
+				info: t('calendar', 'Choose "Invited people" to prevent attendees from forwarding the invitation to others.'),
 				defaultValue: 'TRUE',
 			},
 		}

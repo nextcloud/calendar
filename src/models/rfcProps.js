@@ -28,7 +28,7 @@ function getRFCProperties() {
 			icon: 'Eye',
 			options: [
 				{ value: 'PUBLIC', label: t('calendar', 'Public') },
-				{ value: 'CONFIDENTIAL', label: t('calendar', 'Time and date') },
+				{ value: 'CONFIDENTIAL', label: t('calendar', 'Time and date only') },
 				{ value: 'PRIVATE', label: t('calendar', 'Private') },
 			],
 			multiple: false,

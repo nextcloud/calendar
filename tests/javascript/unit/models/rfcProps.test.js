@@ -30,7 +30,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(rfcProps.accessClass.defaultValue).toEqual('PUBLIC')
 		expect(rfcProps.accessClass.options).toEqual([
 			{ value: 'PUBLIC', label: 'Public' },
-			{ value: 'CONFIDENTIAL', label: 'Time and date' },
+			{ value: 'CONFIDENTIAL', label: 'Time and date only' },
 			{ value: 'PRIVATE', label: 'Private' },
 		])
 
@@ -91,7 +91,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		// expect(translate).toHaveBeenCalledTimes(10)
 		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'When shared')
 		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'Public')
-		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Time and date')
+		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Time and date only')
 		expect(translate).toHaveBeenNthCalledWith(4, 'calendar', 'Private')
 		expect(translate).toHaveBeenNthCalledWith(5, 'calendar', 'The visibility of this event in read-only shared calendars.')
 
