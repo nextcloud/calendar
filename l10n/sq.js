@@ -82,7 +82,6 @@ OC.L10N.register(
     "Hours" : "Orët",
     "Minutes" : "Minutat",
     "Done" : "U bë",
-    "Room name" : "Emri i dhomës",
     "Unknown" : "I/E panjohur",
     "Accept" : "Prano",
     "Decline" : "Refuzo",
@@ -98,12 +97,12 @@ OC.L10N.register(
     "available" : "në gjëndje",
     "Yes" : "Po",
     "Create" : "Krijo",
-    "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
     "Discard" : "Hidh poshtë",
     "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
+    "New event" : "Veprimtari e re",
     "Submit" : "Dërgo",
     "Anniversary" : "Përvjetor",
     "Week {number} of {year}" : "Java e {number} e {year}",
@@ -116,6 +115,8 @@ OC.L10N.register(
     "When shared hide this event" : "Kur ndahet fshihe këtë veprimtari",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë"
+    "Categories" : "Kategoritë",
+    "Room name" : "Emri i dhomës",
+    "Global" : "Globale"
 },
 "nplurals=2; plural=(n != 1);");

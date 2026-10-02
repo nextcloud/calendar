@@ -22,7 +22,7 @@ import { isBaseOccurrence } from '@/utils/calendarObject.js'
 import { uidToHexColor } from '@/utils/color.js'
 import { dateFactory } from '@/utils/date.js'
 import logger from '@/utils/logger.js'
-import { getPrefixedRoute, getViewMode, ViewMode } from '@/utils/router.js'
+import { getDefaultEndDateForNewEvent, getDefaultStartDateForNewEvent, getPrefixedRoute, getViewMode, ViewMode } from '@/utils/router.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -37,7 +37,19 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+
+		// Whether the editor is spawned as a standalone dialog, meaning there is
+		// no calendar view and no router to navigate back to
+		isDialog: {
+			type: Boolean,
+			default: false,
+		},
 	},
+
+	emits: [
+		'close',
+	],
+
 	data() {
 		return {
 			// Indicator whether or not the event is currently loading, saving or being deleted
@@ -157,16 +169,7 @@ export default {
 			return (this.calendarObjectInstance?.canModifyAllDay ?? false) || !(this.calendarObject?.existsOnServer ?? true)
 		},
 		/**
-		 * Returns the color the illustration should be colored in
-		 *
-		 * @return {string}
-		 */
-		illustrationColor() {
-			return this.color || this.selectedCalendarColor
-		},
-		/**
 		 * Returns the color of the calendar selected by the user
-		 * This is used to color illustration
 		 *
 		 * @return {string}
 		 */
@@ -463,7 +466,8 @@ export default {
 
 		// Check if this is a new event or existing event based on route name
 		// NewPopoverView and NewFullView are for new events
-		const isNewEvent = this.$route?.name?.startsWith('New')
+		// A standalone dialog is always for a new event
+		const isNewEvent = this.isDialog || this.$route?.name?.startsWith('New')
 
 		if (isNewEvent) {
 			// For new events, create a new calendar object instance
@@ -471,9 +475,10 @@ export default {
 			try {
 				await this.loadingCalendars()
 
-				const isAllDay = (this.$route.params.allDay === '1')
-				const start = parseInt(this.$route.params.dtstart)
-				const end = parseInt(this.$route.params.dtend)
+				// Without a route, e.g. in a dialog, fall back to the next full hour
+				const isAllDay = (this.$route?.params.allDay === '1')
+				const start = parseInt(this.$route?.params.dtstart ?? getDefaultStartDateForNewEvent(), 10)
+				const end = parseInt(this.$route?.params.dtend ?? getDefaultEndDateForNewEvent(), 10)
 				const timezoneId = this.settingsStore.getResolvedTimezone
 
 				await this.calendarObjectInstanceStore.getCalendarObjectInstanceForNewEvent({
@@ -606,6 +611,11 @@ export default {
 				this.widgetStore.closeWidgetEventDetails()
 				return
 			}
+			if (this.isDialog) {
+				this.calendarObjectInstanceStore.resetCalendarObjectInstanceObjectIdAndRecurrenceId()
+				this.$emit('close')
+				return
+			}
 			const params = { ...this.$route.params }
 			delete params.object
 			delete params.recurrenceId
@@ -694,6 +704,12 @@ export default {
 			}
 			if (!this.canUpdate(scope)) {
 				return
+			}
+
+			// If this is a new event, mark it as dirty so that it is saved even when no changes were made
+			// (e.g. when creating an event and immediately saving it without title etc.)
+			if (this.isNew) {
+				this.calendarObjectInstance.eventComponent.markDirty()
 			}
 
 			this.isLoading = true

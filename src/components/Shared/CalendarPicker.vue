@@ -211,22 +211,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-:deep(.multiselect__tags) {
-	margin: 3px 0;
-}
-
-.calendar-picker__tag {
-	border: 1px solid var(--color-border);
-	border-radius: var(--border-radius);
-	padding: 0 5px;
-}
-
-.calendar-picker__tag + .calendar-picker__tag {
-	margin-inline-start: 5px;
-}
-</style>
-
 <style lang="scss">
 .vs__search {
 	// Prevent search from collapsing the actual picked option

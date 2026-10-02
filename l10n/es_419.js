@@ -85,11 +85,11 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "available" : "disponible",
     "Yes" : "Si",
-    "Global" : "Global",
     "Subscribe" : "Suscribir",
     "Personal" : "Personal",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
+    "New event" : "Nuevo evento",
     "Participants" : "Participantes",
     "Submit" : "Enviar",
     "Anniversary" : "Aniversario",
@@ -101,6 +101,7 @@ OC.L10N.register(
     "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Confirmed" : "Confirmado",
-    "Categories" : "Categorías"
+    "Categories" : "Categorías",
+    "Global" : "Global"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

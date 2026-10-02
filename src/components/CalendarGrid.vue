@@ -23,6 +23,7 @@ import { DateTimeValue } from '@nextcloud/calendar-js'
 // Import other dependencies
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
+import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 // Import event sources
 import eventSource from '@/fullcalendar/eventSources/eventSource.js'
 // Import interaction handlers
@@ -170,7 +171,7 @@ export default {
 				droppable: true,
 				eventReceive: this.handleEventReceive,
 				eventShortHeight: 38,
-				loading: this.scrollMonthViewToToday,
+				loading: this.scrollViewToToday,
 			}
 		},
 
@@ -301,6 +302,13 @@ export default {
 				next()
 			})
 
+			// Navigating to the current route skips beforeEach but still triggers afterEach
+			this.$router.afterEach((to, from, failure) => {
+				if (isNavigationFailure(failure, NavigationFailureType.duplicated) && to.params.firstDay === 'now') {
+					this.scrollViewToToday(false)
+				}
+			})
+
 			// Trigger the select event programmatically on initial page load to show the new event
 			// in the grid. Wait for the next tick because the ref isn't available right away.
 			await this.$nextTick()
@@ -321,23 +329,30 @@ export default {
 
 	methods: {
 		/**
-		 * Scroll the month view to today when loading the calendar,
+		 * Scroll the month or list view to today when loading the calendar,
 		 * so people can directly see today's date and events.
 		 *
 		 * @param {boolean} isLoading Whether the calendar is still loading
 		 */
-		scrollMonthViewToToday(isLoading) {
+		scrollViewToToday(isLoading) {
 			if (isLoading) {
 				return
 			}
 			const calendarApi = this.$refs.fullCalendar.getApi()
-			if (calendarApi.view.type !== 'dayGridMonth') {
+			if (calendarApi.view.type !== 'dayGridMonth' && calendarApi.view.type !== 'listMonth') {
 				return
 			}
 			this.$nextTick(() => {
 				const todayEl = this.$refs.fullCalendar.$el.querySelector('.fc-day-today')
-				if (todayEl) {
-					todayEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+				if (calendarApi.view.type === 'dayGridMonth') {
+					if (todayEl) {
+						todayEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+					}
+				}
+				if (calendarApi.view.type === 'listMonth') {
+					if (todayEl) {
+						todayEl.scrollIntoView({ block: 'start', behavior: 'smooth' })
+					}
 				}
 			})
 		},

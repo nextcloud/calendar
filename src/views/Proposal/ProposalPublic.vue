@@ -227,21 +227,10 @@ onMounted(() => {
 	margin-inline-start: auto;
 }
 
-.proposal-public__content-timezone {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--default-grid-baseline) * 1);
-}
-
 .proposal-public__content-matrix {
 	padding-top: calc(var(--default-grid-baseline) * 4);
 	padding-bottom: calc(var(--default-grid-baseline) * 2);
 	border-top: 2px solid var(--color-border);
 	border-bottom: 2px solid var(--color-border);
-}
-
-.proposal-public__content-date-empty {
-  font-style: italic;
-  color: var(--color-text-lighter);
 }
 </style>

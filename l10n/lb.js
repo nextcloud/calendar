@@ -84,12 +84,12 @@ OC.L10N.register(
     "Yes" : "Jo",
     "No" : "Nee",
     "Create" : "Erstellen",
-    "Global" : "Global",
     "Subscribed" : "Abonnéiert",
     "Subscribe" : "Umellen",
     "Personal" : "Perséinlech",
     "Invite" : "Invitéieren",
     "Close" : "Zoumaachen",
+    "New event" : "Neit Evenement",
     "Selected" : "Ausgewielt",
     "Submit" : "Iwwermëttelen",
     "Week {number} of {year}" : "Woch {Nummer} vum {Joer}",
@@ -102,6 +102,7 @@ OC.L10N.register(
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
     "Canceled" : "Ofgesot",
-    "Categories" : "Kategorien"
+    "Categories" : "Kategorien",
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

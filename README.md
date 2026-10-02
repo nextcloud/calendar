@@ -74,6 +74,33 @@ composer test
 npm run test
 ```
 
+Front-end tests are split into unit tests ([Vitest](https://vitest.dev/)), component tests and end-to-end tests (both [Playwright](https://playwright.dev/)):
+
+```sh
+npm run test:unit             # Vitest unit tests
+npm run test:component        # Playwright component tests
+```
+
+### Updating Playwright snapshots
+
+Component tests compare screenshots against committed baseline snapshots. If your change intentionally alters
+rendered output, regenerate them with:
+
+```sh
+npm run test:component:update-snapshots   # regenerate component test snapshots
+```
+
+### Running the Playwright GUI in a container/remote environment
+
+`npm run test:component:ui` and `npm run test:e2e:ui` open Playwright's UI mode, which normally launches a window on
+your local machine. When running inside a devcontainer, Codespace, SSH remote, or any other headless environment, use the
+`:remote` variants instead, which serve the UI over HTTP so it can be reached through a forwarded port in your local browser:
+
+```sh
+npm run test:component:ui:remote   # component tests UI, served on port 13000
+npm run test:e2e:ui:remote          # end-to-end tests UI, served on port 13000
+```
+
 ## :v: Code of conduct
 
 The Nextcloud community has core values that are shared between all members during conferences,

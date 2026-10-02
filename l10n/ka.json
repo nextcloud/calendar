@@ -13,6 +13,7 @@
     "No more events today" : "No more events today",
     "No upcoming events" : "No upcoming events",
     "More events" : "More events",
+    "Event" : "Event",
     "%1$s with %2$s" : "%1$s with %2$s",
     "Calendar" : "Calendar",
     "New booking {booking}" : "New booking {booking}",
@@ -48,7 +49,6 @@
     "Next year" : "Next year",
     "Next month" : "Next month",
     "Create new event" : "Create new event",
-    "Event" : "Event",
     "Today" : "Today",
     "Day" : "Day",
     "Week" : "Week",
@@ -225,6 +225,7 @@
     "Please share anything that will help prepare for our meeting" : "Please share anything that will help prepare for our meeting",
     "Could not book the appointment. Please try again later or contact the organizer." : "Could not book the appointment. Please try again later or contact the organizer.",
     "Back" : "Back",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Select conversation" : "Select conversation",
     "on" : "on",
     "at" : "at",
@@ -311,7 +312,6 @@
     "End repeat" : "End repeat",
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it.",
     "first" : "first",
-    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Changes to the recurrence-rule will only apply to this and all future occurrences.",
     "Repeat every" : "Repeat every",
     "By day of the month" : "By day of the month",
     "On the" : "On the",
@@ -347,8 +347,6 @@
     "Yes" : "კი",
     "No" : "არა",
     "Create" : "Create",
-    "Type to search time zone" : "Type to search time zone",
-    "Global" : "Global",
     "Holidays in {region}" : "Holidays in {region}",
     "An error occurred, unable to read public calendars." : "An error occurred, unable to read public calendars.",
     "An error occurred, unable to subscribe to calendar." : "An error occurred, unable to subscribe to calendar.",
@@ -474,6 +472,9 @@
     "Imported {filename}" : "Imported {filename}",
     "This is an event reminder." : "This is an event reminder.",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "User not found"
+    "User not found" : "User not found",
+    "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Changes to the recurrence-rule will only apply to this and all future occurrences.",
+    "Type to search time zone" : "Type to search time zone",
+    "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

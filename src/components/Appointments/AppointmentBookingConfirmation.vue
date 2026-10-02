@@ -26,9 +26,5 @@ import EmailIcon from 'vue-material-design-icons/EmailOutline.vue'
 		margin-bottom: 20px;
 		margin-top: 0;
 	}
-
-	&__desc {
-		text-align: center;
-	}
 }
 </style>

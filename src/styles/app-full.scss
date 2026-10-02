@@ -10,12 +10,6 @@
 	flex-grow: 1;
 	align-items: flex-start;
 
-	&-wrapper {
-		display: flex;
-		gap: calc(var(--default-grid-baseline) * 4);
-		justify-content: stretch;
-	}
-
 	.property-text__input, textarea, input {
 		width: 100%;
 		flex-basis: unset !important;
@@ -67,7 +61,7 @@
 	min-height: var(--default-clickable-area);
 }
 
-.property-select-multiple, .property-color, .property-repeat__summary {
+.property-select-multiple, .property-color {
 	&__input {
 		width: unset !important;
 		flex-grow: 1;
@@ -180,34 +174,10 @@
 	}
 }
 
-.editor-reminders-list-empty-message__caption {
-	text-align: center;
-	margin: 0 0 calc(var(--default-grid-baseline) * 4);
-}
-
 .repeat-option-set {
 	flex-wrap: nowrap;
 	align-items: baseline;
 
-	.repeat-option-set__repeat {
-		flex-wrap: nowrap;
-		gap: calc(var(--default-grid-baseline) * 2);
-	}
-	.repeat-option-set__repeat-field {
-		flex: 1 1 150px;
-		min-width: 150px;
-	}
-	.repeat-option-set__end-repeat {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: calc(var(--default-grid-baseline) * 2);
-
-		.repeat-option-set__end-repeat-field {
-			flex: 1 1 150px;
-			min-width: 350px;
-		}
-	}
 	.repeat-option-set-section {
 		&:not(:first-of-type) {
 			margin-top: 10px;
@@ -263,20 +233,11 @@
 
 	&--interval-freq {
 		display: flex;
-
-		.multiselect {
-			min-width: 100px;
-			width: 25%;
-		}
 	}
 
 	&--end {
 		margin-top: calc(var(--default-grid-baseline) * 2);
 		.repeat-option-end {
-			width: 100%;
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
 			&__label,
 			&__end-type-select,
 			&__until,
@@ -305,16 +266,6 @@
 				width: 100%;
 			}
 		}
-	}
-	.end-repeat-container .end-repeat-dropdown,
-	.end-repeat-container .end-repeat-date {
-		flex: 0 1 auto;
-		min-width: 150px;
-		width: auto;
-	}
-
-	&__label {
-		margin-inline-end: auto;
 	}
 }
 

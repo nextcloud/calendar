@@ -31,7 +31,7 @@
 			}
 		}
 
-		.availability-select, .calendar-select, .visibility-select, .duration-select {
+		.calendar-select, .visibility-select, .duration-select {
 			display: flex;
 			flex-direction: column;
 		}
@@ -57,12 +57,6 @@
 
 		&__row + &__row {
 			margin-top: calc(var(--default-grid-baseline) * 2);
-		}
-
-		// Fix calendar picker styling
-		.multiselect__tags {
-			height: unset !important;
-			margin: 0 !important;
 		}
 	}
 

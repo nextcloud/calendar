@@ -77,6 +77,7 @@ OC.L10N.register(
     "Sunday" : "Domingo",
     "Your email address" : "Su dirección de correo electrónico",
     "Back" : "Volver",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Notification" : "Notificación",
     "Email" : "Correo electrónico",
     "seconds" : "segundos",
@@ -111,12 +112,14 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "available" : "disponible",
     "Yes" : "Sí",
-    "Global" : "Global",
     "Subscribe" : "Suscribirse",
     "Select a date" : "Elija una fecha",
     "Personal" : "Personal",
+    "Discard" : "Descartar",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
+    "New event" : "Nuevo evento",
+    "Selected" : "Seleccionado",
     "Participants" : "Participantes",
     "Submit" : "Enviar",
     "Anniversary" : "Aniversario",
@@ -130,6 +133,7 @@ OC.L10N.register(
     "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Confirmed" : "Confirmado",
-    "Categories" : "Categoría"
+    "Categories" : "Categoría",
+    "Global" : "Global"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

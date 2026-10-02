@@ -74,9 +74,9 @@
     "Room type" : "Romtype",
     "Remove participant" : "Eksterne deltakarar",
     "Create" : "Opprett",
-    "Global" : "Global",
     "Personal" : "Personleg",
     "Close" : "Lukk",
+    "New event" : "Ny hending",
     "Participants" : "Deltakarar",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
@@ -89,6 +89,7 @@
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Confirmed" : "Stadfesta",
-    "Categories" : "Kategoriar"
+    "Categories" : "Kategoriar",
+    "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

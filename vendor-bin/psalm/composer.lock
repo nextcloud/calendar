@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25da3d567081b58139f37f2fb2b1eaba",
+    "content-hash": "3c4774e953897f75737895de9dbe8c0d",
     "packages": [],
     "packages-dev": [
         {
@@ -3112,16 +3112,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "6.17.2",
+            "version": "6.19.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "dd625545733d24633e5d386a26c13004dae80e19"
+                "reference": "e2ca44251c1f1aa2e35452d426895746b47de64e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/dd625545733d24633e5d386a26c13004dae80e19",
-                "reference": "dd625545733d24633e5d386a26c13004dae80e19",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/e2ca44251c1f1aa2e35452d426895746b47de64e",
+                "reference": "e2ca44251c1f1aa2e35452d426895746b47de64e",
                 "shasum": ""
             },
             "require": {
@@ -3226,7 +3226,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2026-09-15T12:34:23+00:00"
+            "time": "2026-09-29T09:38:04+00:00"
         },
         {
             "name": "webmozart/assert",

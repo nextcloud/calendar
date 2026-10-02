@@ -205,10 +205,6 @@ h3 {
 	margin-inline-end:5px
 }
 
-.booking-error {
-	color: var(--color-error);
-}
-
 .booking__description,
 .name-details,
 .email-details {
@@ -224,31 +220,6 @@ h3 {
 
 	.button {
 		margin: 0;
-	}
-}
-
-.add-guest {
-	display: block;
-	color: var(--color-primary-element);
-	background-color: transparent;
-}
-
-.meeting-text {
-	display: grid;
-	align-items: center;
-
-	textarea {
-		display: block;
-		resize: vertical;
-		grid-area: 1 / 1;
-		width: 100%;
-		margin: 3px 3px 3px 0;
-		padding: 7px 6px;
-		color: var(--color-main-text);
-		border: 1px solid var(--color-border-dark);
-		border-radius: var(--border-radius);
-		background-color: var(--color-main-background);
-		cursor: text;
 	}
 }
 </style>

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Hello," : "Azul,",
     "Open »%s«" : "Ldi »%s«",
+    "Event" : "Tadyant",
     "Calendar" : "Awitay",
     "Confirm" : "Sergeg",
     "Description:" : "Aglam:",
@@ -17,7 +18,6 @@ OC.L10N.register(
     "Next week" : "Dduṛt d-iteddun",
     "Next year" : "Qabel",
     "Next month" : "Aggur d-iteddun",
-    "Event" : "Tadyant",
     "Today" : "Ass-a",
     "Day" : "Ass",
     "Week" : "Amalas",
@@ -156,7 +156,6 @@ OC.L10N.register(
     "No" : "Uhu",
     "Maybe" : "Ahat",
     "Create" : "Snulfu-d",
-    "Global" : "Amatu",
     "Subscribe" : "Lteɣ",
     "Select a date" : "Fren Azemz",
     "Personal" : "Udmawan",
@@ -191,6 +190,7 @@ OC.L10N.register(
     "Canceled" : "Yettwasemmet",
     "Categories" : "Taggayin",
     "Custom color" : "Ini yugnen",
-    "User not found" : "Ur yettwaf ara useqdac"
+    "User not found" : "Ur yettwaf ara useqdac",
+    "Global" : "Amatu"
 },
 "nplurals=2; plural=(n != 1);");

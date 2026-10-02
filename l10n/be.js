@@ -4,6 +4,7 @@ OC.L10N.register(
     "Hello," : "Вітаем,",
     "Upcoming events" : "Будучыя падзеі",
     "No upcoming events" : "Няма будучых падзей",
+    "Event" : "Падзея",
     "%1$s with %2$s" : "%1$s з %2$s",
     "Calendar" : "Каляндар",
     "Confirm" : "Пацвердзіць",
@@ -20,7 +21,6 @@ OC.L10N.register(
     "Dates:" : "Даты:",
     "A Calendar app for Nextcloud" : "Праграма Каляндар для Nextcloud",
     "Next week" : "На наступным тыдні",
-    "Event" : "Падзея",
     "Today" : "Сёння",
     "Year" : "Год",
     "List" : "Спіс",
@@ -102,6 +102,7 @@ OC.L10N.register(
     "Sunday" : "Нядзеля",
     "Your name" : "Ваша імя",
     "Back" : "Назад",
+    "Nextcloud Talk" : "Nextcloud Talk",
     "Successfully added Talk conversation link to description." : "Спасылка на размову ў Talk паспяхова дададзена ў апісанне.",
     "Select conversation" : "Выберыце размову",
     "on" : "укл.",
@@ -159,7 +160,6 @@ OC.L10N.register(
     "No" : "Не",
     "Maybe" : "Магчыма",
     "Create" : "Ствараць",
-    "Global" : "Глабальны",
     "Public calendars" : "Публічныя календары",
     "Select a date" : "Выберыце дату",
     "Personal" : "Асабістыя",
@@ -199,6 +199,7 @@ OC.L10N.register(
     "Canceled" : "Скасавана",
     "Categories" : "Катэгорыі",
     "Error while sharing file" : "Памылка пры абагульванні файла",
-    "User not found" : "Карыстальнік не знойдзены"
+    "User not found" : "Карыстальнік не знойдзены",
+    "Global" : "Глабальны"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
