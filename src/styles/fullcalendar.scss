@@ -193,15 +193,6 @@
 		font-weight: var(--font-weight-element);
 	}
 
-	// Reminder icon on events with alarms set
-	&.fc-event-nc-alarms {
-		.icon-event-reminder {
-			position: absolute;
-			top: 0;
-			inset-inline-end: 0;
-		}
-	}
-
 	// Checkboxes for Tasks
 	.fc-event-title-container {
 		display: flex;
