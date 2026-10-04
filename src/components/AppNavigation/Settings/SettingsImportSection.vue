@@ -32,7 +32,10 @@
 
 		<ImportScreen
 			v-if="showImportModal"
-			:files="files"
+			:entries="entries"
+			:stage="stage"
+			:totals="totals"
+			:activeSession="activeSession"
 			@cancelImport="cancelImport"
 			@importCalendar="importCalendar" />
 	</div>
@@ -49,17 +52,9 @@ import { NcButton } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
 import ImportScreen from '@/components/AppNavigation/Settings/ImportScreen.vue'
-import {
-	IMPORT_STAGE_AWAITING_USER_SELECT,
-	IMPORT_STAGE_DEFAULT,
-	IMPORT_STAGE_IMPORTING,
-	IMPORT_STAGE_PROCESSING,
-} from '@/models/consts.js'
 import { readFileAsText } from '@/services/readFileAsTextService.js'
 import useCalendarObjectsStore from '@/store/calendarObjects.js'
-import useCalendarsStore from '@/store/calendars.js'
-import useImportFilesStore from '@/store/importFiles.js'
-import useImportStateStore from '@/store/importState.js'
+import useImportStore from '@/store/import.ts'
 import logger from '@/utils/logger.js'
 
 export default {
@@ -78,16 +73,15 @@ export default {
 	},
 
 	computed: {
-		...mapStores(useImportStateStore, useImportFilesStore, useCalendarsStore, useCalendarObjectsStore),
-		...mapState(useImportFilesStore, {
-			files: 'importFiles',
+		...mapStores(useImportStore, useCalendarObjectsStore),
+		...mapState(useImportStore, {
+			entries: 'files',
 		}),
 
-		...mapState(useImportStateStore, {
+		...mapState(useImportStore, {
 			stage: 'stage',
-			total: 'total',
-			accepted: 'accepted',
-			denied: 'denied',
+			totals: 'totals',
+			activeSession: 'activeSession',
 		}),
 
 		/**
@@ -96,7 +90,11 @@ export default {
 		 * @return {number}
 		 */
 		imported() {
-			return this.accepted + this.denied
+			return this.totals.processed
+		},
+
+		total() {
+			return this.totals.discovered
 		},
 
 		/**
@@ -105,7 +103,7 @@ export default {
 		 * @return {boolean}
 		 */
 		allowUploadOfFiles() {
-			return this.stage === IMPORT_STAGE_DEFAULT
+			return this.stage === 'idle'
 		},
 
 		/**
@@ -114,7 +112,7 @@ export default {
 		 * @return {boolean}
 		 */
 		showImportModal() {
-			return this.stage === IMPORT_STAGE_AWAITING_USER_SELECT
+			return this.stage === 'selecting' || this.stage === 'importing'
 		},
 
 		/**
@@ -123,7 +121,7 @@ export default {
 		 * @return {boolean}
 		 */
 		showProgressBar() {
-			return this.stage === IMPORT_STAGE_IMPORTING
+			return false
 		},
 
 		/**
@@ -156,7 +154,7 @@ export default {
 		 * @param {Event} event The change-event of the input-field
 		 */
 		async processFiles(event) {
-			this.importStateStore.stage = IMPORT_STAGE_PROCESSING
+			this.importStore.stage = 'preparing'
 			let addedFiles = false
 
 			for (const file of event.target.files) {
@@ -203,7 +201,7 @@ export default {
 					continue
 				}
 
-				this.importFilesStore.addFile({
+				this.importStore.addFile({
 					contents,
 					lastModified,
 					name,
@@ -216,12 +214,12 @@ export default {
 
 			if (!addedFiles) {
 				showError(this.$t('calendar', 'No valid files found, aborting import'))
-				this.importFilesStore.removeAllFiles()
-				this.importStateStore.resetState()
+				this.importStore.removeAllFiles()
+				this.importStore.reset()
 				return
 			}
 
-			this.importStateStore.stage = IMPORT_STAGE_AWAITING_USER_SELECT
+			this.importStore.stage = 'selecting'
 		},
 
 		/**
@@ -229,18 +227,18 @@ export default {
 		 * This will show
 		 */
 		async importCalendar() {
-			await this.calendarsStore.importEventsIntoCalendar()
+			const totals = await this.importStore.startImport()
 
-			if (this.total === this.accepted) {
-				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events', this.total))
+			if (totals.discovered === totals.created + totals.updated + totals.exists && totals.error === 0) {
+				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events', totals.discovered))
 			} else {
 				showWarning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
-					accepted: this.accepted,
-					total: this.total,
+					accepted: totals.processed - totals.error,
+					total: totals.discovered,
 				}))
 			}
-			this.importFilesStore.removeAllFiles()
-			this.importStateStore.resetState()
+			this.importStore.removeAllFiles()
+			this.importStore.reset()
 
 			// Once we are done importing, reload the calendar view
 			this.calendarObjectsStore.modificationCount++
@@ -252,8 +250,8 @@ export default {
 		 * Resets the import sate
 		 */
 		cancelImport() {
-			this.importFilesStore.removeAllFiles()
-			this.importStateStore.resetState()
+			this.importStore.removeAllFiles()
+			this.importStore.reset()
 			this.resetInput()
 		},
 
