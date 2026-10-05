@@ -289,6 +289,7 @@ OC.L10N.register(
     "Invite" : "Gwahoddiad",
     "Untitled event" : "Digwyddiad di-deitl",
     "Close" : "Cau",
+    "New event" : "Digwyddiad newydd",
     "Subscribe to {name}" : "Tanysgrifio i {name}",
     "Export {name}" : "Allforio {name}",
     "Anniversary" : "Dathliad",

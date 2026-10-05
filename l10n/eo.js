@@ -130,6 +130,7 @@ OC.L10N.register(
     "All day" : "Tuttage",
     "Untitled event" : "Sentitola okazaĵo",
     "Close" : "Fermi",
+    "New event" : "Nova okazaĵo",
     "Submit" : "Sendi",
     "Anniversary" : "Datreveno",
     "Week {number} of {year}" : "Semajno {number} en {year}",

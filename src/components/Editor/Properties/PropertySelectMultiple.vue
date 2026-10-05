@@ -29,7 +29,7 @@
 				:deselectFromDropdown="false"
 				:createOption="(label) => ({ value: label, label })"
 				:inputId="readableName + '-select-multiple-input'"
-				:ariaLabelCombobox="readableName"
+				:inputLabel="readableName"
 				:ariaLabelListbox="readableName"
 				label="label"
 				@option:selecting="tag"

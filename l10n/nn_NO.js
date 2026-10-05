@@ -78,6 +78,7 @@ OC.L10N.register(
     "Create" : "Opprett",
     "Personal" : "Personleg",
     "Close" : "Lukk",
+    "New event" : "Ny hending",
     "Participants" : "Deltakarar",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
