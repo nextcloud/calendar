@@ -299,6 +299,11 @@
 	}
 }
 
+// The time of short events is already conveyed by their position in the grid
+.fc-timegrid-event-short .fc-event-time {
+	display: none;
+}
+
 // Fix Month view
 .fc-dayGridMonth-view {
 	.fc-daygrid-more-link {
