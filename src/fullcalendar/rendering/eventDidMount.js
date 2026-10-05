@@ -351,6 +351,9 @@ export default errorCatch(function({ event, el }) {
 
 		el.title = t('calendar', 'Your participation is tentative')
 	}
+
+	const time = el.querySelector('.fc-event-time')?.textContent
+	el.title = [time, event.title, el.title].filter(Boolean).join('\n')
 }, 'eventDidMount')
 
 /**
