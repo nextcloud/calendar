@@ -133,6 +133,8 @@ function buildAriaLabel(event) {
 export default errorCatch(function({ event, el }) {
 	// Set aria-label for screen reader accessibility
 	el.setAttribute('aria-label', buildAriaLabel(event))
+	el.style.setProperty('--nc-event-color', el.style.borderColor)
+
 	if (el.classList.contains('fc-event-nc-alarms')) {
 		const notificationIcon = document.createElement('span')
 		notificationIcon.classList.add('icon-event-reminder')
@@ -181,14 +183,6 @@ export default errorCatch(function({ event, el }) {
 
 			titleContainer.prepend(checkboxElement)
 		}
-	}
-
-	if (
-		el.classList.contains('fc-event-nc-free')
-		&& !el.classList.contains('fc-list-event')
-		&& !el.classList.contains('fc-daygrid-dot-event')
-	) {
-		el.style.setProperty('--nc-event-color', el.style.borderColor)
 	}
 
 	if (event.source === null) {
