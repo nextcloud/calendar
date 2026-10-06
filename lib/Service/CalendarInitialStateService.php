@@ -80,6 +80,7 @@ class CalendarInitialStateService {
 			'outgoing_server2server_share_enabled',
 			true,
 		);
+		$allowGroupSharing = $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
 
 		$this->initialStateService->provideInitialState('event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState('first_run', $firstRun);
@@ -102,6 +103,7 @@ class CalendarInitialStateService {
 			'calendar_federation_enabled',
 			$calendarFederationEnabled && $remoteSharesEnabled,
 		);
+		$this->initialStateService->provideInitialState('shareapi_allow_group_sharing', $allowGroupSharing);
 		$this->initialStateService->provideInitialState('has_notify_push', $this->queue !== null);
 	}
 

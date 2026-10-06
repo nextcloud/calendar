@@ -104,9 +104,10 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 		);
-		$this->config->expects(self::exactly(18))
+		$this->config->expects(self::exactly(19))
 			->method('getAppValue')
 			->willReturnMap([
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
 				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
 				['calendar', 'showWeekends', 'yes', 'defaultShowWeekends'],
@@ -172,7 +173,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->willReturn([$this->createMock(IResourceBackend::class)]);
 		$this->roomManager->expects(self::never())
 			->method('getBackends');
-		$this->initialStateService->expects(self::exactly(29))
+		$this->initialStateService->expects(self::exactly(30))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -203,6 +204,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['publicCalendars', null],
 				['calendar_federation_enabled', true],
 				['resource_booking_enabled', true],
+				['shareapi_allow_group_sharing', true],
 				['has_notify_push', $this->queue !== null],
 			]);
 
@@ -225,9 +227,10 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 		);
-		$this->config->expects(self::exactly(16))
+		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
 			->willReturnMap([
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
 				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
 				['calendar', 'showWeekends', 'yes', 'defaultShowWeekends'],
@@ -286,7 +289,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->roomManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([]);
-		$this->initialStateService->expects(self::exactly(28))
+		$this->initialStateService->expects(self::exactly(29))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -316,6 +319,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['publicCalendars', null],
 				['calendar_federation_enabled', false],
 				['resource_booking_enabled', false],
+				['shareapi_allow_group_sharing', true],
 				['has_notify_push', $this->queue !== null],
 			]);
 
@@ -344,9 +348,10 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 		);
-		$this->config->expects(self::exactly(18))
+		$this->config->expects(self::exactly(19))
 			->method('getAppValue')
 			->willReturnMap([
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
 				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
 				['calendar', 'showWeekends', 'yes', 'defaultShowWeekends'],
@@ -413,7 +418,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->roomManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([$this->createMock(IRoomBackend::class)]);
-		$this->initialStateService->expects(self::exactly(29))
+		$this->initialStateService->expects(self::exactly(30))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -444,6 +449,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['publicCalendars', null],
 				['calendar_federation_enabled', true],
 				['resource_booking_enabled', true],
+				['shareapi_allow_group_sharing', true],
 				['has_notify_push', $this->queue !== null],
 			]);
 
