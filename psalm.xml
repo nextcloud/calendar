@@ -37,11 +37,13 @@
 				<referencedClass name="OCA\Circles\Api\v1\Circles" />
 				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException" />
 				<referencedClass name="OCA\Calendar\Controller\Exception" />
+				<referencedClass name="OCA\DAV\CalDAV\CalDavBackend" />
 				<referencedClass name="OCA\DAV\CalDAV\Calendar" />
 				<referencedClass name="OCA\DAV\CalDAV\CalendarHome" />
 				<referencedClass name="OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer" />
 				<referencedClass name="OCA\NotifyPush\Queue\IQueue" />
 				<referencedClass name="Psr\Http\Client\ClientExceptionInterface" />
+				<referencedClass name="Sabre\DAV\Exception\NotFound" />
 				<referencedClass name="Sabre\VObject\Component\VCalendar" />
 				<referencedClass name="Sabre\VObject\Component\VEvent" />
 				<referencedClass name="Sabre\VObject\Component\VTimezone" />
