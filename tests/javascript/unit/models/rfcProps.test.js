@@ -23,15 +23,15 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		const rfcProps = getRFCProperties()
 
 		expect(rfcProps.accessClass).toEqual(expect.any(Object))
-		expect(rfcProps.accessClass.readableName).toEqual('When shared show')
+		expect(rfcProps.accessClass.readableName).toEqual('When shared')
 		expect(rfcProps.accessClass.icon).toEqual('Eye')
 		expect(rfcProps.accessClass.multiple).toEqual(false)
 		expect(rfcProps.accessClass.info).toEqual('The visibility of this event in read-only shared calendars.')
 		expect(rfcProps.accessClass.defaultValue).toEqual('PUBLIC')
 		expect(rfcProps.accessClass.options).toEqual([
-			{ value: 'PUBLIC', label: 'When shared show full event' },
-			{ value: 'CONFIDENTIAL', label: 'When shared show only busy' },
-			{ value: 'PRIVATE', label: 'When shared hide this event' },
+			{ value: 'PUBLIC', label: 'Public' },
+			{ value: 'CONFIDENTIAL', label: 'Time and date only' },
+			{ value: 'PRIVATE', label: 'Private' },
 		])
 
 		expect(rfcProps.location).toEqual(expect.any(Object))
@@ -89,10 +89,10 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(rfcProps.color.info).toEqual('Special color of this event. Overrides the calendar-color.')
 
 		// expect(translate).toHaveBeenCalledTimes(10)
-		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'When shared show')
-		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'When shared show full event')
-		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'When shared show only busy')
-		expect(translate).toHaveBeenNthCalledWith(4, 'calendar', 'When shared hide this event')
+		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'When shared')
+		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'Public')
+		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'Time and date only')
+		expect(translate).toHaveBeenNthCalledWith(4, 'calendar', 'Private')
 		expect(translate).toHaveBeenNthCalledWith(5, 'calendar', 'The visibility of this event in read-only shared calendars.')
 
 		expect(translate).toHaveBeenNthCalledWith(6, 'calendar', 'Location')
