@@ -63,12 +63,10 @@ describe('mixins/EditorMixin test suite', () => {
 			[{ isRecurringInstance: true, isEditingExceptionInstance: true }, 'occurrence', true],
 			[{ isRecurringInstance: true, isEditingExceptionInstance: true }, 'future', false],
 			[{ isRecurringInstance: true, isEditingExceptionInstance: true }, 'series', false],
-			// The primary occurrence IS the whole series - deleting "just this occurrence"
-			// or "this and future" doesn't offer anything meaningfully different from
-			// deleting "the whole series" here (for the organizer; an attendee's own
-			// RSVP scope is unrelated and stays governed by isViewedByAttendee above).
-			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'occurrence', false],
-			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'future', false],
+			// Deleting the primary occurrence removes it from the recurrence set without
+			// necessarily deleting later occurrences.
+			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'occurrence', true],
+			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'future', true],
 			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'series', true],
 			// isEditingBaseInstance is purely position-based, so it can also be true for an
 			// exception that happens to sit at the primary occurrence's own position - the
@@ -150,11 +148,9 @@ describe('mixins/EditorMixin test suite', () => {
 			[{ isRecurringInstance: true, isEditingExceptionInstance: true }, 'future', false],
 			[{ isRecurringInstance: true, isEditingExceptionInstance: true }, 'series', false],
 			[{ isRecurringInstance: true, isEditingExceptionInstance: true, isViewedByAttendee: true }, 'series', false],
-			// The primary occurrence IS the whole series - "this occurrence" and "this and
-			// future" aren't offered there, only "series" (for the organizer; an attendee's
-			// own RSVP scope is unrelated and stays governed by isViewedByAttendee above).
-			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'occurrence', false],
-			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'future', false],
+			// The primary occurrence can also be edited independently by creating an exception.
+			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'occurrence', true],
+			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'future', true],
 			[{ isRecurringInstance: true, isEditingBaseInstance: true }, 'series', true],
 			// isEditingBaseInstance is purely position-based, so it can also be true for an
 			// exception that happens to sit at the primary occurrence's own position - the
