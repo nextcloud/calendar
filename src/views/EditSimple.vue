@@ -374,6 +374,7 @@ export default {
 
 	data() {
 		return {
+			returnFocusElement: document.activeElement,
 			hasLocation: false,
 			hasDescription: false,
 			hasAttendees: false,
@@ -557,6 +558,9 @@ export default {
 
 	beforeUnmount() {
 		window.removeEventListener('resize', this.handleResize)
+		if (this.returnFocusElement?.isConnected) {
+			this.returnFocusElement.focus()
+		}
 
 		// Clean up resize timeout
 		if (this.resizeTimeout) {
