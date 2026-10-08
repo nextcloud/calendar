@@ -72,7 +72,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up php${{ matrix.php-min }}
-        uses: shivammathur/setup-php@bc12f5cef4c73a871331e196ff380d38232ba293 # 2.40.0-beta with verbose logging due to stuck runs
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0 with verbose logging due to stuck runs
         with:
           php-version: ${{ matrix.php-min }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
