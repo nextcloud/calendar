@@ -9,13 +9,17 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\NotFound;
 
 class PublicViewControllerTest extends TestCase {
 	/** @var string */
@@ -33,7 +37,16 @@ class PublicViewControllerTest extends TestCase {
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var ViewController */
+	/** @var IL10N|MockObject */
+	private $l10n;
+
+	/** @var Defaults|MockObject */
+	private $defaults;
+
+	/** @var CalDavBackend|MockObject */
+	private $calDavBackend;
+
+	/** @var PublicViewController */
 	private $controller;
 
 	protected function setUp():void {
@@ -42,9 +55,22 @@ class PublicViewControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->defaults = $this->createMock(Defaults::class);
+		$this->calDavBackend = $this->createMock(CalDavBackend::class);
+
+		$this->l10n->method('t')
+			->willReturnCallback(function (string $text, array $parameters = []) {
+				if ($parameters === []) {
+					return $text;
+				}
+				return vsprintf(str_replace('%s', '%s', $text), $parameters);
+			});
+		$this->defaults->method('getName')->willReturn('Nextcloud');
 
 		$this->controller = new PublicViewController($this->appName, $this->request,
-			$this->config, $this->initialStateService, $this->urlGenerator);
+			$this->config, $this->initialStateService, $this->urlGenerator,
+			$this->l10n, $this->defaults, $this->calDavBackend);
 	}
 
 	public function testPublicIndexWithBranding():void {
@@ -109,6 +135,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'show_resources', false],
 			]);
 
+		// Empty token → fallback meta (no CalDAV lookup)
 		$response = $this->controller->publicIndexWithBranding('');
 
 		$this->assertInstanceOf(PublicTemplateResponse::class, $response);
@@ -118,6 +145,65 @@ class PublicViewControllerTest extends TestCase {
 		], $response->getParams());
 		$this->assertEquals('public', $response->getRenderAs());
 		$this->assertEquals('main', $response->getTemplateName());
+		$this->assertEquals('Calendar', $response->getHeaderTitle());
+		$this->assertEquals('', $response->getHeaderDetails());
+	}
+
+	public function testPublicIndexWithBrandingUsesCalendarMeta(): void {
+		$this->config->method('getAppValue')->willReturnMap([
+			['calendar', 'eventLimit', 'yes', 'yes'],
+			['calendar', 'currentView', 'dayGridMonth', 'dayGridMonth'],
+			['calendar', 'showWeekends', 'yes', 'yes'],
+			['calendar', 'showWeekNr', 'no', 'no'],
+			['calendar', 'skipPopover', 'yes', 'yes'],
+			['calendar', 'timezone', 'automatic', 'automatic'],
+			['calendar', 'slotDuration', '00:30:00', '00:30:00'],
+			['calendar', 'showTasks', 'yes', 'yes'],
+			['calendar', 'tasksSidebar', 'yes', 'yes'],
+			['dav', 'allow_calendar_link_subscriptions', 'yes', 'yes'],
+			['calendar', 'installed_version', '', '1.0.0'],
+		]);
+		$this->request->method('getServerProtocol')->willReturn('https');
+		$this->request->method('getServerHost')->willReturn('cloud.example');
+		$this->request->method('getRequestUri')->willReturn('/apps/calendar/p/token123');
+		$this->urlGenerator->method('imagePath')->willReturn('img');
+		$this->urlGenerator->method('getAbsoluteURL')->willReturn('https://cloud.example/img');
+
+		$this->request->method('getHeader')->with('Accept')->willReturn('text/html');
+		$this->calDavBackend->expects(self::once())
+			->method('getPublicCalendar')
+			->with('token123')
+			->willReturn([
+				'{DAV:}displayname' => 'Team events (alice)',
+				'principaluri' => 'principals/users/alice',
+				'{http://nextcloud.com/ns}owner-displayname' => 'Alice Wonder',
+			]);
+
+		$response = $this->controller->publicIndexWithBranding('token123');
+
+		$this->assertInstanceOf(PublicTemplateResponse::class, $response);
+		$this->assertEquals('Team events', $response->getHeaderTitle());
+		$this->assertEquals('Shared by Alice Wonder', $response->getHeaderDetails());
+	}
+
+	public function testPublicIndexWithBrandingFallsBackWhenCalendarMissing(): void {
+		$this->config->method('getAppValue')->willReturn('yes');
+		$this->request->method('getServerProtocol')->willReturn('https');
+		$this->request->method('getServerHost')->willReturn('cloud.example');
+		$this->request->method('getRequestUri')->willReturn('/apps/calendar/p/missing');
+		$this->urlGenerator->method('imagePath')->willReturn('img');
+		$this->urlGenerator->method('getAbsoluteURL')->willReturn('https://cloud.example/img');
+
+		$this->request->method('getHeader')->with('Accept')->willReturn('text/html');
+		$this->calDavBackend->expects(self::once())
+			->method('getPublicCalendar')
+			->with('missing')
+			->willThrowException(new NotFound());
+
+		$response = $this->controller->publicIndexWithBranding('missing');
+
+		$this->assertEquals('Calendar', $response->getHeaderTitle());
+		$this->assertEquals('', $response->getHeaderDetails());
 	}
 
 	public function testRedirectionIfRequestedWithAcceptCalendarHeader(): void {
