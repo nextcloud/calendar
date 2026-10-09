@@ -18,4 +18,5 @@ test('create an event', async ({ page, calendarPage }) => {
 
 	// Assert that the new event exists
 	await expect(page.getByText(eventTitle)).toBeVisible()
+	await expect(calendarPage.buttonNewEvent).toBeFocused()
 })
