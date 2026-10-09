@@ -24,6 +24,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CalendarInitialStateServiceTest extends TestCase {
@@ -61,6 +62,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 
 	private IGroupManager&MockObject $groupManager;
 	private IUserManager&MockObject $userManager;
+	private IShareManager&MockObject $shareManager;
 
 	protected function setUp(): void {
 		$this->appName = 'calendar';
@@ -79,6 +81,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 		}
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->shareManager = $this->createMock(IShareManager::class);
+		$this->shareManager->method('allowGroupSharing')
+			->willReturn(true);
 
 		$user = $this->createMock(IUser::class);
 		$this->userManager->method('get')
@@ -103,11 +108,11 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->queue,
 			$this->groupManager,
 			$this->userManager,
+			$this->shareManager,
 		);
-		$this->config->expects(self::exactly(19))
+		$this->config->expects(self::exactly(18))
 			->method('getAppValue')
 			->willReturnMap([
-				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
 				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
 				['calendar', 'showWeekends', 'yes', 'defaultShowWeekends'],
@@ -226,11 +231,11 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->queue,
 			$this->groupManager,
 			$this->userManager,
+			$this->shareManager,
 		);
-		$this->config->expects(self::exactly(17))
+		$this->config->expects(self::exactly(16))
 			->method('getAppValue')
 			->willReturnMap([
-				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
 				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
 				['calendar', 'showWeekends', 'yes', 'defaultShowWeekends'],
@@ -347,11 +352,11 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->queue,
 			$this->groupManager,
 			$this->userManager,
+			$this->shareManager,
 		);
-		$this->config->expects(self::exactly(19))
+		$this->config->expects(self::exactly(18))
 			->method('getAppValue')
 			->willReturnMap([
-				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
 				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
 				['calendar', 'showWeekends', 'yes', 'defaultShowWeekends'],
