@@ -19,6 +19,7 @@ import CalendarListNew from '@/components/AppNavigation/CalendarList/CalendarLis
 import PublicCalendarListItem from '@/components/AppNavigation/CalendarList/PublicCalendarListItem.vue'
 import useCalendarsStore from '@/store/calendars.js'
 import usePrincipalsStore from '@/store/principals.js'
+import { isDeckCalendar } from '@/utils/calendar.ts'
 import logger from '@/utils/logger.js'
 import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
@@ -104,7 +105,7 @@ function sortCalendars(): void {
 			continue
 		}
 
-		if (calendar.url.includes('app-generated--deck--board')) {
+		if (isDeckCalendar(calendar)) {
 			sortedCalendars.deck.push(calendar)
 			continue
 		}

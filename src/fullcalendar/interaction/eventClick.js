@@ -119,7 +119,7 @@ function handleToDoClick(event, el, route, window, jsEvent, isWidget = false) {
 
 	// In the list view, FullCalendar navigates in the same tab when the row is clicked,
 	// ignoring the target of the link. Open the task in a new tab instead.
-	if (el?.classList?.contains('fc-list-event')) {
+	if (event.url && el?.classList?.contains('fc-list-event')) {
 		jsEvent?.preventDefault()
 		window.open(event.url, '_blank', 'noopener')
 	}

@@ -6,6 +6,7 @@ import { translate as t } from '@nextcloud/l10n'
 import usePrincipalsStore from '@/store/principals.js'
 import useSettingsStore from '@/store/settings.js'
 import useTasksStore from '@/store/unscheduledTasks.js'
+import { isDeckCalendar } from '@/utils/calendar.ts'
 import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
 	getHexForColorName,
@@ -207,7 +208,9 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				},
 			}
 
-			if (object.name === 'VTODO' && settingsStore.tasksEnabled) {
+			if (object.name === 'VTODO'
+				&& settingsStore.tasksEnabled
+				&& !isDeckCalendar(calendar)) {
 				fcEvent.url = generateTaskUrl(calendarObject.dav.url)
 			}
 
