@@ -13,9 +13,11 @@ import { PublicCalendarSubscriptionDialog } from './PublicCalendarSubscriptionDi
  */
 export class CalendarPage {
 	calendarNavigation: Locator
+	buttonNewEvent: Locator
 
 	constructor(private readonly page: Page) {
 		this.calendarNavigation = page.getByRole('navigation', { name: 'Calendar navigation' })
+		this.buttonNewEvent = page.getByRole('button', { name: 'Create new event' })
 	}
 
 	async goto() {
@@ -37,7 +39,7 @@ export class CalendarPage {
 	}
 
 	async createNewEvent() {
-		await this.page.getByRole('button', { name: 'Create new event' }).click()
+		await this.buttonNewEvent.click()
 
 		// Wait for autofocus (`v-focus`) to complete before continuing with any further actions.
 		// Focus changing suddenly in between other actions can break tests.
