@@ -41,39 +41,6 @@ describe('fullcalendar/eventDidMount test suite', () => {
 		expect(el.dataset.recurrenceId).toEqual(undefined)
 	})
 
-	it('should add an alarm bell icon if event has an alarm', () => {
-		const fcTime = document.createElement('span')
-		fcTime.classList.add('fc-time')
-		fcTime.appendChild(document.createTextNode('2pm'))
-		const fcTitle = document.createElement('span')
-		fcTitle.classList.add('fc-title')
-		fcTitle.appendChild(document.createTextNode('Title 123'))
-
-		const fcContent = document.createElement('div')
-		fcContent.classList.add('fc-content')
-		fcContent.appendChild(fcTime)
-		fcContent.appendChild(fcTitle)
-
-		const el = document.createElement('div')
-		el.classList.add('fc-event-nc-alarms')
-		el.appendChild(fcContent)
-
-		const event = {
-			source: {},
-			extendedProps: {
-				objectId: 'object123',
-				recurrenceId: 'recurrence456',
-				darkText: false,
-				percent: 100,
-			},
-		}
-
-		eventRender({ event, el })
-
-		expect(el.outerHTML).toContain('<div class="fc-event-nc-alarms" aria-label="undefined" data-object-id="object123" data-recurrence-id="recurrence456">')
-		expect(el.outerHTML).toContain('<span class="icon-event-reminder" aria-hidden="true"><svg viewBox="0 0 24 24">')
-	})
-
 	// TODO: fix me later
 	// it('should prepend a checkbox before tasks - incomplete', () => {
 	// 	const fcTime = document.createElement('span')

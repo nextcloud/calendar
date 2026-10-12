@@ -133,15 +133,6 @@ function buildAriaLabel(event) {
 export default errorCatch(function({ event, el }) {
 	// Set aria-label for screen reader accessibility
 	el.setAttribute('aria-label', buildAriaLabel(event))
-	if (el.classList.contains('fc-event-nc-alarms')) {
-		const notificationIcon = document.createElement('span')
-		notificationIcon.classList.add('icon-event-reminder')
-		notificationIcon.setAttribute('aria-hidden', 'true')
-		// From node_modules/vue-material-design-icons/Bell.vue
-		const bellIcon = createSvgIconElement('M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M14,21A2,2 0 0,1 12,23A2,2 0 0,1 10,21')
-		notificationIcon.appendChild(bellIcon)
-		el.firstChild.appendChild(notificationIcon)
-	}
 
 	if (el.classList.contains('fc-event-nc-task')) {
 		if (el.classList.contains('fc-list-event')) {
