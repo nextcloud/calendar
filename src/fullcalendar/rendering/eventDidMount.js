@@ -134,6 +134,12 @@ export default errorCatch(function({ event, el }) {
 	// Set aria-label for screen reader accessibility
 	el.setAttribute('aria-label', buildAriaLabel(event))
 
+	if (event.extendedProps.objectType === 'VTODO' && event.url) {
+		const link = el.matches('a') ? el : el.querySelector('a[href]')
+		link?.setAttribute('target', '_blank')
+		link?.setAttribute('rel', 'noopener noreferrer')
+	}
+
 	if (el.classList.contains('fc-event-nc-task')) {
 		if (el.classList.contains('fc-list-event')) {
 			// List view

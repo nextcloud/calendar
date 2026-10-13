@@ -5,22 +5,18 @@
 
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { NcAppNavigationItem } from '@nextcloud/vue'
 import AlertCircleIcon from 'vue-material-design-icons/AlertCircle.vue'
 
 const title = t('calendar', 'To configure appointments, add your email address in personal settings.')
-
-function openUserSettings(): void {
-	const url = generateUrl('settings/user')
-	window.open(url, '_blank')?.focus()
-}
+const userSettingsUrl = generateUrl('settings/user', {}, { baseURL: getBaseUrl() })
 </script>
 
 <template>
 	<NcAppNavigationItem
-		:name="title"
-		@click="openUserSettings">
+		:href="userSettingsUrl"
+		:name="title">
 		<template #icon>
 			<AlertCircleIcon :size="20" class="no-email-warning__icon" />
 		</template>

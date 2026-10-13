@@ -5,7 +5,6 @@
 import { showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
 import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
 import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
@@ -14,6 +13,7 @@ import {
 	getViewMode,
 	ViewMode,
 } from '@/utils/router.js'
+import { parseTaskDavUrl } from '@/utils/tasks.ts'
 
 /**
  * Returns a function for click action on event. This will open the editor.
@@ -28,7 +28,7 @@ import {
  */
 export default function(router, route, window, isWidget = false, ref = undefined) {
 	const widgetStore = useWidgetStore()
-	return errorCatchAsync(function({ event }) {
+	return errorCatchAsync(function({ el, event, jsEvent }) {
 		if (isWidget) {
 			widgetStore.setWidgetRef({ widgetRef: ref.fullCalendar.$el })
 		}
@@ -38,7 +38,7 @@ export default function(router, route, window, isWidget = false, ref = undefined
 				break
 
 			case 'VTODO':
-				handleToDoClick(event, route, window, isWidget)
+				handleToDoClick(event, el, route, window, jsEvent, isWidget)
 				break
 		}
 	}, 'eventClick')
@@ -93,27 +93,34 @@ function handleEventClick(event, router, route, window, isWidget = false) {
  * Handle eventClick for VTODO
  *
  * @param {EventDef} event FullCalendar event
+ * @param {HTMLElement} el The HTML element of the event
  * @param {object} route The current Vue route
  * @param {Window} window The window object
+ * @param {MouseEvent} jsEvent The native click event
  * @param {boolean} isWidget Whether the calendar is embedded as a widget
  */
-function handleToDoClick(event, route, window, isWidget = false) {
+function handleToDoClick(event, el, route, window, jsEvent, isWidget = false) {
 	const settingsStore = useSettingsStore()
 
 	if (getViewMode(route.name, isWidget) !== ViewMode.USER) {
+		jsEvent?.preventDefault()
 		return
 	}
 
-	const davUrlParts = event.extendedProps.davUrl.split('/')
-	const taskId = davUrlParts.pop()
-	const calendarId = davUrlParts.pop()
+	const { calendarId, taskId } = parseTaskDavUrl(event.extendedProps.davUrl)
 
 	emit('calendar:handle-todo-click', { calendarId, taskId })
 
 	if (!settingsStore.tasksEnabled) {
+		jsEvent?.preventDefault()
 		showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
 		return
 	}
-	const url = `apps/tasks/calendars/${encodeURIComponent(calendarId)}/tasks/${encodeURIComponent(taskId)}`
-	window.open(generateUrl(url), '_blank')
+
+	// In the list view, FullCalendar navigates in the same tab when the row is clicked,
+	// ignoring the target of the link. Open the task in a new tab instead.
+	if (event.url && el?.classList?.contains('fc-list-event')) {
+		jsEvent?.preventDefault()
+		window.open(event.url, '_blank', 'noopener')
+	}
 }

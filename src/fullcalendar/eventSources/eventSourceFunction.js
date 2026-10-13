@@ -6,11 +6,13 @@ import { translate as t } from '@nextcloud/l10n'
 import usePrincipalsStore from '@/store/principals.js'
 import useSettingsStore from '@/store/settings.js'
 import useTasksStore from '@/store/unscheduledTasks.js'
+import { isDeckCalendar } from '@/utils/calendar.ts'
 import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
 	getHexForColorName,
 } from '@/utils/color.js'
 import logger from '@/utils/logger.js'
+import { generateTaskUrl } from '@/utils/tasks.ts'
 /**
  * convert an array of calendar-objects to events
  *
@@ -204,6 +206,12 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					description: object.description,
 					attendeeCount,
 				},
+			}
+
+			if (object.name === 'VTODO'
+				&& settingsStore.tasksEnabled
+				&& !isDeckCalendar(calendar)) {
+				fcEvent.url = generateTaskUrl(calendarObject.dav.url)
 			}
 
 			if (object.color) {
