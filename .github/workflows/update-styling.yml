@@ -14,6 +14,8 @@ on:
 jobs:
   server-styling-update:
     runs-on: ubuntu-latest
+    env:
+      ASSETS_DIR: tests/javascript/component/gallery/assets/server
     strategy:
       fail-fast: false
       matrix:
@@ -25,7 +27,19 @@ jobs:
           persist-credentials: false
           ref: ${{ matrix.branch }}
 
+      - name: Check for server styling assets
+        id: assets
+        # Not all branches have the component test assets yet, skip them without failing
+        run: |
+          if [ -d "$ASSETS_DIR" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::$ASSETS_DIR does not exist on this branch, skipping update"
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Determine server branch
+        if: steps.assets.outputs.exists == 'true'
         id: server-branch
         env:
           BRANCH: ${{ matrix.branch }}
@@ -40,17 +54,19 @@ jobs:
           echo "ref=$ref" >> "$GITHUB_OUTPUT"
 
       - name: Download CSS
+        if: steps.assets.outputs.exists == 'true'
         env:
           SERVER_REF: ${{ steps.server-branch.outputs.ref }}
         # Removes sourceMappingURL from downloaded to avoid warning about missing source maps.
         # Alternativly we could pull and check in all the source maps.
         run: |
-          cd tests/javascript/component/gallery/assets/server
+          cd "$ASSETS_DIR"
           curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/apps/theming/css/default.css" > apps/theming/css/default.css
           curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/core/css/server.css" | sed 's|/\*# sourceMappingURL=[^*]*\*/||' > core/css/server.css
           curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/dist/icons.css" > dist/icons.css
 
       - name: Create Pull Request
+        if: steps.assets.outputs.exists == 'true'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
@@ -60,7 +76,7 @@ jobs:
           signoff: true
           branch: 'automated/${{ github.run_id }}/server-styling-update-${{ matrix.branch }}'
           title: '[${{ matrix.branch }}] chore(docs): Automated styling update from server'
-          add-paths: styleguide/assets
+          add-paths: ${{ env.ASSETS_DIR }}
           body: |
             Auto-generated update of our locally cached CSS styling from https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}
           labels: |
