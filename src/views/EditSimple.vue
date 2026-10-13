@@ -403,8 +403,9 @@ export default {
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
 		...mapState(useSettingsStore, [
-			'hideEventExport'
+			'hideEventExport',
 		]),
+
 		...mapState(useWidgetStore, [
 			'widgetEventDetailsOpen',
 			'widgetEventDetails',
