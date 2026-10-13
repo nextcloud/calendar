@@ -275,10 +275,6 @@ export default {
 			return this.widgetStore.widgetEventDetailsOpen && this.$refs.calendarGridWidget.$el === this.widgetStore.widgetRef
 		},
 
-		showHeader() {
-			return this.isPublicShare && this.isEmbedded && this.isWidget
-		},
-
 		classNames() {
 			if (this.isEmbedded) {
 				return 'app-calendar-public-embedded'
