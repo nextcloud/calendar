@@ -5,6 +5,7 @@
 import DavClient from '@nextcloud/cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { CALDAV_BIRTHDAY_CALENDAR } from '@/models/consts.js'
+import logger from '@/utils/logger.js'
 
 const clients = {}
 
@@ -103,7 +104,15 @@ async function findPublicCalendarsByTokens(tokens) {
 	for (const token of tokens) {
 		const promise = getClient().publicCalendarHome
 			.find(token)
-			.catch(() => null) // Catch outdated tokens
+			.catch((error) => {
+				// Skip failed lookups (so they don't prevent other calendars
+				// from loading); the failure may be permanent or temporary.
+				logger.warn('Could not load public calendar; skipping it.', {
+					status: error?.status,
+					error,
+				})
+				return null
+			})
 
 		findPromises.push(promise)
 	}
