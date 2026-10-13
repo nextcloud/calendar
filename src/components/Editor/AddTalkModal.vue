@@ -202,9 +202,7 @@ export default {
 				}
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
-					this.calendarObjectInstanceStore.changeLocation({
-						location: url,
-					})
+					this.$emit('updateLocation', url)
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
 				} else {
 					const NEW_LINE = '\r\n'
@@ -212,9 +210,7 @@ export default {
 						? this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url
 						: url
 
-					this.calendarObjectInstanceStore.changeDescription({
-						description: updatedDescription,
-					})
+					this.$emit('updateDescription', updatedDescription)
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))
 				}
 
