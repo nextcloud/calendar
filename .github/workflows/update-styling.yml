@@ -72,10 +72,10 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           committer: nextcloud-command <nextcloud-command@users.noreply.github.com>
-          commit-message: "test: update component test styling from server"
+          commit-message: "test(component): update styling from server"
           signoff: true
           branch: 'automated/${{ github.run_id }}/server-styling-update-${{ matrix.branch }}'
-          title: '[${{ matrix.branch }}] chore(docs): Automated styling update from server'
+          title: '[${{ matrix.branch }}] test(component): update styling from server'
           add-paths: ${{ env.ASSETS_DIR }}
           body: |
             Auto-generated update of our locally cached CSS styling from https://github.com/nextcloud/server/tree/${{ steps.server-branch.outputs.ref }}
