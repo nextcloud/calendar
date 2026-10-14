@@ -78,7 +78,7 @@ jobs:
           title: '[${{ matrix.branch }}] chore(docs): Automated styling update from server'
           add-paths: ${{ env.ASSETS_DIR }}
           body: |
-            Auto-generated update of our locally cached CSS styling from https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}
+            Auto-generated update of our locally cached CSS styling from https://github.com/nextcloud/server/tree/${{ steps.server-branch.outputs.ref }}
           labels: |
             dependencies
             3. to review
