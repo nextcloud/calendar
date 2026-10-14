@@ -61,9 +61,9 @@ jobs:
         # Alternatively we could pull and check in all the source maps.
         run: |
           cd "$ASSETS_DIR"
-          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/apps/theming/css/default.css" > apps/theming/css/default.css
-          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/core/css/server.css" | sed 's|/\*# sourceMappingURL=[^*]*\*/||' > core/css/server.css
-          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/dist/icons.css" > dist/icons.css
+          curl -fsSL "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/apps/theming/css/default.css" > apps/theming/css/default.css
+          curl -fsSL "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/core/css/server.css" | sed 's|/\*# sourceMappingURL=[^*]*\*/||' > core/css/server.css
+          curl -fsSL "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/dist/icons.css" > dist/icons.css
 
       - name: Create Pull Request
         if: steps.assets.outputs.exists == 'true'
