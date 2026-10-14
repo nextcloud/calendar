@@ -402,9 +402,11 @@ export default {
 
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
-		...mapState(useSettingsStore, ['hideEventExport']),
-		...mapState(useWidgetStore, [
+		...mapState(useSettingsStore, [
 			'hideEventExport',
+		]),
+
+		...mapState(useWidgetStore, [
 			'widgetEventDetailsOpen',
 			'widgetEventDetails',
 			'widgetRef',
