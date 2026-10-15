@@ -109,7 +109,7 @@ OC.L10N.register(
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Введите правильную ссылку: она должна начинаться с http://, https://, webcal:// или webcals://.",
     "My calendars" : "Мои календари",
     "Add new" : "Добавить новое",
-    "New calendar" : "Новый календарь",
+    "New calendar" : "Создать календарь",
     "Name for new calendar" : "Название нового календаря",
     "Creating calendar …" : "Создание календаря…",
     "New calendar with task list" : "Создать календарь со списком задач",
