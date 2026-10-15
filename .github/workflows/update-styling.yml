@@ -57,13 +57,13 @@ jobs:
         if: steps.assets.outputs.exists == 'true'
         env:
           SERVER_REF: ${{ steps.server-branch.outputs.ref }}
-        # Removes sourceMappingURL from downloaded to avoid warning about missing source maps.
-        # Alternativly we could pull and check in all the source maps.
+        # Removes sourceMappingURL from downloaded files to avoid warning about missing source maps.
+        # Alternatively we could pull and check in all the source maps.
         run: |
           cd "$ASSETS_DIR"
-          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/apps/theming/css/default.css" > apps/theming/css/default.css
-          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/core/css/server.css" | sed 's|/\*# sourceMappingURL=[^*]*\*/||' > core/css/server.css
-          curl -f "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/dist/icons.css" > dist/icons.css
+          curl -fsSL "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/apps/theming/css/default.css" > apps/theming/css/default.css
+          curl -fsSL "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/core/css/server.css" | sed 's|/\*# sourceMappingURL=[^*]*\*/||' > core/css/server.css
+          curl -fsSL "https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}/dist/icons.css" > dist/icons.css
 
       - name: Create Pull Request
         if: steps.assets.outputs.exists == 'true'
@@ -72,13 +72,13 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           committer: nextcloud-command <nextcloud-command@users.noreply.github.com>
-          commit-message: "test: update component test styling from server"
+          commit-message: "test(component): update styling from server"
           signoff: true
           branch: 'automated/${{ github.run_id }}/server-styling-update-${{ matrix.branch }}'
-          title: '[${{ matrix.branch }}] chore(docs): Automated styling update from server'
+          title: '[${{ matrix.branch }}] test(component): update styling from server'
           add-paths: ${{ env.ASSETS_DIR }}
           body: |
-            Auto-generated update of our locally cached CSS styling from https://raw.githubusercontent.com/nextcloud/server/${SERVER_REF}
+            Auto-generated update of our locally cached CSS styling from https://github.com/nextcloud/server/tree/${{ steps.server-branch.outputs.ref }}
           labels: |
             dependencies
             3. to review
