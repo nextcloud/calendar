@@ -507,7 +507,7 @@ OC.L10N.register(
     "_%n member_::_%n members_" : ["%n medlemer","%n medlemer"],
     "Search for emails, users, contacts, contact groups or teams" : "Søg efter e-mails, brugere, kontaktgrupper eller teams",
     "No match found" : "Ingen match fundet",
-    "Note that members of circles get invited but are not synced yet." : "Bemærk, at medlemmer af cirkler bliver inviteret, men er endnu ikke synkroniseret.",
+    "Note that members of circles get invited but are not synced yet." : "Bemærk, at medlemmer af teams bliver inviteret, men endnu ikke synkroniseres.",
     "Note that members of contact groups get invited but are not synced yet." : "Bemærk at medlemmer af kontaktgrupper inviteres, men endnu ikke er synkroniserede.",
     "Search for attendees" : "Søg efter deltagere",
     "(organizer)" : "(arrangør)",
