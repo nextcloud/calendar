@@ -37,6 +37,7 @@ export function getSettingsFromInitialState() {
 		showResources: loadState('calendar', 'show_resources', true),
 		publicCalendars: loadState('calendar', 'publicCalendars', []),
 		tasksSidebar: loadState('calendar', 'tasks_sidebar', true),
+		allowGroupSharing: loadState('calendar', 'shareapi_allow_group_sharing', true),
 	}
 }
 
