@@ -8,15 +8,20 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Controller;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Util;
+use Sabre\DAV\Exception\NotFound;
 
 /**
  * Class PublicViewController
@@ -31,6 +36,9 @@ class PublicViewController extends Controller {
 	 * @param IConfig $config
 	 * @param IInitialStateService $initialStateService
 	 * @param IURLGenerator $urlGenerator
+	 * @param IL10N $l10n
+	 * @param Defaults $defaults
+	 * @param CalDavBackend $calDavBackend
 	 */
 	public function __construct(
 		string $appName,
@@ -38,6 +46,9 @@ class PublicViewController extends Controller {
 		private IConfig $config,
 		private IInitialStateService $initialStateService,
 		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
+		private Defaults $defaults,
+		private CalDavBackend $calDavBackend,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -110,10 +121,116 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'can_subscribe_link', $defaultCanSubscribeLink);
 		$this->initialStateService->provideInitialState($this->appName, 'show_resources', false);
 
-		return new PublicTemplateResponse($this->appName, 'main', [
-			'share_url' => $this->getShareURL(),
-			'preview_image' => $this->getPreviewImage(),
+		$shareUrl = $this->getShareURL();
+		$previewImage = $this->getPreviewImage();
+
+		$response = new PublicTemplateResponse($this->appName, 'main', [
+			'share_url' => $shareUrl,
+			'preview_image' => $previewImage,
 		]);
+
+		[$title, $description, $sharedBy] = $this->resolvePublicShareMeta($token);
+		$response->setHeaderTitle($title);
+		if ($sharedBy !== null) {
+			$response->setHeaderDetails($sharedBy);
+		}
+		$this->addOpenGraphHeaders($title, $description, $shareUrl, $previewImage);
+
+		return $response;
+	}
+
+	/**
+	 * Resolve calendar display name and owner for Open Graph / public header.
+	 *
+	 * @return array{0: string, 1: string, 2: ?string} title, description, shared-by details
+	 */
+	private function resolvePublicShareMeta(string $token): array {
+		$fallbackTitle = $this->l10n->t('Calendar');
+		$fallbackDescription = $this->l10n->t('A publicly shared calendar');
+
+		if ($token === '') {
+			return [$fallbackTitle, $fallbackDescription, null];
+		}
+
+		try {
+			$calendarInfo = $this->calDavBackend->getPublicCalendar($token);
+		} catch (NotFound) {
+			return [$fallbackTitle, $fallbackDescription, null];
+		}
+
+		$calendarName = $this->extractPublicCalendarDisplayName($calendarInfo);
+		$ownerDisplayName = $calendarInfo['{http://nextcloud.com/ns}owner-displayname'] ?? null;
+		if (!is_string($ownerDisplayName) || $ownerDisplayName === '') {
+			$ownerDisplayName = null;
+		}
+
+		if ($calendarName === null) {
+			return [$fallbackTitle, $fallbackDescription, $ownerDisplayName !== null
+				? $this->l10n->t('Shared by %s', [$ownerDisplayName])
+				: null];
+		}
+
+		$title = $calendarName;
+		if ($ownerDisplayName !== null) {
+			$description = $this->l10n->t('%s is a publicly shared calendar by %s', [$calendarName, $ownerDisplayName]);
+			$sharedBy = $this->l10n->t('Shared by %s', [$ownerDisplayName]);
+		} else {
+			$description = $this->l10n->t('%s is a publicly shared calendar', [$calendarName]);
+			$sharedBy = null;
+		}
+
+		return [$title, $description, $sharedBy];
+	}
+
+	/**
+	 * @param array<string, mixed> $calendarInfo
+	 */
+	private function extractPublicCalendarDisplayName(array $calendarInfo): ?string {
+		$displayName = $calendarInfo['{DAV:}displayname'] ?? null;
+		if (!is_string($displayName) || $displayName === '') {
+			return null;
+		}
+
+		// getPublicCalendar() appends " (uid)" to the display name for DAV clients.
+		$principalUri = $calendarInfo['principaluri'] ?? '';
+		if (is_string($principalUri) && $principalUri !== '') {
+			$uid = basename($principalUri);
+			if ($uid !== '') {
+				$suffix = ' (' . $uid . ')';
+				if (str_ends_with($displayName, $suffix)) {
+					$displayName = substr($displayName, 0, -strlen($suffix));
+				}
+			}
+		}
+
+		$displayName = trim($displayName);
+		return $displayName !== '' ? $displayName : null;
+	}
+
+	/**
+	 * Add Open Graph / Twitter meta tags so crawlers see title and description without JS.
+	 */
+	private function addOpenGraphHeaders(
+		string $title,
+		string $description,
+		string $shareUrl,
+		string $previewImage,
+	): void {
+		$siteName = $this->defaults->getName();
+
+		// Open Graph: https://ogp.me/
+		Util::addHeader('meta', ['property' => 'og:title', 'content' => $title]);
+		Util::addHeader('meta', ['property' => 'og:description', 'content' => $description]);
+		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => $siteName]);
+		Util::addHeader('meta', ['property' => 'og:url', 'content' => $shareUrl]);
+		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $previewImage]);
+
+		// Twitter / X cards
+		Util::addHeader('meta', ['property' => 'twitter:title', 'content' => $title]);
+		Util::addHeader('meta', ['property' => 'twitter:description', 'content' => $description]);
+		Util::addHeader('meta', ['property' => 'twitter:card', 'content' => 'summary']);
+		Util::addHeader('meta', ['property' => 'twitter:image', 'content' => $previewImage]);
 	}
 
 	/**
