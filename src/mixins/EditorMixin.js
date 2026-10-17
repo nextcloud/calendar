@@ -531,7 +531,7 @@ export default {
 	mounted() {
 		this.hotKeysRegister = [
 			useHotKey('Escape', () => this.keyboardCloseEditor(), { allowInModal: true }),
-			useHotKey('Enter', () => this.keyboardSaveEvent(), { ctrl: true, allowInModal: true }),
+			useHotKey('Enter', () => this.keyboardSaveEvent(), { ctrl: true, allowInModal: true, allowInInput: true }),
 			useHotKey('Delete', () => this.keyboardDeleteEvent(), { ctrl: true, allowInModal: true }),
 			useHotKey('d', () => this.keyboardDuplicateEvent(), { ctrl: true, prevent: true, allowInModal: true }),
 		]
