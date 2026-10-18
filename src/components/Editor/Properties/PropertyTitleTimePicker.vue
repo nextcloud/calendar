@@ -44,6 +44,7 @@
 							<NcButton
 								v-if="!showTimezoneSelect && !isAllDay && !isMobile"
 								variant="tertiary"
+								:aria-label="timezoneButtonLabel"
 								@click="showTimezoneSelect = !showTimezoneSelect">
 								<template #icon>
 									<IconTimezone :size="20" />
@@ -80,6 +81,7 @@
 				<NcButton
 					v-if="!showTimezoneSelect && (!isAllDay || isMobile)"
 					variant="tertiary"
+					:aria-label="timezoneButtonLabel"
 					@click="showTimezoneSelect = !showTimezoneSelect">
 					<template #icon>
 						<IconTimezone :size="20" />
@@ -261,6 +263,15 @@ export default {
 			}
 
 			return this.$t('calendar', 'Cannot modify all-day setting for events that are part of a recurrence-set.')
+		},
+
+		/**
+		 * Accessible name of the button that reveals the time zone pickers
+		 *
+		 * @return {string}
+		 */
+		timezoneButtonLabel() {
+			return this.$t('calendar', 'Change time zone (current: {timezone})', { timezone: this.startTimezone })
 		},
 
 		/**
