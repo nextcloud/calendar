@@ -47,6 +47,10 @@
 					<div v-if="option.type === 'circle' || option.type === 'contactsgroup'">
 						{{ option.subtitle }}
 					</div>
+					<div v-else-if="option.looksLikeMailingList" class="invitees-search-list-item__warning">
+						<AlertCircleOutline :size="14" />
+						{{ $t('calendar', 'This might be a mailing list. Invitations will not work.') }}
+					</div>
 				</div>
 			</div>
 		</template>
@@ -62,13 +66,14 @@ import {
 	NcSelect,
 } from '@nextcloud/vue'
 import debounce from 'debounce'
+import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import {
 	circleGetMembers,
 	circleSearchByName,
 } from '@/services/circleService.js'
 import isCirclesEnabled from '@/services/isCirclesEnabled.js'
-import { removeMailtoPrefix } from '@/utils/attendee.js'
+import { looksLikeMailingList, removeMailtoPrefix } from '@/utils/attendee.js'
 import logger from '@/utils/logger.js'
 import { randomId } from '@/utils/randomId.js'
 
@@ -78,6 +83,7 @@ export default {
 		Avatar,
 		NcSelect,
 		GoogleCirclesCommunitiesIcon,
+		AlertCircleOutline,
 	},
 
 	props: {
@@ -154,6 +160,7 @@ export default {
 							timezoneId: null,
 							hasMultipleEMails: false,
 							dropdownName: query,
+							looksLikeMailingList: looksLikeMailingList(query),
 						})
 					}
 				}
@@ -290,6 +297,7 @@ export default {
 						timezoneId: result.tzid,
 						hasMultipleEMails,
 						dropdownName: name + ' ' + email,
+						looksLikeMailingList: looksLikeMailingList(email),
 					})
 				})
 
@@ -330,5 +338,13 @@ export default {
 
 :deep(.vs__search::placeholder) {
 	text-overflow: ellipsis;
+
+}
+
+.invitees-search-list-item__warning {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	color: var(--color-warning);
 }
 </style>
