@@ -441,6 +441,7 @@ OC.L10N.register(
     "W" : "W",
     "%n more" : "%n mai mult",
     "No events to display" : "Nu sunt evenimente de afișat",
+    "{startDate} to {endDate}" : "{startDate} – {endDate}",
     "_+%n more_::_+%n more_" : ["+%n în plus","+%n în plus","+%n în plus"],
     "No events" : "Niciun eveniment",
     "Create a new event or change the visible time-range" : "Creează un  eveniment nou sau schimbă intervalul de timp",
