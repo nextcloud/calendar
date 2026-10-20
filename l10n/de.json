@@ -516,6 +516,7 @@
     "Remove color" : "Farbe entfernen",
     "Title" : "Titel",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Die Einstellung ganztägig kann für sich wiederholende Termine nicht geändert werden.",
+    "Change time zone (current: {timezone})" : "Zeitzone ändern (Aktuell: {timezone})",
     "From" : "Von",
     "Start date" : "Startdatum",
     "Start time" : "Startzeit",
