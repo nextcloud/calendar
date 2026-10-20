@@ -518,6 +518,7 @@ OC.L10N.register(
     "Remove color" : "Ta bort färg",
     "Title" : "Titel",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Det går inte att ändra heldagsinställningen för händelser som ingår i en återkommande serie.",
+    "Change time zone (current: {timezone})" : "Ändra tidszon (nuvarande: {timezone})",
     "From" : "Från",
     "Start date" : "Startdatum",
     "Start time" : "Starttid",

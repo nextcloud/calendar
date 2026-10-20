@@ -516,6 +516,7 @@
     "Remove color" : "Remover cor",
     "Title" : "Título",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Não é possível modificar a configuração de dia inteiro para eventos que fazem parte de um conjunto de recorrência.",
+    "Change time zone (current: {timezone})" : "Mudar fuso horário (atual: {timezone})",
     "From" : "De",
     "Start date" : "Data de início",
     "Start time" : "Hora de início",

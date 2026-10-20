@@ -518,6 +518,7 @@ OC.L10N.register(
     "Remove color" : "Убрать цвет",
     "Title" : "Название",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Изменение параметра «весь день» для повторяющегося события не поддерживается.",
+    "Change time zone (current: {timezone})" : "Сменить часовой пояс (текущий: {timezone})",
     "From" : "От",
     "Start date" : "Дата начала",
     "Start time" : "Время начала",
