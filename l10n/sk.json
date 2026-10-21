@@ -516,6 +516,7 @@
     "Remove color" : "Odobrať farbu",
     "Title" : "Názov",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "U opakovaných udalostí nie je možné u jednotlivého výskytu zvlášť meniť, či je udalosť celodenná alebo ne.",
+    "Change time zone (current: {timezone})" : "Zmeniť časové pásmo (aktuálne: {timezone})",
     "From" : "Od",
     "Start date" : "Dátum začatia",
     "Start time" : "Čas začiatku",
