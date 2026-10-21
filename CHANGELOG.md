@@ -1,3 +1,17 @@
+## [6.6.3](https://github.com/nextcloud/calendar/compare/v6.6.2...v6.6.3) (2026-10-21)
+
+
+### Bug Fixes
+
+* **calendar:** honor hideEventExport in simple editor ([57e2a9b](https://github.com/nextcloud/calendar/commit/57e2a9bdbae1e78f4a8ab1f0845a357c6deebbd1)), closes [#5705](https://github.com/nextcloud/calendar/issues/5705) [#3995](https://github.com/nextcloud/calendar/issues/3995)
+* **deps:** Fix npm audit ([09f5973](https://github.com/nextcloud/calendar/commit/09f59730369c68d5e383bbd0d9743a4ef8eded25))
+* **deps:** Fix npm audit ([fc6fa6a](https://github.com/nextcloud/calendar/commit/fc6fa6a9142c32296c3665e3e2d655c96d03c761))
+* **editor:** add accessible label to time zone button ([a5d1691](https://github.com/nextcloud/calendar/commit/a5d169103d84c5e7fc4174148910b36b41c6a7aa))
+* **editor:** apply selected Talk conversation via emitted events ([7f5e0d0](https://github.com/nextcloud/calendar/commit/7f5e0d02fd37330edf38566ea1c3f76bfdf68063))
+* make short events in week and day view only show event name ([b297793](https://github.com/nextcloud/calendar/commit/b2977932ac29d0c41ef7c499f0784221239e8c51))
+
+
+
 ## [6.6.2](https://github.com/nextcloud/calendar/compare/v6.6.1...v6.6.2) (2026-09-30)
 
 
