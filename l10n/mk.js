@@ -442,6 +442,7 @@ OC.L10N.register(
     "Any" : "Било кој",
     "Minimum seating capacity" : "Минимален капацитет за седење",
     "Building" : "Зграда",
+    "Clear filters" : "Исчисти филтри",
     "More details" : "Повеќе детали",
     "Update this occurrence" : "Ажурирајте ја оваа можност",
     "Public calendar does not exist" : "Јавниот календар не постои",
