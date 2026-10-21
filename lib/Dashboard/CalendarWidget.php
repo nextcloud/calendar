@@ -129,7 +129,8 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 			if ($calendar->isDeleted()) {
 				continue;
 			}
-			$searchResult = $calendar->search('', [], $options, $limit);
+			// No limit: the backend would apply it before sorting by start date and could skip the soonest events
+			$searchResult = $calendar->search('', [], $options);
 			foreach ($searchResult as $calendarEvent) {
 				// Find first recurrence in the future
 				$recurrence = null;
@@ -161,7 +162,7 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 			return (int)$a->getSinceId() - (int)$b->getSinceId();
 		});
 
-		return $widgetItems;
+		return array_slice($widgetItems, 0, $limit);
 	}
 
 	private function getCalendarDotIconUrl(?string $color): string {

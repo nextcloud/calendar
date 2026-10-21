@@ -116,7 +116,6 @@ class CalendarWidgetTest extends TestCase {
 				'end' => $twoWeeks,
 			]
 		];
-		$limit = 7;
 		$result = [
 			'id' => '3599',
 			'uid' => '59d30b6c-5a31-4d28-b1d6-c8f928180e96',
@@ -148,7 +147,7 @@ class CalendarWidgetTest extends TestCase {
 			->willReturn(false);
 		$calendar->expects(self::once())
 			->method('search')
-			->with('', [], $options, $limit)
+			->with('', [], $options, null)
 			->willReturn([$result]);
 		$calendar->expects(self::once())
 			->method('getDisplayColor')
@@ -228,11 +227,11 @@ class CalendarWidgetTest extends TestCase {
 			->willReturn(false);
 		$calendarA->expects(self::once())
 			->method('search')
-			->with('', [], $options, 7)
+			->with('', [], $options, null)
 			->willReturn([$resultA]);
 		$calendarB->expects(self::once())
 			->method('search')
-			->with('', [], $options, 7)
+			->with('', [], $options, null)
 			->willReturn([$resultB]);
 		$calendarA->expects(self::once())
 			->method('getDisplayColor')
@@ -348,5 +347,115 @@ class CalendarWidgetTest extends TestCase {
 
 		$widgets = $this->widget->getItems($userId);
 		$this->assertCount(0, $widgets);
+	}
+
+	public function testGetItemsIncludesSoonestEventCreatedLast(): void {
+		$time = 1665550936;
+		$tomorrow = $time + 86400;
+		$events = [];
+		for ($i = 1; $i <= 7; $i++) {
+			$events[] = $this->createSearchResult("Event $i", $tomorrow + ($i - 1) * 1800);
+		}
+		$events[] = $this->createSearchResult('Event 8', $tomorrow - 3600);
+		$this->timeFactory->method('getTime')->willReturn($time);
+		$this->dateTimeFormatter->method('formatTimeSpan')->willReturn('');
+		$this->calendarManager->method('getCalendarsForPrincipal')->willReturn([$this->createCalendar($events)]);
+
+		$widgets = $this->widget->getItems('admin');
+
+		$this->assertSame(
+			['Event 8', 'Event 1', 'Event 2', 'Event 3', 'Event 4', 'Event 5', 'Event 6'],
+			array_map(static fn (WidgetItem $item): string => $item->getTitle(), $widgets),
+		);
+	}
+
+	public function testGetItemsIncludesSoonestRecurrenceCreatedLast(): void {
+		$time = 1665550936;
+		$day = 86400;
+		$series = [];
+		for ($i = 1; $i <= 7; $i++) {
+			$next = $time + ($i + 1) * $day;
+			$series[] = $this->createSearchResult("Series $i", $next, $next + 7 * $day);
+		}
+		// The first occurrence started an hour ago and is still running, the widget shows the next one
+		$series[] = $this->createSearchResult('Series 8', $time - 3600, $time + $day);
+		$this->timeFactory->method('getTime')->willReturn($time);
+		$this->dateTimeFormatter->method('formatTimeSpan')->willReturn('');
+		$this->calendarManager->method('getCalendarsForPrincipal')->willReturn([$this->createCalendar($series)]);
+
+		$widgets = $this->widget->getItems('admin');
+
+		$this->assertSame(
+			['Series 8', 'Series 1', 'Series 2', 'Series 3', 'Series 4', 'Series 5', 'Series 6'],
+			array_map(static fn (WidgetItem $item): string => $item->getTitle(), $widgets),
+		);
+		$this->assertSame((string)($time + $day), $widgets[0]->getSinceId());
+	}
+
+	public function testGetItemsLimitsItemsAcrossCalendars(): void {
+		$time = 1665550936;
+		$eventsA = [];
+		$eventsB = [];
+		for ($i = 1; $i <= 5; $i++) {
+			$eventsA[] = $this->createSearchResult("A$i", $time + (2 * $i - 1) * 3600);
+			$eventsB[] = $this->createSearchResult("B$i", $time + 2 * $i * 3600);
+		}
+		$this->timeFactory->method('getTime')->willReturn($time);
+		$this->dateTimeFormatter->method('formatTimeSpan')->willReturn('');
+		$this->calendarManager->method('getCalendarsForPrincipal')->willReturn([
+			$this->createCalendar($eventsA),
+			$this->createCalendar($eventsB),
+		]);
+
+		$widgets = $this->widget->getItems('admin');
+
+		$this->assertSame(
+			['A1', 'B1', 'A2', 'B2', 'A3', 'B3', 'A4'],
+			array_map(static fn (WidgetItem $item): string => $item->getTitle(), $widgets),
+		);
+	}
+
+	public function testGetItemsV2IncludesEventLaterTodayCreatedLast(): void {
+		$time = 1665550936;
+		$startOfTomorrow = (new DateTimeImmutable('@' . $time))->modify('tomorrow');
+		$events = [];
+		for ($i = 1; $i <= 7; $i++) {
+			$events[] = $this->createSearchResult("Tomorrow $i", $startOfTomorrow->getTimestamp() + $i * 3600);
+		}
+		$events[] = $this->createSearchResult('Today', $time + 3 * 3600);
+		$this->timeFactory->method('getTime')->willReturn($time);
+		$this->timeFactory->method('getDateTime')->with('tomorrow')->willReturn(\DateTime::createFromImmutable($startOfTomorrow));
+		$this->dateTimeFormatter->method('formatTimeSpan')->willReturn('');
+		$this->l10n->method('t')->willReturnArgument(0);
+		$this->calendarManager->method('getCalendarsForPrincipal')->willReturn([$this->createCalendar($events)]);
+
+		$widgetItems = $this->widget->getItemsV2('admin');
+
+		$this->assertSame('', $widgetItems->getHalfEmptyContentMessage());
+		$this->assertSame('Today', $widgetItems->getItems()[0]->getTitle());
+	}
+
+	/**
+	 * Like CalDavBackend::search(), a limit keeps the first events in creation order, not the soonest ones.
+	 */
+	private function createCalendar(array $events): ITestCalendar&MockObject {
+		$calendar = $this->createMock(ITestCalendar::class);
+		$calendar->method('isEnabled')->willReturn(true);
+		$calendar->method('isDeleted')->willReturn(false);
+		$calendar->method('search')->willReturnCallback(
+			static fn (string $pattern, array $searchProperties = [], array $options = [], ?int $limit = null): array => array_slice($events, 0, $limit),
+		);
+
+		return $calendar;
+	}
+
+	private function createSearchResult(string $summary, int ...$timestamps): array {
+		return [
+			'uid' => $summary,
+			'objects' => array_map(static fn (int $timestamp): array => [
+				'DTSTART' => [(new DateTimeImmutable())->setTimestamp($timestamp)],
+				'SUMMARY' => [$summary],
+			], $timestamps),
+		];
 	}
 }
