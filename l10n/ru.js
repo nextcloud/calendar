@@ -826,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Название помещения",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Изменение правила повторения затронет только это и все последующие повторения.",
     "Type to search time zone" : "Начните вводить название часового пояса",
-    "Global" : "Общие",
-    "Failed to fetch proposals" : "Не удалось получить предложения"
+    "Global" : "Общие"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

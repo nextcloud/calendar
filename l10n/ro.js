@@ -826,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Numele sălii",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Modificările regulii de recurență se vor aplica doar acestei apariții și tuturor celor viitoare.",
     "Type to search time zone" : "Tastează pentru a căuta fusul orar",
-    "Global" : "Global",
-    "Failed to fetch proposals" : "Propunerile nu au putut fi preluate"
+    "Global" : "Global"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

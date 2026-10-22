@@ -817,7 +817,6 @@ OC.L10N.register(
     "Room name" : "Heiti fundarsalar",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Breytingar á endurtekninga-reglunni mun aðeins eiga við þetta tilvik og framtíðartilvik.",
     "Type to search time zone" : "Skrifaðu til að leita að tímabelti...",
-    "Global" : "Víðvært",
-    "Failed to fetch proposals" : "Mistókst að sækja tillögur"
+    "Global" : "Víðvært"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -782,7 +782,6 @@ OC.L10N.register(
     "Room name" : "会議室名",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "繰り返しルールの変更は、今回および今後のすべての開催にのみ適用されます。",
     "Type to search time zone" : "入力してタイムゾーンを検索",
-    "Global" : "グローバル",
-    "Failed to fetch proposals" : "提案の取得に失敗しました"
+    "Global" : "グローバル"
 },
 "nplurals=1; plural=0;");

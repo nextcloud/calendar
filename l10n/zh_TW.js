@@ -826,7 +826,6 @@ OC.L10N.register(
     "Room name" : "空間名稱",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "變更的重複規則只會套用至這項活動和重複的未來活動",
     "Type to search time zone" : "輸入以搜尋時區",
-    "Global" : "全球",
-    "Failed to fetch proposals" : "擷取提案失敗"
+    "Global" : "全球"
 },
 "nplurals=1; plural=0;");

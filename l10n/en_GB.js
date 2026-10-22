@@ -825,7 +825,6 @@ OC.L10N.register(
     "Room name" : "Room name",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Changes to the recurrence-rule will only apply to this and all future occurrences.",
     "Type to search time zone" : "Type to search time zone",
-    "Global" : "Global",
-    "Failed to fetch proposals" : "Failed to fetch proposals"
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

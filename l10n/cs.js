@@ -715,7 +715,6 @@ OC.L10N.register(
     "Room name" : "Název místnosti",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Změny v opakované události budou mít vliv jen na tuto a budoucí události",
     "Type to search time zone" : "Psaním vyhledejte časové pásmo",
-    "Global" : "Globální",
-    "Failed to fetch proposals" : "Nepodařilo se získat návrhy"
+    "Global" : "Globální"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

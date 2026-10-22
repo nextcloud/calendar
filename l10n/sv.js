@@ -826,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Rumsnamn",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Ändringar av upprepningsregeln gäller endast den här och alla framtida förekomster.",
     "Type to search time zone" : "Skriv för att söka tidszon",
-    "Global" : "Global",
-    "Failed to fetch proposals" : "Det gick inte att hämta förslagen"
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

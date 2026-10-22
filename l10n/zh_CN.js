@@ -760,7 +760,6 @@ OC.L10N.register(
     "Room name" : "聊天室名称",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "对重复规则的更改将只应用于本次和所有未来活动。",
     "Type to search time zone" : "输入以搜索时区 ",
-    "Global" : "全球",
-    "Failed to fetch proposals" : "无法获取提议"
+    "Global" : "全球"
 },
 "nplurals=1; plural=0;");

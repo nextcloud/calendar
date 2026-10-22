@@ -826,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Koosolekuruumi nimi",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Korduvuse reegli muudatused kehtivad sellele ja tulevastele kordadele",
     "Type to search time zone" : "Ajavööndi otsimiseks alusta kirjutamist",
-    "Global" : "Üldine",
-    "Failed to fetch proposals" : "Ettepanekute laadimine ei õnnestunud"
+    "Global" : "Üldine"
 },
 "nplurals=2; plural=(n != 1);");

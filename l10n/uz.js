@@ -668,7 +668,6 @@ OC.L10N.register(
     "Room name" : "Xona nomi",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Takrorlanish qoidasiga kiritilgan o'zgartirishlar faqat shu va kelajakdagi barcha hodisalarga nisbatan qo'llaniladi.",
     "Type to search time zone" : "Vaqt mintaqasini qidirish uchun kiriting",
-    "Global" : "Global",
-    "Failed to fetch proposals" : "Takliflarni olib bo‘lmadi"
+    "Global" : "Global"
 },
 "nplurals=1; plural=0;");

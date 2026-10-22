@@ -808,7 +808,6 @@ OC.L10N.register(
     "Room name" : "Назва кімнати",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Зміни до правила повторення стосуватимуться лише поточної та подальших подій.",
     "Type to search time zone" : "Зазначте часову зону для пошуку",
-    "Global" : "Загальний",
-    "Failed to fetch proposals" : "Не вдалося отримати пропозиції зустрічей"
+    "Global" : "Загальний"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

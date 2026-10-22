@@ -826,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Názov miestnosti",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Zmeny v opakovanej udalosti budú mať vplyv len na túto a budúce udalosti.",
     "Type to search time zone" : "Písaním nájdete časovú zónu",
-    "Global" : "Globálne",
-    "Failed to fetch proposals" : "Nepodarilo sa načítať návrhy"
+    "Global" : "Globálne"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

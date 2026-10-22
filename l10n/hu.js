@@ -819,7 +819,6 @@ OC.L10N.register(
     "Room name" : "Szoba neve",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Az ismétlődési szabály változásai csak erre és minden jövőbeli eseményre vonatkoznak.",
     "Type to search time zone" : "Gépeljen az időzóna kereséséhez",
-    "Global" : "Globális",
-    "Failed to fetch proposals" : "A javaslatok letöltése sikertelen"
+    "Global" : "Globális"
 },
 "nplurals=2; plural=(n != 1);");

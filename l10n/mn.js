@@ -825,7 +825,6 @@ OC.L10N.register(
     "Room name" : "Өрөөний нэр",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Давталтын дүрмийн өөрчлөлтүүд зөвхөн энэ болон бүх ирээдүйн тохиолдлуудад хамаарна.",
     "Type to search time zone" : "Цагийн бүс хайхын тулд бичнэ үү",
-    "Global" : "Нийтийн",
-    "Failed to fetch proposals" : "Саналуудыг авч чадсангүй"
+    "Global" : "Нийтийн"
 },
 "nplurals=2; plural=(n != 1);");

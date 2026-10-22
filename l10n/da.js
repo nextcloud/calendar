@@ -826,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Lokalenavn",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Ændringer i gentagelsesreglen vil kun gælde for denne og alle fremtidige hændelser.",
     "Type to search time zone" : "Indtast for at søge i tidszone",
-    "Global" : "Global",
-    "Failed to fetch proposals" : "Hentning af forslag fejlede"
+    "Global" : "Global"
 },
 "nplurals=2; plural=(n != 1);");

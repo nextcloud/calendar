@@ -647,7 +647,6 @@ OC.L10N.register(
     "Room name" : "Име на соба",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Промените на правилото за повторување ќе важат само за оваа и за сите идни појави.",
     "Type to search time zone" : "Пребарај временски зони",
-    "Global" : "Глобално",
-    "Failed to fetch proposals" : "Не успеа да се преземат предлозите"
+    "Global" : "Глобално"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -774,7 +774,6 @@
     "Room name" : "Nome da sala",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Os cambios na regra de recorrencia só se aplicarán a esta e a todas as futuras recorrencias.",
     "Type to search time zone" : "Escriba para buscar o fuso horario",
-    "Global" : "Global",
-    "Failed to fetch proposals" : "Produciuse un fallo ao recuperar as propostas"
+    "Global" : "Global"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

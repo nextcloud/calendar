@@ -670,7 +670,6 @@ OC.L10N.register(
     "Room name" : "Jina la chumba",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Mabadiliko kwa sheria inayojirudia yatafanya kazi tu kwa hii na matukio yajayo.",
     "Type to search time zone" : "Andika kutafuta eneo la muda",
-    "Global" : "Kidunia",
-    "Failed to fetch proposals" : "Imeshindwa kuleta mapendekezo"
+    "Global" : "Kidunia"
 },
 "nplurals=2; plural=(n != 1);");

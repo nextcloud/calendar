@@ -783,7 +783,6 @@ OC.L10N.register(
     "Room name" : "Όνομα αίθουσας",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Οι αλλαγές στον κανόνα επανάληψης θα ισχύουν μόνο για αυτό και για όλα τα μελλοντικά συμβάντα.",
     "Type to search time zone" : "Πληκτρολογήστε για αναζήτηση ζώνης ώρας",
-    "Global" : "Καθολική",
-    "Failed to fetch proposals" : "Αποτυχία ανάκτησης προτάσεων"
+    "Global" : "Καθολική"
 },
 "nplurals=2; plural=(n != 1);");

@@ -662,7 +662,6 @@ OC.L10N.register(
     "Room name" : "ياتاق ئىسمى",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "تەكرارلىنىش قائىدىسىگە ئۆزگەرتىش پەقەت مۇشۇ ۋە كەلگۈسىدىكى بارلىق ئىشلارغا ماس كېلىدۇ.",
     "Type to search time zone" : "ئىزدەش ۋاقىت رايونىغا كىرگۈزۈڭ",
-    "Global" : "ئۇمۇمىي",
-    "Failed to fetch proposals" : "تەكلىپنى چۈشۈرۈش مەغلۇپ بولدى"
+    "Global" : "ئۇمۇمىي"
 },
 "nplurals=2; plural=(n != 1);");

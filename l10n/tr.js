@@ -826,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Oda adı",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Yinelenme kuralındaki değişiklikler yalnızca bu ve sonraki etkinlikler için geçerli olacak.",
     "Type to search time zone" : "Saat dilimi aramak için yazmaya başlayın",
-    "Global" : "Genel",
-    "Failed to fetch proposals" : "Toplantı önerileri alınamadı"
+    "Global" : "Genel"
 },
 "nplurals=2; plural=(n > 1);");
