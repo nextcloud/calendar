@@ -68,6 +68,7 @@
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Other" : "වෙනත්"
+    "Other" : "වෙනත්",
+    "Phone" : "දුරකථනය"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

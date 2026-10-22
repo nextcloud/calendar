@@ -47,6 +47,7 @@ OC.L10N.register(
     "Personal" : "தனிப்பட்ட",
     "Close" : "மூடுக",
     "Selected" : "Selected",
-    "Other" : "மற்றவை"
+    "Other" : "மற்றவை",
+    "Phone" : "தொலைப்பேசி"
 },
 "nplurals=2; plural=(n != 1);");

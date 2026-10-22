@@ -93,10 +93,10 @@ OC.L10N.register(
     "Yes" : "ใช่",
     "No" : "ไม่ตกลง",
     "Create" : "สร้าง",
-    "Global" : "ทั่วไป",
     "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
     "Close" : "ปิด",
+    "New event" : "เหตุการณ์ใหม่",
     "Selected" : "เลือกอยู่",
     "Submit" : "ส่ง",
     "Anniversary" : "วันครบรอบ",
@@ -111,6 +111,7 @@ OC.L10N.register(
     "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
     "Confirmed" : "ยืนยันแล้ว",
-    "Categories" : "หมวดหมู่"
+    "Categories" : "หมวดหมู่",
+    "Global" : "ทั่วไป"
 },
 "nplurals=1; plural=0;");

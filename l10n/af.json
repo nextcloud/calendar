@@ -78,11 +78,12 @@
     "after" : "na",
     "Resources" : "Hulpbronne",
     "available" : "beskikbaar",
-    "Global" : "Globaal",
+    "Clear filters" : "Maak filter skoon",
     "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
     "All day" : "Heeldag",
     "Close" : "Sluit",
+    "New event" : "Nuwe geleentheid",
     "Submit" : "Dien in",
     "Anniversary" : "Herdenking",
     "Week {number} of {year}" : "Week {number} van {year}",
@@ -91,6 +92,7 @@
     "second" : "sekonde",
     "Other" : "Ander",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë"
+    "Categories" : "Kategorieë",
+    "Global" : "Globaal"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

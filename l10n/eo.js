@@ -125,12 +125,12 @@ OC.L10N.register(
     "Resources" : "Rimedoj",
     "Yes" : "Jes",
     "No" : "Ne",
-    "Global" : "Monda",
     "Subscribe" : "Aboni",
     "Personal" : "Persona",
     "All day" : "Tuttage",
     "Untitled event" : "Sentitola okazaĵo",
     "Close" : "Fermi",
+    "New event" : "Nova okazaĵo",
     "Submit" : "Sendi",
     "Anniversary" : "Datreveno",
     "Week {number} of {year}" : "Semajno {number} en {year}",
@@ -149,6 +149,7 @@ OC.L10N.register(
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
-    "User not found" : "Netrovita uzanto"
+    "User not found" : "Netrovita uzanto",
+    "Global" : "Monda"
 },
 "nplurals=2; plural=(n != 1);");
