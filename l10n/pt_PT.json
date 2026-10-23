@@ -2,6 +2,7 @@
     "Provided email-address is too long" : "O endereço de e-mail fornecido é muito longo",
     "User-Session unexpectedly expired" : "A sessão de utilizador expirou inesperadamente",
     "Provided email-address is not valid" : "O endereço de e-mail que inseriu não é válido",
+    "An error occurred during sending email" : "Ocorreu um erro ao enviar um email.",
     "%s has published the calendar »%s«" : "%s publicou o calendário »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Ocorreu um erro ao enviar o email. Por favor contacte o seu administrador",
     "Successfully sent email to %1$s" : "A mensagem enviada com sucesso para %1$s ",
