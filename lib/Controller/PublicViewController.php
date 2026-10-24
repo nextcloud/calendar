@@ -195,11 +195,9 @@ class PublicViewController extends Controller {
 		$principalUri = $calendarInfo['principaluri'] ?? '';
 		if (is_string($principalUri) && $principalUri !== '') {
 			$uid = basename($principalUri);
-			if ($uid !== '') {
-				$suffix = ' (' . $uid . ')';
-				if (str_ends_with($displayName, $suffix)) {
-					$displayName = substr($displayName, 0, -strlen($suffix));
-				}
+			$suffix = ' (' . $uid . ')';
+			if (str_ends_with($displayName, $suffix)) {
+				$displayName = substr($displayName, 0, -strlen($suffix));
 			}
 		}
 
