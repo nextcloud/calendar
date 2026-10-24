@@ -5,6 +5,31 @@
 
 <template>
 	<div class="resource-search">
+		<NcButton class="button availability" @click="openRoomAvailability">
+			{{ $t('calendar', 'Show all rooms') }}
+		</NcButton>
+		<NcButton class="button availability" @click="openResourceAvailability">
+			{{ $t('calendar', 'Show all resources') }}
+		</NcButton>
+
+		<RoomAvailabilityList
+			v-if="showRoomAvailabilityModal"
+			:showDialog="showRoomAvailabilityModal"
+			:calendarObjectInstance="calendarObjectInstance"
+			:startDate="calendarObjectInstance.startDate"
+			:endDate="calendarObjectInstance.endDate"
+			:alreadyInvitedEmails="alreadyInvitedEmails"
+			@update:showDialog="setShowRoomAvailabilityModal"
+			@addResource="addResource" />
+		<ResourceAvailabilityList
+			v-if="showResourceAvailabilityModal"
+			:showDialog="showResourceAvailabilityModal"
+			:calendarObjectInstance="calendarObjectInstance"
+			:startDate="calendarObjectInstance.startDate"
+			:endDate="calendarObjectInstance.endDate"
+			:alreadyInvitedEmails="alreadyInvitedEmails"
+			@update:showDialog="setShowResourceAvailabilityModal"
+			@addResource="addResource" />
 		<NcSelect
 			v-model="selectedResource"
 			class="resource-search__multiselect"
@@ -73,6 +98,8 @@ import {
 } from '@nextcloud/vue'
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
+import ResourceAvailabilityList from '../FreeBusy/ResourceAvailabilityList.vue'
+import RoomAvailabilityList from '../FreeBusy/RoomAvailabilityList.vue'
 import ResourceRoomType from '@/components/Editor/Resources/ResourceRoomType.vue'
 import ResourceSeatingCapacity from '@/components/Editor/Resources/ResourceSeatingCapacity.vue'
 import { advancedPrincipalPropertySearch } from '@/services/caldavService.js'
@@ -83,6 +110,8 @@ import logger from '@/utils/logger.js'
 export default {
 	name: 'ResourceListSearch',
 	components: {
+		ResourceAvailabilityList,
+		RoomAvailabilityList,
 		Avatar,
 		NcSelect,
 		ResourceSeatingCapacity,
@@ -114,6 +143,8 @@ export default {
 			isAccessible: false,
 			hasProjector: false,
 			hasWhiteboard: false,
+			showRoomAvailabilityModal: false,
+			showResourceAvailabilityModal: false,
 			selectedResource: null,
 			rooms: [],
 		}
@@ -157,6 +188,21 @@ export default {
 	},
 
 	methods: {
+		openRoomAvailability() {
+			this.showRoomAvailabilityModal = true
+		},
+
+		setShowRoomAvailabilityModal(value) {
+			this.showRoomAvailabilityModal = value
+		},
+
+		openResourceAvailability() {
+			this.showResourceAvailabilityModal = true
+		},
+
+		setShowResourceAvailabilityModal(value) {
+			this.showResourceAvailabilityModal = value
+		},
 
 		findResources: debounce(async function(query) {
 			if (!this.calendarObjectInstance) {

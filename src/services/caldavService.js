@@ -2,9 +2,13 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import DavClient from '@nextcloud/cdav-library'
+import DavClient, { namespaces as NS } from '@nextcloud/cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { CALDAV_BIRTHDAY_CALENDAR } from '@/models/consts.js'
+import {
+	CALDAV_BIRTHDAY_CALENDAR,
+	PRINCIPAL_PREFIX_CALENDAR_RESOURCE,
+	PRINCIPAL_PREFIX_CALENDAR_ROOM,
+} from '@/models/consts.js'
 
 const clients = {}
 
@@ -230,6 +234,25 @@ async function advancedPrincipalPropertySearch(query) {
 }
 
 /**
+ * Finds all room and resource principals the current user is allowed to book
+ *
+ * The search rejects an empty match, so it matches "@" in the email
+ * address, which every room and resource has.
+ * The search runs over every principal collection, so anything that is not a
+ * room or resource is dropped from the result. 
+ *
+ * @return {Promise<Principal[]>}
+ */
+async function findRoomAndResourcePrincipals() {
+	const principals = await getClient().principalPropertySearch([
+		{ name: [NS.SABREDAV, 'email-address'] },
+	], '@')
+
+	return principals.filter((principal) => principal.principalScheme.startsWith(PRINCIPAL_PREFIX_CALENDAR_ROOM)
+		|| principal.principalScheme.startsWith(PRINCIPAL_PREFIX_CALENDAR_RESOURCE))
+}
+
+/**
  * Finds one principal by it's URL
  *
  * @param {string} url The principal-url
@@ -274,6 +297,7 @@ export {
 	findPrincipalByUrl,
 	findPrincipalsInCollection,
 	findPublicCalendarsByTokens,
+	findRoomAndResourcePrincipals,
 	findSchedulingInbox,
 	findSchedulingOutbox,
 	getBirthdayCalendar,
