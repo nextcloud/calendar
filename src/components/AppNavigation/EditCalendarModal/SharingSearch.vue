@@ -13,7 +13,7 @@
 			:searchable="true"
 			:internalSearch="false"
 			:max-height="600"
-			:placeholder="$t('calendar', 'Share with users or groups')"
+			:placeholder="placeholder"
 			class="sharing-search__select"
 			:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
 			:userSelect="true"
@@ -22,11 +22,11 @@
 			openDirection="above"
 			trackBy="user"
 			label="displayName"
-			:ariaLabelCombobox="$t('calendar', 'Share with users or groups')"
+			:ariaLabelCombobox="placeholder"
 			@search="findSharee"
 			@option:selected="shareCalendar">
 			<template #no-options>
-				<span>{{ $t('calendar', 'No users or groups') }}</span>
+				<span>{{ noResult }}</span>
 			</template>
 			<template #option="sharee">
 				<div class="share-item">
@@ -58,6 +58,7 @@ import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '@/services/caldavService.js'
 import useCalendarsStore from '@/store/calendars.js'
 import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
 import { urldecode } from '@/utils/url.ts'
 
 export default {
@@ -85,7 +86,7 @@ export default {
 	},
 
 	computed: {
-		...mapStores(usePrincipalsStore, useCalendarsStore),
+		...mapStores(usePrincipalsStore, useCalendarsStore, useSettingsStore),
 
 		/**
 		 * True, if federated calendar shares are enabled on this server.
@@ -94,6 +95,30 @@ export default {
 		 */
 		supportsFederatedCalendars() {
 			return loadState('calendar', 'calendar_federation_enabled')
+		},
+
+		/**
+		 * Placeholder / aria label for the sharee search input.
+		 *
+		 * @return {string}
+		 */
+		placeholder() {
+			if (this.settingsStore.allowGroupSharing) {
+				return this.$t('calendar', 'Share with users or groups')
+			}
+			return this.$t('calendar', 'Share with users')
+		},
+
+		/**
+		 * Empty-state message when no sharees match.
+		 *
+		 * @return {string}
+		 */
+		noResult() {
+			if (this.settingsStore.allowGroupSharing) {
+				return this.$t('calendar', 'No users or groups')
+			}
+			return this.$t('calendar', 'No users')
 		},
 	},
 
@@ -203,6 +228,9 @@ export default {
 				}
 
 				const isGroup = result.calendarUserType === 'GROUP'
+				if (isGroup && !this.settingsStore.allowGroupSharing) {
+					return list
+				}
 
 				// TODO: Why do we have to decode those two values?
 				const user = urldecode(result[isGroup ? 'groupId' : 'userId'])
