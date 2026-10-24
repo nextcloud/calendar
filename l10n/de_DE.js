@@ -518,6 +518,7 @@ OC.L10N.register(
     "Remove color" : "Farbe entfernen",
     "Title" : "Titel",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Die Einstellung ganztägig kann für sich wiederholende Termine nicht geändert werden.",
+    "Change time zone (current: {timezone})" : "Zeitzone ändern (Aktuell: {timezone})",
     "From" : "Von",
     "Start date" : "Startdatum",
     "Start time" : "Startzeit",
@@ -825,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Raumname",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Änderungen an der Wiederholungsregel werden nur auf dieses und alle zukünftigen Vorkommen angewendet.",
     "Type to search time zone" : "Zum Suchen der Zeitzone tippen",
-    "Global" : "Weltweit",
-    "Failed to fetch proposals" : "Vorschläge konnten nicht abgerufen werden"
+    "Global" : "Weltweit"
 },
 "nplurals=2; plural=(n != 1);");

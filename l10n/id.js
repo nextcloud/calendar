@@ -807,7 +807,6 @@ OC.L10N.register(
     "Room name" : "Nama ruang",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Perubahan pada aturan pengulangan hanya akan diterapkan untuk acara ini dan semua acara selanjutnya.",
     "Type to search time zone" : "Ketik untuk mencari zona waktu",
-    "Global" : "Global",
-    "Failed to fetch proposals" : "Gagal mengambil usulan"
+    "Global" : "Global"
 },
 "nplurals=1; plural=0;");

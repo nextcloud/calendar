@@ -806,7 +806,6 @@ OC.L10N.register(
     "Room name" : "Kamernaam",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Wijzigingen op de herhaling zal alleen worden toegepast op deze en toekomstige afspraken.",
     "Type to search time zone" : "Type om tijdzone te zoeken",
-    "Global" : "Globaal",
-    "Failed to fetch proposals" : "Voorstellen ophalen mislukt"
+    "Global" : "Globaal"
 },
 "nplurals=2; plural=(n != 1);");

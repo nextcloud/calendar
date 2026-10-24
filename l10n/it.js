@@ -739,7 +739,6 @@ OC.L10N.register(
     "Room name" : "Nome stanza",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Le modifiche alla regola di ricorrenza saranno applicate a questa e a tutte le future occorrenze.",
     "Type to search time zone" : "Digita per cercare il fuso orario",
-    "Global" : "Globale",
-    "Failed to fetch proposals" : "Impossibile recuperare le proposte"
+    "Global" : "Globale"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

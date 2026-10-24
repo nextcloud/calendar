@@ -697,7 +697,6 @@ OC.L10N.register(
     "Room name" : "Huoneen nimi",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Muutokset toistuvuusasetukseen vaikuttavat vain tähän ja tuleviin tapahtumakertoihin.",
     "Type to search time zone" : "Kirjoita etsiäksesi aikavyöhykettä",
-    "Global" : "Julkinen",
-    "Failed to fetch proposals" : "Ehdotusten noutaminen epäonnistui"
+    "Global" : "Julkinen"
 },
 "nplurals=2; plural=(n != 1);");

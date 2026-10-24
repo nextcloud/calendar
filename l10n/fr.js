@@ -825,7 +825,6 @@ OC.L10N.register(
     "Room name" : "Nom de la salle",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Les modifications apportées à la règle de récurrence ne s’appliqueront qu’à cet événement et à tous les événements futurs.",
     "Type to search time zone" : "Commencer la saisie pour rechercher le fuseau horaire",
-    "Global" : "Général",
-    "Failed to fetch proposals" : "Impossible de récupérer les propositions"
+    "Global" : "Général"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

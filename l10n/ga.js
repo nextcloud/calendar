@@ -825,7 +825,6 @@ OC.L10N.register(
     "Room name" : "Ainm an tseomra",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Ní bhainfidh athruithe ar an riail atarlaithe ach leis seo agus le gach tarlú sa todhchaí.",
     "Type to search time zone" : "Clóscríobh chun crios ama a chuardach",
-    "Global" : "Domhanda",
-    "Failed to fetch proposals" : "Theip ar thograí a fháil"
+    "Global" : "Domhanda"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

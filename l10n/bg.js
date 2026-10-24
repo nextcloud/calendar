@@ -502,6 +502,7 @@ OC.L10N.register(
     "Close" : "Затвори",
     "Modifications will not get propagated to the organizer and other attendees" : "Промените няма да бъдат разпространени до организатора и другите участници",
     "This event was cancelled" : "Това събитие беше отказано",
+    "New event" : "Ново събитие",
     "Meeting proposals overview" : "Преглед на предложения за среща",
     "Edit meeting proposal" : "Редактиране на предложение за среща",
     "Create meeting proposal" : "Създайте предложение за среща",
@@ -646,7 +647,6 @@ OC.L10N.register(
     "Room name" : "Име на стаята",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Промените в правилото за повторение ще се прилагат само за това и за всички бъдещи събития.",
     "Type to search time zone" : "Въведете, за търсене на часова зона",
-    "Global" : "Глобални",
-    "Failed to fetch proposals" : "Неуспешно извличане на предложения"
+    "Global" : "Глобални"
 },
 "nplurals=2; plural=(n != 1);");

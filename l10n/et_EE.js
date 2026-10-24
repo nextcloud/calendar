@@ -518,6 +518,7 @@ OC.L10N.register(
     "Remove color" : "Eemalda värv",
     "Title" : "Pealkiri",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Korduvate sündmuste seerias oleval sündmusel ei sa valida „Kestab terve päeva“ valikut.",
+    "Change time zone (current: {timezone})" : "Muuda ajavööndit: (hetkel on kasutusel {timezone})",
     "From" : "Saatja",
     "Start date" : "Alguskuupäev",
     "Start time" : "Algusaeg",
@@ -825,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Koosolekuruumi nimi",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Korduvuse reegli muudatused kehtivad sellele ja tulevastele kordadele",
     "Type to search time zone" : "Ajavööndi otsimiseks alusta kirjutamist",
-    "Global" : "Üldine",
-    "Failed to fetch proposals" : "Ettepanekute laadimine ei õnnestunud"
+    "Global" : "Üldine"
 },
 "nplurals=2; plural=(n != 1);");

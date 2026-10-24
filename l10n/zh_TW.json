@@ -516,6 +516,7 @@
     "Remove color" : "移除顏色",
     "Title" : "標題",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "無法變更定期重複活動的全日設定。",
+    "Change time zone (current: {timezone})" : "變更時區（目前：{timezone}）",
     "From" : "從",
     "Start date" : "開始日期",
     "Start time" : "開始時間",
@@ -823,7 +824,6 @@
     "Room name" : "空間名稱",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "變更的重複規則只會套用至這項活動和重複的未來活動",
     "Type to search time zone" : "輸入以搜尋時區",
-    "Global" : "全球",
-    "Failed to fetch proposals" : "擷取提案失敗"
+    "Global" : "全球"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

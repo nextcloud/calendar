@@ -778,7 +778,6 @@ OC.L10N.register(
     "Room name" : "نام اتاق",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "تغییرات در قانون تکرار فقط به این رویداد و تمام تکرارهای آینده اعمال می‌شود.",
     "Type to search time zone" : "برای جستجوی منطقه زمانی تایپ کنید",
-    "Global" : "جهانی",
-    "Failed to fetch proposals" : "دریافت پیشنهادات ناموفق بود"
+    "Global" : "جهانی"
 },
 "nplurals=2; plural=(n > 1);");

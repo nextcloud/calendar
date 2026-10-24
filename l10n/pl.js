@@ -738,7 +738,6 @@ OC.L10N.register(
     "Room name" : "Nazwa pokoju",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Zmiany w regule powtarzalności będą miały zastosowanie tylko do tego i wszystkich przyszłych wydarzeń.",
     "Type to search time zone" : "Wpisz, aby wyszukać strefę czasową",
-    "Global" : "Globalnie",
-    "Failed to fetch proposals" : "Nie udało się pobrać propozycji"
+    "Global" : "Globalnie"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

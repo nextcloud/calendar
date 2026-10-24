@@ -518,6 +518,7 @@ OC.L10N.register(
     "Remove color" : "Remover cor",
     "Title" : "Título",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Não é possível modificar a configuração de dia inteiro para eventos que fazem parte de um conjunto de recorrência.",
+    "Change time zone (current: {timezone})" : "Mudar fuso horário (atual: {timezone})",
     "From" : "De",
     "Start date" : "Data de início",
     "Start time" : "Hora de início",
@@ -825,7 +826,6 @@ OC.L10N.register(
     "Room name" : "Nome da sala",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Alterações na regra de recorrência serão aplicadas somente a esta e a todas as ocorrências futuras.",
     "Type to search time zone" : "Digite para pesquisar o fuso horário",
-    "Global" : "Global",
-    "Failed to fetch proposals" : "Falha ao buscar propostas"
+    "Global" : "Global"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -680,7 +680,6 @@
     "Room name" : "Naziv sobe",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Promjene pravila ponavljanja primjenjuju se na ovo i sva buduća ponavljanja.",
     "Type to search time zone" : "Upišite za pretraživanje vremenskih zona",
-    "Global" : "Globalno",
-    "Failed to fetch proposals" : "Dohvaćanje prijedloga nije uspjelo"
+    "Global" : "Globalno"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

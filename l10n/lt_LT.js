@@ -786,7 +786,6 @@ OC.L10N.register(
     "Room name" : "Kambario pavadinimas",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Pakeitimai pasikartojimo taisyklėje bus taikomi tik šiam ir būsimiems pasikartojimams.",
     "Type to search time zone" : "Rašykite norėdami ieškoti laiko juostos",
-    "Global" : "Visuotinis",
-    "Failed to fetch proposals" : "Nepavyko gauti pasiūlymų"
+    "Global" : "Visuotinis"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

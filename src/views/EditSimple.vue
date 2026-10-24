@@ -16,7 +16,9 @@
 			@click.self="cancel(false)" />
 		<div
 			v-if="showPopover"
+			ref="popover"
 			class="event-popover"
+			tabindex="-1"
 			role="dialog"
 			aria-modal="true"
 			:aria-label="t('calendar', 'Simple event editor')"
@@ -374,6 +376,7 @@ export default {
 
 	data() {
 		return {
+			returnFocusElement: document.activeElement,
 			hasLocation: false,
 			hasDescription: false,
 			hasAttendees: false,
@@ -403,14 +406,17 @@ export default {
 			resizeTimeout: null,
 			popoverResizeObserver: null,
 			lastTargetElement: null,
+			focusOnReady: true,
 		}
 	},
 
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
-		...mapState(useSettingsStore, ['hideEventExport']),
-		...mapState(useWidgetStore, [
+		...mapState(useSettingsStore, [
 			'hideEventExport',
+		]),
+
+		...mapState(useWidgetStore, [
 			'widgetEventDetailsOpen',
 			'widgetEventDetails',
 			'widgetRef',
@@ -447,6 +453,7 @@ export default {
 		$route(to, from) {
 			// Hide popover when changing the view until the user selects a slot again
 			this.isVisible = to?.params.view === from?.params.view
+			this.focusOnReady = true
 			if (this.isVisible) {
 				this.$nextTick(() => {
 					this.repositionPopover()
@@ -454,9 +461,25 @@ export default {
 			}
 		},
 
+		popoverReady: {
+			// The popover can only receive focus once it is rendered visible
+			flush: 'post',
+			handler(ready) {
+				if (!ready || !this.focusOnReady) {
+					return
+				}
+				this.focusOnReady = false
+				// Move focus into the dialog, unless a field inside already took it (e.g. autofocused title)
+				if (!this.$refs.popover?.contains(document.activeElement)) {
+					this.$refs.popover?.focus()
+				}
+			},
+		},
+
 		showPopover(newVal) {
 			if (!newVal) {
 				this.popoverReady = false
+				this.focusOnReady = true
 			} else {
 				this.$nextTick(() => {
 					this.ensureElInDom()
@@ -557,6 +580,9 @@ export default {
 
 	beforeUnmount() {
 		window.removeEventListener('resize', this.handleResize)
+		if (this.returnFocusElement?.isConnected) {
+			this.returnFocusElement.focus()
+		}
 
 		// Clean up resize timeout
 		if (this.resizeTimeout) {
@@ -901,6 +927,10 @@ export default {
 	box-shadow: 0 4px 20px rgba(0, 0, 0, .8);
 	border: 1px solid var(--color-border);
 	border-radius: var(--border-radius-large);
+
+	&:focus {
+		outline: none;
+	}
 }
 
 .event-popover .event-popover__inner {
