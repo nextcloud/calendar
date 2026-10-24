@@ -1,4 +1,3 @@
-import { generateRemoteUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import {
 	getDefaultPrincipalObject,
@@ -10,7 +9,7 @@ import {
  */
 import {
 	findPrincipalByUrl,
-	findPrincipalsInCollection,
+	findRoomAndResourcePrincipals,
 	getCurrentUserPrincipal,
 } from '@/services/caldavService.js'
 import logger from '@/utils/logger.js'
@@ -102,25 +101,19 @@ export default defineStore('principals', {
 		 * @return {Promise<void>}
 		 */
 		async fetchRoomAndResourcePrincipals() {
-			const options = {
-				enableCalDAVResourceBooking: true,
+			let principals
+			try {
+				principals = await findRoomAndResourcePrincipals()
+			} catch (error) {
+				logger.error('Could not fetch room and resource principals', { error })
+				return
 			}
-			const principalCollections = await Promise.all([
-				findPrincipalsInCollection(generateRemoteUrl('dav/principals/calendar-rooms/'), options),
-				findPrincipalsInCollection(generateRemoteUrl('dav/principals/calendar-resources/'), options),
-			])
-			for (const principals of principalCollections) {
-				if (!principals) {
-				// TODO - handle error
-					continue
-				}
 
-				logger.debug('Fetched principals', { principals })
-				for (const principal of principals) {
-					this.addPrincipalMutation({
-						principal: mapDavToPrincipal(principal),
-					})
-				}
+			logger.debug('Fetched principals', { principals })
+			for (const principal of principals) {
+				this.addPrincipalMutation({
+					principal: mapDavToPrincipal(principal),
+				})
 			}
 		},
 
