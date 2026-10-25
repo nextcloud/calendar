@@ -518,6 +518,7 @@ OC.L10N.register(
     "Remove color" : "Bain dath",
     "Title" : "Teideal",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Ní féidir an socrú lae a mhodhnú le haghaidh imeachtaí atá mar chuid de thacar atarlaithe.",
+    "Change time zone (current: {timezone})" : "Athraigh an crios ama (reatha: {timezone})",
     "From" : "Ó",
     "Start date" : "Dáta tosaigh",
     "Start time" : "Am tosaithe",
