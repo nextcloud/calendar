@@ -518,6 +518,7 @@ OC.L10N.register(
     "Remove color" : "Remove colour",
     "Title" : "Title",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Cannot modify all-day setting for events that are part of a recurrence-set.",
+    "Change time zone (current: {timezone})" : "Change time zone (current: {timezone})",
     "From" : "From",
     "Start date" : "Start date",
     "Start time" : "Start time",

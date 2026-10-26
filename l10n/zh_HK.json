@@ -516,6 +516,7 @@
     "Remove color" : "移除顏色",
     "Title" : "標題",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "無法變更定期重複活動的全日設定",
+    "Change time zone (current: {timezone})" : "更新時區（目前：{timezone}）",
     "From" : "從",
     "Start date" : "開始日期",
     "Start time" : "開始時間",
