@@ -1,3 +1,20 @@
+## [6.6.4](https://github.com/nextcloud/calendar/compare/v6.6.3...v6.6.4) (2026-10-26)
+
+
+### Bug Fixes
+
+* Ctrl+Enter to save when an editable field has focus. ([2aade50](https://github.com/nextcloud/calendar/commit/2aade502af4896dd6d076b1f8d24c7e13f47f082))
+* **dashboard:** show soonest events in upcoming events widget ([3cac84a](https://github.com/nextcloud/calendar/commit/3cac84a78b50946ba5f8027a1fedd4ca1e04e0d3))
+* **deps:** Fix npm audit ([7104e12](https://github.com/nextcloud/calendar/commit/7104e1282e9e48117a611a359b07b128fce9e67e))
+* keyboard tabbing thought the editors ([1863b5f](https://github.com/nextcloud/calendar/commit/1863b5f068875e308dfde82a845e92ef8e0fb319))
+* **l10n:** Update translations from Transifex ([1d6c684](https://github.com/nextcloud/calendar/commit/1d6c684ba525f090aa129a2f419ded46681fc569))
+* **l10n:** Update translations from Transifex ([91ccaa7](https://github.com/nextcloud/calendar/commit/91ccaa7fdade3abeba3f1818963b75b3ecb18f14))
+* **l10n:** Update translations from Transifex ([e96c40b](https://github.com/nextcloud/calendar/commit/e96c40b99ccf1937e1a7a00a5921d3033fe451c0))
+* **l10n:** Update translations from Transifex ([ae452a9](https://github.com/nextcloud/calendar/commit/ae452a93f0da53b2475d9c50740317fd9f0dcdca))
+* **l10n:** Update translations from Transifex ([5c2b9aa](https://github.com/nextcloud/calendar/commit/5c2b9aa1c2258b2b0c0f1bf07bc95f49f6289df5))
+
+
+
 ## [6.6.3](https://github.com/nextcloud/calendar/compare/v6.6.2...v6.6.3) (2026-10-21)
 
 
