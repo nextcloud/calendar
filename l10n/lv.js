@@ -269,6 +269,7 @@ OC.L10N.register(
     "Minutes" : "Minūtes",
     "{attendee} ({role})" : "{attendee} ({role})",
     "Availability of attendees, resources and rooms" : "Dalībnieku, resursu un telpu pieejamība",
+    "Legend" : "Leģenda",
     "Out of office" : "Ārpus biroja",
     "Done" : "Pabeigts",
     "Busy (tentative)" : "Aizņemts (nenoteikts)",

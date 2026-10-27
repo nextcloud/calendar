@@ -426,6 +426,7 @@ OC.L10N.register(
     "Close" : "Cerrar",
     "This event was cancelled" : "Este evento fue cancelado",
     "New event" : "Nuevo evento",
+    "Selected" : "Seleccionado",
     "Participants" : "Participantes",
     "Submit" : "Enviar",
     "Subscribe to {name}" : "Subscribir a {name}",
