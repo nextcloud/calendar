@@ -58,6 +58,7 @@ describe('store/settings test suite', () => {
 			attachmentsFolder: '/Calendar',
 			attachmentsFolderCreated: false,
 			showResources: true,
+			allowGroupSharing: true,
 			publicCalendars: null,
 			searchQuery: '',
 		})
@@ -90,6 +91,7 @@ describe('store/settings test suite', () => {
 			canSubscribeLink: true,
 			attachmentsFolder: '/Calendar',
 			showResources: true,
+			allowGroupSharing: true,
 			publicCalendars: null,
 		}
 
@@ -118,6 +120,7 @@ describe('store/settings test suite', () => {
 			canSubscribeLink: true,
 			attachmentsFolder: '/Attachments',
 			showResources: true,
+			allowGroupSharing: false,
 			publicCalendars: null,
 		}
 
@@ -148,6 +151,7 @@ Initial settings:
 	- attachmentsFolder: /Attachments
 	- ShowResources: true
 	- PublicCalendars: null
+	- AllowGroupSharing: false
 `)
 		expect(settingsStore.$state).toEqual({
 			appVersion: '2.1.0',
@@ -174,6 +178,7 @@ Initial settings:
 			attachmentsFolder: '/Attachments',
 			attachmentsFolderCreated: false,
 			showResources: true,
+			allowGroupSharing: false,
 			publicCalendars: null,
 			searchQuery: '',
 		})
