@@ -518,6 +518,7 @@ OC.L10N.register(
     "Remove color" : "Retirer la couleur",
     "Title" : "Titre",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Impossible de modifier le paramètre « journée entière » pour les événements faisant partie d’un ensemble de récurrences.",
+    "Change time zone (current: {timezone})" : "Changer de fuseau horaire (actuel: {timezone})",
     "From" : "De",
     "Start date" : "Date de début",
     "Start time" : "Heure de début",

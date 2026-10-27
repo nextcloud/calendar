@@ -430,6 +430,7 @@ OC.L10N.register(
     "Close" : "Lukk",
     "This event was cancelled" : "Denne hendelsen ble kansellert",
     "New event" : "Ny hendelse",
+    "Selected" : "Valgt",
     "Participants" : "Deltakere",
     "Submit" : "Send inn",
     "Subscribe to {name}" : "Abonner på {name}",
