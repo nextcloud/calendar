@@ -7,7 +7,7 @@
 import type { CalendarInterface } from '@/types/calendar.ts'
 
 import { showError } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
 import { NcAppNavigationCaption, NcAppNavigationSpacer } from '@nextcloud/vue'
 import debounce from 'debounce'
 import pLimit from 'p-limit'
@@ -201,7 +201,11 @@ onMounted(() => {
 				:calendar="calendar" />
 		</template>
 
-		<NcAppNavigationCaption v-if="sortedCalendars.shared.length" :name="t('calendar', 'Shared calendars')" />
+		<NcAppNavigationCaption
+			v-if="sortedCalendars.shared.length"
+			:name="isPublic
+				? n('calendar', 'Shared calendar', 'Shared calendars', sortedCalendars.shared.length)
+				: t('calendar', 'Shared calendars')" />
 		<template v-if="!isPublic">
 			<Draggable
 				v-model="sortedCalendars.shared"
