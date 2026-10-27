@@ -551,9 +551,12 @@ class ContactControllerTest extends TestCase {
 			->with($user)
 			->willReturn(['allowed-group', 'excluded-group']);
 
-		$this->groupManager->expects(self::never())
+		$this->groupManager->expects(self::exactly(2))
 			->method('isInGroup')
-		;
+			->willReturnMap([
+				['allowed-system-user', 'allowed-group', true],
+				['excluded-system-user', 'allowed-group', false],
+			]);
 
 		$this->service->method('hasEmail')->willReturn(true);
 		$this->service->method('isSystemBook')
@@ -611,15 +614,6 @@ class ContactControllerTest extends TestCase {
 			[
 				'name' => 'Allowed System User',
 				'emails' => ['allowed@example.com'],
-				'lang' => 'en',
-				'tzid' => 'UTC',
-				'photo' => null,
-				'type' => 'individual',
-				'source' => 'system',
-			],
-			[
-				'name' => 'Excluded System User',
-				'emails' => ['excluded@example.com'],
 				'lang' => 'en',
 				'tzid' => 'UTC',
 				'photo' => null,
