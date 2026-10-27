@@ -24,12 +24,12 @@ function getRFCProperties() {
 		 * https://tools.ietf.org/html/rfc5545#section-3.8.1.3
 		 */
 		accessClass: {
-			readableName: t('calendar', 'When shared show'),
+			readableName: t('calendar', 'When shared'),
 			icon: 'Eye',
 			options: [
-				{ value: 'PUBLIC', label: t('calendar', 'When shared show full event') },
-				{ value: 'CONFIDENTIAL', label: t('calendar', 'When shared show only busy') },
-				{ value: 'PRIVATE', label: t('calendar', 'When shared hide this event') },
+				{ value: 'PUBLIC', label: t('calendar', 'Public') },
+				{ value: 'CONFIDENTIAL', label: t('calendar', 'Time and date only') },
+				{ value: 'PRIVATE', label: t('calendar', 'Private') },
 			],
 			multiple: false,
 			info: t('calendar', 'The visibility of this event in read-only shared calendars.'),
