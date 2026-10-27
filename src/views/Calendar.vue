@@ -49,6 +49,7 @@
 				<Settings
 					v-if="isAuthenticatedUser"
 					:loadingCalendars="loadingCalendars" />
+				<div v-else-if="isPublicShare" ref="publicFooter" class="public-footer" />
 			</template>
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
@@ -374,6 +375,13 @@ export default {
 	},
 
 	async mounted() {
+		// Show the public page footer content at the bottom of the navigation
+		const footer = document.querySelector('body > footer')
+		if (footer && this.$refs.publicFooter) {
+			this.$refs.publicFooter.append(...footer.children)
+			footer.remove()
+		}
+
 		if (this.timezone === 'automatic' && this.timezoneId === 'UTC') {
 			const { toastElement }
 				= showWarning(this.$t('calendar', 'The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings.'), { timeout: 60000 })
@@ -442,6 +450,18 @@ export default {
 	top: 2px;
 	inset-inline-end: var(--app-navigation-padding);
 	z-index: 1000;
+}
+
+#body-public .public-footer {
+	padding: calc(var(--default-grid-baseline) * 2);
+	color: var(--color-text-maxcontrast);
+	text-align: center;
+	text-wrap: balance;
+
+	p.info {
+		margin: 0;
+		text-shadow: none;
+	}
 }
 
 .calendar-Widget {
