@@ -10,6 +10,7 @@ namespace OCA\Calendar\Controller;
 
 use OC\App\CompareVersion;
 use OCA\Calendar\Service\CalendarInitialStateService;
+use OCA\Calendar\Service\EventEditorIntegrationService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -33,6 +34,7 @@ class ViewController extends Controller {
 		IRequest $request,
 		private IConfig $config,
 		private CalendarInitialStateService $calendarInitialStateService,
+		private EventEditorIntegrationService $eventEditorIntegrationService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -48,6 +50,7 @@ class ViewController extends Controller {
 	public function index():TemplateResponse {
 
 		$this->calendarInitialStateService->run();
+		$this->eventEditorIntegrationService->dispatchBeforeLoadedEvent();
 		return new TemplateResponse($this->appName, 'main');
 	}
 
@@ -57,6 +60,9 @@ class ViewController extends Controller {
 	#[UserRateLimit(limit: 10, period: 60)]
 	public function view(string $id): TemplateResponse {
 		$this->calendarInitialStateService->run();
+		// The event editor can be opened after closing the proposal.
+		// Closing the proposal does client side routing to the full calendar app.
+		$this->eventEditorIntegrationService->dispatchBeforeLoadedEvent();
 		return new TemplateResponse($this->appName, 'main');
 	}
 }
