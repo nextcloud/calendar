@@ -143,6 +143,7 @@ OC.L10N.register(
     "Tasks" : "Tâches",
     "Delegated by {name} (read-only)" : "Délégué par {name} (lecture seule)",
     "Delegated by {name}" : "Délégué par {name}",
+    "_Shared calendar_::_Shared calendars_" : ["Agenda partagé","Agendas partagés","Agendas partagés"],
     "Internal link" : "Lien interne",
     "A private link that can be used with external clients" : "Un lien privé qui peut être utilisé avec des clients externes",
     "Copy internal link" : "Copier le lien interne",

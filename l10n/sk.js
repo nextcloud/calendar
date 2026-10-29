@@ -143,6 +143,7 @@ OC.L10N.register(
     "Tasks" : "Úlohy",
     "Delegated by {name} (read-only)" : "Delegované používateľom {name} (iba na čítanie)",
     "Delegated by {name}" : "Delegované používateľom {name}",
+    "_Shared calendar_::_Shared calendars_" : ["Zdieľaný kalendár","Zdieľané kalendáre","Zdieľaného kalendára","Zdieľaných kalendárov"],
     "Internal link" : "Interný odkaz",
     "A private link that can be used with external clients" : "Súkromný odkaz, ktorý možno použiť s externými klientmi",
     "Copy internal link" : "Kopírovať interný odkaz",
