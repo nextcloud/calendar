@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCA\Calendar\Service\EventEditorIntegrationService;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\IConfig;
@@ -33,6 +34,9 @@ class PublicViewControllerTest extends TestCase {
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
+	/** @var EventEditorIntegrationService|MockObject */
+	private $eventEditorIntegrationService;
+
 	/** @var ViewController */
 	private $controller;
 
@@ -42,9 +46,10 @@ class PublicViewControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->eventEditorIntegrationService = $this->createMock(EventEditorIntegrationService::class);
 
 		$this->controller = new PublicViewController($this->appName, $this->request,
-			$this->config, $this->initialStateService, $this->urlGenerator);
+			$this->config, $this->initialStateService, $this->urlGenerator, $this->eventEditorIntegrationService);
 	}
 
 	public function testPublicIndexWithBranding():void {
@@ -109,6 +114,9 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'show_resources', false],
 			]);
 
+		$this->eventEditorIntegrationService->expects(self::once())
+			->method('dispatchBeforeLoadedEvent');
+
 		$response = $this->controller->publicIndexWithBranding('');
 
 		$this->assertInstanceOf(PublicTemplateResponse::class, $response);
@@ -125,6 +133,7 @@ class PublicViewControllerTest extends TestCase {
 
 		$this->request->expects(self::once())->method('getHeader')->with('Accept')->willReturn('text/calendar');
 		$this->urlGenerator->expects(self::once())->method('linkTo')->with('', 'remote.php')->willReturn($endpoint);
+		$this->eventEditorIntegrationService->expects(self::never())->method('dispatchBeforeLoadedEvent');
 		$response = $this->controller->publicIndexWithBranding('some-token');
 		self::assertInstanceOf(RedirectResponse::class, $response);
 		self::assertEquals($endpoint . '/dav/public-calendars/some-token/?export', $response->getRedirectURL());
@@ -199,6 +208,9 @@ class PublicViewControllerTest extends TestCase {
 				$this->assertEquals($expectedCalls[$callIndex][2], $value);
 				$callIndex++;
 			});
+
+		$this->eventEditorIntegrationService->expects(self::once())
+			->method('dispatchBeforeLoadedEvent');
 
 		$response = $this->controller->publicIndexForEmbedding('');
 

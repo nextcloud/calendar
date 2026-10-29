@@ -11,6 +11,7 @@ namespace OCA\Calendar\Listener;
 
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\CalendarInitialStateService;
+use OCA\Calendar\Service\EventEditorIntegrationService;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -23,6 +24,7 @@ class CalendarReferenceListener implements IEventListener {
 
 	public function __construct(
 		private CalendarInitialStateService $calendarInitialStateService,
+		private EventEditorIntegrationService $eventEditorIntegrationService,
 	) {
 	}
 
@@ -35,5 +37,7 @@ class CalendarReferenceListener implements IEventListener {
 		$this->calendarInitialStateService->run();
 		Util::addScript(Application::APP_ID, 'calendar-reference');
 		Util::addStyle(Application::APP_ID, 'calendar-reference');
+
+		$this->eventEditorIntegrationService->dispatchBeforeLoadedEvent();
 	}
 }
