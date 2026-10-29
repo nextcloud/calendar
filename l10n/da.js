@@ -143,6 +143,7 @@ OC.L10N.register(
     "Tasks" : "Opgaver",
     "Delegated by {name} (read-only)" : "Stedfortræder for {name} (skrivebeskyttet)",
     "Delegated by {name}" : "Stedfortræder for {name}",
+    "_Shared calendar_::_Shared calendars_" : ["Delt kalender","Delte kalendere"],
     "Internal link" : "Internt link",
     "A private link that can be used with external clients" : "Et privat link, der kan bruges med eksterne klienter",
     "Copy internal link" : "Kopiér internt link",

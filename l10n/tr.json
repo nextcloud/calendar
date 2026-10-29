@@ -141,6 +141,7 @@
     "Tasks" : "Görevler",
     "Delegated by {name} (read-only)" : "{name} tarafından yetki verildi (salt okunur)",
     "Delegated by {name}" : "{name} tarafından yetki verildi",
+    "_Shared calendar_::_Shared calendars_" : ["Paylaşılan takvim","Paylaşılan takvimler"],
     "Internal link" : "İç bağlantı",
     "A private link that can be used with external clients" : "Dış istemciler ile kullanılabilecek bir kişisel bağlantı",
     "Copy internal link" : "İç bağlantıyı kopyala",
