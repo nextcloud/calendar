@@ -186,6 +186,7 @@
     "Revoke" : "Одземи",
     "Viewer" : "Прегледувач",
     "Editor" : "Уредник",
+    "Search for a user…" : "Пребарај корисници ...",
     "{filename} could not be parsed" : "Датотеката {filename} не може да се анализира",
     "No valid files found, aborting import" : "Не е пронајдена валидна датотека, увозот е откажан",
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["Успешно увезен 1 настан","Успешно увезени %n настани"],

@@ -143,6 +143,7 @@ OC.L10N.register(
     "Tasks" : "Aufgaben",
     "Delegated by {name} (read-only)" : "Übertragen von {name} (schreibgeschützt)",
     "Delegated by {name}" : "Übertragen von {name}",
+    "_Shared calendar_::_Shared calendars_" : ["Freigegebener Kalender","Freigegebene Kalender"],
     "Internal link" : "Interner Link",
     "A private link that can be used with external clients" : "Ein privater Link, der mit externen Clients verwendet werden kann.",
     "Copy internal link" : "Internen Link kopieren",
