@@ -143,6 +143,7 @@ OC.L10N.register(
     "Tasks" : "Sarcini",
     "Delegated by {name} (read-only)" : "Delegat de {name} (doar citire)",
     "Delegated by {name}" : "Delegat de {name}",
+    "_Shared calendar_::_Shared calendars_" : ["Calendar partajat","Calendare partajate","Calendare partajate"],
     "Internal link" : "Link intern",
     "A private link that can be used with external clients" : "Link privat care poate fi folosit cu clienți externi",
     "Copy internal link" : "Copiază linkul intern",
