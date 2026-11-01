@@ -593,7 +593,7 @@ OC.L10N.register(
     "Public calendar does not exist" : "Den offentlige kalender findes ikke",
     "Maybe the share was deleted or has expired?" : "Måske er delingen blevet slettet eller er udløbet?",
     "Remove date" : "Fjern dato",
-    "Attendance required" : "Deltagelse påkrævet",
+    "Attendance required" : "Deltagelse obligatorisk",
     "Attendance optional" : "Deltagelse valgfri",
     "Remove participant" : "Fjern deltager",
     "Yes" : "Ja",

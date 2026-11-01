@@ -490,6 +490,7 @@ OC.L10N.register(
     "Has a projector" : "Má projektor",
     "Has a whiteboard" : "Má tabuli",
     "Wheelchair accessible" : "Kolečkové křeslo pro invalidy",
+    "Check availability" : "Zkontrolovat dostupnost",
     "Remove resource" : "Odebrat prostředek",
     "Search for resources or rooms" : "Hledat prostředky nebo místnosti",
     "available" : "dostupné",
