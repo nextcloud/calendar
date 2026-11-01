@@ -5,9 +5,12 @@
 import { showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
+import useCalendarsStore from '@/store/calendars.js'
 import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
+import { isDeckCalendar } from '@/utils/calendar.ts'
 import {
 	getPrefixedRoute,
 	getViewMode,
@@ -24,9 +27,11 @@ import { parseTaskDavUrl } from '@/utils/tasks.ts'
  * @param {Window} window The window object
  * @param {boolean} isWidget Whether the calendar is embedded in a widget
  * @param {object} ref The ref object of CalendarGrid component
+ * @param {function(object): void} showReference Show a reference in a popover
  * @return {(info: {event: EventDef}) => Promise<void>}
  */
-export default function(router, route, window, isWidget = false, ref = undefined) {
+export default function(router, route, window, isWidget = false, ref = undefined, showReference = undefined) {
+	const calendarsStore = useCalendarsStore()
 	const widgetStore = useWidgetStore()
 	return errorCatchAsync(function({ el, event, jsEvent }) {
 		if (isWidget) {
@@ -37,9 +42,21 @@ export default function(router, route, window, isWidget = false, ref = undefined
 				handleEventClick(event, router, route, window, isWidget)
 				break
 
-			case 'VTODO':
+			case 'VTODO': {
+				const calendar = calendarsStore.getCalendarById(event.extendedProps.calendarId)
+				if (calendar && isDeckCalendar(calendar) && showReference) {
+					const { taskId } = parseTaskDavUrl(event.extendedProps.davUrl)
+					const cardId = /^card-(\d+)\.ics$/.exec(taskId)?.[1]
+					if (cardId) {
+						const url = generateUrl('/apps/deck/card/{cardId}', { cardId }, { baseURL: getBaseUrl() })
+						jsEvent.preventDefault()
+						showReference({ url, el })
+						break
+					}
+				}
 				handleToDoClick(event, el, route, window, jsEvent, isWidget)
 				break
+			}
 		}
 	}, 'eventClick')
 }
