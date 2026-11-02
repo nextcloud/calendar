@@ -35,6 +35,12 @@ export default class AppointmentConfig {
 	/** @member {object} */
 	availability
 
+	/** @member {?number} */
+	start
+
+	/** @member {?number} */
+	end
+
 	/** @member {number} */
 	length
 
@@ -74,6 +80,8 @@ export default class AppointmentConfig {
 	 * @param {string} data.visibility Visibility
 	 * @param {string} data.targetCalendarUri Target calendar URI
 	 * @param {object} data.availability Availability
+	 * @param {?number} data.start Earliest appointment start time
+	 * @param {?number} data.end Latest appointment end time
 	 * @param {number} data.length Length in seconds
 	 * @param {number} data.increment Increment in seconds
 	 * @param {number} data.preparationDuration Preparation duration in seconds
@@ -94,6 +102,8 @@ export default class AppointmentConfig {
 		this.visibility = data.visibility
 		this.targetCalendarUri = data.targetCalendarUri
 		this.availability = data.availability
+		this.start = tryParseInt(data.start)
+		this.end = tryParseInt(data.end)
 		this.length = tryParseInt(data.length) ?? 0
 		this.increment = tryParseInt(data.increment) ?? 0
 		this.preparationDuration = tryParseInt(data.preparationDuration)

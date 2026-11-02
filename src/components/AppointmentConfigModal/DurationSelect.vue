@@ -14,6 +14,11 @@ interface DurationOption {
 	label: string
 }
 
+interface CustomOption {
+	value: 'custom'
+	label: string
+}
+
 const props = withDefaults(defineProps<{
 	label?: string
 	modelValue?: number
@@ -21,6 +26,8 @@ const props = withDefaults(defineProps<{
 	allowZero?: boolean
 	min?: number
 	max?: number | null
+	customOptionLabel?: string
+	customOptionSelected?: boolean
 }>(), {
 	label: '',
 	modelValue: 5 * 60,
@@ -28,15 +35,18 @@ const props = withDefaults(defineProps<{
 	allowZero: false,
 	min: 0,
 	max: 60 * 60,
+	customOptionLabel: '',
+	customOptionSelected: false,
 })
 
 const emit = defineEmits<{
 	'update:modelValue': [value: number]
+	'select:custom': []
 }>()
 
 const id = randomId()
 
-const availableOptions = computed<DurationOption[]>(() => {
+const availableOptions = computed<Array<DurationOption | CustomOption>>(() => {
 	let options: DurationOption[] = []
 
 	if (props.allowZero) {
@@ -101,16 +111,26 @@ const availableOptions = computed<DurationOption[]>(() => {
 	if (props.max) {
 		options = options.filter((option) => option.value <= props.max!)
 	}
+	if (props.customOptionLabel) {
+		return [...options, { value: 'custom', label: props.customOptionLabel }]
+	}
 	return options
 })
 
-const selectedOption = computed<DurationOption | undefined>({
+const selectedOption = computed<DurationOption | CustomOption | undefined>({
 	get() {
+		if (props.customOptionSelected) {
+			return availableOptions.value.find((option) => option.value === 'custom')
+		}
 		return availableOptions.value.find((option) => option.value === props.modelValue)
 	},
 
 	set(option) {
 		if (!option) {
+			return
+		}
+		if (option.value === 'custom') {
+			emit('select:custom')
 			return
 		}
 		emit('update:modelValue', option.value)
