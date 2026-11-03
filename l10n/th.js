@@ -107,11 +107,13 @@ OC.L10N.register(
     "Yearly" : "ทุก ๆ ปี",
     "second" : "วินาที",
     "Other" : "อื่น ๆ",
-    "When shared show full event" : "เมื่อแชร์จะแสดงกิจกรรมเต็ม",
-    "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
-    "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
+    "Public" : "สาธารณะ",
+    "Private" : "ส่วนตัว",
     "Confirmed" : "ยืนยันแล้ว",
     "Categories" : "หมวดหมู่",
-    "Global" : "ทั่วไป"
+    "Global" : "ทั่วไป",
+    "When shared show full event" : "เมื่อแชร์จะแสดงกิจกรรมเต็ม",
+    "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
+    "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้"
 },
 "nplurals=1; plural=0;");

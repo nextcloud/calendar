@@ -465,9 +465,8 @@
     "Lecture hall" : "강의실",
     "Seminar room" : "세미나실",
     "Other" : "기타",
-    "When shared show full event" : "전체 일정 공유",
-    "When shared show only busy" : "바쁨/한가함만 공유",
-    "When shared hide this event" : "일정 공유하지 않음",
+    "Public" : "공개",
+    "Private" : "개인",
     "Add a location" : "위치 추가",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "설명을 입력하세요\n\n- 회의 목적\n- 안건 목록\n- 참석자들이 준비해야 할 것들",
     "Confirmed" : "확인됨",
@@ -492,6 +491,9 @@
     "Room name" : "방 번호",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "반복 규칙은 이번 및 그 이후의 일정에만 적용됩니다.",
     "Type to search time zone" : "시간대를 찾기 위해 입력하세요.",
-    "Global" : "국제"
+    "Global" : "국제",
+    "When shared show full event" : "전체 일정 공유",
+    "When shared show only busy" : "바쁨/한가함만 공유",
+    "When shared hide this event" : "일정 공유하지 않음"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

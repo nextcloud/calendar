@@ -184,6 +184,8 @@ OC.L10N.register(
     "Untitled task" : "Prètzfach sens nom",
     "Other" : "Autre",
     "Phone" : "Telefòn",
+    "Public" : "Public",
+    "Private" : "Privat",
     "Add a location" : "Apondre un lòc",
     "Confirmed" : "Confirmat",
     "Canceled" : "Anullat",

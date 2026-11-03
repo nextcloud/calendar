@@ -482,10 +482,8 @@ OC.L10N.register(
     "Seminar room" : "Soba za seminarje",
     "Other" : "Drugo",
     "Phone" : "Telefon",
-    "When shared show" : "V souporabi pokaži dogodek",
-    "When shared show full event" : "V souporabi pokaži poln dogodek",
-    "When shared show only busy" : "V souporabi pokaži le, da je zasedeno",
-    "When shared hide this event" : "V souporabi skrij ta dogodek",
+    "Public" : "Javno",
+    "Private" : "Zasebno",
     "Add a location" : "Dodaj mesto ...",
     "Confirmed" : "Potrjeno",
     "Canceled" : "Preklicano",
@@ -510,6 +508,10 @@ OC.L10N.register(
     "Room name" : "Ime sobe",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Spremembe ponavljajočega dogodka bodo uveljavljene za to in vse prihodnje ponovitve.",
     "Type to search time zone" : "Vpišite niz za iskanje časovnega pasu",
-    "Global" : "Splošno"
+    "Global" : "Splošno",
+    "When shared show" : "V souporabi pokaži dogodek",
+    "When shared show full event" : "V souporabi pokaži poln dogodek",
+    "When shared show only busy" : "V souporabi pokaži le, da je zasedeno",
+    "When shared hide this event" : "V souporabi skrij ta dogodek"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -637,9 +637,7 @@
     "Availability of {displayName}" : "Infhaighteacht na{displayName}",
     "Discard" : "Caith amach",
     "Allow forwarding" : "Ceadaigh atreorú",
-    "Anyone with the invitation can respond" : "Is féidir le duine ar bith a bhfuil an cuireadh aige freagra a thabhairt",
-    "Only invited attendees can respond" : "Ní féidir ach le freastalaithe a raibh cuireadh tugtha dóibh freagra a thabhairt",
-    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Roghnaigh \"Ní féidir ach le freastalaithe a bhfuil cuireadh tugtha dóibh freagra a thabhairt\" chun cosc ​​a chur ar fhreastalaithe an cuireadh a chur ar aghaidh chuig daoine eile.",
+    "Anyone" : "Aon duine",
     "Detailed event editor" : "Eagarthóir imeachtaí mionsonraithe",
     "Event does not exist" : "Níl imeacht ann",
     "Delete this occurrence" : "Scrios an teagmhas seo",
@@ -783,10 +781,8 @@
     "Phone" : "Fón",
     "Video conferencing" : "Físchomhdháil",
     "TV" : "Teilifís",
-    "When shared show" : "Nuair a bheidh an seó roinnte",
-    "When shared show full event" : "Nuair a chomhroinntear taispeáin imeacht iomlán",
-    "When shared show only busy" : "Nuair a bheidh an seó roinnte ach gnóthach",
-    "When shared hide this event" : "Nuair a bheidh tú roinnte cuir an t-imeacht seo i bhfolach",
+    "Public" : "Poiblí",
+    "Private" : "Príobháideach",
     "The visibility of this event in read-only shared calendars." : "Infheictheacht an imeachta seo i bhféilirí comhroinnte inléite amháin.",
     "Add a location" : "Cuir suíomh leis",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Cuir cur síos leis\n\n- Cad faoi atá an cruinniú seo?\n- Míreanna ar an gclár\n- Rud ar bith is gá do rannpháirtithe a ullmhú",
@@ -824,6 +820,13 @@
     "Room name" : "Ainm an tseomra",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Ní bhainfidh athruithe ar an riail atarlaithe ach leis seo agus le gach tarlú sa todhchaí.",
     "Type to search time zone" : "Clóscríobh chun crios ama a chuardach",
-    "Global" : "Domhanda"
+    "Global" : "Domhanda",
+    "Anyone with the invitation can respond" : "Is féidir le duine ar bith a bhfuil an cuireadh aige freagra a thabhairt",
+    "Only invited attendees can respond" : "Ní féidir ach le freastalaithe a raibh cuireadh tugtha dóibh freagra a thabhairt",
+    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Roghnaigh \"Ní féidir ach le freastalaithe a bhfuil cuireadh tugtha dóibh freagra a thabhairt\" chun cosc ​​a chur ar fhreastalaithe an cuireadh a chur ar aghaidh chuig daoine eile.",
+    "When shared show" : "Nuair a bheidh an seó roinnte",
+    "When shared show full event" : "Nuair a chomhroinntear taispeáin imeacht iomlán",
+    "When shared show only busy" : "Nuair a bheidh an seó roinnte ach gnóthach",
+    "When shared hide this event" : "Nuair a bheidh tú roinnte cuir an t-imeacht seo i bhfolach"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

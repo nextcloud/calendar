@@ -453,10 +453,8 @@ OC.L10N.register(
     "Lecture hall" : "Aula",
     "Seminar room" : "Sala de seminarios",
     "Other" : "Otro",
-    "When shared show" : "Cuando se comparte, mostrar",
-    "When shared show full event" : "Al compartir, mostrar el evento completo",
-    "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
-    "When shared hide this event" : "Al compartir, ocultar este evento ",
+    "Public" : "Público",
+    "Private" : "Privado",
     "Add a location" : "Agregar una ubicación",
     "Confirmed" : "Confirmado",
     "Canceled" : "Cancelada",
@@ -481,6 +479,10 @@ OC.L10N.register(
     "Room name" : "Nombre de la sala",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Los cambios en la regla de recurrencia solo se aplicarán a esta y a todas las siguientes ocurrencias.",
     "Type to search time zone" : "Escribe para buscar la zona horaria",
-    "Global" : "Global"
+    "Global" : "Global",
+    "When shared show" : "Cuando se comparte, mostrar",
+    "When shared show full event" : "Al compartir, mostrar el evento completo",
+    "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
+    "When shared hide this event" : "Al compartir, ocultar este evento "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

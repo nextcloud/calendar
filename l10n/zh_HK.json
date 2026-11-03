@@ -638,9 +638,7 @@
     "Availability of {displayName}" : "{displayName} 的可得性",
     "Discard" : "取消",
     "Allow forwarding" : "允許轉寄",
-    "Anyone with the invitation can respond" : "任何持有邀請的人均可回覆",
-    "Only invited attendees can respond" : "只有受邀參加者可回覆",
-    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "選擇「只有受邀參加者可回覆」以防止參加者將邀請轉寄他人。",
+    "Anyone" : "任何人",
     "Detailed event editor" : "詳細活動編輯器",
     "Event does not exist" : "活動不存在",
     "Delete this occurrence" : "刪除此次活動",
@@ -784,10 +782,8 @@
     "Phone" : "電話",
     "Video conferencing" : "視像會議",
     "TV" : "電視",
-    "When shared show" : "當分享顯示時",
-    "When shared show full event" : "分享的時候顯示完整活動",
-    "When shared show only busy" : "分享的時候顯示忙碌中",
-    "When shared hide this event" : "分享的時候隱藏這個活動",
+    "Public" : "公開",
+    "Private" : "私人",
     "The visibility of this event in read-only shared calendars." : "此事件在唯讀共享行事曆中的能見度。",
     "Add a location" : "加入地點",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "添加描述\n\n- 此會議的主題是什麼\n- 議程項目\n- 參與者需要準備的事項",
@@ -825,6 +821,13 @@
     "Room name" : "聊天室名稱",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "變更的重複規則只會套用至這項活動和重複的未來活動",
     "Type to search time zone" : "輸入以搜尋時區",
-    "Global" : "全球"
+    "Global" : "全球",
+    "Anyone with the invitation can respond" : "任何持有邀請的人均可回覆",
+    "Only invited attendees can respond" : "只有受邀參加者可回覆",
+    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "選擇「只有受邀參加者可回覆」以防止參加者將邀請轉寄他人。",
+    "When shared show" : "當分享顯示時",
+    "When shared show full event" : "分享的時候顯示完整活動",
+    "When shared show only busy" : "分享的時候顯示忙碌中",
+    "When shared hide this event" : "分享的時候隱藏這個活動"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -392,10 +392,8 @@
     "Lecture hall" : "Giảng đường",
     "Seminar room" : "Phòng hội nghị",
     "Other" : "Khác",
-    "When shared show" : "Khi được chia sẻ thì hiển thị",
-    "When shared show full event" : "Khi được chia sẻ thì hiển thị đầy đủ sự kiện",
-    "When shared show only busy" : "Khi được chia sẻ thì chỉ hiển thị đang bận",
-    "When shared hide this event" : "Khi được chia sẻ thì ẩn sự kiện này đi",
+    "Public" : "Công khai",
+    "Private" : "Riêng tư",
     "Add a location" : "Thêm vào một địa điểm",
     "Confirmed" : "Đã xác nhận",
     "Canceled" : "Đã bị hủy",
@@ -416,6 +414,10 @@
     "Room name" : "Tên phòng",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "các thay đổi đến luật lệ định kỳ này sẽ chỉ áp dụng cho định kỳ này và các định kỳ tương lai của nó ",
     "Type to search time zone" : "Nhập để kiếm cho múi thời gian",
-    "Global" : "Chung"
+    "Global" : "Chung",
+    "When shared show" : "Khi được chia sẻ thì hiển thị",
+    "When shared show full event" : "Khi được chia sẻ thì hiển thị đầy đủ sự kiện",
+    "When shared show only busy" : "Khi được chia sẻ thì chỉ hiển thị đang bận",
+    "When shared hide this event" : "Khi được chia sẻ thì ẩn sự kiện này đi"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

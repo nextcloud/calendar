@@ -450,10 +450,8 @@ OC.L10N.register(
     "Seminar room" : "Seminar room",
     "Other" : "Other",
     "Phone" : "Phone",
-    "When shared show" : "When shared show",
-    "When shared show full event" : "When shared show full event",
-    "When shared show only busy" : "When shared show only busy",
-    "When shared hide this event" : "When shared hide this event",
+    "Public" : "Public",
+    "Private" : "Private",
     "Add a location" : "Add a location",
     "Confirmed" : "Confirmed",
     "Canceled" : "Canceled",
@@ -477,6 +475,10 @@ OC.L10N.register(
     "User not found" : "User not found",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Changes to the recurrence-rule will only apply to this and all future occurrences.",
     "Type to search time zone" : "Type to search time zone",
-    "Global" : "Global"
+    "Global" : "Global",
+    "When shared show" : "When shared show",
+    "When shared show full event" : "When shared show full event",
+    "When shared show only busy" : "When shared show only busy",
+    "When shared hide this event" : "When shared hide this event"
 },
 "nplurals=2; plural=(n!=1);");

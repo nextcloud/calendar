@@ -555,6 +555,7 @@ OC.L10N.register(
     "Availability of {displayName}" : "Dostupnost {displayName}",
     "Discard" : "Zahodit",
     "Allow forwarding" : "Umožnit přeposílání",
+    "Anyone" : "Kdokoli",
     "Event does not exist" : "Událost neexistuje",
     "Delete this occurrence" : "Smazat tento výskyt",
     "All day" : "Celý den",
@@ -683,10 +684,8 @@ OC.L10N.register(
     "Other" : "Jiná",
     "Phone" : "Telefon",
     "TV" : "TV",
-    "When shared show" : "Při sdílení neskrývat",
-    "When shared show full event" : "Když sdíleno zobrazit úplnou událost",
-    "When shared show only busy" : "Když sdíleno zobrazit pouze zaneprázdněno",
-    "When shared hide this event" : "Pří sdílení tuto událost skrýt",
+    "Public" : "Veřejný",
+    "Private" : "Soukromá",
     "The visibility of this event in read-only shared calendars." : "Viditelnost této události ve sdílených kalendářích, které jsou pouze pro čtení.",
     "Add a location" : "Přidat umístění",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Přidejte popis\n\n- O čem tato schůzka je\n- Body programu\n- Cokoli co je třeba, aby si účastnici připravili",
@@ -719,6 +718,10 @@ OC.L10N.register(
     "Room name" : "Název místnosti",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Změny v opakované události budou mít vliv jen na tuto a budoucí události",
     "Type to search time zone" : "Psaním vyhledejte časové pásmo",
-    "Global" : "Globální"
+    "Global" : "Globální",
+    "When shared show" : "Při sdílení neskrývat",
+    "When shared show full event" : "Když sdíleno zobrazit úplnou událost",
+    "When shared show only busy" : "Když sdíleno zobrazit pouze zaneprázdněno",
+    "When shared hide this event" : "Pří sdílení tuto událost skrýt"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -488,6 +488,7 @@ OC.L10N.register(
     "Unscheduled tasks" : "Нездадени задачи",
     "Availability of {displayName}" : "Достапност на {displayName}",
     "Discard" : "Отфрли",
+    "Anyone" : "Било кој",
     "Event does not exist" : "Настанот не постои",
     "Delete this occurrence" : "Избришете ја оваа можност",
     "All day" : "Цели денови",
@@ -613,10 +614,8 @@ OC.L10N.register(
     "Seminar room" : "Семинарска сала",
     "Other" : "Останато",
     "Phone" : "Телефон",
-    "When shared show" : "Приказ кога е споделен",
-    "When shared show full event" : "Кога е споделен, прикажи го целосно настанот",
-    "When shared show only busy" : "Кога е споделен, прикажи зафатено",
-    "When shared hide this event" : "Кога е споделен, сокриј го настанот",
+    "Public" : "Јавна",
+    "Private" : "Приватност",
     "The visibility of this event in read-only shared calendars." : "Видливоста на овој настан во споделени календари со само-преглед.",
     "Add a location" : "Додади локација",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Додај опис\n\n- За што е овој состанок\n- Точки на дневен ред\n- Сè што учесниците треба да подготват",
@@ -649,6 +648,10 @@ OC.L10N.register(
     "Room name" : "Име на соба",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Промените на правилото за повторување ќе важат само за оваа и за сите идни појави.",
     "Type to search time zone" : "Пребарај временски зони",
-    "Global" : "Глобално"
+    "Global" : "Глобално",
+    "When shared show" : "Приказ кога е споделен",
+    "When shared show full event" : "Кога е споделен, прикажи го целосно настанот",
+    "When shared show only busy" : "Кога е споделен, прикажи зафатено",
+    "When shared hide this event" : "Кога е споделен, сокриј го настанот"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

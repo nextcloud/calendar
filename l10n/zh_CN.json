@@ -590,9 +590,7 @@
     "Availability of {displayName}" : "{displayName} 的可用性",
     "Discard" : "丢弃",
     "Allow forwarding" : "允许转发",
-    "Anyone with the invitation can respond" : "任何收到邀请的人都可以回复",
-    "Only invited attendees can respond" : "只有受邀的参加者才能回复",
-    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "选择“只有受邀的参加者才能回复”以防止参加者将邀请转发给其他人。",
+    "Anyone" : "任何人",
     "Event does not exist" : "活动不存在",
     "Delete this occurrence" : "删除此重复活动",
     "All day" : "全天",
@@ -721,10 +719,8 @@
     "Seminar room" : "研讨室",
     "Other" : "其他",
     "Phone" : "电话",
-    "When shared show" : "共享时显示",
-    "When shared show full event" : "共享时显示完整活动",
-    "When shared show only busy" : "共享时仅显示忙碌",
-    "When shared hide this event" : "共享时隐藏此活动",
+    "Public" : "公开",
+    "Private" : "私密",
     "The visibility of this event in read-only shared calendars." : "此活动在只读共享日历中的可见性。",
     "Add a location" : "添加地点",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "添加描述\n\n- 这次会议是关于什么的\n- 议程项目\n- 参与者需要准备的内容",
@@ -758,6 +754,13 @@
     "Room name" : "聊天室名称",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "对重复规则的更改将只应用于本次和所有未来活动。",
     "Type to search time zone" : "输入以搜索时区 ",
-    "Global" : "全球"
+    "Global" : "全球",
+    "Anyone with the invitation can respond" : "任何收到邀请的人都可以回复",
+    "Only invited attendees can respond" : "只有受邀的参加者才能回复",
+    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "选择“只有受邀的参加者才能回复”以防止参加者将邀请转发给其他人。",
+    "When shared show" : "共享时显示",
+    "When shared show full event" : "共享时显示完整活动",
+    "When shared show only busy" : "共享时仅显示忙碌",
+    "When shared hide this event" : "共享时隐藏此活动"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

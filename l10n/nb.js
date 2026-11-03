@@ -418,6 +418,7 @@ OC.L10N.register(
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Den automatiske tidssonegjenkjenningen bestemte at tidssonen din var UTC.\nDette er mest sannsynlig et resultat av sikkerhetstiltak i nettleseren din.\nVennligst still inn tidssonen manuelt i kalenderinnstillingene.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Din konfigurerte tidssone ({timezoneId}) ble ikke funnet. Faller tilbake til UTC.\nVennligst endre tidssonen din i innstillingene og rapporter dette problemet.",
     "Discard" : "Slett",
+    "Anyone" : "Hvem som helst",
     "Event does not exist" : "Hendelsen finnes ikke",
     "Delete this occurrence" : "Slett denne hendelsen",
     "All day" : "Hele dagen",
@@ -499,10 +500,8 @@ OC.L10N.register(
     "Seminar room" : "Seminarrom",
     "Other" : "Annet",
     "Phone" : "Telefon",
-    "When shared show" : "Når delt vis",
-    "When shared show full event" : "Vis hele hendelsen om den deles",
-    "When shared show only busy" : "Vis kun opptatt om den deles",
-    "When shared hide this event" : "Skjul denne hendelsen om den deles",
+    "Public" : "Offentlig",
+    "Private" : "Privat",
     "Add a location" : "Legg til et sted",
     "Confirmed" : "Bekreftet",
     "Canceled" : "Avbrutt",
@@ -530,6 +529,10 @@ OC.L10N.register(
     "Room name" : "Romnavn",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Endringer i gjentakelsesregelen vil kun gjelde for denne og alle fremtidige hendelser.",
     "Type to search time zone" : "Skriv for å søke etter tidssone",
-    "Global" : "Global"
+    "Global" : "Global",
+    "When shared show" : "Når delt vis",
+    "When shared show full event" : "Vis hele hendelsen om den deles",
+    "When shared show only busy" : "Vis kun opptatt om den deles",
+    "When shared hide this event" : "Skjul denne hendelsen om den deles"
 },
 "nplurals=2; plural=(n != 1);");

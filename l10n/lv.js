@@ -412,10 +412,8 @@ OC.L10N.register(
     "Lecture hall" : "Lekciju zāle",
     "Seminar room" : "Semināra telpa",
     "Other" : "Cits",
-    "When shared show" : "Kad koplietots rāda",
-    "When shared show full event" : "Ja kopīgots, tad rādīt pilnu notikumu",
-    "When shared show only busy" : "Ja kopīgots, tad rādīt tikai aizņemtos",
-    "When shared hide this event" : "Ja kopīgots, tad paslēpt šo notikumu",
+    "Public" : "Publiska",
+    "Private" : "Privāts",
     "Add a location" : "Pievienot atrašanās vietu",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Pievienot aprakstu\n\n- Par ko ir šī tikšanās\n- Darba kārtības vienumi\n- Jebkas, kam dalībniekiem ir jāsagatavojas",
     "Confirmed" : "Apstiprināts",
@@ -441,6 +439,10 @@ OC.L10N.register(
     "Room name" : "Sapulču telpas nosaukums",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Izmaiņas atkārtošanās kārtulai tiks piemērotas tikai šim un visiem turpmākajiem notikumiem.",
     "Type to search time zone" : "Rakstīt, lai meklētu laika zonu",
-    "Global" : "Globāls"
+    "Global" : "Globāls",
+    "When shared show" : "Kad koplietots rāda",
+    "When shared show full event" : "Ja kopīgots, tad rādīt pilnu notikumu",
+    "When shared show only busy" : "Ja kopīgots, tad rādīt tikai aizņemtos",
+    "When shared hide this event" : "Ja kopīgots, tad paslēpt šo notikumu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

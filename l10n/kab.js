@@ -186,6 +186,8 @@ OC.L10N.register(
     "No events" : "Ulac tidyanin",
     "Other" : "Wayeḍ",
     "Phone" : "Tiliɣri",
+    "Public" : "Azayaz",
+    "Private" : "Uslig",
     "Confirmed" : "Yettwasentem",
     "Canceled" : "Yettwasemmet",
     "Categories" : "Taggayin",

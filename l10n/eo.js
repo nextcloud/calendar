@@ -142,14 +142,16 @@ OC.L10N.register(
     "fifth" : "Kvina",
     "last" : "Lasta",
     "Other" : "Alia",
-    "When shared show full event" : "Kiam kunhavigita, montri plenajn detalojn",
-    "When shared show only busy" : "Kiam kunhavigita, montri nur kiel okupita",
-    "When shared hide this event" : "Kiam kunhavigita, kaŝi tiun okazaĵon",
+    "Public" : "Publika",
+    "Private" : "Privata",
     "Confirmed" : "Konfirmita",
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
     "User not found" : "Netrovita uzanto",
-    "Global" : "Monda"
+    "Global" : "Monda",
+    "When shared show full event" : "Kiam kunhavigita, montri plenajn detalojn",
+    "When shared show only busy" : "Kiam kunhavigita, montri nur kiel okupita",
+    "When shared hide this event" : "Kiam kunhavigita, kaŝi tiun okazaĵon"
 },
 "nplurals=2; plural=(n != 1);");

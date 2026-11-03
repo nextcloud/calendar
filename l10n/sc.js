@@ -315,10 +315,7 @@ OC.L10N.register(
     "It might have been deleted, or there was a typo in the link" : "Fortzis est istadu cantzelladu, o b'at àpidu un'errore de digitatzione in suligòngiu",
     "Other" : "Àteru",
     "Phone" : "Telèfonu",
-    "When shared show" : "Cando si cumpartzit, mustra•ddu",
-    "When shared show full event" : "Cando si cumpartzit mustra totu s'eventu",
-    "When shared show only busy" : "Cando si cumpartzit, mustra isceti ocupadu",
-    "When shared hide this event" : "Cando si cumpartzit, cua custu eventu",
+    "Public" : "Pùblicu",
     "Add a location" : "Agiunghe una positzione",
     "Confirmed" : "Cunfirmadu",
     "Canceled" : "Annulladu",
@@ -338,6 +335,10 @@ OC.L10N.register(
     "Room name" : "Nùmene istantza",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Is càmbios a sa règula de recurrèntzia s'ant a aplicare isceti a custa e a is occurrèntzias imbenientes.",
     "Type to search time zone" : "Iscrire pro chircare fusu oràriu",
-    "Global" : "Globale"
+    "Global" : "Globale",
+    "When shared show" : "Cando si cumpartzit, mustra•ddu",
+    "When shared show full event" : "Cando si cumpartzit mustra totu s'eventu",
+    "When shared show only busy" : "Cando si cumpartzit, mustra isceti ocupadu",
+    "When shared hide this event" : "Cando si cumpartzit, cua custu eventu"
 },
 "nplurals=2; plural=(n != 1);");

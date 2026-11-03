@@ -533,10 +533,8 @@ OC.L10N.register(
     "Seminar room" : "غرفة مناقشة",
     "Other" : "آخَر",
     "Phone" : "الهاتف",
-    "When shared show" : "عندما تظهر المشاركة",
-    "When shared show full event" : "عرض الحدث كاملاً عند مشاركته",
-    "When shared show only busy" : "عرض \"مشغول\" فقط عند مشاركته",
-    "When shared hide this event" : "إخفاء هذا الحدث عند مشاركته",
+    "Public" : "عام",
+    "Private" : "خاصٌّ",
     "Add a location" : "إضافة موقع",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "أضِف وصفاً:\n\n- ماهو موضوع الاجتماع\n- بنود الاجتماع\n- ما يحتاجه المشاركون إلى تحضيره للاجتماع",
     "Confirmed" : "مؤكد",
@@ -564,6 +562,10 @@ OC.L10N.register(
     "Room name" : "اسم الغرفة",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "التغيير في قاعدة التكرار سوف يُطبّق فقط على هذا التكرار و على التكرارات المستقبلية.",
     "Type to search time zone" : "أكتب للبحث في المنطقة الزمنية ",
-    "Global" : "عالمي"
+    "Global" : "عالمي",
+    "When shared show" : "عندما تظهر المشاركة",
+    "When shared show full event" : "عرض الحدث كاملاً عند مشاركته",
+    "When shared show only busy" : "عرض \"مشغول\" فقط عند مشاركته",
+    "When shared hide this event" : "إخفاء هذا الحدث عند مشاركته"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

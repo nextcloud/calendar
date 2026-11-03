@@ -71,6 +71,8 @@ OC.L10N.register(
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
     "Other" : "වෙනත්",
-    "Phone" : "දුරකථනය"
+    "Phone" : "දුරකථනය",
+    "Public" : "පොදු",
+    "Private" : "පුද්ගලික"
 },
 "nplurals=2; plural=(n != 1);");
