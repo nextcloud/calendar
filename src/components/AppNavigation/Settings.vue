@@ -60,12 +60,6 @@
 							{{ $t('calendar', 'Birthday calendar') }}
 						</NcFormBoxSwitch>
 						<NcFormBoxSwitch
-							v-model="showTasksBinding"
-							:disabled="savingTasks"
-							@update:modelValue="toggleTasksEnabled">
-							{{ $t('calendar', 'Tasks in calendar') }}
-						</NcFormBoxSwitch>
-						<NcFormBoxSwitch
 							v-model="showDeclinedBinding"
 							:disabled="savingShowDeclined"
 							@update:modelValue="toggleShowDeclined">
@@ -103,6 +97,24 @@
 						:inputLabel="$t('calendar', 'Density in Day and Week View')"
 						inputId="settings-slot-duration"
 						label="label" />
+				</NcAppSettingsSection>
+				<NcAppSettingsSection
+					id="settings-modal-tasks"
+					:name="t('calendar', 'Tasks')">
+					<NcFormBox>
+						<NcFormBoxSwitch
+							v-model="showTasksBinding"
+							:disabled="savingTasks"
+							@update:modelValue="toggleTasksEnabled">
+							{{ $t('calendar', 'Tasks in calendar') }}
+						</NcFormBoxSwitch>
+						<NcFormBoxSwitch
+							v-model="showCompletedTasksBinding"
+							:disabled="savingShowCompletedTasks"
+							@update:modelValue="toggleShowCompletedTasks">
+							{{ $t('calendar', 'Show completed tasks') }}
+						</NcFormBoxSwitch>
+					</NcFormBox>
 				</NcAppSettingsSection>
 				<NcAppSettingsSection
 					id="app-settings-modal-editing"
@@ -230,6 +242,7 @@ export default {
 			savingBirthdayCalendar: false,
 			savingEventLimit: false,
 			savingTasks: false,
+			savingShowCompletedTasks: false,
 			savingShowDeclined: false,
 			savingPopover: false,
 			savingSlotDuration: false,
@@ -240,6 +253,7 @@ export default {
 			savingWeekNumber: false,
 			savingDefaultCalendar: false,
 			showTasksBinding: false,
+			showCompletedTasksBinding: true,
 			showDeclinedBinding: false,
 			showWeekendsBinding: false,
 			showWeekNumbersBinding: false,
@@ -253,6 +267,7 @@ export default {
 		...mapState(useSettingsStore, [
 			'eventLimit',
 			'showTasks',
+			'showCompletedTasks',
 			'showDeclined',
 			'skipPopover',
 			'showWeekends',
@@ -382,6 +397,7 @@ export default {
 
 	async created() {
 		this.showTasksBinding = this.showTasks
+		this.showCompletedTasksBinding = this.showCompletedTasks
 		this.showDeclinedBinding = this.showDeclined
 		this.showWeekendsBinding = this.showWeekends
 		this.showWeekNumbersBinding = this.showWeekNumbers
@@ -430,6 +446,18 @@ export default {
 				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingTasks = false
+			}
+		},
+
+		async toggleShowCompletedTasks() {
+			this.savingShowCompletedTasks = true
+			try {
+				await this.settingsStore.toggleShowCompletedTasks()
+				this.savingShowCompletedTasks = false
+			} catch (error) {
+				logger.error(error)
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingShowCompletedTasks = false
 			}
 		},
 

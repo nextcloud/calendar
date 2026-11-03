@@ -72,6 +72,8 @@ class SettingsController extends Controller {
 				return $this->setDefaultReminderFullDay($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
+			case 'showCompletedTasks':
+				return $this->setShowCompletedTasks($value);
 			case 'showDeclined':
 				return $this->setShowDeclined($value);
 			case 'tasksSidebar':
@@ -149,6 +151,31 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'showTasks',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * Set the config value for completed task visibility.
+	 *
+	 * @param string $value User-selected option
+	 * @return JSONResponse
+	 */
+	private function setShowCompletedTasks(string $value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'showCompletedTasks',
 				$value
 			);
 		} catch (\Exception $e) {

@@ -41,6 +41,12 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			continue
 		}
 		for (const object of allObjectsInTimeRange) {
+			const isCompletedTask = object.name === 'VTODO'
+				&& (object.percent === 100 || object.status === 'COMPLETED')
+			if (isCompletedTask && settingsStore.showCompletedTasks === false) {
+				continue
+			}
+
 			const classNames = []
 
 			// You are an organizer
@@ -152,7 +158,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 
 			if (object.name === 'VTODO') {
 				classNames.push('fc-event-nc-task')
-				if (object.percent === 100 || object.status === 'COMPLETED') {
+				if (isCompletedTask) {
 					classNames.push('fc-event-nc-task-completed')
 				}
 			}
@@ -236,7 +242,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
-			if (object.name === 'VTODO' && object.startDate === null && object.endDate === null && object.percent !== 100 && object.status !== 'COMPLETED') {
+			if (object.name === 'VTODO' && object.startDate === null && object.endDate === null && !isCompletedTask) {
 				fcEvent.create = true
 				tasksStore.appendTask(calendar.id, fcEvent)
 			} else {
