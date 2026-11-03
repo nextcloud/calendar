@@ -646,10 +646,8 @@ OC.L10N.register(
     "Seminar room" : "Soba za seminare",
     "Other" : "Drugo",
     "Phone" : "Telefon",
-    "When shared show" : "Kada se dijeli, prikaži",
-    "When shared show full event" : "Kada se dijeli, prikaži cijeli događaj",
-    "When shared show only busy" : "Kada se dijeli, prikaži samo zauzeto",
-    "When shared hide this event" : "Kada se dijeli, sakrij događaj",
+    "Public" : "Javno",
+    "Private" : "Privatna",
     "The visibility of this event in read-only shared calendars." : "Vidljivost ovog događaja u dijeljenim kalendarima samo za čitanje.",
     "Add a location" : "Dodaj lokaciju",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Dodajte opis\n\n- O čemu je ovaj sastanak\n- Točke dnevnog reda\n- Sve što se sudionici trebaju pripremiti",
@@ -682,6 +680,10 @@ OC.L10N.register(
     "Room name" : "Naziv sobe",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Promjene pravila ponavljanja primjenjuju se na ovo i sva buduća ponavljanja.",
     "Type to search time zone" : "Upišite za pretraživanje vremenskih zona",
-    "Global" : "Globalno"
+    "Global" : "Globalno",
+    "When shared show" : "Kada se dijeli, prikaži",
+    "When shared show full event" : "Kada se dijeli, prikaži cijeli događaj",
+    "When shared show only busy" : "Kada se dijeli, prikaži samo zauzeto",
+    "When shared hide this event" : "Kada se dijeli, sakrij događaj"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -68,6 +68,8 @@
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
+    "Public" : "İctimai",
+    "Private" : "Gizli",
     "Categories" : "Kateqoriyalar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

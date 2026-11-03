@@ -630,10 +630,7 @@
     "Lecture hall" : "Ma'ruza zali",
     "Seminar room" : "Seminar xonasi",
     "Other" : "Boshqa",
-    "When shared show" : "Baham ko'rilganda",
-    "When shared show full event" : "Ulashganda toʻliq tadbir koʻrsatiladi",
-    "When shared show only busy" : "Baham ko'rilganda faqat band ko`rsatish",
-    "When shared hide this event" : "Baham ko'rilganda, bu tadbirni yashirish",
+    "Public" : "Ommaviy",
     "The visibility of this event in read-only shared calendars." : "Ushbu tadbirning faqat o'qish uchun umumiy taqvimlarda ko'rinishi.",
     "Add a location" : "Joy qo'shing",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Tavsif qo'shing\n\n- Bu uchrashuv nima haqida\n- Kun tartibidagi masalalar\n- Ishtirokchilar tayyorlashi kerak bo'lgan hamma narsa",
@@ -666,6 +663,10 @@
     "Room name" : "Xona nomi",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Takrorlanish qoidasiga kiritilgan o'zgartirishlar faqat shu va kelajakdagi barcha hodisalarga nisbatan qo'llaniladi.",
     "Type to search time zone" : "Vaqt mintaqasini qidirish uchun kiriting",
-    "Global" : "Global"
+    "Global" : "Global",
+    "When shared show" : "Baham ko'rilganda",
+    "When shared show full event" : "Ulashganda toʻliq tadbir koʻrsatiladi",
+    "When shared show only busy" : "Baham ko'rilganda faqat band ko`rsatish",
+    "When shared hide this event" : "Baham ko'rilganda, bu tadbirni yashirish"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

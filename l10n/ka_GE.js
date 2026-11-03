@@ -97,12 +97,14 @@ OC.L10N.register(
     "Daily" : "ყოველდღიური",
     "Weekly" : "ყოველკვირეული",
     "Other" : "სხვა",
-    "When shared show full event" : "როდესაც გაზიარებულია გამოჩნდეს სრული მოვლენა",
-    "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
-    "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
+    "Public" : "ღია",
+    "Private" : "პირადი",
     "Confirmed" : "დადასტურებლია",
     "Categories" : "კატეგორიები",
     "Room name" : "ოთახის სახელი",
-    "Global" : "გლობალური"
+    "Global" : "გლობალური",
+    "When shared show full event" : "როდესაც გაზიარებულია გამოჩნდეს სრული მოვლენა",
+    "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
+    "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა"
 },
 "nplurals=2; plural=(n!=1);");

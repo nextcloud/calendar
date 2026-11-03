@@ -289,6 +289,7 @@ OC.L10N.register(
     "Subscribe" : "הרשמה",
     "Personal" : "אישי",
     "Discard" : "התעלמות",
+    "Anyone" : "כל אחד",
     "Event does not exist" : "האירוע לא קיים",
     "Delete this occurrence" : "מחיקת המופע הזה",
     "All day" : "כל היום",
@@ -357,10 +358,8 @@ OC.L10N.register(
     "It might have been deleted, or there was a typo in a link" : "יתכן שהוא נמחק, או שהיה שגיאת הקלדה בקישור",
     "It might have been deleted, or there was a typo in the link" : "יתכן שהוא נמחק, או שהיה שגיאת הקלדה בקישור",
     "Other" : "אחר",
-    "When shared show" : "כאשר משותף, הצג",
-    "When shared show full event" : "כאשר משותף מציג אירוע מלא",
-    "When shared show only busy" : "כאשר משותף מציג עסוק בלבד",
-    "When shared hide this event" : "כאשר משותף מסתיר אירוע זה",
+    "Public" : "ציבורי",
+    "Private" : "פרטי",
     "Add a location" : "הוסף מיקום",
     "Confirmed" : "מאושר",
     "Canceled" : "מבוטלת",
@@ -379,6 +378,10 @@ OC.L10N.register(
     "User not found" : "המשתמש לא נמצא",
     "Room name" : "שם החדר",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "שינויים ב-recurrence-rule יחולו רק על האירוע הזה ועל כל אירועים עתידיים.",
-    "Global" : "גלובלי"
+    "Global" : "גלובלי",
+    "When shared show" : "כאשר משותף, הצג",
+    "When shared show full event" : "כאשר משותף מציג אירוע מלא",
+    "When shared show only busy" : "כאשר משותף מציג עסוק בלבד",
+    "When shared hide this event" : "כאשר משותף מסתיר אירוע זה"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

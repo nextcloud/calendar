@@ -72,10 +72,12 @@ OC.L10N.register(
     "Weekly" : "Cata septimana",
     "second" : "secunda",
     "Other" : "Altere",
+    "Public" : "Public",
+    "Private" : "Private",
+    "Confirmed" : "Confirmate",
+    "Global" : "Global",
     "When shared show full event" : "Quando compartite, monstrar evento integremente",
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",
-    "When shared hide this event" : "Quando compartite, celar iste evento",
-    "Confirmed" : "Confirmate",
-    "Global" : "Global"
+    "When shared hide this event" : "Quando compartite, celar iste evento"
 },
 "nplurals=2; plural=(n != 1);");

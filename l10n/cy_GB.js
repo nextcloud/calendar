@@ -353,10 +353,6 @@ OC.L10N.register(
     "Lecture hall" : "Neuadd ddarlithio",
     "Seminar room" : "Ystafell seminar",
     "Other" : "Arall",
-    "When shared show" : "Wrth rannu dangos",
-    "When shared show full event" : "Pan wedi ei rannu, yn dangos y digwyddiad llawn",
-    "When shared show only busy" : "Pan wedi ei rannu, yn dangos dim ond prysur",
-    "When shared hide this event" : "Pan wedi ei rannu, yn cuddio'r digwyddiad hwn",
     "Add a location" : "Ychwanegu lleoliad",
     "Confirmed" : "Cadarnhawyd",
     "Canceled" : "Wedi diddymu",
@@ -375,6 +371,10 @@ OC.L10N.register(
     "User not found" : "Defnyddiwr heb ei ganfod",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Dim ond i hwn a phob digwyddiad yn y dyfodol y bydd newidiadau i'r rheol ailadrodd yn berthnasol.",
     "Type to search time zone" : "Teipiwch i chwilio'r gylchfa amser",
-    "Global" : "Eang"
+    "Global" : "Eang",
+    "When shared show" : "Wrth rannu dangos",
+    "When shared show full event" : "Pan wedi ei rannu, yn dangos y digwyddiad llawn",
+    "When shared show only busy" : "Pan wedi ei rannu, yn dangos dim ond prysur",
+    "When shared hide this event" : "Pan wedi ei rannu, yn cuddio'r digwyddiad hwn"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

@@ -471,7 +471,6 @@ OC.L10N.register(
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "No s'ha trobat la vostra zona horària configurada ({timezoneId}). Tornant a l'UTC.\nCanvieu la vostra zona horària a la configuració i informeu d'aquest problema.",
     "Availability of {displayName}" : "Disponibilitat de {displayName}",
     "Discard" : "Descarta'l",
-    "Anyone with the invitation can respond" : "Qualsevol persona amb la invitació pot respondre",
     "Event does not exist" : "L'esdeveniment no existeix",
     "Delete this occurrence" : "Suprimeix aquesta ocurrència",
     "All day" : "Tot el dia",
@@ -563,10 +562,8 @@ OC.L10N.register(
     "Seminar room" : "Sala de seminaris",
     "Other" : "Altres",
     "Phone" : "Telèfon",
-    "When shared show" : "Mostrar quan es comparteix",
-    "When shared show full event" : "Quan es comparteix, mostra l'esdeveniment complet",
-    "When shared show only busy" : "Quan es comparteix, mostra només si està ocupat",
-    "When shared hide this event" : "Quan es comparteix, amaga aquest esdeveniment",
+    "Public" : "Públic",
+    "Private" : "Privat",
     "Add a location" : "Afegeix una ubicació",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Afegeix una descripció\n\n- De què tracta aquesta reunió\n- Elements de l'ordre del dia\n- Qualsevol cosa que els participants hagin de preparar",
     "Confirmed" : "Confirmat",
@@ -594,6 +591,11 @@ OC.L10N.register(
     "Room name" : "Nom de la sala",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Els canvis a la regla de recurrència només afectarà en aquesta i futures ocurrències.",
     "Type to search time zone" : "Escriviu per cercar la zona horària",
-    "Global" : "Global"
+    "Global" : "Global",
+    "Anyone with the invitation can respond" : "Qualsevol persona amb la invitació pot respondre",
+    "When shared show" : "Mostrar quan es comparteix",
+    "When shared show full event" : "Quan es comparteix, mostra l'esdeveniment complet",
+    "When shared show only busy" : "Quan es comparteix, mostra només si està ocupat",
+    "When shared hide this event" : "Quan es comparteix, amaga aquest esdeveniment"
 },
 "nplurals=2; plural=(n != 1);");

@@ -70,6 +70,8 @@ OC.L10N.register(
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
+    "Public" : "İctimai",
+    "Private" : "Gizli",
     "Categories" : "Kateqoriyalar"
 },
 "nplurals=2; plural=(n != 1);");

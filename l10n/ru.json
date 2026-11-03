@@ -638,9 +638,7 @@
     "Availability of {displayName}" : "Доступность {displayName}",
     "Discard" : "Не сохранять",
     "Allow forwarding" : "Разрешить пересылку",
-    "Anyone with the invitation can respond" : "Ответить может любой, у кого есть приглашение",
-    "Only invited attendees can respond" : "Только приглашённые участники могут отвечать",
-    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Выберите «Только приглашённые участники могут отвечать», чтобы участники не могли пересылать приглашение другим.",
+    "Anyone" : "Кто угодно",
     "Detailed event editor" : "Подробный редактор событий",
     "Event does not exist" : "Событие не существует",
     "Delete this occurrence" : "Удалить это повторение",
@@ -784,10 +782,8 @@
     "Phone" : "Телефон",
     "Video conferencing" : "Видеоконференцсвязь",
     "TV" : "Телевизор",
-    "When shared show" : "Показывать при публикации",
-    "When shared show full event" : "Показывать подробно при публикации",
-    "When shared show only busy" : "Показывать только занятость при публикации",
-    "When shared hide this event" : "Скрыть это событие при публикации",
+    "Public" : "Открытый",
+    "Private" : "Частный",
     "The visibility of this event in read-only shared calendars." : "Видимость этого события в опубликованных календарях, доступных только для чтения.",
     "Add a location" : "Добавить местоположение",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Добавьте описание\n\n- О чём эта встреча\n- Повестка\n- Что участникам нужно подготовить",
@@ -825,6 +821,13 @@
     "Room name" : "Название помещения",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Изменение правила повторения затронет только это и все последующие повторения.",
     "Type to search time zone" : "Начните вводить название часового пояса",
-    "Global" : "Общие"
+    "Global" : "Общие",
+    "Anyone with the invitation can respond" : "Ответить может любой, у кого есть приглашение",
+    "Only invited attendees can respond" : "Только приглашённые участники могут отвечать",
+    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Выберите «Только приглашённые участники могут отвечать», чтобы участники не могли пересылать приглашение другим.",
+    "When shared show" : "Показывать при публикации",
+    "When shared show full event" : "Показывать подробно при публикации",
+    "When shared show only busy" : "Показывать только занятость при публикации",
+    "When shared hide this event" : "Скрыть это событие при публикации"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

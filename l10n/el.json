@@ -607,9 +607,7 @@
     "Availability of {displayName}" : "Διαθεσιμότητα του/της {displayName}",
     "Discard" : "Απόρριψη",
     "Allow forwarding" : "Να επιτρέπεται η προώθηση",
-    "Anyone with the invitation can respond" : "Οποιοσδήποτε έχει την πρόσκληση μπορεί να απαντήσει",
-    "Only invited attendees can respond" : "Μόνο οι προσκεκλημένοι συμμετέχοντες μπορούν να απαντήσουν",
-    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Επιλέξτε \"Μόνο οι προσκεκλημένοι συμμετέχοντες μπορούν να απαντήσουν\" για να αποτρέψετε τους συμμετέχοντες από το να προωθήσουν την πρόσκληση σε άλλους.",
+    "Anyone" : "Οποιοσδήποτε",
     "Detailed event editor" : "Αναλυτικός επεξεργαστής συμβάντος",
     "Event does not exist" : "Το συμβάν δεν υπάρχει",
     "Delete this occurrence" : "Διαγραφή αυτής της επανάληψης",
@@ -744,10 +742,8 @@
     "Seminar room" : "Αίθουσα σεμιναρίων",
     "Other" : "Άλλο",
     "Phone" : "Τηλέφωνο",
-    "When shared show" : "Εμφάνιση με την κοινή χρήση",
-    "When shared show full event" : "Εμφάνιση πλήρους συμβάντος κατά την κοινή χρήση",
-    "When shared show only busy" : "Εμφάνιση μόνο ως απασχολημένος/η κατά την κοινή χρήση",
-    "When shared hide this event" : "Απόκρυψη αυτού του συμβάντος κατά την κοινή χρήση",
+    "Public" : "Δημόσιο",
+    "Private" : "Ιδιωτικό",
     "The visibility of this event in read-only shared calendars." : "Η ορατότητα αυτού του συμβάντος σε κοινόχρηστα ημερολόγια μόνο για ανάγνωση.",
     "Add a location" : "Προσθήκη τοποθεσίας",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Προσθέστε μια περιγραφή\n\n- Τι αφορά αυτή η συνάντηση\n- Θέματα ημερήσιας διάταξης\n- Οτιδήποτε πρέπει να προετοιμάσουν οι συμμετέχοντες",
@@ -781,6 +777,13 @@
     "Room name" : "Όνομα αίθουσας",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Οι αλλαγές στον κανόνα επανάληψης θα ισχύουν μόνο για αυτό και για όλα τα μελλοντικά συμβάντα.",
     "Type to search time zone" : "Πληκτρολογήστε για αναζήτηση ζώνης ώρας",
-    "Global" : "Καθολική"
+    "Global" : "Καθολική",
+    "Anyone with the invitation can respond" : "Οποιοσδήποτε έχει την πρόσκληση μπορεί να απαντήσει",
+    "Only invited attendees can respond" : "Μόνο οι προσκεκλημένοι συμμετέχοντες μπορούν να απαντήσουν",
+    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Επιλέξτε \"Μόνο οι προσκεκλημένοι συμμετέχοντες μπορούν να απαντήσουν\" για να αποτρέψετε τους συμμετέχοντες από το να προωθήσουν την πρόσκληση σε άλλους.",
+    "When shared show" : "Εμφάνιση με την κοινή χρήση",
+    "When shared show full event" : "Εμφάνιση πλήρους συμβάντος κατά την κοινή χρήση",
+    "When shared show only busy" : "Εμφάνιση μόνο ως απασχολημένος/η κατά την κοινή χρήση",
+    "When shared hide this event" : "Απόκρυψη αυτού του συμβάντος κατά την κοινή χρήση"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

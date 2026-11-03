@@ -114,13 +114,15 @@ OC.L10N.register(
     "Weekly" : "Çdo javë",
     "second" : "sekondë",
     "Other" : "Tjetër",
-    "When shared show full event" : "Kur ndahet shfaqje e veprimtarisë së plotë",
-    "When shared show only busy" : "Kur ndahet shfaqje vetëm i zënë",
-    "When shared hide this event" : "Kur ndahet fshihe këtë veprimtari",
+    "Public" : "Publik",
+    "Private" : "Private",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
     "Categories" : "Kategoritë",
     "Room name" : "Emri i dhomës",
-    "Global" : "Globale"
+    "Global" : "Globale",
+    "When shared show full event" : "Kur ndahet shfaqje e veprimtarisë së plotë",
+    "When shared show only busy" : "Kur ndahet shfaqje vetëm i zënë",
+    "When shared hide this event" : "Kur ndahet fshihe këtë veprimtari"
 },
 "nplurals=2; plural=(n != 1);");

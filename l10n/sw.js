@@ -510,6 +510,7 @@ OC.L10N.register(
     "Unscheduled tasks" : "Kazi ambazo hazijaratibiwa",
     "Availability of {displayName}" : "Upatikanaji wa {displayName}",
     "Discard" : "Tupilia ",
+    "Anyone" : "Mtu yeyote",
     "Event does not exist" : "Tukio halipatikani",
     "Delete this occurrence" : "Futa tukio hili",
     "All day" : "Siku yote",
@@ -634,10 +635,8 @@ OC.L10N.register(
     "Seminar room" : "Chumba cha semina",
     "Other" : "Mengine",
     "Phone" : "Simu",
-    "When shared show" : "Iliyoshirikishwa inapoonesha",
-    "When shared show full event" : "Iliyoshirikishwa inapoonesha tukio zima",
-    "When shared show only busy" : "Iliyoshirikishwa inapoonesha ubize tu",
-    "When shared hide this event" : "Iliyoshirikishwa inapoficha tukio hili",
+    "Public" : "Umma",
+    "Private" : "Binafsi",
     "The visibility of this event in read-only shared calendars." : "Mwonekano wa tukio hili katika kalenda zinazoshirikiwa kusoma pekee.",
     "Add a location" : "Ongeza eneo",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Ongeza maelezo\n\nMkutano huu unahusu nini\nVipengele vya ajenda- kitu chochote mshiriki anahitaji kuandaa",
@@ -670,6 +669,10 @@ OC.L10N.register(
     "Room name" : "Jina la chumba",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Mabadiliko kwa sheria inayojirudia yatafanya kazi tu kwa hii na matukio yajayo.",
     "Type to search time zone" : "Andika kutafuta eneo la muda",
-    "Global" : "Kidunia"
+    "Global" : "Kidunia",
+    "When shared show" : "Iliyoshirikishwa inapoonesha",
+    "When shared show full event" : "Iliyoshirikishwa inapoonesha tukio zima",
+    "When shared show only busy" : "Iliyoshirikishwa inapoonesha ubize tu",
+    "When shared hide this event" : "Iliyoshirikishwa inapoficha tukio hili"
 },
 "nplurals=2; plural=(n != 1);");

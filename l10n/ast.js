@@ -287,9 +287,8 @@ OC.L10N.register(
     "No events" : "Nun hai nengún eventu",
     "Failed to save event" : "Nun se pue guardar l'eventu",
     "Phone" : "Teléfonu",
-    "When shared show full event" : "Cuando se comparta amosar l'eventu completu",
-    "When shared show only busy" : "Cuando se comparta amosar namás si ta ocupáu",
-    "When shared hide this event" : "Cuando se comparta anubrir l'eventu",
+    "Public" : "Pública",
+    "Private" : "Priváu",
     "Canceled" : "Anulóse",
     "Categories" : "Categories",
     "Error while sharing file" : "Hebo un error mentanto se compartía'l ficheru",
@@ -300,6 +299,9 @@ OC.L10N.register(
     "This is an event reminder." : "Esto ye un recordatoriu del eventu.",
     "User not found" : "Nun s'atopó l'usuariu",
     "Room name" : "Nome de la sala",
-    "Global" : "Global"
+    "Global" : "Global",
+    "When shared show full event" : "Cuando se comparta amosar l'eventu completu",
+    "When shared show only busy" : "Cuando se comparta amosar namás si ta ocupáu",
+    "When shared hide this event" : "Cuando se comparta anubrir l'eventu"
 },
 "nplurals=2; plural=(n != 1);");

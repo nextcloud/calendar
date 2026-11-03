@@ -603,9 +603,6 @@
     "Availability of {displayName}" : "Dispoñibilidade de {displayName}",
     "Discard" : "Desbotar",
     "Allow forwarding" : "Permitir o reenvío",
-    "Anyone with the invitation can respond" : "Calquera persoa coa invitación pode responder",
-    "Only invited attendees can respond" : "Só os asistentes convidados poden responder",
-    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Escolle \"Só os asistentes convidados poden responder\" para evitar que os asistentes reenvíen a invitación a outros.",
     "Event does not exist" : "O evento non existe",
     "Delete this occurrence" : "Eliminar esta recorrencia",
     "All day" : "Todo o día",
@@ -737,10 +734,8 @@
     "Seminar room" : "Sala de seminarios",
     "Other" : "Outra",
     "Phone" : "Teléfono",
-    "When shared show" : "Amosar ao compartir",
-    "When shared show full event" : "Amosar o evento completo ao compartir",
-    "When shared show only busy" : "Amosar só o ocupado ao compartir",
-    "When shared hide this event" : "Agochar este evento ao compartir",
+    "Public" : "Público",
+    "Private" : "Privado",
     "The visibility of this event in read-only shared calendars." : "A visibilidade deste evento en calendarios compartidos de só lectura.",
     "Add a location" : "Engadir unha localización",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Engadir unha descrición\n\n- De que trata esta xuntanza\n- Puntos da orde do día\n- Todo o que teñan que preparar os participantes",
@@ -774,6 +769,13 @@
     "Room name" : "Nome da sala",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Os cambios na regra de recorrencia só se aplicarán a esta e a todas as futuras recorrencias.",
     "Type to search time zone" : "Escriba para buscar o fuso horario",
-    "Global" : "Global"
+    "Global" : "Global",
+    "Anyone with the invitation can respond" : "Calquera persoa coa invitación pode responder",
+    "Only invited attendees can respond" : "Só os asistentes convidados poden responder",
+    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Escolle \"Só os asistentes convidados poden responder\" para evitar que os asistentes reenvíen a invitación a outros.",
+    "When shared show" : "Amosar ao compartir",
+    "When shared show full event" : "Amosar o evento completo ao compartir",
+    "When shared show only busy" : "Amosar só o ocupado ao compartir",
+    "When shared hide this event" : "Agochar este evento ao compartir"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

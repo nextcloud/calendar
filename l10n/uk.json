@@ -625,9 +625,7 @@
     "Availability of {displayName}" : "Доступність {displayName}",
     "Discard" : "Відхилити",
     "Allow forwarding" : "Дозволити пересилання",
-    "Anyone with the invitation can respond" : "Будь-хто, хто отримав запрошення, можуть відповідати",
-    "Only invited attendees can respond" : "Лише запрошені учасники можуть відповідати",
-    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Виберіть \"Лише запрошені учасники можуть відповідати\", щоби заборонити учасниками пересилати запрошення іншим користувачам.",
+    "Anyone" : "Будь-хто",
     "Detailed event editor" : "Розгорнутий редактор події",
     "Event does not exist" : "Подія відсутня",
     "Delete this occurrence" : "Вилучити повторення",
@@ -766,10 +764,8 @@
     "Phone" : "Телефон",
     "Video conferencing" : "Відеоконференції",
     "TV" : "ТБ",
-    "When shared show" : "Показувати, якщо у спільному доступі",
-    "When shared show full event" : "Все про подію, якщо у спільному доступі",
-    "When shared show only busy" : "Показувати тільки зайнятість, якщо у спільному доступі",
-    "When shared hide this event" : "Приховати подію, якщо у спільному доступі",
+    "Public" : "Публічна",
+    "Private" : "Приватно",
     "The visibility of this event in read-only shared calendars." : "Видимість події у спільних календарях тільки для читання.",
     "Add a location" : "Додати розташування",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Додайте до опису\n\n- Тема зустрічі\n- Питання до розгляду\n- До чого мають підготуватися учасники",
@@ -806,6 +802,13 @@
     "Room name" : "Назва кімнати",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Зміни до правила повторення стосуватимуться лише поточної та подальших подій.",
     "Type to search time zone" : "Зазначте часову зону для пошуку",
-    "Global" : "Загальний"
+    "Global" : "Загальний",
+    "Anyone with the invitation can respond" : "Будь-хто, хто отримав запрошення, можуть відповідати",
+    "Only invited attendees can respond" : "Лише запрошені учасники можуть відповідати",
+    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Виберіть \"Лише запрошені учасники можуть відповідати\", щоби заборонити учасниками пересилати запрошення іншим користувачам.",
+    "When shared show" : "Показувати, якщо у спільному доступі",
+    "When shared show full event" : "Все про подію, якщо у спільному доступі",
+    "When shared show only busy" : "Показувати тільки зайнятість, якщо у спільному доступі",
+    "When shared hide this event" : "Приховати подію, якщо у спільному доступі"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

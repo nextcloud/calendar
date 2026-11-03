@@ -452,6 +452,7 @@ OC.L10N.register(
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Ordu-eremu detekzio automatikoak zehaztu du zure ordu-eremua UTC dela. \nHau seguru aski zure nabigatzailearen segurtasun neurrien ondorio da.\nZehaztu ezazu zure ordu-eremua eskuz egutegiaren ezarpenetan.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Ezarrita daukazun ordu-eremua ({timezoneId}) ez da aurkitu. UTC-ra itzultzen.\nMesedez, aldatu zure ordu-eremua ezarpenetan eta eman arazoaren berri.",
     "Discard" : "Baztertu",
+    "Anyone" : "Edonor",
     "Event does not exist" : "Ez dago gertaera hori",
     "Delete this occurrence" : "Ezabatu gertaera hau",
     "All day" : "Egun osoa",
@@ -533,10 +534,8 @@ OC.L10N.register(
     "Seminar room" : "Mintegia",
     "Other" : "Bestelakoa",
     "Phone" : "Telefonoa",
-    "When shared show" : "Partekatzean erakutsi",
-    "When shared show full event" : "Partekatzean erakutsi gertaera osoa",
-    "When shared show only busy" : "Partekatzean okupatua bezala erakutsi soilik",
-    "When shared hide this event" : "Partekatzean ezkutatu gertaera hau",
+    "Public" : "Publikoa",
+    "Private" : "Pribatua",
     "Add a location" : "Gehitu kokapen bat",
     "Confirmed" : "Berretsita",
     "Canceled" : "Utzita",
@@ -564,6 +563,10 @@ OC.L10N.register(
     "Room name" : "Gelaren izena",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Errepikapen arauan egindako aldaketak gertaera honentzat eta etorkizunekoentzat bakarrik aplikatuko dira.",
     "Type to search time zone" : "Idatzi ordu-zona bilatzeko",
-    "Global" : "Orokorra"
+    "Global" : "Orokorra",
+    "When shared show" : "Partekatzean erakutsi",
+    "When shared show full event" : "Partekatzean erakutsi gertaera osoa",
+    "When shared show only busy" : "Partekatzean okupatua bezala erakutsi soilik",
+    "When shared hide this event" : "Partekatzean ezkutatu gertaera hau"
 },
 "nplurals=2; plural=(n != 1);");

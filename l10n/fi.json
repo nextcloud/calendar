@@ -537,9 +537,7 @@
     "Show unscheduled tasks" : "Näytä ajastamattomat tehtävät",
     "Unscheduled tasks" : "Ajastamattomat tehtävät",
     "Discard" : "Hylkää",
-    "Anyone with the invitation can respond" : "Kuka tahansa, jolla on kutsu, voi vastata",
-    "Only invited attendees can respond" : "Vain kutsutut osallistujat voivat vastta",
-    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Valitse \"Vain kutsutut osallistujat voivat vastata\" estääksesi osallistujia välittämästä kutsuja eteenpäin.",
+    "Anyone" : "Kuka tahansa",
     "Event does not exist" : "Tapahtumaa ei ole olemassa",
     "Delete this occurrence" : "Poista tämä esiintymä",
     "All day" : "Koko päivä",
@@ -661,10 +659,8 @@
     "Other" : "Muu",
     "Phone" : "Puhelin",
     "TV" : "TV",
-    "When shared show" : "Jaettaessa näytä",
-    "When shared show full event" : "Jaettaessa näytä koko tapahtuma",
-    "When shared show only busy" : "Jaettaessa näytä vain varattuna oleminen",
-    "When shared hide this event" : "Jaettaessa piilota tämä tapahtuma",
+    "Public" : "Julkinen",
+    "Private" : "Yksityinen",
     "Add a location" : "Lisää sijainti",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Lisää kuvaus\n\n- Mitä tapaamisessa käsitellään\n- Asialista\n- Mitä hyvänsä mihin osallistujien tulisi valmistautua",
     "Confirmed" : "Vahvistettu",
@@ -695,6 +691,13 @@
     "Room name" : "Huoneen nimi",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Muutokset toistuvuusasetukseen vaikuttavat vain tähän ja tuleviin tapahtumakertoihin.",
     "Type to search time zone" : "Kirjoita etsiäksesi aikavyöhykettä",
-    "Global" : "Julkinen"
+    "Global" : "Julkinen",
+    "Anyone with the invitation can respond" : "Kuka tahansa, jolla on kutsu, voi vastata",
+    "Only invited attendees can respond" : "Vain kutsutut osallistujat voivat vastta",
+    "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Valitse \"Vain kutsutut osallistujat voivat vastata\" estääksesi osallistujia välittämästä kutsuja eteenpäin.",
+    "When shared show" : "Jaettaessa näytä",
+    "When shared show full event" : "Jaettaessa näytä koko tapahtuma",
+    "When shared show only busy" : "Jaettaessa näytä vain varattuna oleminen",
+    "When shared hide this event" : "Jaettaessa piilota tämä tapahtuma"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

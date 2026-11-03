@@ -538,6 +538,7 @@ OC.L10N.register(
     "Unscheduled tasks" : "Tareas no agendadas",
     "Availability of {displayName}" : "Disponibilidad de {displayName}",
     "Discard" : "Descartar",
+    "Anyone" : "Cualquiera",
     "Event does not exist" : "el evento no existe",
     "Delete this occurrence" : "Eliminar esta ocurrencia",
     "All day" : "Todo el día",
@@ -664,10 +665,8 @@ OC.L10N.register(
     "Seminar room" : "Sala de seminario",
     "Other" : "Otro",
     "Phone" : "Teléfono",
-    "When shared show" : "Al compartir, mostrar",
-    "When shared show full event" : "Al compartir, mostrar el evento completo",
-    "When shared show only busy" : "Al compartir, mostrar solo ocupado",
-    "When shared hide this event" : "Al compartir, ocultar este evento",
+    "Public" : "Público",
+    "Private" : "Privado",
     "The visibility of this event in read-only shared calendars." : "La visibilidad de este evento en calendarios compartidos de solo lectura",
     "Add a location" : "Añadir ubicación",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Añada una descripción\n\n- ¿De qué se trata esta reunión?\n- Orden del día\n- Algo que los participantes deban preparar",
@@ -700,6 +699,10 @@ OC.L10N.register(
     "Room name" : "Nombre de la sala",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Los cambios en la regla de recurrencia solo se aplicarán a este y a todos los eventos futuros.",
     "Type to search time zone" : "Escriba para buscar la zona horaria",
-    "Global" : "Global"
+    "Global" : "Global",
+    "When shared show" : "Al compartir, mostrar",
+    "When shared show full event" : "Al compartir, mostrar el evento completo",
+    "When shared show only busy" : "Al compartir, mostrar solo ocupado",
+    "When shared hide this event" : "Al compartir, ocultar este evento"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

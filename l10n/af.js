@@ -83,6 +83,7 @@ OC.L10N.register(
     "Clear filters" : "Maak filter skoon",
     "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
+    "Anyone" : "Enige iemand",
     "All day" : "Heeldag",
     "Close" : "Sluit",
     "New event" : "Nuwe geleentheid",

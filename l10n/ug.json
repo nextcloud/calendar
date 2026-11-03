@@ -624,10 +624,8 @@
     "Seminar room" : "مۇھاكىمە ئۆيى",
     "Other" : "باشقا",
     "Phone" : "تېلېفون",
-    "When shared show" : "ھەمبەھىرلەنگەندە",
-    "When shared show full event" : "ھەمبەھىرلەنگەندە تولۇق پائالىيەتنى كۆرسىتىدۇ",
-    "When shared show only busy" : "ئورتاقلاشقاندا پەقەت ئالدىراش",
-    "When shared hide this event" : "ئورتاقلاشقاندا بۇ پائالىيەتنى يوشۇرۇڭ",
+    "Public" : "جامائەت",
+    "Private" : "شەخسىي",
     "The visibility of this event in read-only shared calendars." : "بۇ پائالىيەتنىڭ كۆرۈنۈشچانلىقى ئوقۇشقىلا-بولىدىغان ئورتاق يىلنامىدە.",
     "Add a location" : "ئورۇن قوشۇڭ",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "چۈشەندۈرۈش قوشۇڭ\n\n- بۇ يىغىن نېمە ھەققىدە\n- كۈنتەرتىپ تۈرلىرى\n- قاتناشقۇچىلارنىڭ تەييارلىشى كېرەك بولغان ھەر قانداق نەرسە",
@@ -660,6 +658,10 @@
     "Room name" : "ياتاق ئىسمى",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "تەكرارلىنىش قائىدىسىگە ئۆزگەرتىش پەقەت مۇشۇ ۋە كەلگۈسىدىكى بارلىق ئىشلارغا ماس كېلىدۇ.",
     "Type to search time zone" : "ئىزدەش ۋاقىت رايونىغا كىرگۈزۈڭ",
-    "Global" : "ئۇمۇمىي"
+    "Global" : "ئۇمۇمىي",
+    "When shared show" : "ھەمبەھىرلەنگەندە",
+    "When shared show full event" : "ھەمبەھىرلەنگەندە تولۇق پائالىيەتنى كۆرسىتىدۇ",
+    "When shared show only busy" : "ئورتاقلاشقاندا پەقەت ئالدىراش",
+    "When shared hide this event" : "ئورتاقلاشقاندا بۇ پائالىيەتنى يوشۇرۇڭ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

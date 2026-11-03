@@ -61,6 +61,7 @@ OC.L10N.register(
     "No" : "না",
     "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
+    "Anyone" : "যে কেউ",
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",

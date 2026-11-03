@@ -611,10 +611,8 @@ OC.L10N.register(
     "Seminar room" : "Зала за семинари",
     "Other" : "Други",
     "Phone" : "Телефон",
-    "When shared show" : "Показване при споделяне",
-    "When shared show full event" : "При споделяне, показвай цялото събитие",
-    "When shared show only busy" : "При споделяне, показвай само статус \"зает\"",
-    "When shared hide this event" : "При споделяне, скривай това събитие",
+    "Public" : "Публичен",
+    "Private" : "Лично",
     "The visibility of this event in read-only shared calendars." : "Видимостта на това събитие в споделени календари само за четене.",
     "Add a location" : "Добавяне на местоположение",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Добавете описание\n\n- За какво е тази среща\n- Точки от дневния ред\n- Всичко, което участниците трябва да подготвят",
@@ -647,6 +645,10 @@ OC.L10N.register(
     "Room name" : "Име на стаята",
     "Changes to the recurrence-rule will only apply to this and all future occurrences." : "Промените в правилото за повторение ще се прилагат само за това и за всички бъдещи събития.",
     "Type to search time zone" : "Въведете, за търсене на часова зона",
-    "Global" : "Глобални"
+    "Global" : "Глобални",
+    "When shared show" : "Показване при споделяне",
+    "When shared show full event" : "При споделяне, показвай цялото събитие",
+    "When shared show only busy" : "При споделяне, показвай само статус \"зает\"",
+    "When shared hide this event" : "При споделяне, скривай това събитие"
 },
 "nplurals=2; plural=(n != 1);");

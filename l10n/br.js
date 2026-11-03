@@ -150,10 +150,8 @@ OC.L10N.register(
     "No events to display" : "Darvoud ebet da ziskouez",
     "No events" : "Darvoud ebet",
     "Other" : "All",
-    "When shared show" : "Diskouez pa vez lodet",
-    "When shared show full event" : "Diskouez an darvoud a-bezh pa vez lodet",
-    "When shared show only busy" : "Diskouez hepken ar re pres warno pa vez lodet",
-    "When shared hide this event" : "Kuzhat an darvoud-mañ pa vez lodet",
+    "Public" : "Publik",
+    "Private" : "Prevez",
     "Add a location" : "Ouzhpennañ ul lec'hiadur",
     "Confirmed" : "Kadarnaet",
     "Canceled" : "Nullet",
@@ -169,6 +167,10 @@ OC.L10N.register(
     "Error while sharing file" : "Ur fazi a zo bet en ur rannañ ar restr",
     "An error occurred, unable to delete the calendar." : "C'hoarvezet ez eus ur fazi, ne c'haller ket dilemel an deiziataer.",
     "Imported {filename}" : "Enporzhiet {filename}",
-    "Global" : "Hollek"
+    "Global" : "Hollek",
+    "When shared show" : "Diskouez pa vez lodet",
+    "When shared show full event" : "Diskouez an darvoud a-bezh pa vez lodet",
+    "When shared show only busy" : "Diskouez hepken ar re pres warno pa vez lodet",
+    "When shared hide this event" : "Kuzhat an darvoud-mañ pa vez lodet"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");
