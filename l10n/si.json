@@ -34,7 +34,7 @@
     "Save" : "සුරකින්න",
     "Cancel" : "අවලංගු කරන්න",
     "Busy" : "කාර්යබහුලයි",
-    "Filename" : "ගොනු නාමය",
+    "File" : "ගොනුව",
     "Actions" : "ක්‍රියාමාර්ග",
     "General" : "සමාන්‍යය",
     "Files" : "ගොනු",
@@ -71,6 +71,7 @@
     "Other" : "වෙනත්",
     "Phone" : "දුරකථනය",
     "Public" : "පොදු",
-    "Private" : "පුද්ගලික"
+    "Private" : "පුද්ගලික",
+    "Filename" : "ගොනු නාමය"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -51,7 +51,7 @@
     "Declined" : "Yettwagi",
     "Icons" : "Tignitin",
     "Attendees" : "Imttekkiyen",
-    "Filename" : "Isem n ufaylu",
+    "File" : "Afaylu",
     "Pick" : "Fren",
     "Revoke" : "Kkes",
     "Editor" : "Amaẓrag",
@@ -190,7 +190,9 @@
     "Canceled" : "Yettwasemmet",
     "Categories" : "Taggayin",
     "Custom color" : "Ini yugnen",
+    "Import failed" : "Akter ur yeddi ara",
     "User not found" : "Ur yettwaf ara useqdac",
+    "Filename" : "Isem n ufaylu",
     "Global" : "Amatu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -34,7 +34,6 @@
     "View" : "Bekyk",
     "Tentative" : "Tentatief",
     "Attendees" : "Bywoners",
-    "Filename" : "Lêernaam",
     "Viewer" : "Bekyker",
     "Automatic" : "Outomaties",
     "Automatic ({timezone})" : "Outomaties ({timezone})",
@@ -94,6 +93,7 @@
     "Other" : "Ander",
     "Confirmed" : "Bevestig",
     "Categories" : "Kategorieë",
+    "Filename" : "Lêernaam",
     "Global" : "Globaal"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

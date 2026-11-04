@@ -36,7 +36,7 @@ OC.L10N.register(
     "Save" : "සුරකින්න",
     "Cancel" : "අවලංගු කරන්න",
     "Busy" : "කාර්යබහුලයි",
-    "Filename" : "ගොනු නාමය",
+    "File" : "ගොනුව",
     "Actions" : "ක්‍රියාමාර්ග",
     "General" : "සමාන්‍යය",
     "Files" : "ගොනු",
@@ -73,6 +73,7 @@ OC.L10N.register(
     "Other" : "වෙනත්",
     "Phone" : "දුරකථනය",
     "Public" : "පොදු",
-    "Private" : "පුද්ගලික"
+    "Private" : "පුද්ගලික",
+    "Filename" : "ගොනු නාමය"
 },
 "nplurals=2; plural=(n != 1);");
