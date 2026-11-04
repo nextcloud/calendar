@@ -36,7 +36,6 @@ OC.L10N.register(
     "View" : "Bekyk",
     "Tentative" : "Tentatief",
     "Attendees" : "Bywoners",
-    "Filename" : "Lêernaam",
     "Viewer" : "Bekyker",
     "Automatic" : "Outomaties",
     "Automatic ({timezone})" : "Outomaties ({timezone})",
@@ -96,6 +95,7 @@ OC.L10N.register(
     "Other" : "Ander",
     "Confirmed" : "Bevestig",
     "Categories" : "Kategorieë",
+    "Filename" : "Lêernaam",
     "Global" : "Globaal"
 },
 "nplurals=2; plural=(n != 1);");

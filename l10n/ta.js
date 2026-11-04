@@ -21,6 +21,7 @@ OC.L10N.register(
     "Save" : "சேமிக்க ",
     "Cancel" : "இரத்து செய்க",
     "Attendees" : "பங்கேற்பாளர்கள்",
+    "File" : "File",
     "Actions" : "செயல்கள்",
     "General" : "பொதுவான",
     "Update" : "இற்றைப்படுத்தல்",

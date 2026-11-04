@@ -53,7 +53,7 @@ OC.L10N.register(
     "Declined" : "Yettwagi",
     "Icons" : "Tignitin",
     "Attendees" : "Imttekkiyen",
-    "Filename" : "Isem n ufaylu",
+    "File" : "Afaylu",
     "Pick" : "Fren",
     "Revoke" : "Kkes",
     "Editor" : "Amaẓrag",
@@ -192,7 +192,9 @@ OC.L10N.register(
     "Canceled" : "Yettwasemmet",
     "Categories" : "Taggayin",
     "Custom color" : "Ini yugnen",
+    "Import failed" : "Akter ur yeddi ara",
     "User not found" : "Ur yettwaf ara useqdac",
+    "Filename" : "Isem n ufaylu",
     "Global" : "Amatu"
 },
 "nplurals=2; plural=(n != 1);");

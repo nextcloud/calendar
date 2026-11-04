@@ -24,6 +24,7 @@ OC.L10N.register(
     "Save" : "រក្សាទុក",
     "Cancel" : "បោះបង់",
     "Attendees" : "អ្នក​ចូលរួម",
+    "File" : "ឯកសារ",
     "General" : "ទូទៅ",
     "Update" : "ធ្វើ​បច្ចុប្បន្នភាព",
     "Location" : "ទីតាំង",
