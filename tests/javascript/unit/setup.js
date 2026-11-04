@@ -73,3 +73,13 @@ globalThis.OC = {
 globalThis.appName = 'calendar'
 // To disable warning: [ERROR] @nextcloud/vue: The `@nextcloud/vue` library was used without setting / replacing the `appVersion`. { app: '@nextcloud/vue', level: 2 }
 globalThis.appVersion = '0.0.0'
+
+// jsdom replaces the global EventTarget, which node:events.setMaxListeners rejects
+const getBuiltinModule = process.getBuiltinModule
+process.getBuiltinModule = (id) => {
+	const builtin = getBuiltinModule(id)
+	if (id !== 'node:events' && id !== 'events') {
+		return builtin
+	}
+	return { ...builtin, setMaxListeners: () => {} }
+}
