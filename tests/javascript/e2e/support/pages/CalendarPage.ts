@@ -5,6 +5,7 @@
 
 import type { Locator, Page } from '@playwright/test'
 
+import { expect } from '@playwright/test'
 import { EditSimpleDialog } from './EditSimpleDialog.ts'
 import { PublicCalendarSubscriptionDialog } from './PublicCalendarSubscriptionDialog.ts'
 
@@ -25,7 +26,7 @@ export class CalendarPage {
 	}
 
 	async expectCalendarExists(calendarName: string) {
-		return this.calendarNavigation.getByRole('link', { name: calendarName }).isVisible()
+		await expect(this.calendarNavigation.getByRole('link', { name: calendarName })).toBeVisible()
 	}
 
 	async openPublicCalendarSubscriptionDialog() {

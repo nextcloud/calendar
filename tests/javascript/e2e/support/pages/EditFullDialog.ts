@@ -17,12 +17,6 @@ export class EditFullDialog {
 		this.locator = page.getByRole('dialog', { name: 'Detailed event editor' })
 	}
 
-	async addAttende(name: string) {
-		const attendeesInput = this.locator.getByRole('combobox', { name: 'Search for attendees' })
-		await attendeesInput.fill(name)
-		await this.page.getByRole('option', { name }).click()
-	}
-
 	async openFreeBusyDialog() {
 		await this.locator.getByRole('button', { name: 'Find a time' }).click()
 		return new FreeBusyDialog(this.page)

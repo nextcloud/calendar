@@ -11,17 +11,11 @@ import type { Locator, Page } from '@playwright/test'
 export class FreeBusyDialog {
 	locator: Locator
 
-	constructor(private readonly page: Page) {
+	constructor(page: Page) {
 		this.locator = page.getByRole('dialog', { name: 'Availability of attendees, resources and rooms' })
 	}
 
-	async addAttende(name: string) {
-		const attendeesInput = this.locator.getByRole('combobox', { name: 'Search for attendees' })
-		await attendeesInput.fill(name)
-		await this.page.getByRole('option', { name }).click()
-	}
-
 	async removeUser(name: string) {
-		this.locator.locator('.option').filter({ hasText: name }).getByRole('button', { name: 'Delete' }).click()
+		await this.locator.locator('.option').filter({ hasText: name }).getByRole('button', { name: 'Delete' }).click()
 	}
 }

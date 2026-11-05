@@ -9,7 +9,6 @@ import { CalendarPage } from './pages/CalendarPage.ts'
 import { ProvisioningFacade } from './provisioning.ts'
 
 export const test = base.extend<{ provisioning: ProvisioningFacade, calendarPage: CalendarPage }>({
-	// eslint-disable-next-line no-empty-pattern -- Playwright requires the first argument to be object destructuring.
 	provisioning: async ({ }, use) => {
 		const provisioning = new ProvisioningFacade()
 		await use(provisioning)
