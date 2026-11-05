@@ -812,6 +812,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Es ist ein Fehler aufgetreten, Kalender konnte nicht gelöscht werden.",
     "Could not load delegated calendars. Make sure the server supports calendar delegation." : "Delegierte Kalender konnten nicht geladen werden. Sicherstellen, dass der Server die Kalenderdelegierung unterstützt.",
     "Imported {filename}" : "{filename} importiert ",
+    "Import failed" : "Import fehlgeschlagen",
     "This is an event reminder." : "Dies ist eine Terminerinnerung.",
     "Error while parsing a PROPFIND error" : "Fehler beim Parsen eines PROPFIND-Fehlers",
     "Other rooms" : "Andere Räume",

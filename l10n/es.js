@@ -691,6 +691,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Se ha producido un error, no se ha podido borrar el calendario.",
     "Selected calendar not found" : "No se ha encontrado el calendario seleccionado",
     "Imported {filename}" : "Importado {filename}",
+    "Import failed" : "Error en la importación",
     "This is an event reminder." : "Esto es un recordatorio de evento.",
     "Error while parsing a PROPFIND error" : "Error al analizar un error PROPFIND",
     "Appointment not found" : "Cita no encontrada",
