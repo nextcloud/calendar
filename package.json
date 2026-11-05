@@ -105,7 +105,7 @@
     "@types/node": "^26.6.6",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vitest/coverage-v8": "^5.1.0",
-    "@vitest/eslint-plugin": "^1.6.27",
+    "@vitest/eslint-plugin": "^1.6.28",
     "@vue/compiler-sfc": "^3.5.44",
     "@vue/test-utils": "^2.5.1",
     "css-loader": "^7.1.5",
