@@ -62,6 +62,7 @@ OC.L10N.register(
     "Busy" : "Заняты",
     "Icons" : "Значкі",
     "Attendees" : "Удзельнікі",
+    "File" : "Файл",
     "Attachments folder" : "Папка для далучэнняў",
     "Automatic" : "Аўтаматычна",
     "Timezone" : "Часавы пояс",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Canceled" : "Скасавана",
     "Categories" : "Катэгорыі",
     "Error while sharing file" : "Памылка пры абагульванні файла",
+    "Import failed" : "Не ўдалося імпартаваць",
     "User not found" : "Карыстальнік не знойдзены",
     "Filename" : "Назва файла",
     "Global" : "Глабальны"

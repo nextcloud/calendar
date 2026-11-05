@@ -23,6 +23,7 @@ OC.L10N.register(
     "Busy" : "Zauzet",
     "Invited" : "Pozvan",
     "Attendees" : "Sudionici",
+    "File" : "Datoteka",
     "Automatic" : "Automatski",
     "Navigation" : "Navigacija",
     "Actions" : "Radnje",
@@ -69,6 +70,7 @@ OC.L10N.register(
     "Weekly" : "Sedmično",
     "second" : "drugi",
     "Other" : "Ostali",
-    "Public" : "Javno"
+    "Public" : "Javno",
+    "Import failed" : "Uvoz nije uspio"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -36,6 +36,8 @@ OC.L10N.register(
     "View" : "Bekyk",
     "Tentative" : "Tentatief",
     "Attendees" : "Bywoners",
+    "File" : "Lêer",
+    "Filetype" : "Lêersoort",
     "Viewer" : "Bekyker",
     "Automatic" : "Outomaties",
     "Automatic ({timezone})" : "Outomaties ({timezone})",
