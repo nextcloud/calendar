@@ -76,7 +76,7 @@
     "linkifyjs": "^4.4.0",
     "md5": "^2.3.0",
     "p-limit": "^7.3.3",
-    "pinia": "^4.0.3",
+    "pinia": "^4.1.0",
     "vue": "^3.5.44",
     "vue-loader": "^17.4.2",
     "vue-material-design-icons": "^5.4.0",
