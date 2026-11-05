@@ -14,7 +14,7 @@ test('create an event', async ({ page, calendarPage }) => {
 	await simpleEditor.save()
 
 	// Wait for modal to close
-	await expect(simpleEditor.locator).not.toBeVisible()
+	await expect(simpleEditor.locator).toBeHidden()
 
 	// Assert that the new event exists
 	await expect(page.getByText(eventTitle)).toBeVisible()

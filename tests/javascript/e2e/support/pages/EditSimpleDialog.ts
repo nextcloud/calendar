@@ -17,14 +17,14 @@ export class EditSimpleDialog {
 		this.locator = page.getByRole('dialog', { name: 'Simple event editor' })
 	}
 
-	async addAttende(name: string) {
+	async addAttendee(name: string) {
 		const attendeesInput = this.locator.getByRole('combobox', { name: 'Search for attendees' })
 		await attendeesInput.fill(name)
 		await this.page.getByRole('option', { name }).click()
 	}
 
 	async openDetailedEditor() {
-		await this.page.getByRole('button', { name: 'More Details' }).click()
+		await this.locator.getByRole('button', { name: 'More Details' }).click()
 		return new EditFullDialog(this.page)
 	}
 
