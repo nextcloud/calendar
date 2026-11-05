@@ -481,7 +481,6 @@ export default {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 			hideEventExport: 'hideEventExport',
-			attachmentsFolder: 'attachmentsFolder',
 		}),
 
 		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
@@ -680,7 +679,7 @@ export default {
 
 						// add share + change attachment
 						try {
-							const data = await shareFile(`${this.attachmentsFolder}${attachment.fileName}`)
+							const data = await shareFile(attachment.fileName)
 							attachment.shareTypes = data?.share_type?.toString()
 							if (typeof attachment.attachmentProperty.getParameter('X-NC-SHARED-TYPES') === 'undefined') {
 								const xNcSharedTypes = new Parameter('X-NC-SHARED-TYPES', attachment.shareTypes)
