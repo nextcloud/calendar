@@ -1,3 +1,23 @@
+## [6.6.5](https://github.com/nextcloud/calendar/compare/v6.6.4...v6.6.5) (2026-11-05)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([1c8c967](https://github.com/nextcloud/calendar/commit/1c8c96760f2626594f77c8b2ba8ef9ec0bd17266))
+* **l10n:** Update translations from Transifex ([e61d460](https://github.com/nextcloud/calendar/commit/e61d460bb4f304391ee8ac52fa7a3d239809865e))
+* **l10n:** Update translations from Transifex ([02dc6e5](https://github.com/nextcloud/calendar/commit/02dc6e5c445c110eb9394adb5d99418f3ed0a2bb))
+* **l10n:** Update translations from Transifex ([30055ea](https://github.com/nextcloud/calendar/commit/30055ea5787b023a5ab16ee83046e93018d19139))
+* **l10n:** Update translations from Transifex ([3166efd](https://github.com/nextcloud/calendar/commit/3166efde69b7eaf97f0665f61fb39e6b8597d196))
+* **l10n:** Update translations from Transifex ([b97955b](https://github.com/nextcloud/calendar/commit/b97955b00feddd31beea1f4d23545cda882e6a11))
+* **l10n:** Update translations from Transifex ([64cd912](https://github.com/nextcloud/calendar/commit/64cd9129ea65c5622da473dfc358a576ab518357))
+* **l10n:** Update translations from Transifex ([15745d1](https://github.com/nextcloud/calendar/commit/15745d10aa59135c446f46d1bfba89f1250c48fc))
+* **l10n:** Update translations from Transifex ([250b315](https://github.com/nextcloud/calendar/commit/250b3157f4bc3036ce0c2b4ad3878ec8bb735ecc))
+* **l10n:** Update translations from Transifex ([1aad6e7](https://github.com/nextcloud/calendar/commit/1aad6e76e5d2b6f46e4f66e49d31c625388b47fa))
+* **public:** show footer at bottom of navigation on public calendar links ([5d4bf17](https://github.com/nextcloud/calendar/commit/5d4bf17cb1519226bf1825c057850ca37f077eda))
+* **public:** use singular heading for a single shared calendar ([736f2d9](https://github.com/nextcloud/calendar/commit/736f2d970d73e37f77228a78fcfc5e70051d2fc5))
+
+
+
 ## [6.6.4](https://github.com/nextcloud/calendar/compare/v6.6.3...v6.6.4) (2026-10-26)
 
 
