@@ -1472,6 +1472,8 @@ export default defineStore('calendarObjectInstance', {
 				} else {
 					// Determine if eventComponent is the primary (first) occurrence of its series
 					const isPrimaryOccurrence = isBaseOccurrence(calendarObject, eventComponent)
+					// New start/end time of day picked on a later occurrence, applied to the whole series
+					let seriesTimeShift = null
 
 					if (!isPrimaryOccurrence) {
 						// The actual, unedited occurrence - used both to detect whether the user changed the date/time.
@@ -1483,7 +1485,22 @@ export default defineStore('calendarObjectInstance', {
 							|| eventComponent.endDate.timezoneId !== originalOccurrence.endDate.timezoneId
 							|| eventComponent.isAllDay() !== originalOccurrence.isAllDay()
 
-						if (dateTimeWasChanged) {
+						// A change of the time of day or of the duration, on the same day, is unambiguous for the
+						// whole series: apply the same shift to the base component (below). Only a change of the
+						// day (or of all-day/timezone) cannot be mapped onto every occurrence and is discarded.
+						const sameDay = eventComponent.startDate.year === originalOccurrence.startDate.year
+							&& eventComponent.startDate.month === originalOccurrence.startDate.month
+							&& eventComponent.startDate.day === originalOccurrence.startDate.day
+							&& eventComponent.startDate.timezoneId === originalOccurrence.startDate.timezoneId
+							&& eventComponent.endDate.timezoneId === originalOccurrence.endDate.timezoneId
+							&& eventComponent.isAllDay() === originalOccurrence.isAllDay()
+							&& !eventComponent.isAllDay()
+						if (dateTimeWasChanged && sameDay) {
+							seriesTimeShift = {
+								start: eventComponent.startDate.subtractDateWithTimezone(originalOccurrence.startDate),
+								end: eventComponent.endDate.subtractDateWithTimezone(originalOccurrence.endDate),
+							}
+						} else if (dateTimeWasChanged) {
 							showWarning(t('calendar', 'We noticed that you adjusted the date or time. Since this is not the first occurrence of the series, the date/time changes have been discarded. To change the date or time of the whole series, please edit the first occurrence.'))
 
 							// Revert the editor's own date/time back to the original occurrence
@@ -1530,6 +1547,14 @@ export default defineStore('calendarObjectInstance', {
 								baseComponent.addProperty(property.clone())
 							}
 						}
+					}
+					if (!isPrimaryOccurrence && seriesTimeShift) {
+						const newStart = baseComponent.startDate.clone()
+						newStart.addDuration(seriesTimeShift.start)
+						const newEnd = baseComponent.endDate.clone()
+						newEnd.addDuration(seriesTimeShift.end)
+						baseComponent.startDate = newStart
+						baseComponent.endDate = newEnd
 					}
 					// Only VALARM is copied here because it's the only sub-component the
 					// editor currently lets users change; other sub-components (e.g.
