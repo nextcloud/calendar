@@ -9,6 +9,7 @@ import pluginVue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
 import vitest from '@vitest/eslint-plugin'
 import jsdoc from 'eslint-plugin-jsdoc'
+import playwright from 'eslint-plugin-playwright'
 
 export default [
 	...recommended,
@@ -38,7 +39,8 @@ export default [
 		},
 	},
 	{
-		files: ['tests/**'],
+		// Unit tests run with Vitest
+		files: ['tests/javascript/unit/**'],
 		plugins: {
 			vitest,
 		},
@@ -49,6 +51,16 @@ export default [
 			globals: {
 				...vitest.environments.env.globals,
 			},
+		},
+	},
+	{
+		// Component and E2E tests run with Playwright
+		...playwright.configs['flat/recommended'],
+		files: ['tests/javascript/component/**', 'tests/javascript/e2e/**'],
+		rules: {
+			...playwright.configs['flat/recommended'].rules,
+			// Page objects assert in methods named `expect…`, e.g. `dialog.expectSubscribed()`
+			'playwright/expect-expect': ['warn', { assertFunctionPatterns: ['^expect[A-Z]'] }],
 		},
 	},
 	{
