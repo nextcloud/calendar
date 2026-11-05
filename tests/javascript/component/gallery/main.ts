@@ -12,6 +12,15 @@ import '@/styles/calendar.scss'
 const stories = import.meta.glob('../**/*.story.ts')
 const id = (f: string) => f.replace(/^(\.\.\/)+src\//, '').replace(/\.story\.\w+$/, '')
 
+/**
+ * Load the story component for a story ID.
+ *
+ * @param storyId Path of the story file relative to tests/javascript/component/, without the
+ * `.story.*` extension (a trailing part of the path is enough), followed by `/` and the export name,
+ * e.g. `components/Editor/Properties/PropertySelect/Default`
+ * @return The named export of the story file, falling back to its default export,
+ * or `undefined` if no story file matches
+ */
 async function resolve(storyId: string) {
 	const sep = storyId.lastIndexOf('/')
 	const [path, name] = [storyId.slice(0, sep), storyId.slice(sep + 1)]
