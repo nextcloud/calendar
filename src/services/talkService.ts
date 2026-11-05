@@ -272,22 +272,28 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 
 					try {
 						// Try to map attendee email to Nextcloud user uid using autocomplete service
+						// Search by the email address, which uniquely identifies the user,
+						// instead of the display name, which can collide with or be a
+						// substring of another user's display name
 						const matches: AutocompleteEntry[] = await autocomplete({
-							search: attendee.commonName ?? participantEmail,
+							search: participantEmail,
 							limit: 2,
 							itemType: 'users',
 						})
 
-						// Only map if there is exactly one result and it's not the organizer
-						if (matches.length === 1
-							&& matches[0].id !== currentUserId
-							&& matches[0].shareWithDisplayNameUnique === participantEmail) {
-							logger.debug('Resolved attendee to user', { email: participantEmail, userId: matches[0].id })
-							resolve({ userId: matches[0].id })
-							return
-						} else if (matches[0]?.id === currentUserId) {
-							logger.debug('Skipping organizer', { userId: matches[0].id })
+						// Filter by the exact email instead of requiring exactly one
+						// result, so a colliding display name cannot drop the attendee
+						const matchedUser = matches.find((match) => match.shareWithDisplayNameUnique === participantEmail)
+
+						if (matchedUser?.id === currentUserId) {
+							logger.debug('Skipping organizer', { userId: matchedUser.id })
 							resolve({})
+							return
+						}
+
+						if (matchedUser) {
+							logger.debug('Resolved attendee to user', { email: participantEmail, userId: matchedUser.id })
+							resolve({ userId: matchedUser.id })
 							return
 						}
 
