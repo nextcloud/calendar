@@ -10,6 +10,7 @@ const { defineConfig, devices } = require('@playwright/test')
  */
 export default defineConfig({
 	testDir: './tests/javascript/e2e',
+	globalSetup: './tests/javascript/e2e/support/globalSetup.ts',
 	fullyParallel: false,
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
