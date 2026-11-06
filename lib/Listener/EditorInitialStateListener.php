@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Listener;
 
 use OCA\Calendar\Service\CalendarInitialStateService;
+use OCA\Calendar\Service\EventEditorIntegrationService;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -25,6 +26,7 @@ class EditorInitialStateListener implements IEventListener {
 	public function __construct(
 		private IUserSession $userSession,
 		private CalendarInitialStateService $calendarInitialStateService,
+		private EventEditorIntegrationService $eventEditorIntegrationService,
 	) {
 	}
 
@@ -39,5 +41,6 @@ class EditorInitialStateListener implements IEventListener {
 		}
 
 		$this->calendarInitialStateService->runForEditor();
+		$this->eventEditorIntegrationService->dispatchBeforeLoadedEvent();
 	}
 }

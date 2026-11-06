@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\Service\EventEditorIntegrationService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -31,6 +32,7 @@ class PublicViewController extends Controller {
 	 * @param IConfig $config
 	 * @param IInitialStateService $initialStateService
 	 * @param IURLGenerator $urlGenerator
+	 * @param EventEditorIntegrationService $eventEditorIntegrationService
 	 */
 	public function __construct(
 		string $appName,
@@ -38,6 +40,7 @@ class PublicViewController extends Controller {
 		private IConfig $config,
 		private IInitialStateService $initialStateService,
 		private IURLGenerator $urlGenerator,
+		private EventEditorIntegrationService $eventEditorIntegrationService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -109,6 +112,8 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'hide_event_export', false);
 		$this->initialStateService->provideInitialState($this->appName, 'can_subscribe_link', $defaultCanSubscribeLink);
 		$this->initialStateService->provideInitialState($this->appName, 'show_resources', false);
+
+		$this->eventEditorIntegrationService->dispatchBeforeLoadedEvent();
 
 		return new PublicTemplateResponse($this->appName, 'main', [
 			'share_url' => $this->getShareURL(),
