@@ -175,7 +175,7 @@ h3 {
 	flex-direction: column;
 	padding: calc(var(--default-grid-baseline) * 2);
 	flex-wrap: wrap;
-	width: calc(100vw - 120px);
+	width: calc(100vw - var(--default-grid-baseline) * 16);
 	max-width: 720px;
 }
 
