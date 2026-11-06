@@ -227,7 +227,7 @@
     "_Failed %n_::_Failed %n_" : ["Ошибок: %n","Ошибок: %n","Ошибок: %n","Ошибок: %n"],
     "Preparing import…" : "Подготовка к импорту…",
     "selected calendar" : "выбранный календарь",
-    "Importing {fileName} into {calendar}" : "Импорт {fileName} в адресную книгу: {calendar}",
+    "Importing {fileName} into {calendar}" : "Импорт: {fileName} → {calendar}",
     "Import destination selection" : "Выбор календаря для импорта",
     "_Import calendar_::_Import calendars_" : ["Импортировать календарь","Импортировать календари","Импортировать календари","Импортировать календари"],
     "iCalendar (.ics)" : "iCalendar (.ics)",
