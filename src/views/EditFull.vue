@@ -167,6 +167,14 @@
 						</div>
 					</div>
 
+					<ConflictWarning
+						v-if="hasConflicts"
+						:conflicts="conflictsToList"
+						:additionalCount="additionalConflictCount"
+						:totalCount="conflictingEvents.length"
+						:timezoneId="currentUserTimezone"
+						:hideFindTime="true" />
+
 					<InvitationResponseButtons
 						v-if="isViewedByAttendee && !isCancelled"
 						:attendee="userAsAttendee"
@@ -372,6 +380,7 @@ import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
 import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
 import AttachmentsList from '@/components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
+import ConflictWarning from '@/components/Editor/ConflictWarning.vue'
 import InvitationResponseButtons from '@/components/Editor/InvitationResponseButtons.vue'
 import InviteesList from '@/components/Editor/Invitees/InviteesList.vue'
 import PropertyColor from '@/components/Editor/Properties/PropertyColor.vue'
@@ -383,6 +392,7 @@ import PropertyTitleTimePicker from '@/components/Editor/Properties/PropertyTitl
 import Repeat from '@/components/Editor/Repeat/Repeat.vue'
 import ResourceList from '@/components/Editor/Resources/ResourceList.vue'
 import SaveButtons from '@/components/Editor/SaveButtons.vue'
+import ConflictCheckMixin from '@/mixins/ConflictCheckMixin.js'
 import EditorMixin from '@/mixins/EditorMixin.js'
 import { shareFile } from '@/services/attachmentService.js'
 import getTimezoneManager from '@/services/timezoneDataProviderService.js'
@@ -423,6 +433,7 @@ export default {
 		InvitationResponseButtons,
 		AttachmentsList,
 		CalendarPickerHeader,
+		ConflictWarning,
 		PropertyTitle,
 		IconVideo,
 		HelpCircleIcon,
@@ -432,6 +443,7 @@ export default {
 
 	mixins: [
 		EditorMixin,
+		ConflictCheckMixin,
 	],
 
 	data() {
