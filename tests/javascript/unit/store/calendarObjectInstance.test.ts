@@ -841,6 +841,39 @@ describe('store/calendarObjectInstance test suite', () => {
 			expect(eventComponent.resetDirty).not.toHaveBeenCalled()
 		})
 
+		it('applies a new time of day and duration to the whole series from a non-primary occurrence', async () => {
+			const store = useCalendarObjectInstanceStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
+			const baseComponent = setUpBaseComponent(60_000, 120_000)
+			// Forked at 300_000-360_000; start moved 10 minutes later and end 5 minutes earlier, same day
+			const editedOccurrence = setUpEventComponent(300_000, 300_600, 359_700)
+			const calendarObject = {
+				calendarId: 'calendar-1',
+				calendarComponent: {
+					getComponentIterator: vi.fn().mockReturnValue([baseComponent, editedOccurrence]),
+				},
+			}
+			store.calendarObject = calendarObject
+			store.calendarObjectInstance = { eventComponent: editedOccurrence }
+			vi.spyOn(calendarObjectsStore, 'updateCalendarObject').mockResolvedValue()
+			mockedisBaseOccurrence.mockReturnValue(false)
+			baseComponent.recurrenceManager.getOccurrenceAtExactly.mockReturnValue({
+				startDate: fakeDateTime(300_000),
+				endDate: fakeDateTime(360_000),
+				isAllDay: vi.fn().mockReturnValue(false),
+			})
+
+			await store.saveCalendarObjectInstance({
+				scope: 'series',
+				calendarId: 'calendar-1',
+			})
+
+			expect(showWarning).not.toHaveBeenCalled()
+			expect(baseComponent.startDate.time).toBe(60_600)
+			expect(baseComponent.endDate.time).toBe(119_700)
+			expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledTimes(1)
+		})
+
 		it('discards the change and warns when only the timezone differs on a non-primary occurrence', async () => {
 			const store = useCalendarObjectInstanceStore()
 			const calendarObjectsStore = useCalendarObjectsStore()
