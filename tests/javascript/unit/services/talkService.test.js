@@ -173,5 +173,22 @@ describe('services/talk test suite', () => {
 				expect.any(Object),
 			)
 		})
+
+		test('should not resolve the attendee when two users share the same email', async () => {
+			const eventComponent = setupSync('Jane Doe')
+			// A second user with a different uid but the same email address
+			autocomplete.mockImplementation(async () => [
+				userA,
+				{ ...userA, id: 'jane.doe2' },
+			])
+
+			await updateRoomParticipantsFromEvent(eventComponent)
+
+			expect(axios.post).not.toHaveBeenCalledWith(
+				expect.any(String),
+				expect.objectContaining({ source: 'users' }),
+				expect.any(Object),
+			)
+		})
 	})
 })
