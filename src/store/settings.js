@@ -29,6 +29,7 @@ export default defineStore('settings', {
 			// user-defined calendar settings
 			eventLimit: null,
 			showTasks: null,
+			showCompletedTasks: true,
 			showDeclined: null,
 			showWeekends: null,
 			showWeekNumbers: null,
@@ -156,6 +157,23 @@ export default defineStore('settings', {
 			fetchedTimeRangesStore.clearFetchedTimeRanges()
 			calendarObjectsStore.modificationCount++
 			tasksStore.empty()
+		},
+
+		/**
+		 * Updates the user's setting for visibility of completed tasks
+		 *
+		 * @return {Promise<void>}
+		 */
+		async toggleShowCompletedTasks() {
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
+			const newState = !this.showCompletedTasks
+			const value = newState ? 'yes' : 'no'
+
+			await setConfig('showCompletedTasks', value)
+			this.showCompletedTasks = newState
+			fetchedTimeRangesStore.clearFetchedTimeRanges()
+			calendarObjectsStore.modificationCount++
 		},
 
 		/**
@@ -331,6 +349,7 @@ export default defineStore('settings', {
 		 * @param {boolean} data.firstRun Whether or not this is the first run
 		 * @param {boolean} data.showWeekNumbers Whether or not to show week numbers
 		 * @param {boolean} data.showTasks Whether or not to display tasks with a due-date
+		 * @param {boolean} data.showCompletedTasks Whether or not to display completed tasks
 		 * @param {boolean} data.showDeclined Whether or not to display declined appointments
 		 * @param {boolean} data.showWeekends Whether or not to display weekends
 		 * @param {boolean} data.skipPopover Whether or not to skip the simple event popover
@@ -349,7 +368,7 @@ export default defineStore('settings', {
 		 * @param {boolean} data.showResources Show or hide the resources tab
 		 * @param {string} data.publicCalendars The list of public calendars configured by the administrator
 		 */
-		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showDeclined, showWeekends, skipPopover, slotDuration, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
+		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showCompletedTasks, showDeclined, showWeekends, skipPopover, slotDuration, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
 			logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -357,6 +376,7 @@ Initial settings:
 	- FirstRun: ${firstRun}
 	- ShowWeekNumbers: ${showWeekNumbers}
 	- ShowTasks: ${showTasks}
+	- ShowCompletedTasks: ${showCompletedTasks}
 	- ShowDeclined: ${showDeclined}
 	- ShowWeekends: ${showWeekends}
 	- SkipPopover: ${skipPopover}
@@ -381,6 +401,7 @@ Initial settings:
 			this.firstRun = firstRun
 			this.showWeekNumbers = showWeekNumbers
 			this.showTasks = showTasks
+			this.showCompletedTasks = showCompletedTasks
 			this.showDeclined = showDeclined
 			this.showWeekends = showWeekends
 			this.skipPopover = skipPopover

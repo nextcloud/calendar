@@ -784,6 +784,22 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		expect(getHexForColorName).toHaveBeenCalledTimes(0)
 	})
 
+	it('should hide completed tasks when disabled', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.showCompletedTasks = false
+		getAllObjectsInTimeRange.mockReturnValueOnce([{
+			name: 'VTODO',
+			percent: 100,
+		}, {
+			name: 'VTODO',
+			status: 'COMPLETED',
+		}])
+
+		const result = eventSourceFunction([{}], { id: 'tasks' }, new Date(), new Date(), {})
+
+		expect(result).toEqual([])
+	})
+
 	it('should filter events by search query matching title, location, description, attendee, and organizer', () => {
 		translate.mockImplementation((app, str) => str)
 		isLight.mockImplementation(() => false)
