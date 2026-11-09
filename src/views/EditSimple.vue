@@ -212,6 +212,8 @@
 							:isDescription="true"
 							@update:value="updateDescription" />
 
+						<ExtensionFields />
+
 						<InviteesList
 							v-if="!isViewing || (isViewing && hasAttendees)"
 							class="event-popover__invitees"
@@ -308,6 +310,7 @@ import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
 import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
 import AttachmentsList from '@/components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
+import ExtensionFields from '@/components/Editor/ExtensionFields.vue'
 import InvitationResponseButtons
 	from '@/components/Editor/InvitationResponseButtons.vue'
 import InviteesList from '@/components/Editor/Invitees/InviteesList.vue'
@@ -356,6 +359,7 @@ export default {
 		NcDialog,
 		AddTalkModal,
 		IconVideo,
+		ExtensionFields,
 	},
 
 	mixins: [
@@ -433,6 +437,24 @@ export default {
 		 */
 		isReadOnlyOrViewing() {
 			return this.isReadOnly || this.isViewing || this.isWidget
+		},
+
+		/**
+		 * How the editor is shown, reported to the event editor extensions (see EditorMixin)
+		 *
+		 * @return {'preview'|'simple'}
+		 */
+		eventEditorView() {
+			return this.isViewing ? 'preview' : 'simple'
+		},
+
+		/**
+		 * Whether the popover is visible, reported to the event editor extensions (see EditorMixin)
+		 *
+		 * @return {boolean}
+		 */
+		isEditorVisible() {
+			return this.showPopover
 		},
 
 		/**
@@ -539,6 +561,13 @@ export default {
 				})
 			}
 		},
+
+		widgetEventDetails() {
+			// Another event was clicked in the widget while the popover is open
+			if (this.isWidget && this.widgetEventDetailsOpen) {
+				this.loadWidgetEvent()
+			}
+		},
 	},
 
 	async mounted() {
@@ -546,11 +575,7 @@ export default {
 			this.ensureElInDom()
 		})
 		if (this.isWidget) {
-			const objectId = this.widgetEventDetails.object
-			const recurrenceId = this.widgetEventDetails.recurrenceId
-			await this.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
-			this.calendarId = this.calendarObject.calendarId
-			this.isLoading = false
+			await this.loadWidgetEvent()
 		}
 		this.boundaryElement = document.querySelector('.calendar-wrapper')
 		window.addEventListener('resize', this.handleResize)
@@ -596,6 +621,30 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Load the event selected in the widget
+		 *
+		 * @return {Promise<void>}
+		 */
+		async loadWidgetEvent() {
+			const objectId = this.widgetEventDetails.object
+			const recurrenceId = this.widgetEventDetails.recurrenceId
+
+			this.isLoading = true
+			this.isError = false
+			this.error = null
+			try {
+				await this.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
+				this.calendarId = this.calendarObject.calendarId
+			} catch (error) {
+				logger.error('[Editor] Error loading event in widget:', { error })
+				this.isError = true
+				this.error = this.$t('calendar', 'It might have been deleted, or there was a typo in a link')
+			} finally {
+				this.isLoading = false
+			}
+		},
+
 		ensureElInDom() {
 			if (!this.$el) {
 				return

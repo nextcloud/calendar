@@ -22,6 +22,7 @@ export default defineConfig({
 	use: {
 		baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'https://localhost',
 		trace: 'on-first-retry',
+		timezoneId: 'Europe/London',
 	},
 	projects: [
 		{

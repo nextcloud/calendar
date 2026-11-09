@@ -236,6 +236,7 @@ describe('mixins/EditorMixin test suite', () => {
 		})
 
 		it('executes an allowed update scope', async () => {
+			const notifyBeforeSave = vi.fn()
 			const saveCalendarObjectInstance = vi.fn().mockResolvedValue()
 			const vm = {
 				calendarObject: {},
@@ -243,6 +244,7 @@ describe('mixins/EditorMixin test suite', () => {
 				requiresFutureUpdate: false,
 				canUpdate: vi.fn().mockReturnValue(true),
 				calendarObjectInstanceStore: { saveCalendarObjectInstance },
+				eventEditorExtensionInstancesStore: { notifyBeforeSave },
 				isLoading: false,
 				isSaving: false,
 			}
@@ -253,6 +255,9 @@ describe('mixins/EditorMixin test suite', () => {
 				scope: 'series',
 				calendarId: 'calendar-1',
 			})
+			// Changes the event editor extensions make before saving are saved with the event
+			expect(notifyBeforeSave).toHaveBeenCalledOnce()
+			expect(notifyBeforeSave.mock.invocationCallOrder[0]).toBeLessThan(saveCalendarObjectInstance.mock.invocationCallOrder[0])
 			expect(vm.isLoading).toBe(false)
 			expect(vm.isSaving).toBe(false)
 		})
@@ -375,6 +380,7 @@ describe('mixins/EditorMixin test suite', () => {
 
 	describe('mounted/beforeUnmount hotkey wiring', () => {
 		it('registers hotkeys on mount and removes them on unmount', () => {
+			const setEventEditorState = vi.fn()
 			const duplicateEvent = vi.fn()
 			const vm = {
 				...EditorMixin.methods,
@@ -382,6 +388,7 @@ describe('mixins/EditorMixin test suite', () => {
 				canDuplicate: true,
 				duplicateEvent,
 				hotKeysRegister: [],
+				eventEditorExtensionInstancesStore: { setEventEditorState },
 			}
 
 			EditorMixin.mounted.call(vm)
@@ -394,6 +401,7 @@ describe('mixins/EditorMixin test suite', () => {
 
 			document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, bubbles: true }))
 			expect(duplicateEvent).toHaveBeenCalledTimes(1)
+			expect(setEventEditorState).toHaveBeenCalledWith(null)
 		})
 	})
 })

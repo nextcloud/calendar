@@ -9,6 +9,25 @@ import type { UserAccount } from './users.ts'
 import { login } from './login.ts'
 
 /**
+ * Format a date as an iCalendar date-time in UTC, e.g. `20260115T100000Z`.
+ *
+ * @param date - The date to format
+ */
+function toICalendarDateTime(date: Date): string {
+	return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+}
+
+/**
+ * A calendar published by a user.
+ */
+export interface PublicCalendar {
+	/** CalDAV URL of the calendar, e.g. to create events in it */
+	url: string
+	/** Token of the public calendar, e.g. for `/apps/calendar/p/{token}` */
+	token: string
+}
+
+/**
  * A user created for a test, with actions performed as that user.
  */
 export class User implements UserAccount {
@@ -32,13 +51,20 @@ export class User implements UserAccount {
 	}
 
 	/**
+	 * Header authenticating requests as this user.
+	 */
+	private get authorization(): string {
+		return `Basic ${Buffer.from(`${this.userId}:${this.password}`).toString('base64')}`
+	}
+
+	/**
 	 * Create a new calendar and publish it.
 	 *
-	 * @return The token of the public calendar, e.g. for `/apps/calendar/p/{token}`
+	 * @return The public calendar
 	 */
-	async createPublicCalendar(): Promise<string> {
+	async createPublicCalendar(): Promise<PublicCalendar> {
 		const headers = {
-			Authorization: `Basic ${Buffer.from(`${this.userId}:${this.password}`).toString('base64')}`,
+			Authorization: this.authorization,
 			'Content-Type': 'application/xml',
 		}
 		const calendarUrl = `./remote.php/dav/calendars/${this.userId}/public-${crypto.randomUUID()}/`
@@ -80,6 +106,45 @@ export class User implements UserAccount {
 		if (publishUrl === undefined) {
 			throw new Error(`No publish URL for ${calendarUrl} in response: ${body}`)
 		}
-		return publishUrl.replace(/\/$/, '').split('/').pop()!
+		return {
+			url: calendarUrl,
+			token: publishUrl.replace(/\/$/, '').split('/').pop()!,
+		}
+	}
+
+	/**
+	 * Create an event today from 10:00 to 11:00 UTC.
+	 *
+	 * @param calendarUrl - CalDAV URL of the calendar to create the event in
+	 * @param title - Title of the event
+	 */
+	async createEvent(calendarUrl: string, title: string) {
+		const uid = crypto.randomUUID()
+		const eventUrl = `${calendarUrl}${uid}.ics`
+		const start = new Date()
+		start.setUTCHours(10, 0, 0, 0)
+		const end = new Date(start.getTime() + 60 * 60 * 1000)
+		const put = await this.request.put(eventUrl, {
+			headers: {
+				Authorization: this.authorization,
+				'Content-Type': 'text/calendar',
+			},
+			data: [
+				'BEGIN:VCALENDAR',
+				'VERSION:2.0',
+				'PRODID:-//Nextcloud calendar E2E tests//EN',
+				'BEGIN:VEVENT',
+				`UID:${uid}`,
+				`DTSTAMP:${toICalendarDateTime(new Date())}`,
+				`DTSTART:${toICalendarDateTime(start)}`,
+				`DTEND:${toICalendarDateTime(end)}`,
+				`SUMMARY:${title}`,
+				'END:VEVENT',
+				'END:VCALENDAR',
+			].join('\r\n'),
+		})
+		if (!put.ok()) {
+			throw new Error(`Failed to create event ${eventUrl}: ${put.status()} ${put.statusText()}`)
+		}
 	}
 }

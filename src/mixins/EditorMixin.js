@@ -13,6 +13,7 @@ import { containsRoomUrl } from '@/services/talkService.ts'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import useCalendarObjectsStore from '@/store/calendarObjects.js'
 import useCalendarsStore from '@/store/calendars.js'
+import useEventEditorExtensionInstancesStore from '@/store/eventEditorExtensionInstances.ts'
 import usePrincipalsStore from '@/store/principals.js'
 import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
@@ -84,7 +85,7 @@ export default {
 		...mapState(useSettingsStore, ['talkEnabled']),
 		...mapState(useCalendarsStore, ['initialCalendarsLoaded']),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObject', 'calendarObjectInstance']),
-		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore),
+		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore, useEventEditorExtensionInstancesStore),
 		eventComponent() {
 			return this.calendarObjectInstance?.eventComponent
 		},
@@ -456,6 +457,53 @@ export default {
 		isCreateTalkRoomButtonVisible() {
 			return this.talkEnabled && this.isViewedByOrganizer !== false && this.isReadOnly !== true
 		},
+
+		/**
+		 * Whether the editor is visible, overridden by the popover
+		 *
+		 * @return {boolean}
+		 */
+		isEditorVisible() {
+			return true
+		},
+
+		/**
+		 * State of this editor reported to the event editor extensions.
+		 * Components using this mixin define `eventEditorView`.
+		 *
+		 * While another event loads, e.g. after clicking it while the popover is open,
+		 * this is still the state of the previous event, but with the status `loading`.
+		 *
+		 * @return {import('@/services/eventEditorExtensions/editorState').EventEditorState|null}
+		 */
+		eventEditorState() {
+			if (!this.calendarObject || !this.eventComponent) {
+				return null
+			}
+
+			let status = 'ready'
+			if (this.isError) {
+				status = 'error'
+			} else if (this.isSaving) {
+				status = 'saving'
+			} else if (this.isLoading) {
+				status = 'loading'
+			}
+
+			return {
+				eventId: this.calendarObject.uid,
+				calendarObjectId: this.calendarObject.id ?? null,
+				eventRecurrenceId: this.eventComponent.getReferenceRecurrenceId()?.unixTime ?? null,
+				calendarId: this.calendarId ?? this.calendarObject.calendarId ?? null,
+				isNew: this.isNew,
+				status,
+				view: this.eventEditorView,
+				isVisible: this.isEditorVisible,
+				isReadOnly: this.isReadOnly,
+				isWidget: this.isWidget,
+				isDialog: this.isDialog,
+			}
+		},
 	},
 
 	async created() {
@@ -537,8 +585,19 @@ export default {
 		]
 	},
 
+	watch: {
+		eventEditorState: {
+			handler(eventEditorState) {
+				this.eventEditorExtensionInstancesStore.setEventEditorState(eventEditorState)
+			},
+			// The event might already be loaded, e.g. when switching from the popover to the full editor.
+			immediate: true,
+		},
+	},
+
 	beforeUnmount() {
 		this.hotKeysRegister.forEach((stop) => stop())
+		this.eventEditorExtensionInstancesStore.setEventEditorState(null)
 	},
 
 	methods: {
@@ -705,6 +764,9 @@ export default {
 			if (!this.canUpdate(scope)) {
 				return
 			}
+
+			// Changes the extensions make to the event are saved with it
+			this.eventEditorExtensionInstancesStore.notifyBeforeSave()
 
 			// If this is a new event, mark it as dirty so that it is saved even when no changes were made
 			// (e.g. when creating an event and immediately saving it without title etc.)

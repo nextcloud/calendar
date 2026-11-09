@@ -193,6 +193,8 @@
 							:linkifyLinks="true"
 							@update:value="updateDescription" />
 
+						<ExtensionFields />
+
 						<AlarmList
 							:isReadOnly="isReadOnly" />
 
@@ -372,6 +374,7 @@ import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
 import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
 import AttachmentsList from '@/components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
+import ExtensionFields from '@/components/Editor/ExtensionFields.vue'
 import InvitationResponseButtons from '@/components/Editor/InvitationResponseButtons.vue'
 import InviteesList from '@/components/Editor/Invitees/InviteesList.vue'
 import PropertyColor from '@/components/Editor/Properties/PropertyColor.vue'
@@ -428,6 +431,7 @@ export default {
 		HelpCircleIcon,
 		NcActions,
 		Close,
+		ExtensionFields,
 	},
 
 	mixins: [
@@ -478,6 +482,16 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore),
+
+		/**
+		 * How the editor is shown, reported to the event editor extensions (see EditorMixin)
+		 *
+		 * @return {'full'}
+		 */
+		eventEditorView() {
+			return 'full'
+		},
+
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 			hideEventExport: 'hideEventExport',
