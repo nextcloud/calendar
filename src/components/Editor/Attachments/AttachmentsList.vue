@@ -233,10 +233,11 @@ export default {
 				const attachments = await uploadLocalAttachment(attachmentsFolder, Array.from(e.target.files), this.currentUser.dav, this.attachments)
 				// TODO do not share file, move to PHP
 				attachments.map(async (attachment) => {
-					const data = await getFileInfo(`${attachmentsFolder}/${attachment.path}`, this.currentUser.dav.userId)
+					const path = `${attachmentsFolder.replace(/\/$/, '')}${attachment.path}`
+					const data = await getFileInfo(path, this.currentUser.dav.userId)
 					const davRes = await parseXML(data)
 					const davRespObj = davRes?.multistatus?.response[0]?.propstat?.prop
-					davRespObj.fileName = attachment.path
+					davRespObj.fileName = path
 					davRespObj.url = generateUrl(`/f/${davRespObj.fileid}`)
 					davRespObj.value = davRespObj.url
 					this.addAttachmentWithProperty(this.calendarObjectInstance, davRespObj)
