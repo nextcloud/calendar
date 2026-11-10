@@ -38,7 +38,7 @@
 					:helperText="!isCalendarNameValid ? $t('calendar', 'Calendar name can not be blank') : ''"
 					@update:modelValue="calendarNameChanged = true" />
 			</div>
-			<template v-if="canBeShared">
+			<template v-if="canChangeTransparency">
 				<NcCheckboxRadioSwitch v-model="isTransparent">
 					{{ $t('calendar', 'Never show me as busy (set this calendar to transparent)') }}
 				</NcCheckboxRadioSwitch>
@@ -215,6 +215,26 @@ export default {
 			}
 
 			return this.calendar.canBeShared || this.calendar.canBePublished
+		},
+
+		/**
+		 * Whether to show the transparency setting
+		 *
+		 * @return {boolean}
+		 */
+		canChangeTransparency() {
+			// The backend always treats calendars shared with the user as transparent
+			if (this.calendar.isSharedWithMe) {
+				return false
+			}
+
+			// Read-only calendars (subscriptions, contact birthdays) only support
+			// transparency if the server reports it, older servers omit it for subscriptions
+			if (this.calendar.readOnly) {
+				return this.calendar.dav.transparency !== undefined
+			}
+
+			return true
 		},
 
 		/**
