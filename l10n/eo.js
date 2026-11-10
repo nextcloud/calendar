@@ -55,6 +55,7 @@ OC.L10N.register(
     "Icons" : "Piktogramoj",
     "Attendees" : "Ĉeestontoj",
     "File" : "Dosiero",
+    "Filetype" : "Dosiertipo",
     "Revoke" : "Senvalidigi",
     "Viewer" : "Vidigilo",
     "Editor" : "Redaktilo",

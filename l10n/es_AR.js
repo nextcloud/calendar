@@ -136,6 +136,7 @@ OC.L10N.register(
     "Private" : "Privado",
     "Confirmed" : "Confirmado",
     "Categories" : "Categoría",
+    "Import failed" : "Error en la importación",
     "Filename" : "Nombre de archivo",
     "Global" : "Global",
     "When shared show full event" : "Al compartir, mostrar el evento completo",
