@@ -661,7 +661,7 @@ OC.L10N.register(
     "No Title" : "タイトルなし",
     "No Duration" : "期間なし",
     "Select a different time zone" : "別のタイムゾーンを選択",
-    "Submit" : "提出する",
+    "Submit" : "送信",
     "Subscribe to {name}" : "{name} を購読する",
     "Export {name}" : "エクスポート {name}",
     "Show availability" : "空き状況を表示",
