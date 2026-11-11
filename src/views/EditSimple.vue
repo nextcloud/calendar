@@ -69,6 +69,18 @@
 								</p>
 							</template>
 						</NcPopover>
+						<NcButton
+							v-if="mailDeepLink"
+							variant="tertiary-no-background"
+							:href="mailDeepLink"
+							target="_blank"
+							rel="noopener noreferrer"
+							:ariaLabel="t('calendar', 'Open email')"
+							:title="t('calendar', 'Open email')">
+							<template #icon>
+								<EmailOutline :size="20" />
+							</template>
+						</NcButton>
 						<Actions v-if="!isLoading && !isError && !isNew" :forceMenu="true">
 							<ActionButton v-if="eventLink" @click="copyEventLink()">
 								<template #icon>
@@ -299,6 +311,7 @@ import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
+import EmailOutline from 'vue-material-design-icons/EmailOutline.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
@@ -322,6 +335,7 @@ import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
 import logger from '@/utils/logger.js'
+import { getMailDeepLink } from '@/utils/mailDeepLink.js'
 import { getPrefixedRoute } from '@/utils/router.js'
 
 export default {
@@ -352,6 +366,7 @@ export default {
 		InviteesList,
 		NcButton,
 		EditIcon,
+		EmailOutline,
 		HelpCircleIcon,
 		NcDialog,
 		AddTalkModal,
@@ -446,6 +461,15 @@ export default {
 			}
 
 			return this.title
+		},
+
+		/**
+		 * Link to the email this event was created from, if any
+		 *
+		 * @return {string|null}
+		 */
+		mailDeepLink() {
+			return getMailDeepLink(this.calendarObjectInstance?.eventComponent)
 		},
 	},
 
