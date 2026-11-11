@@ -132,9 +132,12 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 			// No limit: the backend would apply it before sorting by start date and could skip the soonest events
 			$searchResult = $calendar->search('', [], $options);
 			foreach ($searchResult as $calendarEvent) {
-				// Find first recurrence in the future
+				// Find first recurrence in the future that has not been cancelled
 				$recurrence = null;
 				foreach ($calendarEvent['objects'] as $object) {
+					if ($this->isCancelled($object)) {
+						continue;
+					}
 					/** @var DateTimeImmutable $startDate */
 					$startDate = $object['DTSTART'][0];
 					if ($startDate->getTimestamp() >= $dateTime->getTimestamp()) {
@@ -163,6 +166,15 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 		});
 
 		return array_slice($widgetItems, 0, $limit);
+	}
+
+	/**
+	 * Cancelled events and cancelled occurrences of a series stay in the calendar with STATUS:CANCELLED.
+	 * Enumerated values are case-insensitive (RFC 5545, section 2).
+	 */
+	private function isCancelled(array $object): bool {
+		$status = $object['STATUS'][0] ?? null;
+		return is_string($status) && strcasecmp($status, 'CANCELLED') === 0;
 	}
 
 	private function getCalendarDotIconUrl(?string $color): string {
