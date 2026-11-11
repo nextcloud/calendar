@@ -4,7 +4,7 @@
  */
 
 import type { APIRequestContext } from '@playwright/test'
-import type { UserAccount } from './users.ts'
+import type { UserAccount } from './utils/users.ts'
 
 import { request } from '@playwright/test'
 

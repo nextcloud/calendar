@@ -81,6 +81,8 @@ composer.phar
 
 build/
 js/
+# Script of the E2E test apps is not built
+!/tests/apps/event_editor_extension/js/
 node_modules/
 src/fonts
 *.clover
