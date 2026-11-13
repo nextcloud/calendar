@@ -17,6 +17,8 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Collaboration\Reference\RenderReferenceEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -33,6 +35,7 @@ class ViewController extends Controller {
 		IRequest $request,
 		private IConfig $config,
 		private CalendarInitialStateService $calendarInitialStateService,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -48,6 +51,7 @@ class ViewController extends Controller {
 	public function index():TemplateResponse {
 
 		$this->calendarInitialStateService->run();
+		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		return new TemplateResponse($this->appName, 'main');
 	}
 
@@ -57,6 +61,7 @@ class ViewController extends Controller {
 	#[UserRateLimit(limit: 10, period: 60)]
 	public function view(string $id): TemplateResponse {
 		$this->calendarInitialStateService->run();
+		$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		return new TemplateResponse($this->appName, 'main');
 	}
 }

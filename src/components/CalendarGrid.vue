@@ -8,6 +8,20 @@
 		ref="fullCalendar"
 		:class="isWidget ? 'fullcalendar-widget' : ''"
 		:options="options" />
+	<Teleport v-if="reference" :to="reference.element">
+		<NcPopover
+			class="reference-popover"
+			placement="auto"
+			:shown="true"
+			:triggers="[]"
+			popupRole="dialog"
+			@update:shown="setReferencePopoverShown">
+			<template #trigger="{ attrs }">
+				<span v-bind="attrs" />
+			</template>
+			<NcReferenceList :text="reference.url" displayFallback />
+		</NcPopover>
+	</Teleport>
 </template>
 
 <script>
@@ -20,10 +34,12 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue3'
 import { DateTimeValue } from '@nextcloud/calendar-js'
+import { NcPopover } from '@nextcloud/vue'
 // Import other dependencies
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
+import { NcReferenceList } from '@nextcloud/vue/components/NcRichText'
 // Import event sources
 import eventSource from '@/fullcalendar/eventSources/eventSource.js'
 // Import interaction handlers
@@ -62,6 +78,8 @@ export default {
 	name: 'CalendarGrid',
 	components: {
 		FullCalendar,
+		NcPopover,
+		NcReferenceList,
 	},
 
 	props: {
@@ -86,6 +104,7 @@ export default {
 
 	data() {
 		return {
+			reference: null,
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
 		}
@@ -130,7 +149,15 @@ export default {
 				editable: this.isEditable,
 				selectable: this.isAuthenticatedUser,
 				eventAllow,
-				eventClick: eventClick(this.$router, this.$route, window, this.isWidget, this.$refs),
+				eventClick: eventClick(
+					this.$router,
+					this.$route,
+					window,
+					this.isWidget,
+					this.$refs,
+					this.isAuthenticatedUser && !this.isWidget ? this.showReference : undefined,
+				),
+
 				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$refs.fullCalendar.getApi())(...args),
 				eventResize: this.isWidget ? false : eventResize(),
 				eventResizableFromStart: true,
@@ -328,6 +355,19 @@ export default {
 	},
 
 	methods: {
+		showReference({ url, el }) {
+			this.reference = {
+				element: el.querySelector('.fc-list-event-title') ?? el,
+				url,
+			}
+		},
+
+		setReferencePopoverShown(shown) {
+			if (!shown) {
+				this.reference = null
+			}
+		},
+
 		/**
 		 * Scroll the month or list view to today when loading the calendar,
 		 * so people can directly see today's date and events.
@@ -435,6 +475,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.reference-popover {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+:deep(.fc-list-event-title) {
+	position: relative;
+}
+
 .fullcalendar-widget{
 	min-height: 500px;
 	:deep(.fc-col-header-cell-cushion){
