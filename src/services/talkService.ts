@@ -272,22 +272,35 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 
 					try {
 						// Try to map attendee email to Nextcloud user uid using autocomplete service
+						// Search by the email address instead of the display name, which can
+						// collide with or be a substring of another user's display name
 						const matches: AutocompleteEntry[] = await autocomplete({
-							search: attendee.commonName ?? participantEmail,
+							search: participantEmail,
 							limit: 2,
 							itemType: 'users',
 						})
 
-						// Only map if there is exactly one result and it's not the organizer
-						if (matches.length === 1
-							&& matches[0].id !== currentUserId
-							&& matches[0].shareWithDisplayNameUnique === participantEmail) {
-							logger.debug('Resolved attendee to user', { email: participantEmail, userId: matches[0].id })
-							resolve({ userId: matches[0].id })
-							return
-						} else if (matches[0]?.id === currentUserId) {
-							logger.debug('Skipping organizer', { userId: matches[0].id })
+						// Filter by the exact email instead of requiring exactly one
+						// result, so a colliding display name cannot drop the attendee.
+						// Two users can share the same email address, so only resolve
+						// when exactly one user matches it; with several matches the
+						// attendee stays unresolved rather than picking one at random.
+						const matchedUsers = matches.filter((match) => match.shareWithDisplayNameUnique === participantEmail)
+						const matchedUser = matchedUsers.length === 1 ? matchedUsers[0] : undefined
+
+						if (matchedUsers.length > 1) {
+							logger.debug('Multiple users share this email, leaving attendee unresolved', { email: participantEmail })
+						}
+
+						if (matchedUser?.id === currentUserId) {
+							logger.debug('Skipping organizer', { userId: matchedUser.id })
 							resolve({})
+							return
+						}
+
+						if (matchedUser) {
+							logger.debug('Resolved attendee to user', { email: participantEmail, userId: matchedUser.id })
+							resolve({ userId: matchedUser.id })
 							return
 						}
 
