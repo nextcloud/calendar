@@ -116,7 +116,9 @@ class AppointmentControllerTest extends TestCase {
 		$this->initialState->expects($this->exactly(2))
 			->method('provideInitialState');
 
-		$this->controller->show('sdklfhkld');
+		$response = $this->controller->show('sdklfhkld');
+
+		self::assertSame('ALLOW', $response->getHeaders()['X-Frame-Options']);
 	}
 
 	public function testShowConfigNotFound(): void {
