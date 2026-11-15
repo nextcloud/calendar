@@ -112,7 +112,7 @@
     "eslint-plugin-path": "^3.0.0",
     "eslint-plugin-playwright": "^2.12.2",
     "jsdom": "^31.0.1",
-    "sass": "^1.107.1",
+    "sass": "^1.108.2",
     "sass-loader": "^17.1.0",
     "typescript": "^6.0.3",
     "vitest": "^5.1.0"
