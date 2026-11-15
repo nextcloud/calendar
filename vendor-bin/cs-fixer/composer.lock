@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fe9dc91f4b149dad910c1c044954403",
+    "content-hash": "5cce1c4e98bb9287e0f4e283ef97c5c5",
     "packages": [],
     "packages-dev": [
         {
@@ -106,16 +106,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.95.28",
+            "version": "v3.95.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "77117f70ba29f9854f23aa44130505d043e71403"
+                "reference": "413c9705404163fa3e5f7854208c5e9ae1a4590d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/77117f70ba29f9854f23aa44130505d043e71403",
-                "reference": "77117f70ba29f9854f23aa44130505d043e71403",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/413c9705404163fa3e5f7854208c5e9ae1a4590d",
+                "reference": "413c9705404163fa3e5f7854208c5e9ae1a4590d",
                 "shasum": ""
             },
             "require": {
@@ -152,7 +152,7 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.95.28"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.95.30"
             },
             "funding": [
                 {
@@ -160,8 +160,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-04T13:09:09+00:00",
-            "published-time": "2026-11-04T13:10:04+00:00"
+            "time": "2026-11-09T14:32:47+00:00",
+            "published-time": "2026-11-09T14:32:56+00:00"
         }
     ],
     "aliases": [],
