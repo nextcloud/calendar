@@ -236,6 +236,7 @@ describe('mixins/EditorMixin test suite', () => {
 		})
 
 		it('executes an allowed update scope', async () => {
+			const notifyBeforeSave = vi.fn()
 			const saveCalendarObjectInstance = vi.fn().mockResolvedValue()
 			const vm = {
 				calendarObject: {},
@@ -243,6 +244,7 @@ describe('mixins/EditorMixin test suite', () => {
 				requiresFutureUpdate: false,
 				canUpdate: vi.fn().mockReturnValue(true),
 				calendarObjectInstanceStore: { saveCalendarObjectInstance },
+				eventEditorExtensionInstancesStore: { notifyBeforeSave },
 				isLoading: false,
 				isSaving: false,
 			}
@@ -253,6 +255,9 @@ describe('mixins/EditorMixin test suite', () => {
 				scope: 'series',
 				calendarId: 'calendar-1',
 			})
+			// Changes the event editor extensions make before saving are saved with the event
+			expect(notifyBeforeSave).toHaveBeenCalledExactlyOnceWith()
+			expect(notifyBeforeSave.mock.invocationCallOrder[0]).toBeLessThan(saveCalendarObjectInstance.mock.invocationCallOrder[0])
 			expect(vm.isLoading).toBe(false)
 			expect(vm.isSaving).toBe(false)
 		})
@@ -394,6 +399,67 @@ describe('mixins/EditorMixin test suite', () => {
 
 			document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, bubbles: true }))
 			expect(duplicateEvent).toHaveBeenCalledTimes(1)
+		})
+	})
+
+	describe('closeEditor', () => {
+		it.each([
+			['a route', {}],
+			['a widget', { isWidget: true }],
+			['a dialog', { isDialog: true }],
+		])('disposes the event editor extensions in %s', (_, props) => {
+			const setEventEditorState = vi.fn()
+			const vm = {
+				...props,
+				$route: { name: 'EditPopoverView', params: { object: 'object', recurrenceId: 'recurrenceId' } },
+				$router: { push: vi.fn() },
+				$emit: vi.fn(),
+				widgetStore: { closeWidgetEventDetails: vi.fn() },
+				calendarObjectInstanceStore: { resetCalendarObjectInstanceObjectIdAndRecurrenceId: vi.fn() },
+				eventEditorExtensionInstancesStore: { setEventEditorState },
+			}
+
+			EditorMixin.methods.closeEditor.call(vm)
+
+			expect(setEventEditorState).toHaveBeenCalledExactlyOnceWith(null)
+		})
+	})
+
+	describe('beforeRouteLeave', () => {
+		/**
+		 * Leave the editor route of a vm that saves successfully or fails to save.
+		 *
+		 * @param toName Name of the route to navigate to
+		 * @param saveFails Whether saving the event fails
+		 */
+		async function leave(toName, saveFails = false) {
+			const setEventEditorState = vi.fn()
+			const next = vi.fn()
+			const vm = {
+				requiresActionOnRouteLeave: true,
+				save: saveFails ? vi.fn().mockRejectedValue(new Error('Failed')) : vi.fn().mockResolvedValue(),
+				eventEditorExtensionInstancesStore: { setEventEditorState },
+			}
+			await EditorMixin.beforeRouteLeave.call(vm, { name: toName }, { name: 'EditPopoverView' }, next)
+			return { setEventEditorState, next }
+		}
+
+		it('disposes the event editor extensions when leaving to a route without editor', async () => {
+			const { setEventEditorState, next } = await leave('CalendarView')
+			expect(setEventEditorState).toHaveBeenCalledExactlyOnceWith(null)
+			expect(next).toHaveBeenCalledExactlyOnceWith()
+		})
+
+		it('keeps the event editor extensions when another editor takes over the event', async () => {
+			const { setEventEditorState, next } = await leave('EditFullView')
+			expect(setEventEditorState).not.toHaveBeenCalled()
+			expect(next).toHaveBeenCalledExactlyOnceWith()
+		})
+
+		it('keeps the event editor extensions when the editor stays open, as saving failed', async () => {
+			const { setEventEditorState, next } = await leave('CalendarView', true)
+			expect(setEventEditorState).not.toHaveBeenCalled()
+			expect(next).toHaveBeenCalledExactlyOnceWith(false)
 		})
 	})
 })

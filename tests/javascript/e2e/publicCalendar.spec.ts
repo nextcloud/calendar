@@ -5,12 +5,12 @@
 
 import { test } from './support/fixtures.ts'
 
-test('subscribe to a public calendar', async ({ provisioning, calendarPage, page }) => {
+test('subscribe to a public calendar', async ({ provisioning, calendarPage }) => {
 	const publicCalendarName = 'a public calendar'
 	const publicCalendarConfValue = JSON.stringify([{ name: publicCalendarName, source: 'http://aPublicCalendarSource' }])
+	// Before loading the page, which loads the config value.
 	await provisioning.updateAppConfigValue('calendar', 'publicCalendars', publicCalendarConfValue)
-	// Page needs to be reloaded because the config value is loaded on page load.
-	await page.reload()
+	await calendarPage.goto()
 	let dialog = await calendarPage.openPublicCalendarSubscriptionDialog()
 
 	await dialog.subscribeToCalendar(publicCalendarName)

@@ -10,6 +10,21 @@ import {
 import logger from '@/utils/logger.js'
 
 /**
+ * Names of the routes showing an event editor, keyed by themselves,
+ * e.g. to check whether a route shows an editor with `Object.hasOwn(EditorRouteName, route.name)`.
+ */
+export const EditorRouteName = Object.freeze({
+	EditPopoverView: 'EditPopoverView',
+	EditFullView: 'EditFullView',
+	NewPopoverView: 'NewPopoverView',
+	NewFullView: 'NewFullView',
+	PublicEditPopoverView: 'PublicEditPopoverView',
+	PublicEditFullView: 'PublicEditFullView',
+	EmbedEditPopoverView: 'EmbedEditPopoverView',
+	EmbedEditFullView: 'EmbedEditFullView',
+})
+
+/**
  * Gets the initial view
  *
  * @return {string}

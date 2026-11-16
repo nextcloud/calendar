@@ -4,9 +4,10 @@
  */
 
 import type { APIRequestContext } from '@playwright/test'
-import type { UserAccount } from './users.ts'
+import type { UserAccount } from './utils/users.ts'
 
 import { request } from '@playwright/test'
+import { getAuthorization } from './utils/users.ts'
 
 const ADMIN_ACCOUNT = {
 	userId: 'admin',
@@ -28,11 +29,10 @@ export class ProvisioningFacade {
 		if (this.api !== undefined) {
 			return this.api
 		}
-		const auth = Buffer.from(`${ADMIN_ACCOUNT.userId}:${ADMIN_ACCOUNT.password}`).toString('base64')
 		this.api = await request.newContext({
 			extraHTTPHeaders: {
 				'OCS-APIRequest': 'true',
-				Authorization: `Basic ${auth}`,
+				Authorization: getAuthorization(ADMIN_ACCOUNT),
 				Accept: 'application/json',
 			},
 		})

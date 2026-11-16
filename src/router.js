@@ -13,6 +13,7 @@ import EditSimple from '@/views/EditSimple.vue'
 import useProposalStore from '@/store/proposalStore'
 import logger from '@/utils/logger.js'
 import {
+	EditorRouteName,
 	getDefaultEndDateForNewEvent,
 	getDefaultStartDateForNewEvent,
 	getInitialView,
@@ -35,12 +36,12 @@ const router = createRouter({
 			children: [
 				{
 					path: '/p/:tokens/:view/:firstDay/view/popover/:object/:recurrenceId',
-					name: 'PublicEditPopoverView',
+					name: EditorRouteName.PublicEditPopoverView,
 					component: EditSimple,
 				},
 				{
 					path: '/p/:tokens/:view/:firstDay/view/full/:object/:recurrenceId',
-					name: 'PublicEditFullView',
+					name: EditorRouteName.PublicEditFullView,
 					component: EditFull,
 				},
 			],
@@ -52,12 +53,12 @@ const router = createRouter({
 			children: [
 				{
 					path: '/embed/:tokens/:view/:firstDay/view/popover/:object/:recurrenceId',
-					name: 'EmbedEditPopoverView',
+					name: EditorRouteName.EmbedEditPopoverView,
 					component: EditSimple,
 				},
 				{
 					path: '/embed/:tokens/:view/:firstDay/view/full/:object/:recurrenceId',
-					name: 'EmbedEditFullView',
+					name: EditorRouteName.EmbedEditFullView,
 					component: EditFull,
 				},
 			],
@@ -116,12 +117,12 @@ const router = createRouter({
 			children: [
 				{
 					path: '/:view/:firstDay/edit/popover/:object/:recurrenceId',
-					name: 'EditPopoverView',
+					name: EditorRouteName.EditPopoverView,
 					component: EditSimple,
 				},
 				{
 					path: '/:view/:firstDay/edit/full/:object/:recurrenceId',
-					name: 'EditFullView',
+					name: EditorRouteName.EditFullView,
 					component: EditFull,
 				},
 				// Redirect the old sidebar route until Calendar drops support for Nextcloud < 32
@@ -129,17 +130,17 @@ const router = createRouter({
 				{
 					path: '/:view/:firstDay/edit/sidebar/:object/:recurrenceId',
 					redirect: {
-						name: 'EditFullView',
+						name: EditorRouteName.EditFullView,
 					},
 				},
 				{
 					path: '/:view/:firstDay/new/popover/:allDay/:dtstart/:dtend',
-					name: 'NewPopoverView',
+					name: EditorRouteName.NewPopoverView,
 					component: EditSimple,
 				},
 				{
 					path: '/:view/:firstDay/new/full/:allDay/:dtstart/:dtend',
-					name: 'NewFullView',
+					name: EditorRouteName.NewFullView,
 					component: EditFull,
 				},
 				{
