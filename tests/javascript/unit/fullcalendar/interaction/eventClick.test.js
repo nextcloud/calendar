@@ -8,6 +8,7 @@ import { translate } from '@nextcloud/l10n'
 import { createPinia, setActivePinia } from 'pinia'
 import eventClick from '@/fullcalendar/interaction/eventClick.js'
 import EditorMixin from '@/mixins/EditorMixin.js'
+import useCalendarsStore from '@/store/calendars.js'
 import useSettingsStore from '@/store/settings.js'
 import {
 	getPrefixedRoute,
@@ -328,6 +329,44 @@ describe('fullcalendar/eventClick test suite', () => {
 			calendarId: 'reminders',
 			taskId: 'EAFB112A-4556-404A-B807-B1E040D0F7A0.ics',
 		})
+	})
+
+	it.each([
+		[true, 0],
+		[false, 1],
+	])('should open a Deck card in a popover (shown: %s)', async (shown, emitCalls) => {
+		const settingsStore = useSettingsStore()
+		settingsStore.tasksEnabled = true
+		const calendarsStore = useCalendarsStore()
+		const calendar = {
+			id: 'deck',
+			url: '/remote.php/dav/calendars/admin/app-generated--deck--board-12/',
+		}
+		calendarsStore.addCalendarMutation({ calendar })
+
+		const router = { push: vi.fn() }
+		const route = { name: 'CalendarView', params: { otherParam: '456' } }
+		const window = { innerWidth: 1920, innerHeight: 1080 }
+		const showReference = vi.fn().mockResolvedValue(shown)
+		const el = document.createElement('div')
+		const jsEvent = { preventDefault: vi.fn() }
+
+		const eventClickFunction = eventClick(router, route, window, false, undefined, showReference)
+		await eventClickFunction({ el, jsEvent, event: {
+			extendedProps: {
+				calendarId: 'deck',
+				davUrl: '/remote.php/dav/calendars/admin/app-generated--deck--board-12/card-34.ics',
+				objectType: 'VTODO',
+			},
+		} })
+
+		expect(showReference).toHaveBeenCalledWith({
+			url: expect.stringMatching(/\/apps\/deck\/card\/34$/),
+			el,
+		})
+		expect(jsEvent.preventDefault).toHaveBeenCalled()
+		expect(router.push.mock.calls.length).toEqual(0)
+		expect(emit).toHaveBeenCalledTimes(emitCalls)
 	})
 
 	it('should do nothing when tasks is disabled and route is public', () => {

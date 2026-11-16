@@ -924,7 +924,7 @@ export default {
 	max-height: 90vh;
 	overflow: hidden;
 	background: var(--color-main-background);
-	box-shadow: 0 4px 20px rgba(0, 0, 0, .8);
+	box-shadow: 0 var(--default-grid-baseline) calc(var(--default-grid-baseline) * 5) var(--color-box-shadow);
 	border: 1px solid var(--color-border);
 	border-radius: var(--border-radius-large);
 
@@ -1014,12 +1014,15 @@ export default {
 		position: absolute !important;
 		top: var(--default-grid-baseline) !important;
 		z-index: 100 !important;
-		opacity: .7 !important;
 		align-items: center;
 		inset-inline-end : var(--default-grid-baseline) !important;
 		.action-item.action-item--single {
 			width: 44px !important;
 			height: 44px !important;
+		}
+
+		:deep(.button-vue--tertiary) {
+			color: var(--color-text-maxcontrast);
 		}
 	}
 }

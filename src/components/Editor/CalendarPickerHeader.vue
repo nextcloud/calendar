@@ -253,7 +253,8 @@ export default {
 </script>
 
 <style lang="scss">
-.event-popover {
+.event-popover,
+.deck-card-popover {
 	.calendar-picker-header {
 		button {
 			margin-inline-start: -9px;
