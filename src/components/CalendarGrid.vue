@@ -8,6 +8,27 @@
 		ref="fullCalendar"
 		:class="isWidget ? 'fullcalendar-widget' : ''"
 		:options="options" />
+	<Teleport v-if="reference" :to="reference.element">
+		<NcPopover
+			class="reference-popover"
+			popoverBaseClass="reference-popover__popper"
+			:noFocusTrap="true"
+			:autoBoundaryMaxSize="true"
+			placement="bottom"
+			:shown="true"
+			:triggers="[]"
+			popupRole="dialog"
+			@applyShow="focusReferencePopover"
+			@update:shown="setReferencePopoverShown">
+			<template #trigger="{ attrs }">
+				<span v-bind="attrs" />
+			</template>
+			<DeckCardPopover
+				ref="deckCardPopover"
+				:deckCard="reference.data.richObject"
+				@close="closeReference" />
+		</NcPopover>
+	</Teleport>
 </template>
 
 <script>
@@ -20,11 +41,13 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue3'
 import { DateTimeValue } from '@nextcloud/calendar-js'
+import { NcPopover } from '@nextcloud/vue'
 // Import other dependencies
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 // Import event sources
+import DeckCardPopover from '@/components/DeckCardPopover.vue'
 import eventSource from '@/fullcalendar/eventSources/eventSource.js'
 // Import interaction handlers
 import eventAllow from '@/fullcalendar/interaction/eventAllow.js'
@@ -50,6 +73,7 @@ import {
 import noEventsDidMount from '@/fullcalendar/rendering/noEventsDidMount.js'
 // Import timezone plugins
 import VTimezoneNamedTimezone from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
+import { resolveReference } from '@/services/referenceService.ts'
 import useCalendarObjectsStore from '@/store/calendarObjects.js'
 import useCalendarsStore from '@/store/calendars.js'
 import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
@@ -62,6 +86,8 @@ export default {
 	name: 'CalendarGrid',
 	components: {
 		FullCalendar,
+		DeckCardPopover,
+		NcPopover,
 	},
 
 	props: {
@@ -86,6 +112,8 @@ export default {
 
 	data() {
 		return {
+			reference: null,
+			referenceRequest: 0,
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
 		}
@@ -130,7 +158,15 @@ export default {
 				editable: this.isEditable,
 				selectable: this.isAuthenticatedUser,
 				eventAllow,
-				eventClick: eventClick(this.$router, this.$route, window, this.isWidget, this.$refs),
+				eventClick: eventClick(
+					this.$router,
+					this.$route,
+					window,
+					this.isWidget,
+					this.$refs,
+					this.isAuthenticatedUser && !this.isWidget ? this.showReference : undefined,
+				),
+
 				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$refs.fullCalendar.getApi())(...args),
 				eventResize: this.isWidget ? false : eventResize(),
 				eventResizableFromStart: true,
@@ -329,6 +365,51 @@ export default {
 
 	methods: {
 		/**
+		 * Resolve a reference and show it in a popover next to the clicked element.
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {string} data.url The link to resolve
+		 * @param {HTMLElement} data.el The clicked element
+		 * @return {Promise<boolean>} Whether the popover is shown
+		 */
+		async showReference({ url, el }) {
+			const request = ++this.referenceRequest
+			this.reference = null
+			const data = await resolveReference(url)
+			if (data?.richObjectType !== 'deck-card' || request !== this.referenceRequest) {
+				return false
+			}
+
+			this.reference = {
+				element: el.querySelector('.fc-list-event-title') ?? el,
+				returnFocusElement: el,
+				data,
+			}
+			return true
+		},
+
+		setReferencePopoverShown(shown) {
+			if (!shown) {
+				this.reference = null
+			}
+		},
+
+		/**
+		 * Move focus into the reference popover once it is visible.
+		 */
+		focusReferencePopover() {
+			requestAnimationFrame(() => this.$refs.deckCardPopover?.$el.focus())
+		},
+
+		/**
+		 * Close the reference popover and return focus to the clicked event.
+		 */
+		closeReference() {
+			this.reference?.returnFocusElement.focus()
+			this.reference = null
+		},
+
+		/**
 		 * Scroll the month or list view to today when loading the calendar,
 		 * so people can directly see today's date and events.
 		 *
@@ -435,10 +516,46 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.reference-popover {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+:deep(.fc-list-event-title) {
+	position: relative;
+}
+
 .fullcalendar-widget{
 	min-height: 500px;
 	:deep(.fc-col-header-cell-cushion){
 		font-size: 9px;
+	}
+}
+</style>
+
+<style lang="scss">
+// The popover is rendered outside of this component, so it can't be styled with scoped styles
+.reference-popover__popper {
+	outline: none;
+
+	.v-popper__wrapper {
+		box-shadow: 0 var(--default-grid-baseline) calc(var(--default-grid-baseline) * 5) var(--color-box-shadow) !important;
+		border-radius: var(--border-radius-large) !important;
+	}
+
+	.v-popper__inner {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius-large) !important;
+
+		// Let the popover content shrink to the available height
+		> div:first-child {
+			display: flex;
+			flex-direction: column;
+			min-height: 0;
+		}
 	}
 }
 </style>
