@@ -21,4 +21,11 @@ export class EditFullDialog {
 		await this.locator.getByRole('button', { name: 'Find a time' }).click()
 		return new FreeBusyDialog(this.page)
 	}
+
+	/**
+	 * Save the changes to an existing event that is not recurring.
+	 */
+	async update() {
+		await this.locator.getByRole('button', { name: 'Update', exact: true }).click()
+	}
 }

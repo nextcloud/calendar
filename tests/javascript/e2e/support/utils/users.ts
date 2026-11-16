@@ -1,0 +1,18 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+export interface UserAccount {
+	userId: string
+	password: string
+}
+
+/**
+ * Header authenticating requests as the user.
+ *
+ * @param user The user to authenticate as
+ */
+export function getAuthorization(user: UserAccount): string {
+	return `Basic ${Buffer.from(`${user.userId}:${user.password}`).toString('base64')}`
+}

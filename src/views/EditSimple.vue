@@ -166,6 +166,8 @@
 							:isDescription="true"
 							@update:value="updateDescription" />
 
+						<ExtensionsCustomFields />
+
 						<InviteesList
 							v-if="!isViewing || (isViewing && hasAttendees)"
 							class="event-popover__invitees"
@@ -283,6 +285,7 @@
 <script>
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconDelete from '@mdi/svg/svg/delete.svg?raw'
+import { translate as t } from '@nextcloud/l10n'
 import {
 	NcActionButton as ActionButton,
 	NcActionLink as ActionLink,
@@ -308,6 +311,7 @@ import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
 import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
 import AttachmentsList from '@/components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
+import ExtensionsCustomFields from '@/components/Editor/ExtensionsCustomFields.vue'
 import InvitationResponseButtons
 	from '@/components/Editor/InvitationResponseButtons.vue'
 import InviteesList from '@/components/Editor/Invitees/InviteesList.vue'
@@ -356,6 +360,7 @@ export default {
 		NcDialog,
 		AddTalkModal,
 		IconVideo,
+		ExtensionsCustomFields,
 	},
 
 	mixins: [
@@ -433,6 +438,15 @@ export default {
 		 */
 		isReadOnlyOrViewing() {
 			return this.isReadOnly || this.isViewing || this.isWidget
+		},
+
+		/**
+		 * How the editor is shown, reported to the event editor extensions (see EditorMixin)
+		 *
+		 * @return {'preview'|'simple'}
+		 */
+		eventEditorView() {
+			return this.isViewing ? 'preview' : 'simple'
 		},
 
 		/**

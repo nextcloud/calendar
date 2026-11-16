@@ -6,23 +6,43 @@
 import type { Locator, Page } from '@playwright/test'
 
 import { expect } from '@playwright/test'
+import { CalendarGridPage } from './CalendarGridPage.ts'
 import { EditSimpleDialog } from './EditSimpleDialog.ts'
 import { PublicCalendarSubscriptionDialog } from './PublicCalendarSubscriptionDialog.ts'
 
 /**
  * Encapsulate common interactions with the calendar page.
  */
-export class CalendarPage {
+export class CalendarPage extends CalendarGridPage {
 	calendarNavigation: Locator
 	buttonNewEvent: Locator
 
-	constructor(private readonly page: Page) {
+	constructor(page: Page) {
+		super(page)
 		this.calendarNavigation = page.getByRole('navigation', { name: 'Calendar navigation' })
 		this.buttonNewEvent = page.getByRole('button', { name: 'Create new event' })
 	}
 
 	async goto() {
 		await this.page.goto('./index.php/apps/calendar')
+	}
+
+	/**
+	 * Show the events of a single day, e.g. to open a specific occurrence of a recurring event.
+	 *
+	 * @param date The day to show, in UTC
+	 */
+	async gotoDay(date: Date) {
+		await this.page.goto(`./index.php/apps/calendar/timeGridDay/${date.toISOString().slice(0, 10)}`)
+	}
+
+	/**
+	 * Show a meeting proposal, which the calendar page shows in a modal.
+	 *
+	 * @param proposalId Id of the proposal
+	 */
+	async gotoProposal(proposalId: string) {
+		await this.page.goto(`./index.php/apps/calendar/proposal/view/${proposalId}`)
 	}
 
 	async expectCalendarExists(calendarName: string) {
