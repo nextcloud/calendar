@@ -20,12 +20,13 @@
   "private": true,
   "scripts": {
     "build": "rspack build --env production",
+    "build:e2e-test-apps": "rspack build --config tests/apps/event_editor_extension/rspack.config.mts",
     "dev": "rspack build --env development",
     "watch": "rspack build --env development --watch",
     "analyze": "RSDOCTOR=true rspack build --env production",
     "stats": "rspack build --env production --json js/stats.json",
-    "lint": "eslint src tests/javascript/component tests/javascript/e2e",
-    "lint:fix": "eslint src tests/javascript/component tests/javascript/e2e --fix",
+    "lint": "eslint src tests/javascript/component tests/javascript/e2e tests/apps",
+    "lint:fix": "eslint src tests/javascript/component tests/javascript/e2e tests/apps --fix",
     "stylelint": "stylelint \"css/*.css\" \"css/*.scss\" \"src/**/*.scss\" \"src/**/*.vue\"",
     "stylelint:fix": "stylelint \"css/*.css\" \"css/*.scss\" \"src/**/*.scss\" \"src/**/*.vue\" --fix",
     "test:component": "playwright test --config playwright-ct.config.mts",
@@ -39,7 +40,8 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:ui:remote": "playwright test --ui-host=0.0.0.0 --ui-port=13000",
     "test:e2e:update-snapshots": "playwright test --update-snapshots",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "ts:check:e2e-test-apps": "tsc --noEmit --project tests/apps/event_editor_extension"
   },
   "dependencies": {
     "@fullcalendar/core": "6.1.22",
@@ -54,6 +56,7 @@
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.6.0",
     "@nextcloud/axios": "^2.6.0",
+    "@nextcloud/calendar": "https://github.com/nextcloud-libraries/nextcloud-calendar/releases/download/v0.0.1-dev.54e0c75/nextcloud-calendar-0.0.1-dev.54e0c75.tgz",
     "@nextcloud/calendar-availability-vue": "^3.0.0",
     "@nextcloud/calendar-js": "^8.1.8",
     "@nextcloud/cdav-library": "^2.8.2",

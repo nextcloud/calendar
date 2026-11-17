@@ -13,6 +13,7 @@ import { containsRoomUrl } from '@/services/talkService.ts'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import useCalendarObjectsStore from '@/store/calendarObjects.js'
 import useCalendarsStore from '@/store/calendars.js'
+import useEventEditorExtensionInstancesStore from '@/store/eventEditorExtensionInstances.ts'
 import usePrincipalsStore from '@/store/principals.js'
 import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
@@ -22,7 +23,7 @@ import { isBaseOccurrence } from '@/utils/calendarObject.js'
 import { uidToHexColor } from '@/utils/color.js'
 import { dateFactory } from '@/utils/date.js'
 import logger from '@/utils/logger.js'
-import { getDefaultEndDateForNewEvent, getDefaultStartDateForNewEvent, getPrefixedRoute, getViewMode, ViewMode } from '@/utils/router.js'
+import { EditorRouteName, getDefaultEndDateForNewEvent, getDefaultStartDateForNewEvent, getPrefixedRoute, getViewMode, ViewMode } from '@/utils/router.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -84,7 +85,7 @@ export default {
 		...mapState(useSettingsStore, ['talkEnabled']),
 		...mapState(useCalendarsStore, ['initialCalendarsLoaded']),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObject', 'calendarObjectInstance']),
-		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore),
+		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore, useEventEditorExtensionInstancesStore),
 		eventComponent() {
 			return this.calendarObjectInstance?.eventComponent
 		},
@@ -456,6 +457,42 @@ export default {
 		isCreateTalkRoomButtonVisible() {
 			return this.talkEnabled && this.isViewedByOrganizer !== false && this.isReadOnly !== true
 		},
+
+		/**
+		 * State of this editor reported to the event editor extensions.
+		 * Components using this mixin define `eventEditorView`.
+		 *
+		 * `null` if no event is open or loading it failed.
+		 * While an event loads, this is the state of the event still open in the store,
+		 * e.g. of the same event when switching from the popover to the full editor,
+		 * so that the extensions are kept for it.
+		 * A widget has no other editor to take over the event, so the event still in the store
+		 * is of a previously closed editor, and is not reported while loading.
+		 *
+		 * @return {import('@/store/eventEditorExtensionInstances').EventEditorExtensionState|null}
+		 */
+		eventEditorExtensionState() {
+			if (!this.calendarObject || !this.eventComponent || this.isError) {
+				return null
+			}
+
+			let access = 'full'
+			if (this.isReadOnly) {
+				access = 'view'
+			} else if (this.viewMode === ViewMode.WIDGET) {
+				// The widget only views events, even of calendars the user can change.
+				access = 'view'
+			} else if (this.isViewedByOrganizer === false) {
+				access = 'respond'
+			}
+
+			return {
+				calendarObject: this.calendarObject,
+				eventComponent: this.eventComponent,
+				access,
+				view: this.eventEditorView,
+			}
+		},
 	},
 
 	async created() {
@@ -537,6 +574,16 @@ export default {
 		]
 	},
 
+	watch: {
+		eventEditorExtensionState: {
+			handler(eventEditorExtensionState) {
+				this.eventEditorExtensionInstancesStore.setEventEditorState(eventEditorExtensionState)
+			},
+			immediate: true,
+			flush: 'post',
+		},
+	},
+
 	beforeUnmount() {
 		this.hotKeysRegister.forEach((stop) => stop())
 	},
@@ -607,6 +654,10 @@ export default {
 		 * Closes the editor and returns to normal calendar-view
 		 */
 		closeEditor() {
+			// Not when the editor is unmounted, as another editor might take over the event,
+			// e.g. the full editor from the popover, which keeps the extensions set up for it.
+			this.eventEditorExtensionInstancesStore.setEventEditorState(null)
+
 			if (this.isWidget) {
 				this.widgetStore.closeWidgetEventDetails()
 				return
@@ -705,6 +756,9 @@ export default {
 			if (!this.canUpdate(scope)) {
 				return
 			}
+
+			// Changes the extensions make to the event are saved with it
+			this.eventEditorExtensionInstancesStore.notifyBeforeSave()
 
 			// If this is a new event, mark it as dirty so that it is saved even when no changes were made
 			// (e.g. when creating an event and immediately saving it without title etc.)
@@ -1202,9 +1256,19 @@ export default {
 	 * @param {(vm?: object) => void} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteLeave(to, from, next) {
+		// Leaving the editor without closing it, e.g. with the back button of the browser.
+		// Not if another editor takes over the event, e.g. the full editor from the popover,
+		// which keeps the extensions set up for it.
+		const disposeEventEditorExtensionsIfLeavingEditor = () => {
+			if (!Object.hasOwn(EditorRouteName, to.name)) {
+				this.eventEditorExtensionInstancesStore.setEventEditorState(null)
+			}
+		}
+
 		// requiresActionOnRouteLeave is false when an action like deleting / saving / cancelling was already taken.
 		// The responsibility of this method is to automatically save the event when the user clicks outside the editor
 		if (!this.requiresActionOnRouteLeave) {
+			disposeEventEditorExtensionsIfLeavingEditor()
 			next()
 			return
 		}
@@ -1214,6 +1278,7 @@ export default {
 				&& (from.name !== 'NewPopoverView' || to.name !== 'EditFullView')) {
 				await this.save()
 			}
+			disposeEventEditorExtensionsIfLeavingEditor()
 			next()
 		} catch (error) {
 			logger.debug(error)
