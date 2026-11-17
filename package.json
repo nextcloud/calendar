@@ -39,7 +39,9 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:ui:remote": "playwright test --ui-host=0.0.0.0 --ui-port=13000",
     "test:e2e:update-snapshots": "playwright test --update-snapshots",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "changelog": "conventional-changelog -p angular -n changelog.config.mjs -i CHANGELOG.md -s",
+    "changelog:full": "conventional-changelog -p angular -n changelog.config.mjs -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {
     "@fullcalendar/core": "6.1.22",
@@ -108,6 +110,7 @@
     "@vitest/eslint-plugin": "^1.6.28",
     "@vue/compiler-sfc": "^3.5.45",
     "@vue/test-utils": "^2.6.0",
+    "conventional-changelog-cli": "^5.0.0",
     "css-loader": "^7.1.5",
     "eslint-plugin-path": "^3.0.0",
     "eslint-plugin-playwright": "^2.12.2",
