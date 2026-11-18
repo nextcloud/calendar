@@ -108,7 +108,7 @@ composer test:integration:dev                                       # Run and st
 Do NOT commit changes unless explicitly asked to do so.
 
 After completing code changes:
-1. Verify your work is complete and tests pass
+1. Verify your work is complete and tests pass. Validate every change to runtime behavior on a live Nextcloud instance where you can, and give the contributor concrete steps to test it there themselves — your testing supports theirs, it does not replace it.
 2. Never push directly to `main` — always create a feature branch with a descriptive name (e.g. `perf/imap-selective-headers`, `fix/sync-token`, `chore/update-agents`).
 3. Worktree branches must use descriptive feature-branch names, not generated names like `agent-xxxx`.
 4. Make sure there is no trailing whitespace
@@ -128,7 +128,19 @@ git commit --fixup=<sha>   # targets the specific commit being corrected
 
 The branch will be rebased and squashed into a clean history before merge (CI enforces this). The failing "clean history" CI check is intentional and expected during review — ignore it until the PR has a positive review, then rebase to clean up.
 
+### Issues, PR descriptions and comments
+
+Issues, PR descriptions and comments may be drafted with AI and posted on the contributor's behalf when they ask for it. Write them for human readers (see the [AI Contribution Policy](https://github.com/nextcloud/.github/blob/master/AI_POLICY.md)):
+
+- Lead with what changed and why it matters, in plain and concise sentences. Don't restate the diff file by file, add filler, or paste raw tool output.
+- Keep the repository's PR or issue template intact and fill in every section, including the AI disclosure checkbox. For a bug report, also state whether the bug was validated and reproduced on a live Nextcloud instance.
+- End AI-drafted issues and comments with a footer such as `Assisted by <AgentName>:<model-id>`.
+- Put information meant only for agents (plans, prompts, tool logs) into a collapsed `<details>` block.
+- Tell the contributor what you posted.
+
 ### Commit Message Format
+
+The message body explains **why** the change was made — the problem it solves and the decisions the diff does not show — not how; the diff already shows that. Don't restate the changed lines as a bullet list.
 
 All commits must include two trailers at the end:
 1. Agent/model attribution: `Assisted-by: <AgentName>:<model-id>`
@@ -140,12 +152,13 @@ This ensures the sign-off includes your configured Git user email.
 
 Example:
 ```
-fix(deps): update package dependencies
+fix(alarms): keep reminders when moving an event to another calendar
 
-- update package X to latest stable version
-- verify all tests pass
+Moving an event recreated it in the target calendar without its
+VALARM components, so reminders were silently lost. Copy the alarms
+along with the event.
 
-Assisted-by: Claude:claude-sonnet-4-6
+Assisted-by: ClaudeCode:claude-sonnet-5-5
 Signed-off-by: Name <email>
 ```
 
