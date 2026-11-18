@@ -57,6 +57,18 @@
 							@saveOccurrence="prepareAccessForAttachments('occurrence')"
 							@saveFuture="prepareAccessForAttachments('future')"
 							@saveSeries="prepareAccessForAttachments('series')" />
+						<NcButton
+							v-if="mailDeepLink && !isNew"
+							variant="tertiary"
+							:href="mailDeepLink"
+							target="_blank"
+							rel="noopener noreferrer"
+							:ariaLabel="t('calendar', 'Open email')"
+							:title="t('calendar', 'Open email')">
+							<template #icon>
+								<EmailOutline :size="20" />
+							</template>
+						</NcButton>
 						<div class="app-full__actions__inner" :class="[{ 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
 								<NcActionButton v-if="eventLink && !isNew" @click="copyEventLink()">
@@ -364,6 +376,7 @@ import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
+import EmailOutline from 'vue-material-design-icons/EmailOutline.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
@@ -390,6 +403,7 @@ import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import usePrincipalsStore from '@/store/principals.js'
 import useSettingsStore from '@/store/settings.js'
 import logger from '@/utils/logger.js'
+import { getMailDeepLink } from '@/utils/mailDeepLink.js'
 import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 export default {
@@ -425,6 +439,7 @@ export default {
 		CalendarPickerHeader,
 		PropertyTitle,
 		IconVideo,
+		EmailOutline,
 		HelpCircleIcon,
 		NcActions,
 		Close,
@@ -537,6 +552,15 @@ export default {
 
 		showInvitationForwarding() {
 			return isAfterVersion(34)
+		},
+
+		/**
+		 * Link to the email this event was created from, if any
+		 *
+		 * @return {string|null}
+		 */
+		mailDeepLink() {
+			return getMailDeepLink(this.calendarObjectInstance?.eventComponent)
 		},
 	},
 
