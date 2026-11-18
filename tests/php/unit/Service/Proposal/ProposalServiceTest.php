@@ -414,6 +414,36 @@ class ProposalServiceTest extends TestCase {
 		$this->service->createProposal($this->user, $proposal);
 	}
 
+	public function testCreateProposalRejectsFailedRetrieval(): void {
+		$proposal = $this->createProposal();
+		$this->proposalMapper->method('insert')->willReturn($this->createProposalEntry(1, 'Proposal'));
+		$this->proposalMapper->method('fetchById')->with('testuser', 1)->willReturn(null);
+		$this->userMailManager->expects($this->never())->method('findServiceByAddress');
+		$this->calendarManager->expects($this->never())->method('getCalendarsForPrincipal');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Stored proposal could not be retrieved');
+
+		$this->service->createProposal($this->user, $proposal);
+	}
+
+	public function testModifyProposalRejectsFailedRetrieval(): void {
+		$proposal = $this->createProposal(1);
+		$this->proposalMapper->expects($this->exactly(2))->method('fetchById')->with('testuser', 1)
+			->willReturnOnConsecutiveCalls($this->createProposalEntry(1, 'Proposal'), null);
+		$this->proposalParticipantMapper->method('fetchByProposalId')->willReturn([]);
+		$this->proposalDateMapper->method('fetchByProposalId')->willReturn([]);
+		$this->proposalVoteMapper->method('fetchByProposalId')->willReturn([]);
+		$this->proposalMapper->expects($this->once())->method('update');
+		$this->userMailManager->expects($this->never())->method('findServiceByAddress');
+		$this->calendarManager->expects($this->never())->method('getCalendarsForPrincipal');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Stored proposal could not be retrieved');
+
+		$this->service->modifyProposal($this->user, $proposal);
+	}
+
 	public function testCreateProposalWithExistingId(): void {
 		$proposal = $this->createProposal(1, 'Existing Proposal'); // Existing proposal
 
@@ -1041,13 +1071,23 @@ class ProposalServiceTest extends TestCase {
 			->invoke($this->service, $this->user, $proposal, 'C', $vObject);
 	}
 
-	public function testProposalNotificationUsesMailProvider(): void {
+	/**
+	 * @dataProvider optionalProposalDetails
+	 */
+	public function testProposalNotificationUsesMailProvider(?string $description, ?string $location, array $expectedDetails): void {
 		$proposal = $this->createProposal(1);
+		$proposal->setDescription($description);
+		$proposal->setLocation($location);
 		$participant = new ProposalParticipantObject();
 		$participant->setAddress('participant@example.com');
 		$participant->setName('Participant');
 		$participant->setToken('participant-token');
 		$template = $this->createMock(IEMailTemplate::class);
+		$bodyItems = [];
+		$template->expects($this->exactly(2 + count($expectedDetails)))->method('addBodyListItem')
+			->willReturnCallback(function (string $text) use (&$bodyItems): void {
+				$bodyItems[] = $text;
+			});
 		$template->method('renderSubject')->willReturn('Proposed meeting');
 		$template->method('renderText')->willReturn('Meeting details');
 		$template->method('renderHtml')->willReturn('<p>Meeting details</p>');
@@ -1072,6 +1112,16 @@ class ProposalServiceTest extends TestCase {
 
 		(new \ReflectionMethod(ProposalService::class, 'sendEmailNotifications'))
 			->invoke($this->service, $this->user, $proposal, $participant, 'C');
+
+		$this->assertSame($expectedDetails, array_slice($bodyItems, 0, count($expectedDetails)));
+	}
+
+	public static function optionalProposalDetails(): array {
+		return [
+			'unset' => [null, null, []],
+			'empty' => ['', '', []],
+			'populated' => ['Description', 'Room', ['Description', 'Room']],
+		];
 	}
 
 	public function testConvertProposalAttendeeAttendanceMapping(): void {

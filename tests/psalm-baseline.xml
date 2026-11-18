@@ -138,20 +138,4 @@
       <code><![CDATA[preg_replace("/\n+/", "\n", str_replace(';', "\n", $address))]]></code>
     </PossiblyInvalidArgument>
   </file>
-  <file src="lib/Service/Proposal/ProposalService.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$proposal->getDescription()]]></code>
-      <code><![CDATA[$proposal->getId()]]></code>
-      <code><![CDATA[$proposal->getId()]]></code>
-      <code><![CDATA[$proposal->getId()]]></code>
-      <code><![CDATA[$proposal->getId()]]></code>
-      <code><![CDATA[$proposal->getId()]]></code>
-      <code><![CDATA[$proposal->getId()]]></code>
-      <code><![CDATA[$proposal->getId()]]></code>
-      <code><![CDATA[$proposal->getId()]]></code>
-      <code><![CDATA[$proposal->getLocation()]]></code>
-      <code><![CDATA[$proposal]]></code>
-      <code><![CDATA[$proposal]]></code>
-    </PossiblyNullArgument>
-  </file>
 </files>

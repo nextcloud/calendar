@@ -222,6 +222,9 @@ class ProposalService {
 		}
 		// retrieve full proposal with participants, dates, and votes
 		$proposal = $this->fetchProposal($user, $proposalId);
+		if ($proposal === null) {
+			throw new \RuntimeException('Stored proposal could not be retrieved');
+		}
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'C');
@@ -290,6 +293,9 @@ class ProposalService {
 		}
 		// retrieve full proposal with participants, dates, and votes
 		$proposal = $this->fetchProposal($user, $proposalId);
+		if ($proposal === null) {
+			throw new \RuntimeException('Stored proposal could not be retrieved');
+		}
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'M');
@@ -310,10 +316,10 @@ class ProposalService {
 			throw new \InvalidArgumentException('Proposal not found');
 		}
 		// destroy the proposal entry
-		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalMapper->deleteById($user->getUID(), $proposal->getId());
+		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $identifier);
+		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $identifier);
+		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $identifier);
+		$this->proposalMapper->deleteById($user->getUID(), $identifier);
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'D');
@@ -401,10 +407,10 @@ class ProposalService {
 		);
 
 		// destroy the proposal entry
-		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalMapper->deleteById($user->getUID(), $proposal->getId());
+		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposalId);
+		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposalId);
+		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposalId);
+		$this->proposalMapper->deleteById($user->getUID(), $proposalId);
 	}
 
 	public function convertProposalAttendeeAttendance(ProposalDateObject $date, ProposalParticipantObject $participant, ProposalVoteCollection $votes): string {
@@ -561,12 +567,14 @@ class ProposalService {
 			$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
 		);
 		// description
-		if (!empty($proposal->getDescription())) {
-			$template->addBodyListItem($proposal->getDescription(), $this->l10n->t('Description:'));
+		$description = $proposal->getDescription();
+		if (!empty($description)) {
+			$template->addBodyListItem($description, $this->l10n->t('Description:'));
 		}
 		// location
-		if (!empty($proposal->getLocation())) {
-			$template->addBodyListItem($proposal->getLocation(), $this->l10n->t('Location:'));
+		$location = $proposal->getLocation();
+		if (!empty($location)) {
+			$template->addBodyListItem($location, $this->l10n->t('Location:'));
 		}
 		// duration
 		if ($proposal->getDuration() > 0) {
