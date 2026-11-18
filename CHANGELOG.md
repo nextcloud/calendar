@@ -1,3 +1,25 @@
+## [6.6.6](https://github.com/nextcloud/calendar/compare/v6.6.5...v6.6.6) (2026-11-18)
+
+
+### Bug Fixes
+
+* **attachments:** share picked files by their real path ([059725e](https://github.com/nextcloud/calendar/commit/059725e4df596ede43f04318457439d0a57b4894))
+* **l10n:** Update translations from Transifex ([82e65b4](https://github.com/nextcloud/calendar/commit/82e65b46558f8d6385b969e66d31e8730fa08e65))
+* **l10n:** Update translations from Transifex ([133c63f](https://github.com/nextcloud/calendar/commit/133c63fb50cdd1d0310297d8d03e4df5207dc6da))
+* **l10n:** Update translations from Transifex ([efd7356](https://github.com/nextcloud/calendar/commit/efd7356d3d2978f99a47968bf3275923133d2a09))
+* **l10n:** Update translations from Transifex ([83efafa](https://github.com/nextcloud/calendar/commit/83efafab7b0cc6a06a71fa1c84687c18c06318c7))
+* **l10n:** Update translations from Transifex ([d7aebac](https://github.com/nextcloud/calendar/commit/d7aebac467429b5b6197e447728694dfea382ee0))
+* **l10n:** Update translations from Transifex ([c898271](https://github.com/nextcloud/calendar/commit/c898271bfa543f8ab2d0af1a0d63ba59b9c1a146))
+* **l10n:** Update translations from Transifex ([073a400](https://github.com/nextcloud/calendar/commit/073a4009e3beab1c0f695169a66d2dc2225387d7))
+* **l10n:** Update translations from Transifex ([d7b32bb](https://github.com/nextcloud/calendar/commit/d7b32bb89c506d310eee1c540e60e21b21713eba))
+* **l10n:** Update translations from Transifex ([7344545](https://github.com/nextcloud/calendar/commit/7344545fd58a38f319a70e7024540c91c4595f65))
+* **l10n:** Update translations from Transifex ([8020bdd](https://github.com/nextcloud/calendar/commit/8020bdd7c209d8f8edfc3e0851678e1df73f5031))
+* **l10n:** Update translations from Transifex ([320ca96](https://github.com/nextcloud/calendar/commit/320ca962c69976b7ef17c3326af0e997b6aeba15))
+* **l10n:** Update translations from Transifex ([04c7554](https://github.com/nextcloud/calendar/commit/04c75544e179288d79d88b82058763cdabaa01b9))
+* **talk:** resolve Talk attendees by email instead of display name ([a15c0df](https://github.com/nextcloud/calendar/commit/a15c0dfc71d785592264d8c3ff515e7985180206))
+
+
+
 ## [6.6.5](https://github.com/nextcloud/calendar/compare/v6.6.4...v6.6.5) (2026-11-05)
 
 
