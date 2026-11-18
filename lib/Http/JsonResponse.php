@@ -22,11 +22,16 @@ use function get_class;
 /**
  * @see https://github.com/omniti-labs/jsend
  *
- * @psalm-suppress MissingTemplateParam
+ * @psalm-type JsonData = null|string|int|float|bool|array|\stdClass|JsonSerializable
+ * @extends Base<Http::STATUS_*, JsonData, array<string, mixed>>
  */
-class JsonResponse extends Base {
+final class JsonResponse extends Base {
 
-	public function __construct($data = [],
+	/**
+	 * @param JsonData $data
+	 * @param Http::STATUS_* $statusCode
+	 */
+	public function __construct(mixed $data = [],
 		int $statusCode = Http::STATUS_OK) {
 		parent::__construct($data, $statusCode);
 
@@ -34,12 +39,10 @@ class JsonResponse extends Base {
 	}
 
 	/**
-	 * @param array|JsonSerializable|bool|string $data
-	 * @param int $status
-	 *
-	 * @return self
+	 * @param JsonData $data
+	 * @param Http::STATUS_* $status
 	 */
-	public static function success($data = null,
+	public static function success(mixed $data = null,
 		int $status = Http::STATUS_OK): self {
 		return new self(
 			[
@@ -51,12 +54,10 @@ class JsonResponse extends Base {
 	}
 
 	/**
-	 * @param array|JsonSerializable|bool|string $data
-	 * @param int $status
-	 *
-	 * @return self
+	 * @param JsonData $data
+	 * @param Http::STATUS_* $status
 	 */
-	public static function fail($data = null,
+	public static function fail(mixed $data = null,
 		int $status = Http::STATUS_BAD_REQUEST): self {
 		return new self(
 			[
@@ -67,10 +68,13 @@ class JsonResponse extends Base {
 		);
 	}
 
+	/**
+	 * @param Http::STATUS_* $status
+	 */
 	public static function error(string $message,
 		int $status = Http::STATUS_INTERNAL_SERVER_ERROR,
 		array $data = [],
-		int $code = 0): self {
+		int|string $code = 0): self {
 		return new self(
 			[
 				'status' => 'error',
@@ -83,6 +87,7 @@ class JsonResponse extends Base {
 	}
 
 	/**
+	 * @param Http::STATUS_* $status
 	 * @param mixed[] $data
 	 */
 	public static function errorFromThrowable(Throwable $error,

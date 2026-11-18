@@ -41,14 +41,6 @@
       <code><![CDATA[$this->getCalendarFreebusyUris()]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="lib/Http/JsonResponse.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$statusCode]]></code>
-    </ArgumentTypeCoercion>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$error->getCode()]]></code>
-    </PossiblyInvalidArgument>
-  </file>
   <file src="lib/Listener/NotifyPushListener.php">
     <UndefinedClass>
       <code><![CDATA[$this->queue]]></code>
