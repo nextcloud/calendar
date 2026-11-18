@@ -133,7 +133,7 @@ The branch will be rebased and squashed into a clean history before merge (CI en
 Issues, PR descriptions and comments may be drafted with AI and posted on the contributor's behalf when they ask for it. Write them for human readers (see the [AI Contribution Policy](https://github.com/nextcloud/.github/blob/master/AI_POLICY.md)):
 
 - Lead with what changed and why it matters, in plain and concise sentences. Don't restate the diff file by file, add filler, or paste raw tool output.
-- Keep the repository's PR or issue template intact and fill in every section, including the AI disclosure checkbox. For a bug report, also state whether the bug was validated and reproduced on a live Nextcloud instance.
+- Keep the repository's PR or issue template intact and fill in every section, including the AI disclosure. For a bug report, also state whether the bug was validated and reproduced on a live Nextcloud instance.
 - End AI-drafted issues and comments with a footer such as `Assisted by <AgentName>:<model-id>`.
 - Put information meant only for agents (plans, prompts, tool logs) into a collapsed `<details>` block.
 - Tell the contributor what you posted.
