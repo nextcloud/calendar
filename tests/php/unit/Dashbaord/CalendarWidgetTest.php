@@ -392,6 +392,36 @@ class CalendarWidgetTest extends TestCase {
 		$this->assertSame((string)($time + $day), $widgets[0]->getSinceId());
 	}
 
+	public function testGetItemsSkipsCancelledEventsAndOccurrences(): void {
+		$time = 1665550936;
+		$hour = 3600;
+		$event = $this->createSearchResult('Event', $time + 3 * $hour);
+		$cancelledEvent = $this->createSearchResult('Cancelled event', $time + $hour);
+		$cancelledEvent['objects'][0]['STATUS'] = ['CANCELLED', []];
+		// Only the next occurrence is cancelled, the widget shows the one after it
+		$series = $this->createSearchResult('Series', $time + 2 * $hour, $time + 26 * $hour);
+		$series['objects'][0]['STATUS'] = ['CANCELLED', []];
+		// Enumerated values are case-insensitive
+		$cancelledSeries = $this->createSearchResult('Cancelled series', $time + 4 * $hour, $time + 28 * $hour);
+		$cancelledSeries['objects'][0]['STATUS'] = ['cancelled', []];
+		$cancelledSeries['objects'][1]['STATUS'] = ['cancelled', []];
+		$confirmedEvent = $this->createSearchResult('Confirmed event', $time + 5 * $hour);
+		$confirmedEvent['objects'][0]['STATUS'] = ['CONFIRMED', []];
+		$this->timeFactory->method('getTime')->willReturn($time);
+		$this->dateTimeFormatter->method('formatTimeSpan')->willReturn('');
+		$this->calendarManager->method('getCalendarsForPrincipal')->willReturn([
+			$this->createCalendar([$cancelledEvent, $series, $event, $cancelledSeries, $confirmedEvent]),
+		]);
+
+		$widgets = $this->widget->getItems('admin');
+
+		$this->assertSame(
+			['Event', 'Confirmed event', 'Series'],
+			array_map(static fn (WidgetItem $item): string => $item->getTitle(), $widgets),
+		);
+		$this->assertSame((string)($time + 26 * $hour), $widgets[2]->getSinceId());
+	}
+
 	public function testGetItemsLimitsItemsAcrossCalendars(): void {
 		$time = 1665550936;
 		$eventsA = [];
