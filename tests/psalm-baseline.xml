@@ -101,14 +101,6 @@
       <code><![CDATA[$timeZone]]></code>
     </ArgumentTypeCoercion>
   </file>
-  <file src="lib/Service/Appointments/EventConflictFilter.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[$followUpDuration]]></code>
-      <code><![CDATA[$followUpDuration]]></code>
-      <code><![CDATA[$preparationDuration]]></code>
-      <code><![CDATA[$preparationDuration]]></code>
-    </PossiblyFalseArgument>
-  </file>
   <file src="lib/Service/Appointments/MailService.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$booking->getTimezone()]]></code>
