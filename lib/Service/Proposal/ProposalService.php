@@ -743,10 +743,6 @@ class ProposalService {
 	 *  Create or update calendar blocker event(s) for participant(s)
 	 */
 	private function applyCalendarBlockersParticipant(IUser $user, ProposalObject $proposal, string $reason, VCalendar $vObject): void {
-		// if the calendar manager does not have a handleIMip method, we cannot generate iTip messages
-		if (!method_exists($this->calendarManager, 'handleIMip')) {
-			return;
-		}
 		// TODO: change REQUEST to PUBLISH
 		$vObject->add('METHOD', $reason !== 'D' ? 'REQUEST' : 'CANCEL');
 

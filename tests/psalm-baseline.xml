@@ -233,7 +233,6 @@
     </PossiblyNullArrayOffset>
     <TypeDoesNotContainType>
       <code><![CDATA[method_exists($mailService, 'initiateMessage')]]></code>
-      <code><![CDATA[method_exists($this->calendarManager, 'handleIMip')]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="lib/UserMigration/Migrator.php">

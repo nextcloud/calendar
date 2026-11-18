@@ -51,6 +51,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
 use Sabre\DAV\Tree;
+use Sabre\VObject\Component\VCalendar;
 
 class ProposalServiceTest extends TestCase {
 
@@ -857,6 +858,30 @@ class ProposalServiceTest extends TestCase {
 		$this->expectExceptionMessage('Could not find a useable calendar');
 
 		$service->convertProposal($this->user, 1, 10);
+	}
+
+	public function testCalendarBlockersSendSchedulingRequestToInternalParticipant(): void {
+		$proposal = $this->createProposal(1);
+		$participant = new ProposalParticipantObject();
+		$participant->setAddress('participant@example.com');
+		$participant->setRealm(ProposalParticipantRealm::Internal);
+		$proposal->getParticipants()->append($participant);
+		$participantUser = $this->createMock(IUser::class);
+		$participantUser->method('getUID')->willReturn('participant');
+		$this->userManager->expects($this->once())->method('getByEmail')
+			->with('participant@example.com')->willReturn([$participantUser]);
+		$vObject = new VCalendar(['VEVENT' => ['UID' => 'proposal-uid']]);
+		$this->calendarManager->expects($this->once())->method('handleIMip')
+			->with(
+				'participant',
+				$this->callback(function (string $message): bool {
+					return str_contains($message, 'METHOD:REQUEST') && str_contains($message, 'UID:proposal-uid');
+				}),
+				['absent' => 'create'],
+			);
+
+		(new \ReflectionMethod(ProposalService::class, 'applyCalendarBlockersParticipant'))
+			->invoke($this->service, $this->user, $proposal, 'C', $vObject);
 	}
 
 	public function testConvertProposalAttendeeAttendanceMapping(): void {
