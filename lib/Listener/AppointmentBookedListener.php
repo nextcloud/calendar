@@ -18,6 +18,9 @@ use OCP\IUserManager;
 use OCP\Talk\IBroker;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-implements IEventListener<BeforeAppointmentBookedEvent>
+ */
 class AppointmentBookedListener implements IEventListener {
 
 	public function __construct(
