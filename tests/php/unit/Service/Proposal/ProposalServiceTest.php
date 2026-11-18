@@ -42,8 +42,13 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\IManager as IMailManager;
+use OCP\Mail\Provider\IMessage;
+use OCP\Mail\Provider\IMessageSend;
+use OCP\Mail\Provider\IService;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -882,6 +887,39 @@ class ProposalServiceTest extends TestCase {
 
 		(new \ReflectionMethod(ProposalService::class, 'applyCalendarBlockersParticipant'))
 			->invoke($this->service, $this->user, $proposal, 'C', $vObject);
+	}
+
+	public function testProposalNotificationUsesMailProvider(): void {
+		$proposal = $this->createProposal(1);
+		$participant = new ProposalParticipantObject();
+		$participant->setAddress('participant@example.com');
+		$participant->setName('Participant');
+		$participant->setToken('participant-token');
+		$template = $this->createMock(IEMailTemplate::class);
+		$template->method('renderSubject')->willReturn('Proposed meeting');
+		$template->method('renderText')->willReturn('Meeting details');
+		$template->method('renderHtml')->willReturn('<p>Meeting details</p>');
+		$this->systemMailManager->method('createEMailTemplate')
+			->with('calendar.proposal.notification')->willReturn($template);
+		$this->appConfig->method('getValueBool')
+			->with('core', 'mail_providers_enabled', true)->willReturn(true);
+		$mailService = $this->createMockForIntersectionOfInterfaces([IService::class, IMessageSend::class]);
+		$this->userMailManager->expects($this->once())->method('findServiceByAddress')
+			->with('testuser', 'test@example.com')->willReturn($mailService);
+		$message = $this->createMock(IMessage::class);
+		$mailService->expects($this->once())->method('initiateMessage')->willReturn($message);
+		$message->expects($this->once())->method('setFrom')
+			->with(new Address('test@example.com', 'Test User'));
+		$message->expects($this->once())->method('setTo')
+			->with(new Address('participant@example.com', 'Participant'));
+		$message->expects($this->once())->method('setSubject')->with('Proposed meeting');
+		$message->expects($this->once())->method('setBodyPlain')->with('Meeting details');
+		$message->expects($this->once())->method('setBodyHtml')->with('<p>Meeting details</p>');
+		$mailService->expects($this->once())->method('sendMessage')->with($message);
+		$this->systemMailManager->expects($this->never())->method('send');
+
+		(new \ReflectionMethod(ProposalService::class, 'sendEmailNotifications'))
+			->invoke($this->service, $this->user, $proposal, $participant, 'C');
 	}
 
 	public function testConvertProposalAttendeeAttendanceMapping(): void {

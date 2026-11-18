@@ -231,9 +231,6 @@
       <code><![CDATA[$proposalVoteEntries]]></code>
       <code><![CDATA[$proposalVoteEntries]]></code>
     </PossiblyNullArrayOffset>
-    <TypeDoesNotContainType>
-      <code><![CDATA[method_exists($mailService, 'initiateMessage')]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/UserMigration/Migrator.php">
     <PossiblyNullArgument>

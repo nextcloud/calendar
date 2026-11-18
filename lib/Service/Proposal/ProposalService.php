@@ -579,10 +579,6 @@ class ProposalService {
 			// evaluate if a mail service was found and has sending capabilities
 			if (isset($mailService) && $mailService instanceof IMessageSend) {
 				// construct mail message and set required parameters
-				// this condition is just to make psalm happy
-				if (!method_exists($mailService, 'initiateMessage')) {
-					throw new \RuntimeException('Mail service does not support message initiation');
-				}
 				$message = $mailService->initiateMessage();
 				$message->setFrom(
 					(new Address($senderAddress, $senderName))
