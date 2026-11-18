@@ -32,15 +32,6 @@
       <code><![CDATA[$startDate]]></code>
     </PossiblyUndefinedVariable>
   </file>
-  <file src="lib/Db/AppointmentConfig.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[json_encode($availability)]]></code>
-      <code><![CDATA[json_encode($uris)]]></code>
-    </PossiblyFalseArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[$this->getCalendarFreebusyUris()]]></code>
-    </PossiblyNullArgument>
-  </file>
   <file src="lib/Listener/NotifyPushListener.php">
     <UndefinedClass>
       <code><![CDATA[$this->queue]]></code>

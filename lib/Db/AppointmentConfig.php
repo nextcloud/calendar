@@ -35,7 +35,7 @@ use function json_encode;
  * @method void setTargetCalendarUri(string $targetCalendarUri)
  * @method string|null getCalendarFreebusyUris()
  * @method void setCalendarFreebusyUris(?string $freebusyUris)
- * @method string getAvailability()
+ * @method string|null getAvailability()
  * @method void setAvailability(?string $availability)
  * @method int|null getStart()
  * @method void setStart(?int $start)
@@ -155,26 +155,26 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	}
 
 	public function getCalendarFreebusyUrisAsArray(): array {
-		return json_decode($this->getCalendarFreebusyUris(), true);
+		return json_decode($this->getCalendarFreebusyUris() ?? '[]', true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
 	 * @param string[] $uris
 	 */
 	public function setCalendarFreeBusyUrisAsArray(array $uris): self {
-		$this->setCalendarFreebusyUris(json_encode($uris));
+		$this->setCalendarFreebusyUris(json_encode($uris, JSON_THROW_ON_ERROR));
 
 		return $this;
 	}
 
 	public function setAvailabilityAsArray(array $availability): self {
-		$this->setAvailability(json_encode($availability));
+		$this->setAvailability(json_encode($availability, JSON_THROW_ON_ERROR));
 
 		return $this;
 	}
 
 	public function getAvailabilityAsArray(): array {
-		return json_decode($this->getAvailability(), true, 512, JSON_THROW_ON_ERROR);
+		return json_decode($this->getAvailability() ?? '[]', true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	#[\Override]
@@ -190,7 +190,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'userId' => $this->getUserId(),
 			'targetCalendarUri' => $this->getTargetCalendarUri(),
 			'calendarFreeBusyUris' => $this->getCalendarFreebusyUrisAsArray(),
-			'availability' => $this->getAvailability() === null ? null : json_decode($this->getAvailability(), true),
+			'availability' => $this->getAvailability() === null ? null : $this->getAvailabilityAsArray(),
 			'start' => $this->getStart(),
 			'end' => $this->getEnd(),
 			'length' => $this->getLength(),
