@@ -213,9 +213,6 @@
       <code><![CDATA[$proposal->getId()]]></code>
       <code><![CDATA[$proposal->getId()]]></code>
       <code><![CDATA[$proposal->getLocation()]]></code>
-      <code><![CDATA[$proposalEntry->getId()]]></code>
-      <code><![CDATA[$proposalEntry->getId()]]></code>
-      <code><![CDATA[$proposalEntry->getId()]]></code>
       <code><![CDATA[$proposal]]></code>
       <code><![CDATA[$proposal]]></code>
       <code><![CDATA[$user]]></code>

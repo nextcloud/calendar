@@ -306,6 +306,19 @@ class ProposalServiceTest extends TestCase {
 	public function testCreateProposalSuccess(): void {
 		$proposal = $this->createProposal(null, 'New Proposal'); // New proposal with null ID
 
+		$participant = new ProposalParticipantObject();
+		$participant->fromStore($this->createParticipantEntry(10, 1, 'participant@example.com', 'token'));
+		$proposal->getParticipants()->append($participant);
+		$date = new ProposalDateObject();
+		$date->setDate(new \DateTimeImmutable('2026-11-18T10:00:00Z'));
+		$proposal->getDates()->append($date);
+		$this->proposalParticipantMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalParticipantEntry $entry): bool => $entry->getPid() === 1))
+			->willReturnArgument(0);
+		$this->proposalDateMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalDateEntry $entry): bool => $entry->getPid() === 1))
+			->willReturnArgument(0);
+
 		$proposalEntry = $this->createProposalEntry(1, 'New Proposal');
 
 		$this->proposalMapper->expects($this->once())
@@ -344,6 +357,21 @@ class ProposalServiceTest extends TestCase {
 		$result = $this->service->createProposal($this->user, $proposal);
 
 		$this->assertInstanceOf(ProposalObject::class, $result);
+	}
+
+	public function testCreateProposalRejectsMissingStoredIdentifier(): void {
+		$proposal = $this->createProposal();
+		$proposal->getParticipants()->append(new ProposalParticipantObject());
+		$proposal->getDates()->append(new ProposalDateObject());
+		$this->proposalMapper->method('insert')->willReturn(new ProposalDetailsEntry());
+		$this->proposalParticipantMapper->expects($this->never())->method('insert');
+		$this->proposalDateMapper->expects($this->never())->method('insert');
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('Stored proposal identifier cannot be null');
+
+		$this->service->createProposal($this->user, $proposal);
 	}
 
 	public function testCreateProposalWithExistingId(): void {

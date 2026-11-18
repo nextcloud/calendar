@@ -192,11 +192,16 @@ class ProposalService {
 		$proposalEntry->setUid($user->getUID());
 		$proposalEntry->setUuid(Uuid::v4()->toRfc4122());
 		$proposalEntry = $this->proposalMapper->insert($proposalEntry);
+		$proposalId = $proposalEntry->getId();
+		if ($proposalId === null) {
+			throw new \UnexpectedValueException('Stored proposal identifier cannot be null');
+		}
+
 		// store participants
 		foreach ($proposal->getParticipants() as $participant) {
 			$entry = $participant->toStore();
 			$entry->setUid($user->getUID());
-			$entry->setPid($proposalEntry->getId());
+			$entry->setPid($proposalId);
 			$entry->setToken(md5(random_bytes(32)));
 			$this->proposalParticipantMapper->insert($entry);
 		}
@@ -204,11 +209,11 @@ class ProposalService {
 		foreach ($proposal->getDates() as $date) {
 			$entry = $date->toStore();
 			$entry->setUid($user->getUID());
-			$entry->setPid($proposalEntry->getId());
+			$entry->setPid($proposalId);
 			$this->proposalDateMapper->insert($entry);
 		}
 		// retrieve full proposal with participants, dates, and votes
-		$proposal = $this->fetchProposal($user, $proposalEntry->getId());
+		$proposal = $this->fetchProposal($user, $proposalId);
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'C');
