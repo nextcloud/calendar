@@ -98,7 +98,8 @@ class ProposalController extends ApiController {
 		}
 		// enrich proposal with user information
 		// as this is most likely a public request from the voting page
-		$user = $this->userManager->get($proposal->getUid());
+		$userId = $proposal->getUid();
+		$user = $userId !== null ? $this->userManager->get($userId) : null;
 		if ($user !== null) {
 			$proposal->setUname($user->getDisplayName());
 		}

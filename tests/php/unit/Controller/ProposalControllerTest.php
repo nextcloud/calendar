@@ -257,6 +257,34 @@ class ProposalControllerTest extends TestCase {
 		$this->assertEquals($proposalJson, $response->getData());
 	}
 
+	/**
+	 * @dataProvider unavailableProposalOwners
+	 */
+	public function testFetchByTokenWithoutOwnerName(?string $ownerId): void {
+		$proposal = $this->createMock(ProposalObject::class);
+		$proposal->method('getUid')->willReturn($ownerId);
+		$proposal->expects($this->never())->method('setUname');
+		$proposal->method('toJson')->with('public')->willReturn(['id' => 1, 'title' => 'Test']);
+		$this->proposalService->method('fetchByToken')->with('token')->willReturn($proposal);
+		if ($ownerId === null) {
+			$this->userManager->expects($this->never())->method('get');
+		} else {
+			$this->userManager->expects($this->once())->method('get')->with($ownerId)->willReturn(null);
+		}
+
+		$response = $this->controller->fetchByToken('token');
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		$this->assertSame(['id' => 1, 'title' => 'Test'], $response->getData());
+	}
+
+	public static function unavailableProposalOwners(): array {
+		return [
+			'missing owner ID' => [null],
+			'deleted owner' => ['deleted-user'],
+		];
+	}
+
 	public function testFetchByTokenNotFound(): void {
 		$this->proposalService->expects($this->once())
 			->method('fetchByToken')

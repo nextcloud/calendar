@@ -22,11 +22,6 @@
       <code><![CDATA[$displayName]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="lib/Controller/ProposalController.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$proposal->getUid()]]></code>
-    </PossiblyNullArgument>
-  </file>
   <file src="lib/Controller/ViewController.php">
     <PossiblyNullPropertyAssignmentValue>
       <code><![CDATA[$userId]]></code>
