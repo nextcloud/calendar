@@ -141,11 +141,6 @@
       <code><![CDATA[$timeZone]]></code>
     </ArgumentTypeCoercion>
   </file>
-  <file src="lib/Service/Appointments/BookingCalendarWriter.php">
-    <RedundantCondition>
-      <code><![CDATA[method_exists($calendar, 'createFromStringMinimal')]]></code>
-    </RedundantCondition>
-  </file>
   <file src="lib/Service/Appointments/BookingService.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$booking->getTimezone()]]></code>
