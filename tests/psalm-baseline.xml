@@ -24,9 +24,6 @@
     </PossiblyUndefinedVariable>
   </file>
   <file src="lib/Controller/EmailController.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$matchingCalendar]]></code>
-    </InvalidReturnStatement>
     <PossiblyNullArgument>
       <code><![CDATA[$displayName]]></code>
     </PossiblyNullArgument>
