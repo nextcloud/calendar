@@ -239,11 +239,6 @@
       <code><![CDATA[$proposalVoteEntries]]></code>
       <code><![CDATA[$proposalVoteEntries]]></code>
     </PossiblyNullArrayOffset>
-    <PossiblyUndefinedVariable>
-      <code><![CDATA[$userCalendar]]></code>
-      <code><![CDATA[$userCalendar]]></code>
-      <code><![CDATA[$userCalendar]]></code>
-    </PossiblyUndefinedVariable>
     <TypeDoesNotContainType>
       <code><![CDATA[method_exists($mailService, 'initiateMessage')]]></code>
       <code><![CDATA[method_exists($this->calendarManager, 'handleIMip')]]></code>

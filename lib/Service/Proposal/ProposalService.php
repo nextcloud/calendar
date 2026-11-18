@@ -776,6 +776,7 @@ class ProposalService {
 	 * Find the primary calendar for a user, or the first useable calendar
 	 */
 	private function findPrimaryCalendar(IUser $user): ?ICreateFromString {
+		$userCalendar = null;
 		// retrieve the primary calendar for the user
 		// this condition is just to make psalm happy
 		if (method_exists($this->calendarManager, 'getPrimaryCalendar')) {

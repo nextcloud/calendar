@@ -820,6 +820,45 @@ class ProposalServiceTest extends TestCase {
 		$this->service->convertProposal($this->user, 1, 10);
 	}
 
+	public function testConvertProposalWithoutPrimaryCalendarMethod(): void {
+		$proposalEntry = $this->createProposalEntry(1, 'Convert Proposal');
+		$dateEntry = new ProposalDateEntry();
+		$dateEntry->setId(10);
+		$dateEntry->setPid(1);
+		$dateEntry->setUid('testuser');
+		$dateEntry->setDate((new \DateTimeImmutable('+1 day'))->getTimestamp());
+		$this->proposalMapper->method('fetchById')->willReturn($proposalEntry);
+		$this->proposalParticipantMapper->method('fetchByProposalId')->willReturn([]);
+		$this->proposalDateMapper->method('fetchByProposalId')->willReturn([$dateEntry]);
+		$this->proposalVoteMapper->method('fetchByProposalId')->willReturn([]);
+		$calendarManager = $this->createMock(IManager::class);
+		$calendarManager->expects($this->once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/testuser')
+			->willReturn([]);
+		$service = new ProposalService(
+			$this->appConfig,
+			$this->logger,
+			$this->proposalMapper,
+			$this->proposalParticipantMapper,
+			$this->proposalDateMapper,
+			$this->proposalVoteMapper,
+			$this->l10n,
+			$this->urlGenerator,
+			$this->userConfig,
+			$this->userManager,
+			$this->systemMailManager,
+			$this->userMailManager,
+			$calendarManager,
+			$this->notificationManager,
+		);
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Could not find a useable calendar');
+
+		$service->convertProposal($this->user, 1, 10);
+	}
+
 	public function testConvertProposalAttendeeAttendanceMapping(): void {
 		// mock objects
 		// date object
