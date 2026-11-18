@@ -6,12 +6,6 @@
       <code><![CDATA[$slotKeys !== ['end', 'start']]]></code>
     </RedundantCondition>
   </file>
-  <file src="lib/Controller/AppointmentController.php">
-    <PossiblyUndefinedVariable>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$config]]></code>
-    </PossiblyUndefinedVariable>
-  </file>
   <file src="lib/Controller/BookingController.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$timeZone]]></code>
