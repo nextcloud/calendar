@@ -74,9 +74,6 @@
     <MissingTemplateParam>
       <code><![CDATA[IEventListener]]></code>
     </MissingTemplateParam>
-    <RedundantCondition>
-      <code><![CDATA[method_exists($options, 'setMeetingDate')]]></code>
-    </RedundantCondition>
   </file>
   <file src="lib/Listener/NotifyPushListener.php">
     <UndefinedClass>
