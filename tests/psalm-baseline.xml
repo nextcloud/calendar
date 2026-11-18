@@ -60,45 +60,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="lib/Http/JsonResponse.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[new self(
-			[
-				'status' => 'fail',
-				'data' => $data,
-			],
-			$status
-		)]]></code>
-      <code><![CDATA[new self(
-			[
-				'status' => 'success',
-				'data' => $data,
-			],
-			$status
-		)]]></code>
-    </LessSpecificReturnStatement>
     <ArgumentTypeCoercion>
       <code><![CDATA[$statusCode]]></code>
     </ArgumentTypeCoercion>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[new self(
-			[
-				'status' => 'fail',
-				'data' => $data,
-			],
-			$status
-		)]]></code>
-      <code><![CDATA[new self(
-			[
-				'status' => 'success',
-				'data' => $data,
-			],
-			$status
-		)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-    </MoreSpecificReturnType>
     <PossiblyInvalidArgument>
       <code><![CDATA[$error->getCode()]]></code>
     </PossiblyInvalidArgument>

@@ -37,7 +37,7 @@ class JsonResponse extends Base {
 	 * @param array|JsonSerializable|bool|string $data
 	 * @param int $status
 	 *
-	 * @return static
+	 * @return self
 	 */
 	public static function success($data = null,
 		int $status = Http::STATUS_OK): self {
@@ -54,7 +54,7 @@ class JsonResponse extends Base {
 	 * @param array|JsonSerializable|bool|string $data
 	 * @param int $status
 	 *
-	 * @return static
+	 * @return self
 	 */
 	public static function fail($data = null,
 		int $status = Http::STATUS_BAD_REQUEST): self {
