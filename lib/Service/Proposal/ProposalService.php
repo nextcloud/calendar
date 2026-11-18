@@ -109,20 +109,25 @@ class ProposalService {
 		// convert the store entries to objects
 		$proposals = new ProposalCollection();
 		foreach ($proposalEntries as $proposalEntry) {
+			$proposalId = $proposalEntry->getId();
+			if ($proposalId === null) {
+				throw new \UnexpectedValueException('Stored proposal identifier cannot be null');
+			}
+
 			// convert the store format to a proposal object
 			$proposal = new ProposalObject();
 			$proposal->fromStore($proposalEntry);
 			$proposalParticipants = $proposal->getParticipants();
-			if (isset($proposalParticipantEntries[$proposalEntry->getId()])) {
-				$proposalParticipants->fromStore($proposalParticipantEntries[$proposalEntry->getId()]);
+			if (isset($proposalParticipantEntries[$proposalId])) {
+				$proposalParticipants->fromStore($proposalParticipantEntries[$proposalId]);
 			}
 			$proposalDates = $proposal->getDates();
-			if (isset($proposalDateEntries[$proposalEntry->getId()])) {
-				$proposalDates->fromStore($proposalDateEntries[$proposalEntry->getId()]);
+			if (isset($proposalDateEntries[$proposalId])) {
+				$proposalDates->fromStore($proposalDateEntries[$proposalId]);
 			}
 			$proposalVotes = $proposal->getVotes();
-			if (isset($proposalVoteEntries[$proposalEntry->getId()])) {
-				$proposalVotes->fromStore($proposalVoteEntries[$proposalEntry->getId()]);
+			if (isset($proposalVoteEntries[$proposalId])) {
+				$proposalVotes->fromStore($proposalVoteEntries[$proposalId]);
 			}
 			// add the proposal to the list
 			$proposals[] = $proposal;

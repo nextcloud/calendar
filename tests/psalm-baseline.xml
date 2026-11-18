@@ -220,14 +220,6 @@
       <code><![CDATA[$proposal]]></code>
       <code><![CDATA[$user]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullArrayOffset>
-      <code><![CDATA[$proposalDateEntries]]></code>
-      <code><![CDATA[$proposalDateEntries]]></code>
-      <code><![CDATA[$proposalParticipantEntries]]></code>
-      <code><![CDATA[$proposalParticipantEntries]]></code>
-      <code><![CDATA[$proposalVoteEntries]]></code>
-      <code><![CDATA[$proposalVoteEntries]]></code>
-    </PossiblyNullArrayOffset>
   </file>
   <file src="lib/UserMigration/Migrator.php">
     <PossiblyNullArgument>

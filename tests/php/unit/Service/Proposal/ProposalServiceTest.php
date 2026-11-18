@@ -124,6 +124,21 @@ class ProposalServiceTest extends TestCase {
 			$this->createProposalEntry(2, 'Test Proposal 2'),
 		];
 
+		$participantEntry = $this->createParticipantEntry(10, 1, 'participant@example.com', 'token');
+		$participantEntry->setAttendance('R');
+		$participantEntry->setStatus('P');
+		$participantEntry->setRealm('I');
+		$dateEntry = new ProposalDateEntry();
+		$dateEntry->setId(20);
+		$dateEntry->setPid(1);
+		$dateEntry->setDate(1795000000);
+		$voteEntry = new ProposalVoteEntry();
+		$voteEntry->setId(30);
+		$voteEntry->setPid(1);
+		$voteEntry->setParticipantId(10);
+		$voteEntry->setDateId(20);
+		$voteEntry->setVote('Y');
+
 		$this->proposalMapper->expects($this->once())
 			->method('fetchByUserId')
 			->with('testuser')
@@ -132,23 +147,38 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalParticipantMapper->expects($this->once())
 			->method('fetchByUserId')
 			->with('testuser')
-			->willReturn([]);
+			->willReturn([$participantEntry]);
 
 		$this->proposalDateMapper->expects($this->once())
 			->method('fetchByUserId')
 			->with('testuser')
-			->willReturn([]);
+			->willReturn([$dateEntry]);
 
 		$this->proposalVoteMapper->expects($this->once())
 			->method('fetchByUserId')
 			->with('testuser')
-			->willReturn([]);
+			->willReturn([$voteEntry]);
 
 		$result = $this->service->listProposals($this->user);
 
 		$this->assertInstanceOf(ProposalCollection::class, $result);
 		$this->assertCount(2, $result);
 		$this->assertContainsOnlyInstancesOf(ProposalObject::class, $result);
+		$this->assertSame(10, $result[0]->getParticipants()[0]->getId());
+		$this->assertSame(20, $result[0]->getDates()[0]->getId());
+		$this->assertSame(30, $result[0]->getVotes()[0]->getId());
+		$this->assertCount(0, $result[1]->getParticipants());
+		$this->assertCount(0, $result[1]->getDates());
+		$this->assertCount(0, $result[1]->getVotes());
+	}
+
+	public function testListProposalsRejectsMissingStoredIdentifier(): void {
+		$this->proposalMapper->method('fetchByUserId')->willReturn([new ProposalDetailsEntry()]);
+
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('Stored proposal identifier cannot be null');
+
+		$this->service->listProposals($this->user);
 	}
 
 	public function testListProposalsEmpty(): void {
