@@ -48,9 +48,6 @@
     <PossiblyInvalidArgument>
       <code><![CDATA[$error->getCode()]]></code>
     </PossiblyInvalidArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[self::serializeException($error)]]></code>
-    </PossiblyNullArgument>
   </file>
   <file src="lib/Listener/NotifyPushListener.php">
     <UndefinedClass>

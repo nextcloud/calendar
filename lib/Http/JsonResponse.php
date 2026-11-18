@@ -99,16 +99,14 @@ class JsonResponse extends Base {
 		);
 	}
 
-	private static function serializeException(?Throwable $throwable): ?array {
-		if ($throwable === null) {
-			return null;
-		}
+	private static function serializeException(Throwable $throwable): array {
+		$previous = $throwable->getPrevious();
 		return [
 			'type' => get_class($throwable),
 			'message' => $throwable->getMessage(),
 			'code' => $throwable->getCode(),
 			'trace' => self::filterTrace($throwable->getTrace()),
-			'previous' => self::serializeException($throwable->getPrevious()),
+			'previous' => $previous !== null ? self::serializeException($previous) : null,
 		];
 	}
 
