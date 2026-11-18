@@ -46,8 +46,8 @@ class EventConflictFilter {
 		// Always check the target calendar for conflicts
 		$query->addSearchCalendar($config->getTargetCalendarUri());
 		$query->addType('VEVENT');
-		$preparationDuration = DateInterval::createFromDateString($config->getPreparationDuration() . ' seconds');
-		$followUpDuration = DateInterval::createFromDateString($config->getFollowupDuration() . ' seconds');
+		$preparationDuration = new DateInterval('PT' . $config->getPreparationDuration() . 'S');
+		$followUpDuration = new DateInterval('PT' . $config->getFollowupDuration() . 'S');
 		$available = array_filter($slots, function (Interval $slot) use ($followUpDuration, $preparationDuration, $query, $config): bool {
 			$query->setTimerangeStart($slot->getStartAsObject()->sub($preparationDuration));
 			$query->setTimerangeEnd($slot->getEndAsObject()->add($followUpDuration));

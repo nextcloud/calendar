@@ -11,6 +11,7 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Calendar\ICalendar;
 use OCP\Calendar\IManager;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -198,9 +199,8 @@ class EmailController extends Controller {
 	 * the given public sharing token.
 	 *
 	 * @param string $token
-	 * @return \OCA\DAV\CalDAV\CalendarImpl|null
 	 */
-	private function findCalendarByToken($user, string $token): mixed {
+	private function findCalendarByToken($user, string $token): ?ICalendar {
 		$userId = $user->getUID();
 		$userCalendars = $this->calendarManager->getCalendarsForPrincipal("principals/users/$userId");
 

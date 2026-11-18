@@ -9,9 +9,10 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
-use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsPublic;
 use OCP\Calendar\IManager;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -152,12 +153,12 @@ class EmailControllerTest extends TestCase {
 			->with('foo@bar.com')
 			->willReturn(true);
 
-		$calendar1 = $this->createMock(CalendarImpl::class);
+		$calendar1 = $this->createMockForIntersectionOfInterfaces([ICalendar::class, ICalendarIsPublic::class]);
 		$calendar1->expects(self::once())
 			->method('getPublicToken')
 			->willReturn($testToken1);
 
-		$calendar2 = $this->createMock(CalendarImpl::class);
+		$calendar2 = $this->createMockForIntersectionOfInterfaces([ICalendar::class, ICalendarIsPublic::class]);
 		$calendar2->expects(self::once())
 			->method('getPublicToken')
 			->willReturn($testToken2);
@@ -165,7 +166,7 @@ class EmailControllerTest extends TestCase {
 		$this->calendarManager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->with("principals/users/{$this->user->getUID()}")
-			->willReturn([$calendar1, $calendar2]);
+			->willReturn([$this->createMock(ICalendar::class), $calendar1, $calendar2]);
 
 		$response = $this->controller->sendEmailPublicLink(
 			'foo@bar.com',
@@ -188,7 +189,7 @@ class EmailControllerTest extends TestCase {
 			->with('foo@bar.com')
 			->willReturn(true);
 
-		$calendar = $this->createMock(CalendarImpl::class);
+		$calendar = $this->createMockForIntersectionOfInterfaces([ICalendar::class, ICalendarIsPublic::class]);
 		$calendar->expects(self::once())
 			->method('getPublicToken')
 			->willReturn('token123');
@@ -300,7 +301,7 @@ class EmailControllerTest extends TestCase {
 			->with('foo@bar.com')
 			->willReturn(true);
 
-		$calendar = $this->createMock(CalendarImpl::class);
+		$calendar = $this->createMockForIntersectionOfInterfaces([ICalendar::class, ICalendarIsPublic::class]);
 		$calendar->expects(self::once())
 			->method('getPublicToken')
 			->willReturn('token123');

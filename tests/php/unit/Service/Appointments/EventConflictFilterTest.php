@@ -60,6 +60,37 @@ class EventConflictFilterTest extends TestCase {
 		self::assertSame($slots, $filtered);
 	}
 
+	/**
+	 * @dataProvider bufferDurations
+	 */
+	public function testQueryIncludesPreparationAndFollowup(int $preparation, int $followup): void {
+		$config = new AppointmentConfig();
+		$config->setUserId('user1');
+		$config->setTargetCalendarUri('personal');
+		$config->setPreparationDuration($preparation);
+		$config->setFollowupDuration($followup);
+		$slot = new Interval(1795000000, 1795003600);
+		$query = $this->createMock(ICalendarQuery::class);
+		$this->calendarManager->method('newQuery')->with('principals/users/user1')->willReturn($query);
+		$query->expects($this->once())->method('setTimerangeStart')
+			->with($this->callback(fn (\DateTimeInterface $start): bool => $start->getTimestamp() === $slot->getStart() - $preparation));
+		$query->expects($this->once())->method('setTimerangeEnd')
+			->with($this->callback(fn (\DateTimeInterface $end): bool => $end->getTimestamp() === $slot->getEnd() + $followup));
+		$this->calendarManager->expects($this->once())->method('searchForPrincipal')->with($query)->willReturn([]);
+
+		$filtered = $this->filter->filter($config, [$slot]);
+
+		$this->assertSame([$slot], $filtered);
+	}
+
+	public static function bufferDurations(): array {
+		return [
+			'no buffers' => [0, 0],
+			'preparation and followup' => [300, 600],
+			'longer than one day' => [90000, 1800],
+		];
+	}
+
 	public function testConflicts(): void {
 		$config = new AppointmentConfig();
 		$config->setUserId('user1');

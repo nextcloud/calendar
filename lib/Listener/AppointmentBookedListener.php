@@ -18,6 +18,9 @@ use OCP\IUserManager;
 use OCP\Talk\IBroker;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-implements IEventListener<BeforeAppointmentBookedEvent>
+ */
 class AppointmentBookedListener implements IEventListener {
 
 	public function __construct(
@@ -65,12 +68,10 @@ class AppointmentBookedListener implements IEventListener {
 
 		$options = $this->broker->newConversationOptions();
 		$options->setPublic();
-		if (method_exists($options, 'setMeetingDate')) {
-			$options->setMeetingDate(
-				$this->timeFactory->getDateTime('@' . $event->getBooking()->getStart()),
-				$this->timeFactory->getDateTime('@' . $event->getBooking()->getEnd()),
-			);
-		}
+		$options->setMeetingDate(
+			$this->timeFactory->getDateTime('@' . $event->getBooking()->getStart()),
+			$this->timeFactory->getDateTime('@' . $event->getBooking()->getEnd()),
+		);
 
 		$conversation = $this->broker->createConversation(
 			$conversationName,

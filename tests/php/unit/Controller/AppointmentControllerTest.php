@@ -119,6 +119,18 @@ class AppointmentControllerTest extends TestCase {
 		$this->controller->show('sdklfhkld');
 	}
 
+	public function testShowPropagatesUnexpectedLookupError(): void {
+		$exception = new ClientException('Appointment lookup failed', 0, null, 500);
+		$this->service->expects($this->once())->method('findByToken')
+			->with('token')->willThrowException($exception);
+		$this->userManager->expects($this->never())->method('get');
+		$this->initialState->expects($this->never())->method('provideInitialState');
+
+		$this->expectExceptionObject($exception);
+
+		$this->controller->show('token');
+	}
+
 	public function testShowConfigNotFound(): void {
 		$token = 'sdklfhkldsfldshf';
 

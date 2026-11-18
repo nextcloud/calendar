@@ -109,20 +109,25 @@ class ProposalService {
 		// convert the store entries to objects
 		$proposals = new ProposalCollection();
 		foreach ($proposalEntries as $proposalEntry) {
+			$proposalId = $proposalEntry->getId();
+			if ($proposalId === null) {
+				throw new \UnexpectedValueException('Stored proposal identifier cannot be null');
+			}
+
 			// convert the store format to a proposal object
 			$proposal = new ProposalObject();
 			$proposal->fromStore($proposalEntry);
 			$proposalParticipants = $proposal->getParticipants();
-			if (isset($proposalParticipantEntries[$proposalEntry->getId()])) {
-				$proposalParticipants->fromStore($proposalParticipantEntries[$proposalEntry->getId()]);
+			if (isset($proposalParticipantEntries[$proposalId])) {
+				$proposalParticipants->fromStore($proposalParticipantEntries[$proposalId]);
 			}
 			$proposalDates = $proposal->getDates();
-			if (isset($proposalDateEntries[$proposalEntry->getId()])) {
-				$proposalDates->fromStore($proposalDateEntries[$proposalEntry->getId()]);
+			if (isset($proposalDateEntries[$proposalId])) {
+				$proposalDates->fromStore($proposalDateEntries[$proposalId]);
 			}
 			$proposalVotes = $proposal->getVotes();
-			if (isset($proposalVoteEntries[$proposalEntry->getId()])) {
-				$proposalVotes->fromStore($proposalVoteEntries[$proposalEntry->getId()]);
+			if (isset($proposalVoteEntries[$proposalId])) {
+				$proposalVotes->fromStore($proposalVoteEntries[$proposalId]);
 			}
 			// add the proposal to the list
 			$proposals[] = $proposal;
@@ -167,9 +172,17 @@ class ProposalService {
 		if ($participantEntry === null) {
 			return null;
 		}
-		$user = $this->userManager->get($participantEntry->getUid());
+		$userId = $participantEntry->getUid();
+		$proposalId = $participantEntry->getPid();
+		if ($userId === null || $proposalId === null) {
+			return null;
+		}
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			return null;
+		}
 		// retrieve full proposal with participants, dates, and votes
-		$proposal = $this->fetchProposal($user, $participantEntry->getPid());
+		$proposal = $this->fetchProposal($user, $proposalId);
 
 		return $proposal;
 	}
@@ -187,11 +200,16 @@ class ProposalService {
 		$proposalEntry->setUid($user->getUID());
 		$proposalEntry->setUuid(Uuid::v4()->toRfc4122());
 		$proposalEntry = $this->proposalMapper->insert($proposalEntry);
+		$proposalId = $proposalEntry->getId();
+		if ($proposalId === null) {
+			throw new \UnexpectedValueException('Stored proposal identifier cannot be null');
+		}
+
 		// store participants
 		foreach ($proposal->getParticipants() as $participant) {
 			$entry = $participant->toStore();
 			$entry->setUid($user->getUID());
-			$entry->setPid($proposalEntry->getId());
+			$entry->setPid($proposalId);
 			$entry->setToken(md5(random_bytes(32)));
 			$this->proposalParticipantMapper->insert($entry);
 		}
@@ -199,11 +217,14 @@ class ProposalService {
 		foreach ($proposal->getDates() as $date) {
 			$entry = $date->toStore();
 			$entry->setUid($user->getUID());
-			$entry->setPid($proposalEntry->getId());
+			$entry->setPid($proposalId);
 			$this->proposalDateMapper->insert($entry);
 		}
 		// retrieve full proposal with participants, dates, and votes
-		$proposal = $this->fetchProposal($user, $proposalEntry->getId());
+		$proposal = $this->fetchProposal($user, $proposalId);
+		if ($proposal === null) {
+			throw new \RuntimeException('Stored proposal could not be retrieved');
+		}
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'C');
@@ -219,17 +240,18 @@ class ProposalService {
 	 */
 	public function modifyProposal(IUser $user, ProposalObject $mutatedProposal): ProposalObject {
 		// determine if the proposal ID is set, as it should be for a modification
-		if ($mutatedProposal->getId() === null) {
+		$proposalId = $mutatedProposal->getId();
+		if ($proposalId === null) {
 			throw new \InvalidArgumentException('Proposal identifier cannot be null for modification');
 		}
 		// retrieve the existing proposal
-		$currentProposal = $this->fetchProposal($user, $mutatedProposal->getId());
+		$currentProposal = $this->fetchProposal($user, $proposalId);
 		if ($currentProposal === null) {
-			throw new \InvalidArgumentException('Proposal not found for identifier: ' . ($mutatedProposal->getId() ?? 'null'));
+			throw new \InvalidArgumentException('Proposal not found for identifier: ' . $proposalId);
 		}
 		// convert and store proposal object
 		$mutatedProposalEntry = $mutatedProposal->toStore();
-		$mutatedProposalEntry->setId($currentProposal->getId());
+		$mutatedProposalEntry->setId($proposalId);
 		$mutatedProposalEntry->setUid($user->getUID());
 		$this->proposalMapper->update($mutatedProposalEntry);
 		// compare, convert and store participants objects
@@ -238,7 +260,7 @@ class ProposalService {
 			foreach ($participantDelta[$mutation] as $participant) {
 				$mutatedParticipantEntry = $participant->toStore();
 				$mutatedParticipantEntry->setUid($user->getUID());
-				$mutatedParticipantEntry->setPid($mutatedProposalEntry->getId());
+				$mutatedParticipantEntry->setPid($proposalId);
 				if ($mutation === 'modified') {
 					$this->proposalParticipantMapper->update($mutatedParticipantEntry);
 				} else {
@@ -256,7 +278,7 @@ class ProposalService {
 			foreach ($dateDelta[$mutation] as $date) {
 				$mutatedDateEntry = $date->toStore();
 				$mutatedDateEntry->setUid($user->getUID());
-				$mutatedDateEntry->setPid($mutatedProposalEntry->getId());
+				$mutatedDateEntry->setPid($proposalId);
 				if ($mutation === 'modified') {
 					$this->proposalDateMapper->update($mutatedDateEntry);
 					$this->proposalVoteMapper->deleteByDateId($user->getUID(), $date->getId());
@@ -270,7 +292,10 @@ class ProposalService {
 			$this->proposalDateMapper->deleteById($user->getUID(), $date->getId());
 		}
 		// retrieve full proposal with participants, dates, and votes
-		$proposal = $this->fetchProposal($user, $mutatedProposalEntry->getId());
+		$proposal = $this->fetchProposal($user, $proposalId);
+		if ($proposal === null) {
+			throw new \RuntimeException('Stored proposal could not be retrieved');
+		}
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'M');
@@ -291,10 +316,10 @@ class ProposalService {
 			throw new \InvalidArgumentException('Proposal not found');
 		}
 		// destroy the proposal entry
-		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalMapper->deleteById($user->getUID(), $proposal->getId());
+		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $identifier);
+		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $identifier);
+		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $identifier);
+		$this->proposalMapper->deleteById($user->getUID(), $identifier);
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'D');
@@ -382,10 +407,10 @@ class ProposalService {
 		);
 
 		// destroy the proposal entry
-		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposal->getId());
-		$this->proposalMapper->deleteById($user->getUID(), $proposal->getId());
+		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposalId);
+		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposalId);
+		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposalId);
+		$this->proposalMapper->deleteById($user->getUID(), $proposalId);
 	}
 
 	public function convertProposalAttendeeAttendance(ProposalDateObject $date, ProposalParticipantObject $participant, ProposalVoteCollection $votes): string {
@@ -416,16 +441,22 @@ class ProposalService {
 		if ($participantEntry === null) {
 			throw new \InvalidArgumentException('Participant not found for token: ' . $response->getToken());
 		}
+		$organizerUid = $participantEntry->getUid();
+		$proposalId = $participantEntry->getPid();
+		if ($organizerUid === null || $proposalId === null) {
+			throw new \UnexpectedValueException('Stored participant must reference an owner and proposal');
+		}
+
 		// retrieve the proposal entry
-		$proposalEntry = $this->proposalMapper->fetchById($participantEntry->getUid(), $participantEntry->getPid());
+		$proposalEntry = $this->proposalMapper->fetchById($organizerUid, $proposalId);
 		if ($proposalEntry === null) {
-			throw new \InvalidArgumentException('Proposal not found for identifier: ' . ($participantEntry->getPid() ?? 'null'));
+			throw new \InvalidArgumentException('Proposal not found for identifier: ' . $proposalId);
 		}
 		// retrieve proposal dates
-		$proposalDateEntries = $this->proposalDateMapper->fetchByProposalId($participantEntry->getUid(), $participantEntry->getPid());
+		$proposalDateEntries = $this->proposalDateMapper->fetchByProposalId($organizerUid, $proposalId);
 
 		// first, delete any existing votes for this participant
-		$this->proposalVoteMapper->deleteByParticipantId($participantEntry->getUid(), $participantEntry->getId());
+		$this->proposalVoteMapper->deleteByParticipantId($organizerUid, $participantEntry->getId());
 
 		// find response dates that match the proposal dates and store votes
 		$responseDates = $response->getDates();
@@ -441,8 +472,8 @@ class ProposalService {
 			if ($foundDateEntry !== null) {
 				// create and save vote entry directly
 				$voteEntry = new ProposalVoteEntry();
-				$voteEntry->setUid($participantEntry->getUid());
-				$voteEntry->setPid($participantEntry->getPid());
+				$voteEntry->setUid($organizerUid);
+				$voteEntry->setPid($proposalId);
 				$voteEntry->setParticipantId($participantEntry->getId());
 				$voteEntry->setDateId($foundDateEntry->getId());
 				$voteEntry->setVote($responseDate->getVote());
@@ -455,8 +486,7 @@ class ProposalService {
 		$this->proposalParticipantMapper->update($participantEntry);
 
 		// notify the organizer with a bell notification, if they opted in
-		$organizerUid = $participantEntry->getUid();
-		if ($proposalEntry->getResponseNotify() && $organizerUid !== null) {
+		if ($proposalEntry->getResponseNotify()) {
 			$notification = $this->notificationManager->createNotification();
 			$notification->setApp(Application::APP_ID)
 				->setUser($organizerUid)
@@ -537,12 +567,14 @@ class ProposalService {
 			$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
 		);
 		// description
-		if (!empty($proposal->getDescription())) {
-			$template->addBodyListItem($proposal->getDescription(), $this->l10n->t('Description:'));
+		$description = $proposal->getDescription();
+		if (!empty($description)) {
+			$template->addBodyListItem($description, $this->l10n->t('Description:'));
 		}
 		// location
-		if (!empty($proposal->getLocation())) {
-			$template->addBodyListItem($proposal->getLocation(), $this->l10n->t('Location:'));
+		$location = $proposal->getLocation();
+		if (!empty($location)) {
+			$template->addBodyListItem($location, $this->l10n->t('Location:'));
 		}
 		// duration
 		if ($proposal->getDuration() > 0) {
@@ -579,10 +611,6 @@ class ProposalService {
 			// evaluate if a mail service was found and has sending capabilities
 			if (isset($mailService) && $mailService instanceof IMessageSend) {
 				// construct mail message and set required parameters
-				// this condition is just to make psalm happy
-				if (!method_exists($mailService, 'initiateMessage')) {
-					throw new \RuntimeException('Mail service does not support message initiation');
-				}
 				$message = $mailService->initiateMessage();
 				$message->setFrom(
 					(new Address($senderAddress, $senderName))
@@ -743,10 +771,6 @@ class ProposalService {
 	 *  Create or update calendar blocker event(s) for participant(s)
 	 */
 	private function applyCalendarBlockersParticipant(IUser $user, ProposalObject $proposal, string $reason, VCalendar $vObject): void {
-		// if the calendar manager does not have a handleIMip method, we cannot generate iTip messages
-		if (!method_exists($this->calendarManager, 'handleIMip')) {
-			return;
-		}
 		// TODO: change REQUEST to PUBLISH
 		$vObject->add('METHOD', $reason !== 'D' ? 'REQUEST' : 'CANCEL');
 
@@ -776,6 +800,7 @@ class ProposalService {
 	 * Find the primary calendar for a user, or the first useable calendar
 	 */
 	private function findPrimaryCalendar(IUser $user): ?ICreateFromString {
+		$userCalendar = null;
 		// retrieve the primary calendar for the user
 		// this condition is just to make psalm happy
 		if (method_exists($this->calendarManager, 'getPrimaryCalendar')) {

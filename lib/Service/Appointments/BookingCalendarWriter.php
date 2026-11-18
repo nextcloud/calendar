@@ -78,7 +78,7 @@ class BookingCalendarWriter {
 
 		$vAppointmentObject = $this->generateAppointment($user, $config, $booking);
 		try {
-			$this->createFromString($calendar, Uuid::v4()->toRfc4122() . '.ics', $vAppointmentObject->serialize());
+			$calendar->createFromStringMinimal(Uuid::v4()->toRfc4122() . '.ics', $vAppointmentObject->serialize());
 		} catch (CalendarException $e) {
 			throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 		}
@@ -86,7 +86,7 @@ class BookingCalendarWriter {
 		if ($config->getPreparationDuration() !== 0) {
 			$vPreAppointmentObject = $this->generatePreAppointment($config, $vAppointmentObject);
 			try {
-				$this->createFromString($calendar, Uuid::v4()->toRfc4122() . '.ics', $vPreAppointmentObject->serialize());
+				$calendar->createFromStringMinimal(Uuid::v4()->toRfc4122() . '.ics', $vPreAppointmentObject->serialize());
 			} catch (CalendarException $e) {
 				throw new RuntimeException('Could not write event for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 			}
@@ -95,7 +95,7 @@ class BookingCalendarWriter {
 		if ($config->getFollowupDuration() !== 0) {
 			$vPostAppointmentObject = $this->generatePostAppointment($config, $vAppointmentObject);
 			try {
-				$this->createFromString($calendar, Uuid::v4()->toRfc4122() . '.ics', $vPostAppointmentObject->serialize());
+				$calendar->createFromStringMinimal(Uuid::v4()->toRfc4122() . '.ics', $vPostAppointmentObject->serialize());
 			} catch (CalendarException $e) {
 				throw new RuntimeException('Could not write event for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 			}
@@ -241,24 +241,4 @@ class BookingCalendarWriter {
 		return $vCalendar;
 	}
 
-	/**
-	 * Compatibility adapter for Nextcloud >= 32 for the ICreateFromString interface in OCP.
-	 *
-	 * @throws CalendarException
-	 */
-	private function createFromString(
-		ICreateFromString $calendar,
-		string $fileName,
-		string $ics,
-	): void {
-		// TODO: drop condition once we only support Nextcloud >= 32
-		// Need to use the new minimal method here since the original one was fixed starting
-		// from Nextcloud 32. The behavior differs a bit. The old, unpatched one and the minimal
-		// one are not sending email invitations which we want to leverage here.
-		if (method_exists($calendar, 'createFromStringMinimal')) {
-			$calendar->createFromStringMinimal($fileName . '.ics', $ics);
-		} else {
-			$calendar->createFromString($fileName . '.ics', $ics);
-		}
-	}
 }

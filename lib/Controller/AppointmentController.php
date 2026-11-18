@@ -91,6 +91,8 @@ class AppointmentController extends Controller {
 					TemplateResponse::RENDER_AS_GUEST
 				);
 			}
+
+			throw $e;
 		}
 
 		$configOwner = $this->userManager->get($config->getUserId());

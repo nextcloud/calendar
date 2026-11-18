@@ -48,6 +48,26 @@ class TimezoneGeneratorTest extends TestCase {
 		$this->assertEquals($generated->{'X-MICROSOFT-CDO-TZID'}->getValue(), $msTimezoneId);
 	}
 
+	public function testOffsetOnlyTimezoneHasNoTransitionInformation(): void {
+		$generated = $this->timezoneGenerator->generateVtimezone('+02:00', 1640991600, 1672527600);
+
+		$this->assertNull($generated);
+	}
+
+	public function testDaylightSavingOffsetsUsePreviousTransition(): void {
+		$generated = $this->timezoneGenerator->generateVtimezone('Europe/Berlin', 1640991600, 1672527600);
+
+		$this->assertNotNull($generated);
+		foreach ($generated->DAYLIGHT->getIterator() as $daylight) {
+			$this->assertSame('+0100', $daylight->TZOFFSETFROM->getValue());
+			$this->assertSame('+0200', $daylight->TZOFFSETTO->getValue());
+		}
+		foreach ($generated->STANDARD->getIterator() as $i => $standard) {
+			$this->assertSame($i === 0 ? '+0100' : '+0200', $standard->TZOFFSETFROM->getValue());
+			$this->assertSame('+0100', $standard->TZOFFSETTO->getValue());
+		}
+	}
+
 	public function testInvalid(): void {
 		/** @var VTimeZone $generated */
 		$generated = $this->timezoneGenerator->generateVtimezone('Nonsense', 1640991600, 1672527600);
