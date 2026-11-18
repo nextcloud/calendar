@@ -215,11 +215,4 @@
       <code><![CDATA[$user]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="lib/UserMigration/Migrator.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$newProposalId]]></code>
-      <code><![CDATA[$newProposalId]]></code>
-      <code><![CDATA[$newProposalId]]></code>
-    </PossiblyNullArgument>
-  </file>
 </files>
