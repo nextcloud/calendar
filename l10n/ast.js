@@ -176,6 +176,8 @@ OC.L10N.register(
     "Your email address" : "La to direición de corréu electrónicu",
     "Back" : "Atrás",
     "Close" : "Zarrar",
+    "Due date" : "Data de fin",
+    "Labels" : "Etiquetes",
     "Nextcloud Talk" : "Nextcloud Talk",
     "Amount" : "Cantidá",
     "Notification" : "Avisu",

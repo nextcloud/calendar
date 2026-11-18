@@ -59,6 +59,7 @@ OC.L10N.register(
     "Sunday" : "Sondag",
     "Your email address" : "U e-posadres",
     "Close" : "Sluit",
+    "Due date" : "Sperdatum",
     "Notification" : "Kennisgewing",
     "Email" : "E-pos",
     "seconds" : "sekondes",

@@ -378,6 +378,8 @@ OC.L10N.register(
     "Close" : " 關閉",
     "Due date" : "到期日",
     "Labels" : "標籤",
+    "Assigned to" : "指派給",
+    "Show board" : "顯示看板",
     "Error fetching Talk conversations." : "擷取 Talk 對話時發生錯誤",
     "Nextcloud Talk" : "Nextcloud Talk",
     "Successfully added Talk conversation link to location." : "成功在位置中新增 Talk 對話連結。",

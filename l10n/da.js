@@ -378,6 +378,8 @@ OC.L10N.register(
     "Close" : "Luk",
     "Due date" : "Forfaldsdato",
     "Labels" : "Mærker",
+    "Assigned to" : "Tildelt til",
+    "Show board" : "Vis tavle",
     "Error fetching Talk conversations." : "Fejl under hentning af Talk-samtaler.",
     "Nextcloud Talk" : "Nextcloud Talk",
     "Successfully added Talk conversation link to location." : "Linket til Talk-samtalen er føjet til placeringen.",
