@@ -30,10 +30,8 @@ jobs:
     strategy:
       matrix:
         php-versions: [ '8.3', '8.4', '8.5' ]
-        nextcloud-versions: [ 'master' ]
+        nextcloud-versions: [ 'stable35' ]
         include:
-          - php-versions: '8.5'
-            nextcloud-versions: 'stable35'
           - php-versions: '8.4'
             nextcloud-versions: 'stable34'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
@@ -81,10 +79,8 @@ jobs:
     strategy:
       matrix:
         php-versions: [ '8.3', '8.4', '8.5' ]
-        nextcloud-versions: [ 'master' ]
+        nextcloud-versions: [ 'stable35' ]
         include:
-          - php-versions: '8.5'
-            nextcloud-versions: 'stable35'
           - php-versions: '8.4'
             nextcloud-versions: 'stable34'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} integration tests
