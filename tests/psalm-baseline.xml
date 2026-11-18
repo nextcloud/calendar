@@ -191,9 +191,6 @@
   </file>
   <file src="lib/Service/Proposal/ProposalService.php">
     <PossiblyNullArgument>
-      <code><![CDATA[$currentProposal->getId()]]></code>
-      <code><![CDATA[$mutatedProposal->getId()]]></code>
-      <code><![CDATA[$mutatedProposalEntry->getId()]]></code>
       <code><![CDATA[$participantEntry->getPid()]]></code>
       <code><![CDATA[$participantEntry->getPid()]]></code>
       <code><![CDATA[$participantEntry->getPid()]]></code>

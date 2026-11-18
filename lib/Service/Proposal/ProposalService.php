@@ -229,17 +229,18 @@ class ProposalService {
 	 */
 	public function modifyProposal(IUser $user, ProposalObject $mutatedProposal): ProposalObject {
 		// determine if the proposal ID is set, as it should be for a modification
-		if ($mutatedProposal->getId() === null) {
+		$proposalId = $mutatedProposal->getId();
+		if ($proposalId === null) {
 			throw new \InvalidArgumentException('Proposal identifier cannot be null for modification');
 		}
 		// retrieve the existing proposal
-		$currentProposal = $this->fetchProposal($user, $mutatedProposal->getId());
+		$currentProposal = $this->fetchProposal($user, $proposalId);
 		if ($currentProposal === null) {
-			throw new \InvalidArgumentException('Proposal not found for identifier: ' . ($mutatedProposal->getId() ?? 'null'));
+			throw new \InvalidArgumentException('Proposal not found for identifier: ' . $proposalId);
 		}
 		// convert and store proposal object
 		$mutatedProposalEntry = $mutatedProposal->toStore();
-		$mutatedProposalEntry->setId($currentProposal->getId());
+		$mutatedProposalEntry->setId($proposalId);
 		$mutatedProposalEntry->setUid($user->getUID());
 		$this->proposalMapper->update($mutatedProposalEntry);
 		// compare, convert and store participants objects
@@ -248,7 +249,7 @@ class ProposalService {
 			foreach ($participantDelta[$mutation] as $participant) {
 				$mutatedParticipantEntry = $participant->toStore();
 				$mutatedParticipantEntry->setUid($user->getUID());
-				$mutatedParticipantEntry->setPid($mutatedProposalEntry->getId());
+				$mutatedParticipantEntry->setPid($proposalId);
 				if ($mutation === 'modified') {
 					$this->proposalParticipantMapper->update($mutatedParticipantEntry);
 				} else {
@@ -266,7 +267,7 @@ class ProposalService {
 			foreach ($dateDelta[$mutation] as $date) {
 				$mutatedDateEntry = $date->toStore();
 				$mutatedDateEntry->setUid($user->getUID());
-				$mutatedDateEntry->setPid($mutatedProposalEntry->getId());
+				$mutatedDateEntry->setPid($proposalId);
 				if ($mutation === 'modified') {
 					$this->proposalDateMapper->update($mutatedDateEntry);
 					$this->proposalVoteMapper->deleteByDateId($user->getUID(), $date->getId());
@@ -280,7 +281,7 @@ class ProposalService {
 			$this->proposalDateMapper->deleteById($user->getUID(), $date->getId());
 		}
 		// retrieve full proposal with participants, dates, and votes
-		$proposal = $this->fetchProposal($user, $mutatedProposalEntry->getId());
+		$proposal = $this->fetchProposal($user, $proposalId);
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'M');

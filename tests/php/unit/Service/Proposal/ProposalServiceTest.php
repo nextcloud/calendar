@@ -386,6 +386,19 @@ class ProposalServiceTest extends TestCase {
 	public function testModifyProposalSuccess(): void {
 		$proposal = $this->createProposal(1, 'Modified Proposal');
 
+		$participant = new ProposalParticipantObject();
+		$participant->fromStore($this->createParticipantEntry(10, 1, 'participant@example.com', 'token'));
+		$proposal->getParticipants()->append($participant);
+		$date = new ProposalDateObject();
+		$date->setDate(new \DateTimeImmutable('2026-11-18T10:00:00Z'));
+		$proposal->getDates()->append($date);
+		$this->proposalParticipantMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalParticipantEntry $entry): bool => $entry->getPid() === 1))
+			->willReturnArgument(0);
+		$this->proposalDateMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalDateEntry $entry): bool => $entry->getPid() === 1))
+			->willReturnArgument(0);
+
 		$currentProposalEntry = $this->createProposalEntry(1, 'Current Proposal');
 		$mutatedProposalEntry = $this->createProposalEntry(1, 'Modified Proposal');
 
@@ -411,7 +424,8 @@ class ProposalServiceTest extends TestCase {
 			->willReturn([]);
 
 		$this->proposalMapper->expects($this->once())
-			->method('update');
+			->method('update')
+			->with($this->callback(fn (ProposalDetailsEntry $entry): bool => $entry->getId() === 1));
 
 		// Mock calendar manager for syncCalendarBlockers
 		$calendar = $this->createMock(ICreateFromString::class);
@@ -428,6 +442,10 @@ class ProposalServiceTest extends TestCase {
 
 	public function testModifyProposalWithNullId(): void {
 		$proposal = $this->createProposal(null, 'Proposal Without ID');
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+		$this->proposalMapper->expects($this->never())->method('update');
+		$this->proposalParticipantMapper->expects($this->never())->method('insert');
+		$this->proposalDateMapper->expects($this->never())->method('insert');
 
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Proposal identifier cannot be null for modification');
