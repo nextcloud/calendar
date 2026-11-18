@@ -378,6 +378,8 @@ OC.L10N.register(
     "Close" : "Zavrieť",
     "Due date" : "Termín dokončenia",
     "Labels" : "Štítky",
+    "Assigned to" : "Priradené používateľovi",
+    "Show board" : "Zobraziť nástenku",
     "Error fetching Talk conversations." : "Chyba pri načítavaní konverzácií Talk.",
     "Nextcloud Talk" : "Nextcloud Talk",
     "Successfully added Talk conversation link to location." : "Odkaz na konverzáciu Talk bol úspešne pridaný k miestu.",

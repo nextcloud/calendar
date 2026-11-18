@@ -250,6 +250,8 @@
     "Back" : "عودة",
     "Book appointment" : "إحجِز موعداً",
     "Close" : "إغلاق",
+    "Due date" : "تاريخ الاكتمال",
+    "Labels" : "العناوين",
     "Error fetching Talk conversations." : "خطأ في جلب محادثات Talk.",
     "Nextcloud Talk" : "تطبيق \"المحادثة\" talk من نكست كلاود",
     "Successfully added Talk conversation link to location." : "تمت إضافة رابط المحادثة إلى الموقع بنجاح.",

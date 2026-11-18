@@ -378,6 +378,8 @@ OC.L10N.register(
     "Close" : "Kapat",
     "Due date" : "Bitiş tarihi",
     "Labels" : "Etiketler",
+    "Assigned to" : "İlişkilendirilen",
+    "Show board" : "Panoyu görüntüle",
     "Error fetching Talk conversations." : "Konuş görüşmeleri alınırken sorun çıktı.",
     "Nextcloud Talk" : "Nextcloud Konuş",
     "Successfully added Talk conversation link to location." : "Konuş görüşme bağlantısı konuma eklendi.",

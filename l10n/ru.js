@@ -378,6 +378,8 @@ OC.L10N.register(
     "Close" : "Закрыть",
     "Due date" : "Срок",
     "Labels" : "Метки",
+    "Assigned to" : "Исполнители",
+    "Show board" : "Показать доску",
     "Error fetching Talk conversations." : "Не удалось получить список обсуждений в приложении «Конференции».",
     "Nextcloud Talk" : "Конференции для Nextcloud",
     "Successfully added Talk conversation link to location." : "Ссылка на обсуждение в приложении «Конференции» добавлена в местоположение события.",
