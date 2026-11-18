@@ -26,10 +26,6 @@
     <PossiblyNullArgument>
       <code><![CDATA[$proposal->getUid()]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[getUID]]></code>
-      <code><![CDATA[getUID]]></code>
-    </PossiblyNullReference>
   </file>
   <file src="lib/Controller/ViewController.php">
     <PossiblyNullPropertyAssignmentValue>

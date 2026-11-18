@@ -91,11 +91,34 @@ class ProposalControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $response->getStatus());
 	}
 
+	/**
+	 * @dataProvider authorizationTargets
+	 */
+	public function testListRejectsMissingSessionUser(?string $targetUser): void {
+		$this->userSession->method('isLoggedIn')->willReturn(true);
+		$this->userSession->expects($this->once())->method('getUser')->willReturn(null);
+		$this->groupManager->expects($this->never())->method('isAdmin');
+		$this->userManager->expects($this->never())->method('userExists');
+		$this->userManager->expects($this->never())->method('get');
+		$this->proposalService->expects($this->never())->method('listProposals');
+
+		$response = $this->controller->list($targetUser);
+
+		$this->assertSame(Http::STATUS_UNAUTHORIZED, $response->getStatus());
+	}
+
+	public static function authorizationTargets(): array {
+		return [
+			'current user' => [null],
+			'specific user' => ['targetuser'],
+		];
+	}
+
 	public function testListWithSpecificUser(): void {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-		$this->userSession->expects($this->exactly(2))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($this->user);
 		$this->user->expects($this->exactly(2))
@@ -115,7 +138,7 @@ class ProposalControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-		$this->userSession->expects($this->exactly(2))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($this->user);
 		$this->user->expects($this->exactly(2))
@@ -138,7 +161,7 @@ class ProposalControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-		$this->userSession->expects($this->exactly(2))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($this->user);
 		$this->user->expects($this->exactly(2))
@@ -171,7 +194,7 @@ class ProposalControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-		$this->userSession->expects($this->exactly(2))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($this->user);
 		$this->user->expects($this->exactly(2))
