@@ -28,6 +28,7 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantObject;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseDateCollection;
+use OCA\Calendar\Objects\Proposal\ProposalResponseDateObject;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
 use OCA\Calendar\Objects\Proposal\ProposalVoteObject;
@@ -593,6 +594,17 @@ class ProposalServiceTest extends TestCase {
 		$response = $this->createProposalResponse('token123');
 		$participantEntry = $this->createParticipantEntry(1, 1, 'test@example.com', 'token123');
 		$proposalEntry = $this->createProposalEntry(1, 'Test Proposal');
+		$dateEntry = new ProposalDateEntry();
+		$dateEntry->setId(10);
+		$responseDate = new ProposalResponseDateObject();
+		$responseDate->setId(10);
+		$responseDate->setVote('Y');
+		$response->getDates()->append($responseDate);
+		$this->proposalVoteMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalVoteEntry $vote): bool => $vote->getUid() === 'testuser'
+				&& $vote->getPid() === 1 && $vote->getParticipantId() === 1
+				&& $vote->getDateId() === 10 && $vote->getVote() === 'Y'))
+			->willReturnArgument(0);
 
 		$this->proposalParticipantMapper->expects($this->once())
 			->method('fetchByToken')
@@ -607,7 +619,7 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalDateMapper->expects($this->once())
 			->method('fetchByProposalId')
 			->with('testuser', 1)
-			->willReturn([]);
+			->willReturn([$dateEntry]);
 
 		$this->proposalVoteMapper->expects($this->once())
 			->method('deleteByParticipantId')
@@ -665,6 +677,31 @@ class ProposalServiceTest extends TestCase {
 			->method('notify');
 
 		$this->service->storeResponse($response);
+	}
+
+	/**
+	 * @dataProvider incompleteParticipantReferences
+	 */
+	public function testStoreResponseRejectsIncompleteParticipant(?string $userId, ?int $proposalId): void {
+		$participant = new ProposalParticipantEntry();
+		if ($userId !== null) {
+			$participant->setUid($userId);
+		}
+		if ($proposalId !== null) {
+			$participant->setPid($proposalId);
+		}
+		$this->proposalParticipantMapper->method('fetchByToken')->with('token')->willReturn($participant);
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+		$this->proposalDateMapper->expects($this->never())->method('fetchByProposalId');
+		$this->proposalVoteMapper->expects($this->never())->method('deleteByParticipantId');
+		$this->proposalVoteMapper->expects($this->never())->method('insert');
+		$this->proposalParticipantMapper->expects($this->never())->method('update');
+		$this->notificationManager->expects($this->never())->method('notify');
+
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('Stored participant must reference an owner and proposal');
+
+		$this->service->storeResponse($this->createProposalResponse('token'));
 	}
 
 	public function testStoreResponseInvalidToken(): void {

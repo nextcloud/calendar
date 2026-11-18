@@ -435,16 +435,22 @@ class ProposalService {
 		if ($participantEntry === null) {
 			throw new \InvalidArgumentException('Participant not found for token: ' . $response->getToken());
 		}
+		$organizerUid = $participantEntry->getUid();
+		$proposalId = $participantEntry->getPid();
+		if ($organizerUid === null || $proposalId === null) {
+			throw new \UnexpectedValueException('Stored participant must reference an owner and proposal');
+		}
+
 		// retrieve the proposal entry
-		$proposalEntry = $this->proposalMapper->fetchById($participantEntry->getUid(), $participantEntry->getPid());
+		$proposalEntry = $this->proposalMapper->fetchById($organizerUid, $proposalId);
 		if ($proposalEntry === null) {
-			throw new \InvalidArgumentException('Proposal not found for identifier: ' . ($participantEntry->getPid() ?? 'null'));
+			throw new \InvalidArgumentException('Proposal not found for identifier: ' . $proposalId);
 		}
 		// retrieve proposal dates
-		$proposalDateEntries = $this->proposalDateMapper->fetchByProposalId($participantEntry->getUid(), $participantEntry->getPid());
+		$proposalDateEntries = $this->proposalDateMapper->fetchByProposalId($organizerUid, $proposalId);
 
 		// first, delete any existing votes for this participant
-		$this->proposalVoteMapper->deleteByParticipantId($participantEntry->getUid(), $participantEntry->getId());
+		$this->proposalVoteMapper->deleteByParticipantId($organizerUid, $participantEntry->getId());
 
 		// find response dates that match the proposal dates and store votes
 		$responseDates = $response->getDates();
@@ -460,8 +466,8 @@ class ProposalService {
 			if ($foundDateEntry !== null) {
 				// create and save vote entry directly
 				$voteEntry = new ProposalVoteEntry();
-				$voteEntry->setUid($participantEntry->getUid());
-				$voteEntry->setPid($participantEntry->getPid());
+				$voteEntry->setUid($organizerUid);
+				$voteEntry->setPid($proposalId);
 				$voteEntry->setParticipantId($participantEntry->getId());
 				$voteEntry->setDateId($foundDateEntry->getId());
 				$voteEntry->setVote($responseDate->getVote());
@@ -474,8 +480,7 @@ class ProposalService {
 		$this->proposalParticipantMapper->update($participantEntry);
 
 		// notify the organizer with a bell notification, if they opted in
-		$organizerUid = $participantEntry->getUid();
-		if ($proposalEntry->getResponseNotify() && $organizerUid !== null) {
+		if ($proposalEntry->getResponseNotify()) {
 			$notification = $this->notificationManager->createNotification();
 			$notification->setApp(Application::APP_ID)
 				->setUser($organizerUid)

@@ -169,13 +169,6 @@
   </file>
   <file src="lib/Service/Proposal/ProposalService.php">
     <PossiblyNullArgument>
-      <code><![CDATA[$participantEntry->getPid()]]></code>
-      <code><![CDATA[$participantEntry->getPid()]]></code>
-      <code><![CDATA[$participantEntry->getPid()]]></code>
-      <code><![CDATA[$participantEntry->getUid()]]></code>
-      <code><![CDATA[$participantEntry->getUid()]]></code>
-      <code><![CDATA[$participantEntry->getUid()]]></code>
-      <code><![CDATA[$participantEntry->getUid()]]></code>
       <code><![CDATA[$proposal->getDescription()]]></code>
       <code><![CDATA[$proposal->getId()]]></code>
       <code><![CDATA[$proposal->getId()]]></code>
