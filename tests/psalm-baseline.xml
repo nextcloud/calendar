@@ -167,17 +167,6 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$timezone]]></code>
     </ArgumentTypeCoercion>
-    <PossiblyNullArgument>
-      <code><![CDATA[$tzfrom]]></code>
-    </PossiblyNullArgument>
-    <PossiblyUndefinedVariable>
-      <code><![CDATA[$daylightDefinition]]></code>
-      <code><![CDATA[$daylightDefinition]]></code>
-      <code><![CDATA[$standardDefinition]]></code>
-      <code><![CDATA[$standardDefinition]]></code>
-      <code><![CDATA[$tzfrom]]></code>
-      <code><![CDATA[$tzfrom]]></code>
-    </PossiblyUndefinedVariable>
   </file>
   <file src="lib/Service/CalendarInitialStateService.php">
     <UndefinedClass>

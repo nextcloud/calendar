@@ -39,36 +39,39 @@ class TimezoneGenerator {
 		// get all transitions for one year back/ahead
 		$year = 86400 * 360;
 		$transitions = $tz->getTransitions($from - $year, $to + $year);
+		if ($transitions === false) {
+			return null;
+		}
 
 		$vcalendar = new VCalendar();
 		$vtimezone = $vcalendar->createComponent('VTIMEZONE');
 		$vtimezone->TZID = $timezone;
 
-		$standard = $daylightStart = null;
+		$standardDefinition = $daylightDefinition = null;
+		$tzfrom = null;
 		foreach ($transitions as $i => $trans) {
 			$component = null;
 			// daylight saving time definition
 			if ($trans['isdst']) {
 				$daylightDefinition = $trans['ts'];
-				$daylightStart = $vcalendar->createComponent('DAYLIGHT');
-				$component = $daylightStart;
+				$component = $vcalendar->createComponent('DAYLIGHT');
 			}
 			// standard time definition
 			else {
 				$standardDefinition = $trans['ts'];
-				$standard = $vcalendar->createComponent('STANDARD');
-				$component = $standard;
+				$component = $vcalendar->createComponent('STANDARD');
 			}
 
 			if ($component) {
 				if ($i === 0) {
 					$date = new \DateTime('19700101T000000');
-					$tzfrom = $trans['offset'] / 3600;
-					$offset = $tzfrom;
+					$offset = $trans['offset'] / 3600;
 				} else {
 					$date = new \DateTime($trans['time']);
 					$offset = $trans['offset'] / 3600;
 				}
+
+				$tzfrom ??= $offset;
 
 				$component->DTSTART = $date->format('Ymd\THis');
 				$component->TZOFFSETFROM = sprintf('%s%02d%02d', $tzfrom >= 0 ? '+' : '-', abs(floor($tzfrom)), ((float)$tzfrom - floor($tzfrom)) * 60.0);
@@ -84,7 +87,7 @@ class TimezoneGenerator {
 			}
 
 			// we covered the entire date range
-			if ($standard && $daylightStart && min($standardDefinition, $daylightDefinition) < $from && max($standardDefinition, $daylightDefinition) > $to) {
+			if ($standardDefinition !== null && $daylightDefinition !== null && min($standardDefinition, $daylightDefinition) < $from && max($standardDefinition, $daylightDefinition) > $to) {
 				break;
 			}
 		}
