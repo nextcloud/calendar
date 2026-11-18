@@ -172,8 +172,6 @@
       <code><![CDATA[$participantEntry->getPid()]]></code>
       <code><![CDATA[$participantEntry->getPid()]]></code>
       <code><![CDATA[$participantEntry->getPid()]]></code>
-      <code><![CDATA[$participantEntry->getPid()]]></code>
-      <code><![CDATA[$participantEntry->getUid()]]></code>
       <code><![CDATA[$participantEntry->getUid()]]></code>
       <code><![CDATA[$participantEntry->getUid()]]></code>
       <code><![CDATA[$participantEntry->getUid()]]></code>
@@ -190,7 +188,6 @@
       <code><![CDATA[$proposal->getLocation()]]></code>
       <code><![CDATA[$proposal]]></code>
       <code><![CDATA[$proposal]]></code>
-      <code><![CDATA[$user]]></code>
     </PossiblyNullArgument>
   </file>
 </files>

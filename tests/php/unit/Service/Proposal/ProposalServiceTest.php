@@ -289,6 +289,45 @@ class ProposalServiceTest extends TestCase {
 		$this->assertInstanceOf(ProposalObject::class, $result);
 	}
 
+	public function testFetchByTokenWithDeletedOwner(): void {
+		$participant = $this->createParticipantEntry(1, 1, 'participant@example.com', 'token');
+		$this->proposalParticipantMapper->method('fetchByToken')->with('token')->willReturn($participant);
+		$this->userManager->expects($this->once())->method('get')->with('testuser')->willReturn(null);
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+
+		$result = $this->service->fetchByToken('token');
+
+		$this->assertNull($result);
+	}
+
+	/**
+	 * @dataProvider incompleteParticipantReferences
+	 */
+	public function testFetchByTokenWithIncompleteParticipant(?string $userId, ?int $proposalId): void {
+		$participant = new ProposalParticipantEntry();
+		if ($userId !== null) {
+			$participant->setUid($userId);
+		}
+		if ($proposalId !== null) {
+			$participant->setPid($proposalId);
+		}
+		$this->proposalParticipantMapper->method('fetchByToken')->with('token')->willReturn($participant);
+		$this->userManager->expects($this->never())->method('get');
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+
+		$result = $this->service->fetchByToken('token');
+
+		$this->assertNull($result);
+	}
+
+	public static function incompleteParticipantReferences(): array {
+		return [
+			'missing owner' => [null, 1],
+			'missing proposal' => ['testuser', null],
+			'missing both' => [null, null],
+		];
+	}
+
 	public function testFetchByTokenNotFound(): void {
 		$this->proposalParticipantMapper->expects($this->once())
 			->method('fetchByToken')

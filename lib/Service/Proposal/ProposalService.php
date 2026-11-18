@@ -172,9 +172,17 @@ class ProposalService {
 		if ($participantEntry === null) {
 			return null;
 		}
-		$user = $this->userManager->get($participantEntry->getUid());
+		$userId = $participantEntry->getUid();
+		$proposalId = $participantEntry->getPid();
+		if ($userId === null || $proposalId === null) {
+			return null;
+		}
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			return null;
+		}
 		// retrieve full proposal with participants, dates, and votes
-		$proposal = $this->fetchProposal($user, $participantEntry->getPid());
+		$proposal = $this->fetchProposal($user, $proposalId);
 
 		return $proposal;
 	}
