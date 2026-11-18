@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
+<files psalm-version="7.10.0@2d8a48d1611508108eaa653ef599010da65eff3f">
   <file src="lib/Controller/AppointmentConfigController.php">
     <RedundantCondition>
       <code><![CDATA[$expectedDayKeys !== $actualDayKeys]]></code>
@@ -24,6 +24,9 @@
     </PossiblyUndefinedVariable>
   </file>
   <file src="lib/Controller/EmailController.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$matchingCalendar]]></code>
+    </InvalidReturnStatement>
     <PossiblyNullArgument>
       <code><![CDATA[$displayName]]></code>
     </PossiblyNullArgument>
@@ -57,6 +60,22 @@
     </PossiblyNullArgument>
   </file>
   <file src="lib/Http/JsonResponse.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[new self(
+			[
+				'status' => 'fail',
+				'data' => $data,
+			],
+			$status
+		)]]></code>
+      <code><![CDATA[new self(
+			[
+				'status' => 'success',
+				'data' => $data,
+			],
+			$status
+		)]]></code>
+    </LessSpecificReturnStatement>
     <ArgumentTypeCoercion>
       <code><![CDATA[$statusCode]]></code>
     </ArgumentTypeCoercion>
@@ -91,6 +110,9 @@
     <MissingTemplateParam>
       <code><![CDATA[IEventListener]]></code>
     </MissingTemplateParam>
+    <RedundantCondition>
+      <code><![CDATA[method_exists($options, 'setMeetingDate')]]></code>
+    </RedundantCondition>
   </file>
   <file src="lib/Listener/NotifyPushListener.php">
     <UndefinedClass>
@@ -155,6 +177,11 @@
       <code><![CDATA[$timeZone]]></code>
     </ArgumentTypeCoercion>
   </file>
+  <file src="lib/Service/Appointments/BookingCalendarWriter.php">
+    <RedundantCondition>
+      <code><![CDATA[method_exists($calendar, 'createFromStringMinimal')]]></code>
+    </RedundantCondition>
+  </file>
   <file src="lib/Service/Appointments/BookingService.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$booking->getTimezone()]]></code>
@@ -187,6 +214,9 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$timezone]]></code>
     </ArgumentTypeCoercion>
+    <PossiblyNullArgument>
+      <code><![CDATA[$tzfrom]]></code>
+    </PossiblyNullArgument>
     <PossiblyUndefinedVariable>
       <code><![CDATA[$daylightDefinition]]></code>
       <code><![CDATA[$daylightDefinition]]></code>
@@ -210,6 +240,7 @@
     <PossiblyNullArgument>
       <code><![CDATA[$currentProposal->getId()]]></code>
       <code><![CDATA[$mutatedProposal->getId()]]></code>
+      <code><![CDATA[$mutatedProposalEntry->getId()]]></code>
       <code><![CDATA[$participantEntry->getPid()]]></code>
       <code><![CDATA[$participantEntry->getPid()]]></code>
       <code><![CDATA[$participantEntry->getPid()]]></code>
@@ -219,8 +250,6 @@
       <code><![CDATA[$participantEntry->getUid()]]></code>
       <code><![CDATA[$participantEntry->getUid()]]></code>
       <code><![CDATA[$participantEntry->getUid()]]></code>
-      <code><![CDATA[$proposal]]></code>
-      <code><![CDATA[$proposal]]></code>
       <code><![CDATA[$proposal->getDescription()]]></code>
       <code><![CDATA[$proposal->getId()]]></code>
       <code><![CDATA[$proposal->getId()]]></code>
@@ -231,10 +260,36 @@
       <code><![CDATA[$proposal->getId()]]></code>
       <code><![CDATA[$proposal->getId()]]></code>
       <code><![CDATA[$proposal->getLocation()]]></code>
+      <code><![CDATA[$proposalEntry->getId()]]></code>
+      <code><![CDATA[$proposalEntry->getId()]]></code>
+      <code><![CDATA[$proposalEntry->getId()]]></code>
+      <code><![CDATA[$proposal]]></code>
+      <code><![CDATA[$proposal]]></code>
       <code><![CDATA[$user]]></code>
     </PossiblyNullArgument>
+    <PossiblyNullArrayOffset>
+      <code><![CDATA[$proposalDateEntries]]></code>
+      <code><![CDATA[$proposalDateEntries]]></code>
+      <code><![CDATA[$proposalParticipantEntries]]></code>
+      <code><![CDATA[$proposalParticipantEntries]]></code>
+      <code><![CDATA[$proposalVoteEntries]]></code>
+      <code><![CDATA[$proposalVoteEntries]]></code>
+    </PossiblyNullArrayOffset>
     <PossiblyUndefinedVariable>
       <code><![CDATA[$userCalendar]]></code>
+      <code><![CDATA[$userCalendar]]></code>
+      <code><![CDATA[$userCalendar]]></code>
     </PossiblyUndefinedVariable>
+    <TypeDoesNotContainType>
+      <code><![CDATA[method_exists($mailService, 'initiateMessage')]]></code>
+      <code><![CDATA[method_exists($this->calendarManager, 'handleIMip')]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="lib/UserMigration/Migrator.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$newProposalId]]></code>
+      <code><![CDATA[$newProposalId]]></code>
+      <code><![CDATA[$newProposalId]]></code>
+    </PossiblyNullArgument>
   </file>
 </files>
