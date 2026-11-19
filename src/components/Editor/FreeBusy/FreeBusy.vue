@@ -268,6 +268,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import FullCalendar from '@fullcalendar/vue3'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { isRTL } from '@nextcloud/l10n'
+import moment from '@nextcloud/moment'
 import { NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { mapState } from 'pinia'
@@ -387,8 +388,6 @@ export default {
 			currentIsAllDay: this.allDay,
 			currentStart: this.startDate,
 			currentEnd: this.endDate,
-			lang: getFullCalendarLocale().locale,
-			formattingOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
 			freeSlots: [],
 			selectedSlot: null,
 			view: 'timeGridWeek',
@@ -441,17 +440,15 @@ export default {
 		formattedCurrentStart() {
 			// Check if the event spawns over multiple days
 			if (this.currentStart.getDate() !== this.currentEnd.getDate()) {
-				return this.currentStart.toLocaleDateString(this.lang, this.formattingOptions) + ' - '
-					+ this.currentEnd.toLocaleDateString(this.lang, this.formattingOptions)
+				return moment(this.currentStart).locale(this.locale).format('dddd, LL') + ' - '
+					+ moment(this.currentEnd).locale(this.locale).format('dddd, LL')
 			}
-			return this.currentStart.toLocaleDateString(this.lang, this.formattingOptions)
+			return moment(this.currentStart).locale(this.locale).format('dddd, LL')
 		},
 
 		formattedCurrentTime() {
-			const options = { hour: '2-digit', minute: '2-digit', hour12: true }
-
-			const startTime = this.currentStart.toLocaleTimeString(this.lang, options)
-			const endTime = this.currentEnd?.toLocaleTimeString(this.lang, options)
+			const startTime = moment(this.currentStart).locale(this.locale).format('LT')
+			const endTime = this.currentEnd && moment(this.currentEnd).locale(this.locale).format('LT')
 
 			return `${startTime} - ${endTime} `
 		},
@@ -721,7 +718,7 @@ export default {
 				)
 
 				freeSlots.forEach((slot) => {
-					slot.displayStart = dateFormat(slot.start, false, getFullCalendarLocale().locale)
+					slot.displayStart = dateFormat(slot.start, false, this.locale)
 				})
 
 				this.freeSlots = freeSlots
