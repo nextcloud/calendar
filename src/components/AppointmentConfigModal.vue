@@ -11,6 +11,7 @@ import { t } from '@nextcloud/l10n'
 import {
 	NcButton,
 	NcCheckboxRadioSwitch,
+	NcDateTimePickerNative,
 	NcModal,
 	NcNoteCard,
 	NcTextArea,
@@ -29,6 +30,7 @@ import AppointmentConfig from '@/models/appointmentConfig.js'
 import useAppointmentConfigsStore from '@/store/appointmentConfigs.js'
 import useCalendarsStore from '@/store/calendars.js'
 import useSettingsStore from '@/store/settings.js'
+import { getUnixTimestampFromDate } from '@/utils/date.js'
 import logger from '@/utils/logger.js'
 import { isAfterVersion } from '@/utils/nextcloudVersion'
 
@@ -53,8 +55,11 @@ const editing = ref<AppointmentConfig>(props.config.clone())
 const enablePreparationDuration = ref(false)
 const enableFollowupDuration = ref(false)
 const enableFutureLimit = ref(false)
+const enableDateRange = ref(false)
 const rateLimitingReached = ref(false)
 const showConfirmation = ref(false)
+const startDate = ref<Date | null>(new Date())
+const endDate = ref<Date | null>(new Date())
 
 const isTalkEnabled = computed<boolean>(() => settingsStore.talkEnabled)
 
@@ -115,6 +120,11 @@ watch(() => props.config, () => {
 
 function reset(): void {
 	editing.value = props.config.clone()
+	const today = new Date()
+	today.setHours(0, 0, 0, 0)
+	startDate.value = editing.value.start ? new Date(editing.value.start * 1000) : today
+	endDate.value = editing.value.end ? new Date(editing.value.end * 1000 - 1) : new Date(today)
+	enableDateRange.value = !!editing.value.start || !!editing.value.end
 
 	if (props.isDuplicate) {
 		editing.value.name = `${editing.value.name} ${t('calendar', '(copy)')}`
@@ -129,13 +139,18 @@ function reset(): void {
 
 	enablePreparationDuration.value = !!editing.value.preparationDuration
 	enableFollowupDuration.value = !!editing.value.followupDuration
-	enableFutureLimit.value = !!editing.value.futureLimit
+	enableFutureLimit.value = enableDateRange.value || !!editing.value.futureLimit
 
 	showConfirmation.value = false
 	// Disable Talk integration if Talk is no longer available
 	if (!isTalkEnabled.value) {
 		editing.value.createTalkRoom = false
 	}
+}
+
+function changeFutureLimit(value: number): void {
+	editing.value.futureLimit = value
+	enableDateRange.value = false
 }
 
 function calendarUrlToUri(url: string): string {
@@ -177,8 +192,21 @@ async function save(): Promise<void> {
 		editing.value.followupDuration = defaultConfig.value.followupDuration
 	}
 
-	if (!enableFutureLimit.value) {
+	if (enableFutureLimit.value && !enableDateRange.value) {
+		editing.value.futureLimit ??= defaultConfig.value.futureLimit
+	} else {
 		editing.value.futureLimit = null
+	}
+
+	if (enableFutureLimit.value && enableDateRange.value && startDate.value && endDate.value) {
+		editing.value.start = getUnixTimestampFromDate(startDate.value)
+
+		const end = new Date(endDate.value)
+		end.setHours(24, 0, 0, 0)
+		editing.value.end = getUnixTimestampFromDate(end)
+	} else {
+		editing.value.start = null
+		editing.value.end = null
 	}
 
 	editing.value.targetCalendarUri ??= defaultConfig.value.targetCalendarUri
@@ -331,14 +359,28 @@ reset()
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-							<CheckedDurationSelect
-								v-model="editing.futureLimit"
-								:enabled="enableFutureLimit"
-								:label="t('calendar', 'Limit how far in the future appointments can be booked')"
-								:defaultValue="defaultConfig.futureLimit"
+							<NcCheckboxRadioSwitch v-model="enableFutureLimit">
+								{{ t('calendar', 'Limit when appointments can be booked') }}
+							</NcCheckboxRadioSwitch>
+							<DurationSelect
+								:modelValue="editing.futureLimit ?? defaultConfig.futureLimit"
+								:disabled="!enableFutureLimit"
 								:min="7 * 24 * 60 * 60"
 								:max="null"
-								@update:enabled="enableFutureLimit = $event" />
+								:customOptionLabel="t('calendar', 'Custom date range')"
+								:customOptionSelected="enableDateRange"
+								@update:modelValue="changeFutureLimit"
+								@select:custom="enableDateRange = true" />
+						</div>
+						<div v-if="enableDateRange" class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
+							<NcDateTimePickerNative
+								v-model="startDate"
+								:disabled="!enableFutureLimit"
+								:label="t('calendar', 'From')" />
+							<NcDateTimePickerNative
+								v-model="endDate"
+								:disabled="!enableFutureLimit"
+								:label="t('calendar', 'To')" />
 						</div>
 					</fieldset>
 				</div>
@@ -350,7 +392,7 @@ reset()
 				<NcButton
 					class="appointment-config-modal__submit-button"
 					variant="primary"
-					:disabled="!editing.name || editing.length === 0 || isLoading"
+					:disabled="!editing.name || editing.length === 0 || isLoading || (enableFutureLimit && enableDateRange && (!startDate || !endDate))"
 					@click="save">
 					<template #icon>
 						<CheckIcon :size="20" />
