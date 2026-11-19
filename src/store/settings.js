@@ -42,6 +42,7 @@ export default defineStore('settings', {
 			forceEventAlarmType: false,
 			canSubscribeLink: true,
 			showResources: true,
+			allowGroupSharing: true,
 			// user-defined Nextcloud settings
 			momentLocale: 'en',
 			attachmentsFolder: '/Calendar',
@@ -348,8 +349,9 @@ export default defineStore('settings', {
 		 * @param {string} data.attachmentsFolder Default user's attachments folder
 		 * @param {boolean} data.showResources Show or hide the resources tab
 		 * @param {string} data.publicCalendars The list of public calendars configured by the administrator
+		 * @param {boolean} data.allowGroupSharing Whether sharing calendars with groups is allowed
 		 */
-		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showDeclined, showWeekends, skipPopover, slotDuration, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
+		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showDeclined, showWeekends, skipPopover, slotDuration, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars, allowGroupSharing }) {
 			logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -374,6 +376,7 @@ Initial settings:
 	- attachmentsFolder: ${attachmentsFolder}
 	- ShowResources: ${showResources}
 	- PublicCalendars: ${publicCalendars}
+	- AllowGroupSharing: ${allowGroupSharing}
 `)
 
 			this.appVersion = appVersion
@@ -398,6 +401,7 @@ Initial settings:
 			this.attachmentsFolder = attachmentsFolder
 			this.showResources = showResources
 			this.publicCalendars = publicCalendars
+			this.allowGroupSharing = allowGroupSharing
 		},
 
 		/**
