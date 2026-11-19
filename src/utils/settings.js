@@ -28,6 +28,7 @@ export function getSettingsFromInitialState() {
 		tasksEnabled: loadState('calendar', 'tasks_enabled', false),
 		timezone: loadState('calendar', 'timezone', 'automatic'),
 		showTasks: loadState('calendar', 'show_tasks', false),
+		showCompletedTasks: loadState('calendar', 'show_completed_tasks', true),
 		showDeclined: loadState('calendar', 'show_declined', true),
 		hideEventExport: loadState('calendar', 'hide_event_export', false),
 		forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),

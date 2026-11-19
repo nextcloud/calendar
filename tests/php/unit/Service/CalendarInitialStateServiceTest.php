@@ -126,7 +126,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['spreed', 'start_conversations', '[]', '[]'],
 				['spreed', 'allowed_groups', '[]', '[]'],
 			]);
-		$this->config->expects(self::exactly(14))
+		$this->config->expects(self::exactly(15))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -141,6 +141,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'calendar', 'defaultReminderPartDay', 'none', '-900'],
 				['user123', 'calendar', 'defaultReminderFullDay', 'none', '32400'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', 'yes'],
+				['user123', 'calendar', 'showCompletedTasks', 'yes', 'no'],
 				['user123', 'calendar', 'showDeclined', 'yes', 'yes'],
 				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
@@ -172,7 +173,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->willReturn([$this->createMock(IResourceBackend::class)]);
 		$this->roomManager->expects(self::never())
 			->method('getBackends');
-		$this->initialStateService->expects(self::exactly(29))
+		$this->initialStateService->expects(self::exactly(30))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -190,6 +191,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['default_reminder_part_day', '-900'],
 				['default_reminder_full_day', '32400'],
 				['show_tasks', false],
+				['show_completed_tasks', false],
 				['show_declined', true],
 				['tasks_sidebar', true],
 				['tasks_enabled', true],
@@ -251,7 +253,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['dav', 'enableCalendarFederation', true, false, false],
 				['files_sharing', 'outgoing_server2server_share_enabled', true, false, false],
 			]);
-		$this->config->expects(self::exactly(14))
+		$this->config->expects(self::exactly(15))
 			->method('getUserValue')
 			->willReturnMap([
 				[null, 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -266,6 +268,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				[null, 'calendar', 'defaultReminderPartDay', 'none', '-900'],
 				[null, 'calendar', 'defaultReminderFullDay', 'none', '32400'],
 				[null, 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
+				[null, 'calendar', 'showCompletedTasks', 'yes', 'yes'],
 				[null, 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
 		$this->appManager->expects(self::exactly(2))
@@ -286,7 +289,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->roomManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([]);
-		$this->initialStateService->expects(self::exactly(28))
+		$this->initialStateService->expects(self::exactly(29))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -304,6 +307,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['default_reminder_part_day', '-900'],
 				['default_reminder_full_day', '32400'],
 				['show_tasks', false],
+				['show_completed_tasks', true],
 				['show_declined', false],
 				['tasks_sidebar', false],
 				['tasks_enabled', true],
@@ -366,7 +370,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['spreed', 'start_conversations', '[]', '[]'],
 				['spreed', 'allowed_groups', '[]', '[]'],
 			]);
-		$this->config->expects(self::exactly(14))
+		$this->config->expects(self::exactly(15))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -381,6 +385,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'calendar', 'defaultReminderPartDay', 'none', '-900'],
 				['user123', 'calendar', 'defaultReminderFullDay', 'none', '32400'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', 'yes'],
+				['user123', 'calendar', 'showCompletedTasks', 'yes', 'yes'],
 				['user123', 'calendar', 'showDeclined', 'yes', 'yes'],
 				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
@@ -413,7 +418,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->roomManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([$this->createMock(IRoomBackend::class)]);
-		$this->initialStateService->expects(self::exactly(29))
+		$this->initialStateService->expects(self::exactly(30))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -431,6 +436,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['default_reminder_part_day', '-900'],
 				['default_reminder_full_day', '32400'],
 				['show_tasks', false],
+				['show_completed_tasks', true],
 				['show_declined', true],
 				['tasks_sidebar', false],
 				['tasks_enabled', false],
