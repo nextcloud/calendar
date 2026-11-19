@@ -378,6 +378,8 @@ OC.L10N.register(
     "Close" : "Fermer",
     "Due date" : "Date d'échéance",
     "Labels" : "Étiquettes",
+    "Assigned to" : "Attribué à",
+    "Show board" : "Afficher le tableau",
     "Error fetching Talk conversations." : "Erreur lors du chargement des conversations Talk.",
     "Nextcloud Talk" : "Nextcloud Talk",
     "Successfully added Talk conversation link to location." : "Le lien de la conversation Talk a été ajouté avec succès au champ Lieu.",
