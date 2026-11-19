@@ -14,6 +14,7 @@ use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -76,6 +77,7 @@ class AppointmentController extends Controller {
 	 * @PublicPage
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @return Response
 	 */
@@ -124,11 +126,19 @@ class AppointmentController extends Controller {
 			);
 		}
 
-		return new TemplateResponse(
+		$response = new TemplateResponse(
 			Application::APP_ID,
 			'appointments/booking',
 			[],
 			TemplateResponse::RENDER_AS_PUBLIC
 		);
+		$response->setFooterVisible(false);
+		$response->addHeader('X-Frame-Options', 'ALLOW');
+
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedFrameAncestorDomain('*');
+		$response->setContentSecurityPolicy($csp);
+
+		return $response;
 	}
 }
