@@ -13,7 +13,7 @@ import { generateUrl } from '@nextcloud/router'
  * @return {string|null}
  */
 export function getMailDeepLink(eventComponent) {
-	const messageId = eventComponent?.getFirstPropertyFirstValue?.('X-NEXTCLOUD-MAIL-MESSAGE-ID')
+	const messageId = eventComponent?.getFirstPropertyFirstValue?.('X-NC-MAIL-DEEPLINK')
 	if (!messageId) {
 		return null
 	}
