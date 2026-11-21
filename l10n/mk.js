@@ -440,6 +440,7 @@ OC.L10N.register(
     "unavailable" : "недостапно",
     "Projector" : "Проектор",
     "Whiteboard" : "Табла",
+    "Unavailable" : "Недостапно",
     "Room type" : "Вид на соба",
     "Any" : "Било кој",
     "Minimum seating capacity" : "Минимален капацитет за седење",
