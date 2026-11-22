@@ -41,6 +41,60 @@ describe('mixins/EditorMixin test suite', () => {
 		})
 	})
 
+	describe('delegatorEmailAddress', () => {
+		const delegatorUrl = '/remote.php/dav/principals/users/delegator/'
+		const principalsStore = {
+			getPrincipalByUrl: (url) => (url === delegatorUrl ? { emailAddress: 'delegator@example.com' } : undefined),
+		}
+
+		it('is the email address of the delegator when the selected calendar is delegated', () => {
+			const vm = { selectedCalendar: { isDelegated: true, delegatorUrl }, principalsStore }
+
+			expect(EditorMixin.computed.delegatorEmailAddress.call(vm)).toBe('delegator@example.com')
+		})
+
+		it('is null when the selected calendar is not delegated', () => {
+			const vm = { selectedCalendar: { isDelegated: false, delegatorUrl }, principalsStore }
+
+			expect(EditorMixin.computed.delegatorEmailAddress.call(vm)).toBeNull()
+		})
+
+		it('is null when the delegator principal is unknown', () => {
+			const vm = { selectedCalendar: { isDelegated: true, delegatorUrl: '/unknown/' }, principalsStore }
+
+			expect(EditorMixin.computed.delegatorEmailAddress.call(vm)).toBeNull()
+		})
+	})
+
+	describe('isViewedByOrganizer', () => {
+		const delegatorUrl = '/remote.php/dav/principals/users/delegator/'
+
+		it.each([
+			['mailto:assistant@example.com', true, true],
+			['mailto:delegator@example.com', true, true],
+			['mailto:delegator@example.com', false, false],
+			['mailto:someone@example.com', true, false],
+		])('organizer %s, delegated calendar %s: %s', (organizerUri, isDelegated, expected) => {
+			const vm = {
+				isReadOnly: false,
+				calendarObjectInstance: {
+					attendees: [{ uri: 'mailto:guest@example.com' }],
+					organizer: { uri: organizerUri },
+				},
+				selectedCalendar: { isDelegated, delegatorUrl },
+				principalsStore: {
+					getCurrentUserPrincipalEmail: 'assistant@example.com',
+					getPrincipalByUrl: (url) => (url === delegatorUrl ? { emailAddress: 'delegator@example.com' } : undefined),
+				},
+				get delegatorEmailAddress() {
+					return EditorMixin.computed.delegatorEmailAddress.call(this)
+				},
+			}
+
+			expect(EditorMixin.computed.isViewedByOrganizer.call(vm)).toBe(expected)
+		})
+	})
+
 	describe('canDelete', () => {
 		it.each([
 			[{ calendarObject: null }, 'occurrence', false],
