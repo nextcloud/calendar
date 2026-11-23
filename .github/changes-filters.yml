@@ -22,7 +22,7 @@ frontend:
   - 'package.json'
   - 'package-lock.json'
   - 'tsconfig.json'
-  - 'tests/javascript'
+  - 'tests/javascript/**'
   - '**.js'
   - '**.mjs'
   - '**.ts'
