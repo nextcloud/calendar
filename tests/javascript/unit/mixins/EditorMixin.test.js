@@ -416,5 +416,28 @@ describe('mixins/EditorMixin test suite', () => {
 			document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, bubbles: true }))
 			expect(duplicateEvent).toHaveBeenCalledTimes(1)
 		})
+
+		it('passes the Escape keydown on, so only Escape outside the page header closes the editor', () => {
+			const cancel = vi.fn()
+			const vm = {
+				...EditorMixin.methods,
+				cancel,
+				hotKeysRegister: [],
+			}
+			const header = document.createElement('header')
+			header.id = 'header'
+			const menuItem = document.createElement('button')
+			header.appendChild(menuItem)
+			document.body.appendChild(header)
+
+			EditorMixin.mounted.call(vm)
+			menuItem.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+			document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+			EditorMixin.beforeUnmount.call(vm)
+			header.remove()
+
+			expect(cancel).toHaveBeenCalledTimes(1)
+			expect(cancel).toHaveBeenCalledWith(false)
+		})
 	})
 })
