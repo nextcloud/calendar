@@ -835,7 +835,8 @@ export default {
 				position: 'fixed',
 				top: `${top}px`,
 				left: `${left}px`,
-				zIndex: 9997,
+				// Just above the mask and below the page header (z-index 2000)
+				zIndex: 1999,
 				maxWidth: '100vw',
 				maxHeight: `${maxH}px`,
 			}
@@ -896,9 +897,10 @@ export default {
 <style lang="scss" scoped>
 .modal-mask {
 	position: fixed;
-	z-index: 9996;
-	//the height of header
-	top: 50px;
+	// Stack under the page header (#header has z-index 2000), so header menus such
+	// as the notifications open on top of the editor; stay above the app navigation (z-index 1800)
+	z-index: 1998;
+	top: var(--header-height);
 	inset-inline-start: 0;
 	display: block;
 	width: 100%;
