@@ -530,7 +530,7 @@ export default {
 
 	mounted() {
 		this.hotKeysRegister = [
-			useHotKey('Escape', () => this.keyboardCloseEditor(), { allowInModal: true }),
+			useHotKey('Escape', (event) => this.keyboardCloseEditor(event), { allowInModal: true }),
 			useHotKey('Enter', () => this.keyboardSaveEvent(), { ctrl: true, allowInModal: true, allowInInput: true }),
 			useHotKey('Delete', () => this.keyboardDeleteEvent(), { ctrl: true, allowInModal: true }),
 			useHotKey('d', () => this.keyboardDuplicateEvent(), { ctrl: true, prevent: true, allowInModal: true }),
@@ -670,7 +670,18 @@ export default {
 				this.closeEditor()
 			}
 		},
-		keyboardCloseEditor() {
+		/**
+		 * Closes the editor on Escape
+		 *
+		 * @param {KeyboardEvent} [event] The keydown event
+		 */
+		keyboardCloseEditor(event) {
+			// Escape pressed in the page header (e.g. in the notifications menu) is meant
+			// for the header, not for the editor
+			if (event?.target instanceof Element && event.target.closest('#header')) {
+				return
+			}
+
 			this.cancel(false)
 		},
 		keyboardSaveEvent() {

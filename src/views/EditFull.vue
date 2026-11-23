@@ -1011,7 +1011,13 @@ export default {
 	}
 }
 
-.modal-mask {
+// Keep the page header usable while the editor is open: start below it and stack
+// under it (#header has z-index 2000), so header menus such as the notifications
+// open on top of the editor, but stay above the app navigation (z-index 1800).
+// The extra class outweighs NcModal's own .modal-mask rule, which other apps
+// bundle as well, so the result no longer depends on stylesheet load order.
+.calendar-edit-full.modal-mask {
+	z-index: 1999;
 	height: calc(100vh - var(--header-height));
 	top: var(--header-height);
 }
