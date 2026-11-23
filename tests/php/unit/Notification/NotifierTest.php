@@ -227,10 +227,8 @@ class NotifierTest extends TestCase {
 			->method('setIcon')
 			->with('https://cloud.example.com/img/calendar/calendar.png')
 			->willReturnSelf();
-		$notification->expects($this->once())
-			->method('setParsedSubject')
-			->with('Alice responded to your meeting proposal "Team Sync"')
-			->willReturnSelf();
+		$notification->expects($this->never())
+			->method('setParsedSubject');
 		$notification->expects($this->once())
 			->method('setRichSubject')
 			->with('{participant} responded to your meeting proposal {proposal}', $richParams)
