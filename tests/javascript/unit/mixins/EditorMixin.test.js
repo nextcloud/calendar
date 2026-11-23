@@ -309,6 +309,27 @@ describe('mixins/EditorMixin test suite', () => {
 
 			expect(cancel).toHaveBeenCalledWith(false)
 		})
+
+		it('cancels the editor when Escape is pressed inside the editor', () => {
+			const cancel = vi.fn()
+			const editorElement = document.createElement('div')
+
+			EditorMixin.methods.keyboardCloseEditor.call({ cancel }, { target: editorElement })
+
+			expect(cancel).toHaveBeenCalledWith(false)
+		})
+
+		it('keeps the editor open when Escape is pressed in the page header', () => {
+			const cancel = vi.fn()
+			const header = document.createElement('header')
+			header.id = 'header'
+			const menuItem = document.createElement('button')
+			header.appendChild(menuItem)
+
+			EditorMixin.methods.keyboardCloseEditor.call({ cancel }, { target: menuItem })
+
+			expect(cancel).not.toHaveBeenCalled()
+		})
 	})
 
 	describe('keyboardSaveEvent', () => {
