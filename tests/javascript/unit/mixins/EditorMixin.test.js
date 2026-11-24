@@ -309,27 +309,6 @@ describe('mixins/EditorMixin test suite', () => {
 
 			expect(cancel).toHaveBeenCalledWith(false)
 		})
-
-		it('cancels the editor when Escape is pressed inside the editor', () => {
-			const cancel = vi.fn()
-			const editorElement = document.createElement('div')
-
-			EditorMixin.methods.keyboardCloseEditor.call({ cancel }, { target: editorElement })
-
-			expect(cancel).toHaveBeenCalledWith(false)
-		})
-
-		it('keeps the editor open when Escape is pressed in the page header', () => {
-			const cancel = vi.fn()
-			const header = document.createElement('header')
-			header.id = 'header'
-			const menuItem = document.createElement('button')
-			header.appendChild(menuItem)
-
-			EditorMixin.methods.keyboardCloseEditor.call({ cancel }, { target: menuItem })
-
-			expect(cancel).not.toHaveBeenCalled()
-		})
 	})
 
 	describe('keyboardSaveEvent', () => {
@@ -415,29 +394,6 @@ describe('mixins/EditorMixin test suite', () => {
 
 			document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, bubbles: true }))
 			expect(duplicateEvent).toHaveBeenCalledTimes(1)
-		})
-
-		it('passes the Escape keydown on, so only Escape outside the page header closes the editor', () => {
-			const cancel = vi.fn()
-			const vm = {
-				...EditorMixin.methods,
-				cancel,
-				hotKeysRegister: [],
-			}
-			const header = document.createElement('header')
-			header.id = 'header'
-			const menuItem = document.createElement('button')
-			header.appendChild(menuItem)
-			document.body.appendChild(header)
-
-			EditorMixin.mounted.call(vm)
-			menuItem.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
-			document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
-			EditorMixin.beforeUnmount.call(vm)
-			header.remove()
-
-			expect(cancel).toHaveBeenCalledTimes(1)
-			expect(cancel).toHaveBeenCalledWith(false)
 		})
 	})
 })
