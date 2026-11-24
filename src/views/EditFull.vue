@@ -1011,11 +1011,6 @@ export default {
 	}
 }
 
-.modal-mask {
-	height: calc(100vh - var(--header-height));
-	top: var(--header-height);
-}
-
 .modal-content {
 	padding: 16px;
 	position: relative;
