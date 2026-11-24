@@ -74,7 +74,10 @@ jobs:
           committer: nextcloud-command <nextcloud-command@users.noreply.github.com>
           commit-message: "test(component): update styling from server"
           signoff: true
-          branch: 'automated/${{ github.run_id }}/server-styling-update-${{ matrix.branch }}'
+          branch: 'automated/noid/server-styling-update-${{ matrix.branch }}'
+          # If a PR was merged and the bot branch wasn't deleted. The next run with no new diff deletes the stale branch.
+          # If a PR is open but no longer has a diff, for example because server reverted a change. The action deletes the branch, which closes the PR.
+          delete-branch: true
           title: '[${{ matrix.branch }}] test(component): update styling from server'
           add-paths: ${{ env.ASSETS_DIR }}
           body: |
