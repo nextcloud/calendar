@@ -296,7 +296,7 @@ OC.L10N.register(
     "Delete edited event" : "Supprimer l’événement modifié",
     "Duplicate event" : "Dupliquer l'événement",
     "or" : "ou",
-    "Calendar settings" : "Paramètres de l’Agenda",
+    "Calendar settings" : "Paramètres de Agenda",
     "No reminder" : "Aucun rappel",
     "At event start" : "Au début de l'événement",
     "Failed to save default calendar" : "Échec d'enregistrement de l'agenda par défaut",
