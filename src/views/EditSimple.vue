@@ -869,6 +869,10 @@ export default {
 				return
 			}
 
+			if (!await this.confirmBookedResources()) {
+				return
+			}
+
 			this.isViewing = true
 			try {
 				await this.save(scope)
