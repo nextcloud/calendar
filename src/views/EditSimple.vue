@@ -886,8 +886,7 @@ export default {
 .modal-mask {
 	position: fixed;
 	z-index: 9996;
-	//the height of header
-	top: 50px;
+	top: 0;
 	inset-inline-start: 0;
 	display: block;
 	width: 100%;
