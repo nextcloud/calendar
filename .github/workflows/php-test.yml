@@ -29,7 +29,7 @@ jobs:
     if: needs.changes.outputs.backend != 'false'
     strategy:
       matrix:
-        php-versions: [ '8.3', '8.4', '8.5' ]
+        php-versions: [ '8.3', '8.4', '8.5', '8.6' ]
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
@@ -80,7 +80,7 @@ jobs:
     if: needs.changes.outputs.backend != 'false'
     strategy:
       matrix:
-        php-versions: [ '8.3', '8.4', '8.5' ]
+        php-versions: [ '8.3', '8.4', '8.5', '8.6' ]
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
