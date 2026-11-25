@@ -29,8 +29,6 @@ import AppointmentSlot from '@/components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '@/services/appointmentService.js'
 import logger from '@/utils/logger.js'
 
-import '@nextcloud/dialogs/style.css'
-
 const props = defineProps<{
 	config: PublicAppointmentConfig
 	userInfo: AppointmentUserInfo

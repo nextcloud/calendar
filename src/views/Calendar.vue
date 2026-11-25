@@ -151,8 +151,6 @@ import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 import { getViewMode, ViewMode } from '@/utils/router.js'
 import { getSettingsFromInitialState } from '@/utils/settings.js'
 
-import '@nextcloud/dialogs/style.css'
-
 export default {
 	name: 'Calendar',
 	components: {

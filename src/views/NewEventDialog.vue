@@ -13,7 +13,6 @@ import { bootstrapEditor } from '@/services/editorBootstrapService.ts'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import logger from '@/utils/logger.js'
 
-import '@nextcloud/dialogs/style.css'
 import '@/styles/editor.scss'
 
 const emit = defineEmits<{
