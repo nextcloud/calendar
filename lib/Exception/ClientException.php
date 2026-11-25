@@ -10,10 +10,14 @@ declare(strict_types=1);
 namespace OCA\Calendar\Exception;
 
 use Exception;
+use OCP\AppFramework\Http;
 use Throwable;
 
 class ClientException extends Exception {
 
+	/**
+	 * @param Http::STATUS_*|null $httpCode
+	 */
 	public function __construct(
 		$message = '',
 		$code = 0,
@@ -23,6 +27,9 @@ class ClientException extends Exception {
 		parent::__construct($message, $code, $previous);
 	}
 
+	/**
+	 * @return Http::STATUS_*|null
+	 */
 	public function getHttpCode(): ?int {
 		return $this->httpCode;
 	}

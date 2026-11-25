@@ -83,7 +83,7 @@ class AvailabilityGenerator {
 			];
 		}
 
-		$availabilityRule = json_decode($config->getAvailability(), true);
+		$availabilityRule = $config->getAvailabilityAsArray();
 
 		$timeZone = $availabilityRule['timezoneId'];
 		$slots = $availabilityRule['slots'];

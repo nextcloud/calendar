@@ -42,12 +42,12 @@ class ProposalController extends ApiController {
 
 	private function authorize(?string $userId = null): JSONResponse|IUser {
 		// evaluate if user is logged in and has permissions
-		if (!$this->userSession->isLoggedIn()) {
+		if (!$this->userSession->isLoggedIn() || ($sessionUser = $this->userSession->getUser()) === null) {
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		}
 		if ($userId !== null) {
-			if ($this->userSession->getUser()->getUID() !== $userId
-				&& $this->groupManager->isAdmin($this->userSession->getUser()->getUID()) === false) {
+			if ($sessionUser->getUID() !== $userId
+				&& $this->groupManager->isAdmin($sessionUser->getUID()) === false) {
 				return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 			}
 			if (!$this->userManager->userExists($userId)) {
@@ -55,7 +55,7 @@ class ProposalController extends ApiController {
 			}
 			$user = $this->userManager->get($userId);
 		} else {
-			$user = $this->userSession->getUser();
+			$user = $sessionUser;
 		}
 		if ($user === null) {
 			return new JSONResponse(['error' => 'user not found'], Http::STATUS_BAD_REQUEST);
@@ -98,7 +98,8 @@ class ProposalController extends ApiController {
 		}
 		// enrich proposal with user information
 		// as this is most likely a public request from the voting page
-		$user = $this->userManager->get($proposal->getUid());
+		$userId = $proposal->getUid();
+		$user = $userId !== null ? $this->userManager->get($userId) : null;
 		if ($user !== null) {
 			$proposal->setUname($user->getDisplayName());
 		}

@@ -28,6 +28,7 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantObject;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseDateCollection;
+use OCA\Calendar\Objects\Proposal\ProposalResponseDateObject;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
 use OCA\Calendar\Objects\Proposal\ProposalVoteObject;
@@ -42,8 +43,13 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\IManager as IMailManager;
+use OCP\Mail\Provider\IMessage;
+use OCP\Mail\Provider\IMessageSend;
+use OCP\Mail\Provider\IService;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -51,6 +57,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
 use Sabre\DAV\Tree;
+use Sabre\VObject\Component\VCalendar;
 
 class ProposalServiceTest extends TestCase {
 
@@ -118,6 +125,21 @@ class ProposalServiceTest extends TestCase {
 			$this->createProposalEntry(2, 'Test Proposal 2'),
 		];
 
+		$participantEntry = $this->createParticipantEntry(10, 1, 'participant@example.com', 'token');
+		$participantEntry->setAttendance('R');
+		$participantEntry->setStatus('P');
+		$participantEntry->setRealm('I');
+		$dateEntry = new ProposalDateEntry();
+		$dateEntry->setId(20);
+		$dateEntry->setPid(1);
+		$dateEntry->setDate(1795000000);
+		$voteEntry = new ProposalVoteEntry();
+		$voteEntry->setId(30);
+		$voteEntry->setPid(1);
+		$voteEntry->setParticipantId(10);
+		$voteEntry->setDateId(20);
+		$voteEntry->setVote('Y');
+
 		$this->proposalMapper->expects($this->once())
 			->method('fetchByUserId')
 			->with('testuser')
@@ -126,23 +148,38 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalParticipantMapper->expects($this->once())
 			->method('fetchByUserId')
 			->with('testuser')
-			->willReturn([]);
+			->willReturn([$participantEntry]);
 
 		$this->proposalDateMapper->expects($this->once())
 			->method('fetchByUserId')
 			->with('testuser')
-			->willReturn([]);
+			->willReturn([$dateEntry]);
 
 		$this->proposalVoteMapper->expects($this->once())
 			->method('fetchByUserId')
 			->with('testuser')
-			->willReturn([]);
+			->willReturn([$voteEntry]);
 
 		$result = $this->service->listProposals($this->user);
 
 		$this->assertInstanceOf(ProposalCollection::class, $result);
 		$this->assertCount(2, $result);
 		$this->assertContainsOnlyInstancesOf(ProposalObject::class, $result);
+		$this->assertSame(10, $result[0]->getParticipants()[0]->getId());
+		$this->assertSame(20, $result[0]->getDates()[0]->getId());
+		$this->assertSame(30, $result[0]->getVotes()[0]->getId());
+		$this->assertCount(0, $result[1]->getParticipants());
+		$this->assertCount(0, $result[1]->getDates());
+		$this->assertCount(0, $result[1]->getVotes());
+	}
+
+	public function testListProposalsRejectsMissingStoredIdentifier(): void {
+		$this->proposalMapper->method('fetchByUserId')->willReturn([new ProposalDetailsEntry()]);
+
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('Stored proposal identifier cannot be null');
+
+		$this->service->listProposals($this->user);
 	}
 
 	public function testListProposalsEmpty(): void {
@@ -253,6 +290,45 @@ class ProposalServiceTest extends TestCase {
 		$this->assertInstanceOf(ProposalObject::class, $result);
 	}
 
+	public function testFetchByTokenWithDeletedOwner(): void {
+		$participant = $this->createParticipantEntry(1, 1, 'participant@example.com', 'token');
+		$this->proposalParticipantMapper->method('fetchByToken')->with('token')->willReturn($participant);
+		$this->userManager->expects($this->once())->method('get')->with('testuser')->willReturn(null);
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+
+		$result = $this->service->fetchByToken('token');
+
+		$this->assertNull($result);
+	}
+
+	/**
+	 * @dataProvider incompleteParticipantReferences
+	 */
+	public function testFetchByTokenWithIncompleteParticipant(?string $userId, ?int $proposalId): void {
+		$participant = new ProposalParticipantEntry();
+		if ($userId !== null) {
+			$participant->setUid($userId);
+		}
+		if ($proposalId !== null) {
+			$participant->setPid($proposalId);
+		}
+		$this->proposalParticipantMapper->method('fetchByToken')->with('token')->willReturn($participant);
+		$this->userManager->expects($this->never())->method('get');
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+
+		$result = $this->service->fetchByToken('token');
+
+		$this->assertNull($result);
+	}
+
+	public static function incompleteParticipantReferences(): array {
+		return [
+			'missing owner' => [null, 1],
+			'missing proposal' => ['testuser', null],
+			'missing both' => [null, null],
+		];
+	}
+
 	public function testFetchByTokenNotFound(): void {
 		$this->proposalParticipantMapper->expects($this->once())
 			->method('fetchByToken')
@@ -269,6 +345,19 @@ class ProposalServiceTest extends TestCase {
 
 	public function testCreateProposalSuccess(): void {
 		$proposal = $this->createProposal(null, 'New Proposal'); // New proposal with null ID
+
+		$participant = new ProposalParticipantObject();
+		$participant->fromStore($this->createParticipantEntry(10, 1, 'participant@example.com', 'token'));
+		$proposal->getParticipants()->append($participant);
+		$date = new ProposalDateObject();
+		$date->setDate(new \DateTimeImmutable('2026-11-18T10:00:00Z'));
+		$proposal->getDates()->append($date);
+		$this->proposalParticipantMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalParticipantEntry $entry): bool => $entry->getPid() === 1))
+			->willReturnArgument(0);
+		$this->proposalDateMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalDateEntry $entry): bool => $entry->getPid() === 1))
+			->willReturnArgument(0);
 
 		$proposalEntry = $this->createProposalEntry(1, 'New Proposal');
 
@@ -310,6 +399,51 @@ class ProposalServiceTest extends TestCase {
 		$this->assertInstanceOf(ProposalObject::class, $result);
 	}
 
+	public function testCreateProposalRejectsMissingStoredIdentifier(): void {
+		$proposal = $this->createProposal();
+		$proposal->getParticipants()->append(new ProposalParticipantObject());
+		$proposal->getDates()->append(new ProposalDateObject());
+		$this->proposalMapper->method('insert')->willReturn(new ProposalDetailsEntry());
+		$this->proposalParticipantMapper->expects($this->never())->method('insert');
+		$this->proposalDateMapper->expects($this->never())->method('insert');
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('Stored proposal identifier cannot be null');
+
+		$this->service->createProposal($this->user, $proposal);
+	}
+
+	public function testCreateProposalRejectsFailedRetrieval(): void {
+		$proposal = $this->createProposal();
+		$this->proposalMapper->method('insert')->willReturn($this->createProposalEntry(1, 'Proposal'));
+		$this->proposalMapper->method('fetchById')->with('testuser', 1)->willReturn(null);
+		$this->userMailManager->expects($this->never())->method('findServiceByAddress');
+		$this->calendarManager->expects($this->never())->method('getCalendarsForPrincipal');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Stored proposal could not be retrieved');
+
+		$this->service->createProposal($this->user, $proposal);
+	}
+
+	public function testModifyProposalRejectsFailedRetrieval(): void {
+		$proposal = $this->createProposal(1);
+		$this->proposalMapper->expects($this->exactly(2))->method('fetchById')->with('testuser', 1)
+			->willReturnOnConsecutiveCalls($this->createProposalEntry(1, 'Proposal'), null);
+		$this->proposalParticipantMapper->method('fetchByProposalId')->willReturn([]);
+		$this->proposalDateMapper->method('fetchByProposalId')->willReturn([]);
+		$this->proposalVoteMapper->method('fetchByProposalId')->willReturn([]);
+		$this->proposalMapper->expects($this->once())->method('update');
+		$this->userMailManager->expects($this->never())->method('findServiceByAddress');
+		$this->calendarManager->expects($this->never())->method('getCalendarsForPrincipal');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Stored proposal could not be retrieved');
+
+		$this->service->modifyProposal($this->user, $proposal);
+	}
+
 	public function testCreateProposalWithExistingId(): void {
 		$proposal = $this->createProposal(1, 'Existing Proposal'); // Existing proposal
 
@@ -321,6 +455,19 @@ class ProposalServiceTest extends TestCase {
 
 	public function testModifyProposalSuccess(): void {
 		$proposal = $this->createProposal(1, 'Modified Proposal');
+
+		$participant = new ProposalParticipantObject();
+		$participant->fromStore($this->createParticipantEntry(10, 1, 'participant@example.com', 'token'));
+		$proposal->getParticipants()->append($participant);
+		$date = new ProposalDateObject();
+		$date->setDate(new \DateTimeImmutable('2026-11-18T10:00:00Z'));
+		$proposal->getDates()->append($date);
+		$this->proposalParticipantMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalParticipantEntry $entry): bool => $entry->getPid() === 1))
+			->willReturnArgument(0);
+		$this->proposalDateMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalDateEntry $entry): bool => $entry->getPid() === 1))
+			->willReturnArgument(0);
 
 		$currentProposalEntry = $this->createProposalEntry(1, 'Current Proposal');
 		$mutatedProposalEntry = $this->createProposalEntry(1, 'Modified Proposal');
@@ -347,7 +494,8 @@ class ProposalServiceTest extends TestCase {
 			->willReturn([]);
 
 		$this->proposalMapper->expects($this->once())
-			->method('update');
+			->method('update')
+			->with($this->callback(fn (ProposalDetailsEntry $entry): bool => $entry->getId() === 1));
 
 		// Mock calendar manager for syncCalendarBlockers
 		$calendar = $this->createMock(ICreateFromString::class);
@@ -364,6 +512,10 @@ class ProposalServiceTest extends TestCase {
 
 	public function testModifyProposalWithNullId(): void {
 		$proposal = $this->createProposal(null, 'Proposal Without ID');
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+		$this->proposalMapper->expects($this->never())->method('update');
+		$this->proposalParticipantMapper->expects($this->never())->method('insert');
+		$this->proposalDateMapper->expects($this->never())->method('insert');
 
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Proposal identifier cannot be null for modification');
@@ -472,6 +624,17 @@ class ProposalServiceTest extends TestCase {
 		$response = $this->createProposalResponse('token123');
 		$participantEntry = $this->createParticipantEntry(1, 1, 'test@example.com', 'token123');
 		$proposalEntry = $this->createProposalEntry(1, 'Test Proposal');
+		$dateEntry = new ProposalDateEntry();
+		$dateEntry->setId(10);
+		$responseDate = new ProposalResponseDateObject();
+		$responseDate->setId(10);
+		$responseDate->setVote('Y');
+		$response->getDates()->append($responseDate);
+		$this->proposalVoteMapper->expects($this->once())->method('insert')
+			->with($this->callback(fn (ProposalVoteEntry $vote): bool => $vote->getUid() === 'testuser'
+				&& $vote->getPid() === 1 && $vote->getParticipantId() === 1
+				&& $vote->getDateId() === 10 && $vote->getVote() === 'Y'))
+			->willReturnArgument(0);
 
 		$this->proposalParticipantMapper->expects($this->once())
 			->method('fetchByToken')
@@ -486,7 +649,7 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalDateMapper->expects($this->once())
 			->method('fetchByProposalId')
 			->with('testuser', 1)
-			->willReturn([]);
+			->willReturn([$dateEntry]);
 
 		$this->proposalVoteMapper->expects($this->once())
 			->method('deleteByParticipantId')
@@ -544,6 +707,31 @@ class ProposalServiceTest extends TestCase {
 			->method('notify');
 
 		$this->service->storeResponse($response);
+	}
+
+	/**
+	 * @dataProvider incompleteParticipantReferences
+	 */
+	public function testStoreResponseRejectsIncompleteParticipant(?string $userId, ?int $proposalId): void {
+		$participant = new ProposalParticipantEntry();
+		if ($userId !== null) {
+			$participant->setUid($userId);
+		}
+		if ($proposalId !== null) {
+			$participant->setPid($proposalId);
+		}
+		$this->proposalParticipantMapper->method('fetchByToken')->with('token')->willReturn($participant);
+		$this->proposalMapper->expects($this->never())->method('fetchById');
+		$this->proposalDateMapper->expects($this->never())->method('fetchByProposalId');
+		$this->proposalVoteMapper->expects($this->never())->method('deleteByParticipantId');
+		$this->proposalVoteMapper->expects($this->never())->method('insert');
+		$this->proposalParticipantMapper->expects($this->never())->method('update');
+		$this->notificationManager->expects($this->never())->method('notify');
+
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('Stored participant must reference an owner and proposal');
+
+		$this->service->storeResponse($this->createProposalResponse('token'));
 	}
 
 	public function testStoreResponseInvalidToken(): void {
@@ -818,6 +1006,122 @@ class ProposalServiceTest extends TestCase {
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessage('Could not find a useable calendar');
 		$this->service->convertProposal($this->user, 1, 10);
+	}
+
+	public function testConvertProposalWithoutPrimaryCalendarMethod(): void {
+		$proposalEntry = $this->createProposalEntry(1, 'Convert Proposal');
+		$dateEntry = new ProposalDateEntry();
+		$dateEntry->setId(10);
+		$dateEntry->setPid(1);
+		$dateEntry->setUid('testuser');
+		$dateEntry->setDate((new \DateTimeImmutable('+1 day'))->getTimestamp());
+		$this->proposalMapper->method('fetchById')->willReturn($proposalEntry);
+		$this->proposalParticipantMapper->method('fetchByProposalId')->willReturn([]);
+		$this->proposalDateMapper->method('fetchByProposalId')->willReturn([$dateEntry]);
+		$this->proposalVoteMapper->method('fetchByProposalId')->willReturn([]);
+		$calendarManager = $this->createMock(IManager::class);
+		$calendarManager->expects($this->once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/testuser')
+			->willReturn([]);
+		$service = new ProposalService(
+			$this->appConfig,
+			$this->logger,
+			$this->proposalMapper,
+			$this->proposalParticipantMapper,
+			$this->proposalDateMapper,
+			$this->proposalVoteMapper,
+			$this->l10n,
+			$this->urlGenerator,
+			$this->userConfig,
+			$this->userManager,
+			$this->systemMailManager,
+			$this->userMailManager,
+			$calendarManager,
+			$this->notificationManager,
+		);
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Could not find a useable calendar');
+
+		$service->convertProposal($this->user, 1, 10);
+	}
+
+	public function testCalendarBlockersSendSchedulingRequestToInternalParticipant(): void {
+		$proposal = $this->createProposal(1);
+		$participant = new ProposalParticipantObject();
+		$participant->setAddress('participant@example.com');
+		$participant->setRealm(ProposalParticipantRealm::Internal);
+		$proposal->getParticipants()->append($participant);
+		$participantUser = $this->createMock(IUser::class);
+		$participantUser->method('getUID')->willReturn('participant');
+		$this->userManager->expects($this->once())->method('getByEmail')
+			->with('participant@example.com')->willReturn([$participantUser]);
+		$vObject = new VCalendar(['VEVENT' => ['UID' => 'proposal-uid']]);
+		$this->calendarManager->expects($this->once())->method('handleIMip')
+			->with(
+				'participant',
+				$this->callback(function (string $message): bool {
+					return str_contains($message, 'METHOD:REQUEST') && str_contains($message, 'UID:proposal-uid');
+				}),
+				['absent' => 'create'],
+			);
+
+		(new \ReflectionMethod(ProposalService::class, 'applyCalendarBlockersParticipant'))
+			->invoke($this->service, $this->user, $proposal, 'C', $vObject);
+	}
+
+	/**
+	 * @dataProvider optionalProposalDetails
+	 */
+	public function testProposalNotificationUsesMailProvider(?string $description, ?string $location, array $expectedDetails): void {
+		$proposal = $this->createProposal(1);
+		$proposal->setDescription($description);
+		$proposal->setLocation($location);
+		$participant = new ProposalParticipantObject();
+		$participant->setAddress('participant@example.com');
+		$participant->setName('Participant');
+		$participant->setToken('participant-token');
+		$template = $this->createMock(IEMailTemplate::class);
+		$bodyItems = [];
+		$template->expects($this->exactly(2 + count($expectedDetails)))->method('addBodyListItem')
+			->willReturnCallback(function (string $text) use (&$bodyItems): void {
+				$bodyItems[] = $text;
+			});
+		$template->method('renderSubject')->willReturn('Proposed meeting');
+		$template->method('renderText')->willReturn('Meeting details');
+		$template->method('renderHtml')->willReturn('<p>Meeting details</p>');
+		$this->systemMailManager->method('createEMailTemplate')
+			->with('calendar.proposal.notification')->willReturn($template);
+		$this->appConfig->method('getValueBool')
+			->with('core', 'mail_providers_enabled', true)->willReturn(true);
+		$mailService = $this->createMockForIntersectionOfInterfaces([IService::class, IMessageSend::class]);
+		$this->userMailManager->expects($this->once())->method('findServiceByAddress')
+			->with('testuser', 'test@example.com')->willReturn($mailService);
+		$message = $this->createMock(IMessage::class);
+		$mailService->expects($this->once())->method('initiateMessage')->willReturn($message);
+		$message->expects($this->once())->method('setFrom')
+			->with(new Address('test@example.com', 'Test User'));
+		$message->expects($this->once())->method('setTo')
+			->with(new Address('participant@example.com', 'Participant'));
+		$message->expects($this->once())->method('setSubject')->with('Proposed meeting');
+		$message->expects($this->once())->method('setBodyPlain')->with('Meeting details');
+		$message->expects($this->once())->method('setBodyHtml')->with('<p>Meeting details</p>');
+		$mailService->expects($this->once())->method('sendMessage')->with($message);
+		$this->systemMailManager->expects($this->never())->method('send');
+
+		(new \ReflectionMethod(ProposalService::class, 'sendEmailNotifications'))
+			->invoke($this->service, $this->user, $proposal, $participant, 'C');
+
+		$this->assertSame($expectedDetails, array_slice($bodyItems, 0, count($expectedDetails)));
+	}
+
+	public static function optionalProposalDetails(): array {
+		return [
+			'unset' => [null, null, []],
+			'empty' => ['', '', []],
+			'populated' => ['Description', 'Room', ['Description', 'Room']],
+		];
 	}
 
 	public function testConvertProposalAttendeeAttendanceMapping(): void {

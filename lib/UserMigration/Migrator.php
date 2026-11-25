@@ -321,6 +321,9 @@ class Migrator implements IMigrator, ISizeEstimationMigrator {
 
 				$proposal = $this->proposalMapper->insert($proposal);
 				$newProposalId = $proposal->getId();
+				if ($newProposalId === null) {
+					throw new \UnexpectedValueException('Stored proposal identifier cannot be null');
+				}
 
 				// Map old IDs to new IDs for dates and participants
 				$dateIdMap = [];
