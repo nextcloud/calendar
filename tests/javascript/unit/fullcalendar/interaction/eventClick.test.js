@@ -459,7 +459,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		expect(jsEvent.preventDefault).toHaveBeenCalledTimes(1)
 	})
 
-	it('should do nothing when there is no require action on route leave', () => {
+	it('should only dispose event editor extensions when there is no require action on route leave', async () => {
 		const fromRoute = {
 			name: 'Test1',
 			params: {
@@ -478,8 +478,18 @@ describe('fullcalendar/eventClick test suite', () => {
 		}
 
 		const next = vi.fn()
-		EditorMixin.requiresActionOnRouteLeave = false
-		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
+		const context = {
+			requiresActionOnRouteLeave: false,
+			save: vi.fn(),
+			eventEditorExtensionInstancesStore: {
+				setEventEditorState: vi.fn(),
+			},
+		}
+		await EditorMixin.beforeRouteLeave.call(context, toRoute, fromRoute, next)
+
+		expect(context.save).not.toHaveBeenCalled()
+		expect(context.eventEditorExtensionInstancesStore.setEventEditorState).toHaveBeenCalledExactlyOnceWith(null)
+		expect(next).toHaveBeenCalledExactlyOnceWith()
 	})
 
 	it('should not save the event when new side bar view is open and then clicked in a saved event', () => {

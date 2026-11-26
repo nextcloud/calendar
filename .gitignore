@@ -87,6 +87,7 @@ src/fonts
 
 # CSS extracted from the JS build (CssExtractRspackPlugin)
 /css/
+/tests/apps/*/css/
 
 # just sane ignores
 .*.sw[po]

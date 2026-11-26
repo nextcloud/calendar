@@ -14,6 +14,10 @@ import playwright from 'eslint-plugin-playwright'
 export default [
 	...recommended,
 	{
+		// Build output of the E2E test apps
+		ignores: ['tests/apps/*/js/', 'tests/apps/*/css/'],
+	},
+	{
 		files: ['**/*.js', '**/*.vue', '**/*.ts'],
 		plugins: {
 			vue: pluginVue,

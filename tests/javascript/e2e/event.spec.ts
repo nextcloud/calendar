@@ -7,6 +7,8 @@ import { expect } from '@playwright/test'
 import { test } from './support/fixtures.ts'
 
 test('create an event', async ({ page, calendarPage }) => {
+	await calendarPage.goto()
+
 	// Create new event with random title
 	const eventTitle = Math.random().toString(16).slice(2)
 	const simpleEditor = await calendarPage.createNewEvent()

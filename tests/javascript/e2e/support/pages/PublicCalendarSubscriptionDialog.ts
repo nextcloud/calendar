@@ -13,7 +13,7 @@ import { expect } from '@playwright/test'
 export class PublicCalendarSubscriptionDialog {
 	locator: Locator
 
-	constructor(private readonly page: Page) {
+	constructor(page: Page) {
 		this.locator = page.getByRole('dialog', { name: 'Public calendar subscriptions' })
 	}
 

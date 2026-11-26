@@ -7,6 +7,7 @@ import type { App, Component } from 'vue'
 
 import { createApp, h, shallowRef } from 'vue'
 
+import './serverGlobals.ts'
 import '@/styles/calendar.scss'
 
 const stories = import.meta.glob('../**/*.story.ts')
