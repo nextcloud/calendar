@@ -2,8 +2,51 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { showConfirmation } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import EditorMixin from '@/mixins/EditorMixin.js'
+import { checkResourceAvailability } from '@/services/freeBusyService.js'
 import { ViewMode } from '@/utils/router.js'
+
+vi.mock('@nextcloud/dialogs')
+vi.mock('@nextcloud/initial-state')
+vi.mock('@/services/freeBusyService.js')
+
+/**
+ * @param {object} overrides Properties to override on the attendee stub
+ * @return {object} An attendee stub
+ */
+function createAttendee(overrides = {}) {
+	const { userType = 'ROOM', scheduleStatus = null, ...rest } = overrides
+	return {
+		uri: 'mailto:room1@localhost',
+		commonName: 'Room 1',
+		participationStatus: 'NEEDS-ACTION',
+		attendeeProperty: {
+			userType,
+			getParameterFirstValue: () => scheduleStatus,
+		},
+		...rest,
+	}
+}
+
+/**
+ * @param {object[]} attendees Attendees of the event
+ * @param {object} overrides Properties to override on the component stub
+ * @return {object} A component stub for confirmBookedResources
+ */
+function createConfirmVm(attendees, overrides = {}) {
+	return {
+		isReadOnly: false,
+		isViewedByOrganizer: true,
+		calendarObjectInstance: {
+			attendees,
+			eventComponent: { startDate: 'start', endDate: 'end' },
+		},
+		principalsStore: { getCurrentUserPrincipalEmail: 'user@localhost' },
+		...overrides,
+	}
+}
 
 describe('mixins/EditorMixin test suite', () => {
 	describe('viewMode', () => {
@@ -255,6 +298,132 @@ describe('mixins/EditorMixin test suite', () => {
 			})
 			expect(vm.isLoading).toBe(false)
 			expect(vm.isSaving).toBe(false)
+		})
+	})
+
+	describe('confirmBookedResources', () => {
+		beforeEach(() => {
+			vi.clearAllMocks()
+			loadState.mockReturnValue(true)
+		})
+
+		it('continues without asking when all pending resources are available', async () => {
+			checkResourceAvailability.mockResolvedValue()
+			const vm = createConfirmVm([createAttendee()])
+
+			await expect(EditorMixin.methods.confirmBookedResources.call(vm)).resolves.toBe(true)
+
+			expect(checkResourceAvailability).toHaveBeenCalledWith(
+				[{ email: 'room1@localhost', displayName: 'Room 1', isAvailable: true }],
+				'user@localhost',
+				'start',
+				'end',
+			)
+			expect(showConfirmation).not.toHaveBeenCalled()
+		})
+
+		it.each([
+			[true],
+			[false],
+		])('asks the user when a pending resource is already booked and returns the answer (%s)', async (answer) => {
+			checkResourceAvailability.mockImplementation(async (options) => {
+				options[0].isAvailable = false
+			})
+			showConfirmation.mockResolvedValue(answer)
+			const vm = createConfirmVm([
+				createAttendee(),
+				createAttendee({ uri: 'mailto:room2@localhost', commonName: 'Room 2' }),
+			])
+
+			await expect(EditorMixin.methods.confirmBookedResources.call(vm)).resolves.toBe(answer)
+
+			expect(showConfirmation).toHaveBeenCalledOnce()
+			expect(showConfirmation.mock.calls[0][0].text).toContain('Room 1')
+			expect(showConfirmation.mock.calls[0][0].text).not.toContain('Room 2')
+		})
+
+		it('does not save when the dialog is closed without an answer', async () => {
+			checkResourceAvailability.mockImplementation(async (options) => {
+				options[0].isAvailable = false
+			})
+			showConfirmation.mockRejectedValue(new Error('Dialog closed'))
+			const vm = createConfirmVm([createAttendee()])
+
+			await expect(EditorMixin.methods.confirmBookedResources.call(vm)).resolves.toBe(false)
+		})
+
+		it('continues when the availability check fails', async () => {
+			checkResourceAvailability.mockRejectedValue(new Error('Network error'))
+			const vm = createConfirmVm([createAttendee()])
+
+			await expect(EditorMixin.methods.confirmBookedResources.call(vm)).resolves.toBe(true)
+
+			expect(showConfirmation).not.toHaveBeenCalled()
+		})
+
+		it.each([
+			['individual attendees', [createAttendee({ userType: 'INDIVIDUAL' })]],
+			['accepted resources', [createAttendee({ participationStatus: 'ACCEPTED' })]],
+			['declined resources', [createAttendee({ participationStatus: 'DECLINED' })]],
+			['resources with a scheduling result', [createAttendee({ scheduleStatus: '1.2' })]],
+		])('does not check %s', async (_, attendees) => {
+			const vm = createConfirmVm(attendees)
+
+			await expect(EditorMixin.methods.confirmBookedResources.call(vm)).resolves.toBe(true)
+
+			expect(checkResourceAvailability).not.toHaveBeenCalled()
+		})
+
+		it.each([
+			['the event is read-only', { isReadOnly: true }],
+			['the user is not the organizer', { isViewedByOrganizer: false }],
+		])('does not check resources when %s', async (_, overrides) => {
+			const vm = createConfirmVm([createAttendee()], overrides)
+
+			await expect(EditorMixin.methods.confirmBookedResources.call(vm)).resolves.toBe(true)
+
+			expect(checkResourceAvailability).not.toHaveBeenCalled()
+		})
+
+		it('does not check resources when resource booking is disabled', async () => {
+			loadState.mockReturnValue(false)
+			const vm = createConfirmVm([createAttendee()])
+
+			await expect(EditorMixin.methods.confirmBookedResources.call(vm)).resolves.toBe(true)
+
+			expect(checkResourceAvailability).not.toHaveBeenCalled()
+		})
+	})
+
+	describe('saveAndLeave', () => {
+		it('does not save or close the editor when the user cancels because of booked resources', async () => {
+			const vm = {
+				confirmBookedResources: vi.fn().mockResolvedValue(false),
+				save: vi.fn(),
+				closeEditor: vi.fn(),
+				requiresActionOnRouteLeave: true,
+			}
+
+			await EditorMixin.methods.saveAndLeave.call(vm, 'occurrence')
+
+			expect(vm.save).not.toHaveBeenCalled()
+			expect(vm.closeEditor).not.toHaveBeenCalled()
+			expect(vm.requiresActionOnRouteLeave).toBe(true)
+		})
+
+		it('saves and closes the editor when confirmed', async () => {
+			const vm = {
+				confirmBookedResources: vi.fn().mockResolvedValue(true),
+				save: vi.fn().mockResolvedValue(),
+				closeEditor: vi.fn(),
+				requiresActionOnRouteLeave: true,
+			}
+
+			await EditorMixin.methods.saveAndLeave.call(vm, 'series')
+
+			expect(vm.save).toHaveBeenCalledWith('series')
+			expect(vm.closeEditor).toHaveBeenCalled()
+			expect(vm.requiresActionOnRouteLeave).toBe(false)
 		})
 	})
 

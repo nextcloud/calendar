@@ -3,12 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { showConfirmation, showError, showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { translatePlural as n, translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { mapState, mapStores } from 'pinia'
 import { getRFCProperties } from '@/models/rfcProps.js'
+import { checkResourceAvailability } from '@/services/freeBusyService.js'
 import { containsRoomUrl } from '@/services/talkService.ts'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import useCalendarObjectsStore from '@/store/calendarObjects.js'
@@ -17,7 +19,7 @@ import usePrincipalsStore from '@/store/principals.js'
 import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
 import { updateDefaultAlarm } from '@/utils/alarms.js'
-import { removeMailtoPrefix } from '@/utils/attendee.js'
+import { isPendingResourceBooking, removeMailtoPrefix } from '@/utils/attendee.js'
 import { isBaseOccurrence } from '@/utils/calendarObject.js'
 import { uidToHexColor } from '@/utils/color.js'
 import { dateFactory } from '@/utils/date.js'
@@ -774,9 +776,88 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async saveAndLeave(scope = 'occurrence') {
+			if (!await this.confirmBookedResources()) {
+				return
+			}
+
 			await this.save(scope)
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
+		},
+
+		/**
+		 * Asks the user to confirm saving if a room or resource that is not
+		 * booked yet is already busy at the time of the event
+		 *
+		 * @return {Promise<boolean>} Whether saving should continue
+		 */
+		async confirmBookedResources() {
+			if (!this.calendarObjectInstance || this.isReadOnly || this.isViewedByOrganizer === false) {
+				return true
+			}
+			if (!loadState('calendar', 'resource_booking_enabled', false)) {
+				return true
+			}
+
+			const options = []
+			for (const attendee of this.calendarObjectInstance.attendees) {
+				if (!['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)) {
+					continue
+				}
+				const scheduleStatus = attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS') ?? ''
+				if (!isPendingResourceBooking(attendee.participationStatus, scheduleStatus)) {
+					continue
+				}
+				options.push({
+					email: removeMailtoPrefix(attendee.uri),
+					displayName: attendee.commonName || removeMailtoPrefix(attendee.uri),
+					isAvailable: true,
+				})
+			}
+			if (options.length === 0) {
+				return true
+			}
+
+			try {
+				await checkResourceAvailability(
+					options,
+					this.principalsStore.getCurrentUserPrincipalEmail,
+					this.calendarObjectInstance.eventComponent.startDate,
+					this.calendarObjectInstance.eventComponent.endDate,
+				)
+			} catch (error) {
+				logger.warn('Could not check resource availability before saving', { error })
+				return true
+			}
+
+			const bookedNames = []
+			for (const option of options) {
+				if (!option.isAvailable) {
+					bookedNames.push(option.displayName)
+				}
+			}
+			if (bookedNames.length === 0) {
+				return true
+			}
+
+			try {
+				return await showConfirmation({
+					name: t('calendar', 'Already booked'),
+					text: n(
+						'calendar',
+						'{resources} is already booked at this time. Do you want to save the event anyway?',
+						'{resources} are already booked at this time. Do you want to save the event anyway?',
+						bookedNames.length,
+						{ resources: bookedNames.join(', ') },
+					),
+					labelConfirm: t('calendar', 'Save anyway'),
+					labelReject: t('calendar', 'Cancel'),
+					severity: 'warning',
+				})
+			} catch (error) {
+				logger.debug('Booked resources dialog was closed without an answer', { error })
+				return false
+			}
 		},
 
 		/**
@@ -1212,6 +1293,10 @@ export default {
 		try {
 			if ((from.name !== 'NewPopoverView' || to.name !== 'EditPopoverView')
 				&& (from.name !== 'NewPopoverView' || to.name !== 'EditFullView')) {
+				if (!await this.confirmBookedResources()) {
+					next(false)
+					return
+				}
 				await this.save()
 			}
 			next()
