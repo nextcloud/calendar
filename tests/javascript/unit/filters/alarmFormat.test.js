@@ -206,6 +206,38 @@ describe('format/alarmFormat test suite', () => {
 		)
 	})
 
+	it.each([
+		[-45 * 60, '45 minutes'],
+		[-60 * 60, 'an hour'],
+		[-22 * 60 * 60, '22 hours'],
+		[-24 * 60 * 60, 'a day'],
+	])('should not round a relative trigger of %i seconds up to the next unit', (relativeTrigger, time) => {
+		const alarm = {
+			type: 'EMAIL',
+			isRelative: true,
+			absoluteDate: null,
+			absoluteTimezoneId: null,
+			relativeIsBefore: true,
+			relativeIsRelatedToStart: true,
+			relativeAmountTimed: 0,
+			relativeUnitTimed: 'minutes',
+			relativeAmountAllDay: 0,
+			relativeUnitAllDay: 'days',
+			relativeHoursAllDay: 0,
+			relativeMinutesAllDay: 0,
+			relativeTrigger,
+		}
+
+		alarmFormat(alarm, false, 'Europe/Berlin', 'en')
+
+		expect(translate).toHaveBeenCalledWith(
+			'calendar',
+			'{time} before the event starts',
+			{ time },
+			{ escape: false },
+		)
+	})
+
 	it('should format a relative trigger before the event ends', () => {
 		const alarm = {
 			type: 'EMAIL',
