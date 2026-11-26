@@ -63,6 +63,7 @@ const previousLabel = computed(() => {
 			return t('calendar', 'Previous week')
 
 		case 'multiMonthYear':
+		case 'listYear':
 			return t('calendar', 'Previous year')
 
 		case 'dayGridMonth':
@@ -80,6 +81,7 @@ const nextLabel = computed(() => {
 			return t('calendar', 'Next week')
 
 		case 'multiMonthYear':
+		case 'listYear':
 			return t('calendar', 'Next year')
 
 		case 'dayGridMonth':
@@ -113,6 +115,7 @@ function navigateTimeRangeByFactor(factor: number): void {
 			break
 
 		case 'multiMonthYear':
+		case 'listYear':
 			newDate = modifyDate(selectedDate.value, {
 				year: factor,
 			})

@@ -16,6 +16,7 @@ import moment from '@nextcloud/moment'
 export default (value, view, locale) => {
 	switch (view) {
 		case 'timeGridDay':
+		case 'listYear':
 			return moment(value).locale(locale).format('ll')
 
 		case 'timeGridWeek':

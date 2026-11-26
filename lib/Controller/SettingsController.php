@@ -90,7 +90,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function setView(string $view):JSONResponse {
-		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'multiMonthYear', 'listMonth'])) {
+		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'multiMonthYear', 'listMonth', 'listYear'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 

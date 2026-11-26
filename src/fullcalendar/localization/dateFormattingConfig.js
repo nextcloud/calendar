@@ -15,6 +15,11 @@ function getDateFormattingConfig() {
 		slotLabelFormat: 'LT',
 	}
 
+	const listConfig = {
+		listDayFormat: 'LL, dddd',
+		listDaySideFormat: false,
+	}
+
 	return {
 		// Date formatting:
 		eventTimeFormat: 'LT',
@@ -30,10 +35,10 @@ function getDateFormattingConfig() {
 			},
 			timeGridDay: defaultConfig,
 			timeGridWeek: defaultConfig,
-			listMonth: {
-				// Changes for the List View
-				listDayFormat: 'LL, dddd',
-				listDaySideFormat: false,
+			listMonth: listConfig,
+			listYear: {
+				...listConfig,
+				dateAlignment: 'day',
 			},
 			resourceTimelineDay: defaultConfig,
 		},
