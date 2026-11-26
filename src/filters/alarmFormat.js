@@ -68,7 +68,11 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 				}
 			}
 
-			const time = moment.duration(Math.abs(alarm.relativeTrigger), 'seconds').locale(locale).humanize()
+			// moment rounds 45 minutes up to "an hour" and 22 hours up to "a day"
+			// by default, so raise those thresholds to keep each preset's own label
+			const time = moment.duration(Math.abs(alarm.relativeTrigger), 'seconds')
+				.locale(locale)
+				.humanize(false, { m: 60, h: 24 })
 
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeIsRelatedToStart) {
