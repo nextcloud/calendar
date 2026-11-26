@@ -11,7 +11,8 @@ vi.mock('@nextcloud/dialogs', () => ({
 	showError: vi.fn(),
 }))
 
-vi.mock('@nextcloud/l10n', () => ({
+vi.mock('@nextcloud/l10n', async (importOriginal) => ({
+	...await importOriginal(),
 	t: (app, text) => text,
 }))
 
