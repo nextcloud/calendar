@@ -75,6 +75,7 @@ OC.L10N.register(
     "Month" : "月",
     "Year" : "年",
     "List" : "列表",
+    "Yearly list" : "年度列表",
     "Filter events …" : "筛选活动 …",
     "Appointment link was copied to clipboard" : "预约链接已复制到剪贴板",
     "Appointment link could not be copied to clipboard" : "无法将预约链接复制到剪贴板",

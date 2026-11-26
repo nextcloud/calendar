@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Month",
     "Year" : "Year",
     "List" : "List",
+    "Yearly list" : "Yearly list",
     "Filter events …" : "Filter events …",
     "Appointment link was copied to clipboard" : "Appointment link was copied to clipboard",
     "Appointment link could not be copied to clipboard" : "Appointment link could not be copied to clipboard",

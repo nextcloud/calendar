@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Bulan",
     "Year" : "Tahun",
     "List" : "Daftar",
+    "Yearly list" : "Daftar tahunan",
     "Filter events …" : "Filter acara …",
     "Appointment link was copied to clipboard" : "Tautan janji temu disalin ke papan klip",
     "Appointment link could not be copied to clipboard" : "Tautan janji temu tidak dapat disalin ke papan klip",

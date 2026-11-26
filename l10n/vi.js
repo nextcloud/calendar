@@ -53,6 +53,7 @@ OC.L10N.register(
     "Month" : "Tháng",
     "Year" : "Năm",
     "List" : "Danh sách",
+    "Yearly list" : "Danh sách theo năm",
     "Appointment link was copied to clipboard" : "Liên kết cuộc hẹn đã được sao chép vào bảng tạm",
     "Appointment link could not be copied to clipboard" : "Liên kết cuộc hẹn không thể được sao chép vào bảng tạm",
     "Preview" : "Xem trước",

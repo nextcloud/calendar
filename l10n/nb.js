@@ -58,6 +58,7 @@ OC.L10N.register(
     "Month" : "Måned",
     "Year" : "År",
     "List" : "Liste",
+    "Yearly list" : "Årsliste",
     "Appointment link was copied to clipboard" : "Avtalelenke ble kopiert til utklippstavlen",
     "Appointment link could not be copied to clipboard" : "Avtalelenken ble ikke kopiert til utklippstavlen",
     "Preview" : "Forhåndsvis",

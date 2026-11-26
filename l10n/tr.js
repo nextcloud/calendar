@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Ay",
     "Year" : "Yıl",
     "List" : "Listele",
+    "Yearly list" : "Yıllık liste",
     "Filter events …" : "Etkinlikleri süz…",
     "Appointment link was copied to clipboard" : "Randevu bağlantısı panoya kopyalandı",
     "Appointment link could not be copied to clipboard" : "Randevu bağlantısı panoya kopyalanamadı",

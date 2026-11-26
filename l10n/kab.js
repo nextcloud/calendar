@@ -24,6 +24,7 @@ OC.L10N.register(
     "Month" : "Ayyur",
     "Year" : "Aseggas",
     "List" : "Tabdart",
+    "Yearly list" : "Tabdart n useggas",
     "Preview" : "Pre-timeẓriwt",
     "Copy link" : "Nɣel aseɣwen",
     "Duplicate" : "Sleg",

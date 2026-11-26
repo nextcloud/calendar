@@ -68,6 +68,7 @@ OC.L10N.register(
     "Month" : "Mês",
     "Year" : "Year",
     "List" : "Lista",
+    "Yearly list" : "Lista anual",
     "Filter events …" : "Filtrar eventos …",
     "Appointment link was copied to clipboard" : "Hiperligação da reunião copiada para a área de transferência",
     "Appointment link could not be copied to clipboard" : "Não é possível copiar a hiperligação da reunião para a área de transferência",

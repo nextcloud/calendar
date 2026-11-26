@@ -75,6 +75,7 @@ OC.L10N.register(
     "Month" : "Oy",
     "Year" : "Yil",
     "List" : "Ro`yxat",
+    "Yearly list" : "Yillik roʻyxat",
     "Appointment link was copied to clipboard" : "Uchrashuv havolasi vaqtinchalik xotiraga nusxalandi",
     "Appointment link could not be copied to clipboard" : "Uchrashuv havolasini vaqtinchalik xotiraga nusxalab bo‘lmadi",
     "Preview" : "Ko‘rib chiqish",

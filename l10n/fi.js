@@ -67,6 +67,7 @@ OC.L10N.register(
     "Month" : "Kuukausi",
     "Year" : "Vuosi",
     "List" : "Lista",
+    "Yearly list" : "Vuosilista",
     "Filter events …" : "Suodata tapahtumia  ...",
     "Appointment link was copied to clipboard" : "Linkki tapaamiseen kopioitiin leikepöydälle",
     "Appointment link could not be copied to clipboard" : "Linkkiä tapaamiseen ei voitu kopioida leikepöydälle",

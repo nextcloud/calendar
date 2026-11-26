@@ -64,6 +64,7 @@ OC.L10N.register(
     "Timezone" : "Horzono",
     "Previous period" : "Antaŭa periodo",
     "List view" : "Lista vido",
+    "Yearly list" : "Jara listo",
     "Actions" : "Agoj",
     "Close editor" : "Fermi redaktilon",
     "or" : "aŭ",

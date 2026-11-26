@@ -24,6 +24,7 @@ OC.L10N.register(
     "Automatic" : "Automatski",
     "Navigation" : "Navigacija",
     "List view" : "Prikaz liste",
+    "Yearly list" : "Godišnja lista",
     "Appearance" : "Izgled",
     "Files" : "Fajlovi",
     "Update" : "Ažuriraj",

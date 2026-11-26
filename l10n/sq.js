@@ -17,6 +17,7 @@ OC.L10N.register(
     "Week" : "Javë",
     "Month" : "Muaj",
     "List" : "List",
+    "Yearly list" : "Listë vjetore",
     "Preview" : "Parapamje ",
     "Copy link" : "Kopjo linkun",
     "Edit" : "Përpuno",

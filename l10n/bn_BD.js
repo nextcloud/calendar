@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Cheers!" : "শুভেচ্ছা!",
     "Calendar" : "দিনপঞ্জী",
+    "Yearly list" : "বার্ষিক তালিকা",
     "Location:" : "অবস্থান:",
     "Today" : "আজ",
     "Day" : "দিবস",

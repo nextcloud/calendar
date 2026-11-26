@@ -75,6 +75,7 @@ OC.L10N.register(
     "Month" : "Μήνας",
     "Year" : "Έτος",
     "List" : "Λίστα",
+    "Yearly list" : "Ετήσια λίστα",
     "Filter events …" : "Φιλτράρισμα συμβάντων …",
     "Appointment link was copied to clipboard" : "Ο σύνδεσμος του ραντεβού αντιγράφηκε στο πρόχειρο",
     "Appointment link could not be copied to clipboard" : "Δεν ήταν δυνατή η αντιγραφή του συνδέσμου ραντεβού στο πρόχειρο",

@@ -76,6 +76,7 @@ OC.L10N.register(
     "Month" : "月",
     "Year" : "年",
     "List" : "リスト",
+    "Yearly list" : "年間リスト",
     "Filter events …" : "イベントをフィルター …",
     "Appointment link was copied to clipboard" : "予定リンクがクリップボードにコピーされました",
     "Appointment link could not be copied to clipboard" : "予定リンクをクリップボードにコピーできませんでした",

@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Сар",
     "Year" : "Жил",
     "List" : "Жагсаалт",
+    "Yearly list" : "Жилийн жагсаалт",
     "Filter events …" : "Үйл явдлыг шүүх …",
     "Appointment link was copied to clipboard" : "Уулзалтын холбоос түр санах ойд хуулагдлаа",
     "Appointment link could not be copied to clipboard" : "Уулзалтын холбоосыг түр санах ойд хуулж чадсангүй",

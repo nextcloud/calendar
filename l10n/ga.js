@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Mí",
     "Year" : "Bliain",
     "List" : "Liosta",
+    "Yearly list" : "Liosta bliantúil",
     "Filter events …" : "Scag imeachtaí …",
     "Appointment link was copied to clipboard" : "Rinneadh an nasc coinní a chóipeáil chuig an ngearrthaisce",
     "Appointment link could not be copied to clipboard" : "Níorbh fhéidir an nasc coinní a chóipeáil chuig an ngearrthaisce",

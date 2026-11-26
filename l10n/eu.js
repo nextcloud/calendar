@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Hilabetea",
     "Year" : "Urtea",
     "List" : "Zerrenda",
+    "Yearly list" : "Urteko zerrenda",
     "Filter events …" : "Gertaeren iragazkiak ...",
     "Appointment link was copied to clipboard" : "Hitzorduaren esteka arbelean kopiatu da",
     "Appointment link could not be copied to clipboard" : "Hitzorduaren esteka ezin izan da arbelean kopiatu",

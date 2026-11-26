@@ -11,6 +11,7 @@ OC.L10N.register(
     "Week" : "Woch",
     "Month" : "Mount",
     "List" : "Lëscht",
+    "Yearly list" : "Joreslëscht",
     "Preview" : "Virschau",
     "Copy link" : "Link kopéieren",
     "Edit" : "Änneren",

@@ -4,6 +4,7 @@ OC.L10N.register(
     "Hello," : "Salute %s,",
     "Cheers!" : "Congratulationes!",
     "Calendar" : "Calendario",
+    "Yearly list" : "Lista annual",
     "Confirm" : "Confirmar",
     "Today" : "Hodie",
     "Day" : "Die",

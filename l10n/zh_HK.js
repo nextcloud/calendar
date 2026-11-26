@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "月",
     "Year" : "年",
     "List" : "清單",
+    "Yearly list" : "年度清單",
     "Filter events …" : "篩選活動……",
     "Appointment link was copied to clipboard" : "約會連結已複製到剪貼板",
     "Appointment link could not be copied to clipboard" : "約會連結無法複製到剪貼板",

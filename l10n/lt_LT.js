@@ -76,6 +76,7 @@ OC.L10N.register(
     "Month" : "Mėnuo",
     "Year" : "Metai",
     "List" : "Sąrašas",
+    "Yearly list" : "Metinis sąrašas",
     "Filter events …" : "Filtruoti įvykius …",
     "Appointment link was copied to clipboard" : "Susitikimo nuoroda buvo nukopijuota į iškarpinę",
     "Appointment link could not be copied to clipboard" : "Susitikimo nuorodos nepavyko nukopijuoti į iškarpinę",

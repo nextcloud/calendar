@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Cheers!" : "Cheers!",
     "Calendar" : "Kalendar",
+    "Yearly list" : "Godišnja lista",
     "Today" : "Danas",
     "Day" : "Dan",
     "Week" : "Sedmica",

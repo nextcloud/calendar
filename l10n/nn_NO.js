@@ -14,6 +14,7 @@ OC.L10N.register(
     "Week" : "Veke",
     "Month" : "Månad",
     "Year" : "År",
+    "Yearly list" : "Årsliste",
     "Preview" : "Førehandsvisning",
     "Copy link" : "Kopier lenkje",
     "Edit" : "Rediger",

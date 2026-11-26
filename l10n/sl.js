@@ -62,6 +62,7 @@ OC.L10N.register(
     "Month" : "Mesec",
     "Year" : "Leto",
     "List" : "Seznam",
+    "Yearly list" : "Letni seznam",
     "Filter events …" : "Filtriraj dogodke ...",
     "Appointment link was copied to clipboard" : "Povezava sestanka je kopirana v odložišče.",
     "Appointment link could not be copied to clipboard" : "Povezave sestanka ni mogoče kopirati v odložišče.",

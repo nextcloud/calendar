@@ -18,6 +18,7 @@ OC.L10N.register(
     "Week" : "Semana",
     "Month" : "Mes",
     "List" : "Lista",
+    "Yearly list" : "Lista anual",
     "Preview" : "Previsualizar",
     "Copy link" : "Copiar enlace",
     "Edit" : "Editar",

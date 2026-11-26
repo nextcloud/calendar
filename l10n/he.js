@@ -55,6 +55,7 @@ OC.L10N.register(
     "Month" : "חודש",
     "Year" : "שנה",
     "List" : "רשימה",
+    "Yearly list" : "רשימה שנתית",
     "Appointment link was copied to clipboard" : "קישור לפגישה הועתק ללוח",
     "Appointment link could not be copied to clipboard" : "לא ניתן להעתיק את הקישור",
     "Preview" : "תצוגה מקדימה",

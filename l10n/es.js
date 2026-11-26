@@ -75,6 +75,7 @@ OC.L10N.register(
     "Month" : "Mes",
     "Year" : "Año",
     "List" : "Lista",
+    "Yearly list" : "Lista anual",
     "Appointment link was copied to clipboard" : "El enlace de la cita fue copiado al portapapeles",
     "Appointment link could not be copied to clipboard" : "No se ha podido copiar el enlace de la cita al portapapeles",
     "Preview" : "Vista previa",

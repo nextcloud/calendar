@@ -8,6 +8,7 @@ OC.L10N.register(
     "Week" : "សប្ដាហ៍",
     "Month" : "ខែ",
     "Year" : "ឆ្នាំ",
+    "Yearly list" : "បញ្ជីប្រចាំឆ្នាំ",
     "Copy link" : "ចម្លងតំណ",
     "Edit" : "កែប្រែ",
     "Delete" : "លុប",

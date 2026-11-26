@@ -75,6 +75,7 @@ OC.L10N.register(
     "Month" : "Měsíc",
     "Year" : "Rok",
     "List" : "Seznam",
+    "Yearly list" : "Roční seznam",
     "Appointment link was copied to clipboard" : "Odkaz na schůzku byl zkopírován do schránky",
     "Appointment link could not be copied to clipboard" : "Odkaz na schůzku se nepodařilo zkopírovat do schránky",
     "Preview" : "Náhled",

@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Maand",
     "Year" : "Jaar",
     "List" : "Lijst",
+    "Yearly list" : "Jaarlijst",
     "Filter events …" : "Filter afspraken ...",
     "Appointment link was copied to clipboard" : "Afspraaklink gekopieerd naar klembord",
     "Appointment link could not be copied to clipboard" : "Afspraaklink kon niet naar klembord gekopieerd worden",

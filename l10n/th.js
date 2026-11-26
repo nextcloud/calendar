@@ -18,6 +18,7 @@ OC.L10N.register(
     "Week" : "สัปดาห์",
     "Month" : "เดือน",
     "Year" : "ปี",
+    "Yearly list" : "รายการรายปี",
     "Preview" : "ตัวอย่าง",
     "Copy link" : "คัดลอกลิงก์",
     "Edit" : "แก้ไข",

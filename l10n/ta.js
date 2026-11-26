@@ -7,6 +7,7 @@ OC.L10N.register(
     "Week" : "வாரம்",
     "Month" : "மாதம்",
     "List" : "List",
+    "Yearly list" : "ஆண்டுப் பட்டியல்",
     "Edit" : "தொகுக்க",
     "Delete" : "நீக்குக",
     "New calendar" : "புதிய நாட்காட்டி",

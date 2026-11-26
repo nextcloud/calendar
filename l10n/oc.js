@@ -25,6 +25,7 @@ OC.L10N.register(
     "Month" : "Mes",
     "Year" : "Annada",
     "List" : "Tièra",
+    "Yearly list" : "Tièra de l’annada",
     "Preview" : "Apercebut",
     "Copy link" : "Copiar lo ligam",
     "Edit" : "Modificar",

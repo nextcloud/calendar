@@ -26,6 +26,7 @@ OC.L10N.register(
     "Week" : "Sizhun",
     "Month" : "Miz",
     "List" : "Roll",
+    "Yearly list" : "Roll bloaziek",
     "Preview" : "Ragwell",
     "Copy link" : "Kopiañ al liamm",
     "Edit" : "Cheñch",

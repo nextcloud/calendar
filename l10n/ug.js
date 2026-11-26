@@ -73,6 +73,7 @@ OC.L10N.register(
     "Month" : "ئاي",
     "Year" : "يىل",
     "List" : "تىزىملىك",
+    "Yearly list" : "يىللىق تىزىملىك",
     "Appointment link was copied to clipboard" : "تەيىنلەش ئۇلانمىسى چاپلاش تاختىسىغا كۆچۈرۈلدى",
     "Appointment link could not be copied to clipboard" : "تەيىنلەش ئۇلانمىسىنى چاپلاش تاختىسىغا كۆچۈرگىلى بولمايدۇ",
     "Preview" : "ئالدىن كۆرۈش",

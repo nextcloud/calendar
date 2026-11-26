@@ -69,6 +69,7 @@ OC.L10N.register(
     "Month" : "ເດືອນ",
     "Year" : "ປີ",
     "List" : "List",
+    "Yearly list" : "ລາຍການປະຈຳປີ",
     "Appointment link was copied to clipboard" : "Appointment link was copied to clipboard",
     "Appointment link could not be copied to clipboard" : "Appointment link could not be copied to clipboard",
     "Preview" : "ເບິ່ງຕົວຢ່າງ",

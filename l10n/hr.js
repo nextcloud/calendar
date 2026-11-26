@@ -75,6 +75,7 @@ OC.L10N.register(
     "Month" : "Mjesec",
     "Year" : "Godina",
     "List" : "Popis",
+    "Yearly list" : "Godišnji popis",
     "Appointment link was copied to clipboard" : "Poveznica termina kopirana je u međuspremnik",
     "Appointment link could not be copied to clipboard" : "Poveznicu termina nije moguće kopirati u međuspremnik",
     "Preview" : "Pretpregled",

@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Mês",
     "Year" : "Ano",
     "List" : "Lista",
+    "Yearly list" : "Lista anual",
     "Filter events …" : "Filtrar eventos …",
     "Appointment link was copied to clipboard" : "O link do compromisso foi copiado para a área de transferência",
     "Appointment link could not be copied to clipboard" : "Não foi possível copiar o link do compromisso para a área de transferência",

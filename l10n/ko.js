@@ -57,6 +57,7 @@ OC.L10N.register(
     "Month" : "달",
     "Year" : "년",
     "List" : "목록",
+    "Yearly list" : "연간 목록",
     "Appointment link was copied to clipboard" : "예약 링크가 클립보드에 복사되었습니다",
     "Appointment link could not be copied to clipboard" : "예약 링크를 클립보드에 복사하지 못했습니다",
     "Preview" : "미리 보기",

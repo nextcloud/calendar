@@ -4,6 +4,7 @@ OC.L10N.register(
     "Hello," : "Salam,",
     "Cheers!" : "Şərəfə!",
     "Calendar" : "Təqvim",
+    "Yearly list" : "İllik siyahı",
     "Confirm" : "Təsdiq edin",
     "Location:" : "Ərazi:",
     "Today" : "Bu gün",

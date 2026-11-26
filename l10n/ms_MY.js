@@ -17,6 +17,7 @@ OC.L10N.register(
     "More events" : "Lebih banyak acara",
     "%1$s with %2$s" : "%1$sdengan %2$s",
     "Calendar" : "Kalendar",
+    "Yearly list" : "Senarai tahunan",
     "New booking {booking}" : "Janji temu baharu{booking}",
     "{display_name} ({email}) booked the appointment \"{config_display_name}\" on {date_time}." : "{display_name} ({email})telah membuat Janji temu\"{config_display_name}\" pada {date_time}.",
     "Appointments" : "Janji temu",

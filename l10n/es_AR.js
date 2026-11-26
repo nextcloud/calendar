@@ -22,6 +22,7 @@ OC.L10N.register(
     "Month" : "Mes",
     "Year" : "Año",
     "List" : "Lista",
+    "Yearly list" : "Lista anual",
     "Preview" : "Vista previa",
     "Copy link" : "Copiar enlace",
     "Edit" : "Editar",

@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Kuu",
     "Year" : "Aasta",
     "List" : "Loend",
+    "Yearly list" : "Aastaloend",
     "Filter events …" : "Filtreeri sündmusi…",
     "Appointment link was copied to clipboard" : "Kohtumise link on kopeeritud lõikelauale",
     "Appointment link could not be copied to clipboard" : "Kohtumise linki ei õnnestunud lõikelauale kopeerida",

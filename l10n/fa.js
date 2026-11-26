@@ -76,6 +76,7 @@ OC.L10N.register(
     "Month" : "ماه",
     "Year" : "سال",
     "List" : "لیست",
+    "Yearly list" : "لیست سالانه",
     "Filter events …" : "فیلتر کردن رویدادها …",
     "Appointment link was copied to clipboard" : "لینک قرار ملاقات در کلیپ‌بورد کپی شد",
     "Appointment link could not be copied to clipboard" : "لینک قرار ملاقات در کلیپ‌بورد کپی نشد",

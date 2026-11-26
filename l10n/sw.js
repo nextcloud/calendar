@@ -75,6 +75,7 @@ OC.L10N.register(
     "Month" : "Mwezi",
     "Year" : "Mwaka",
     "List" : "Orodha",
+    "Yearly list" : "Orodha ya mwaka",
     "Appointment link was copied to clipboard" : "Kiungio cha muadi kilinakiliwa kwenye clipboard",
     "Appointment link could not be copied to clipboard" : "Kiungio cha muadi hakikuweza kunakiliwa kwenye clipboard",
     "Preview" : "Mwonekano wa awali",

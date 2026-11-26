@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Mesiac",
     "Year" : "Rok",
     "List" : "Zoznam",
+    "Yearly list" : "Ročný zoznam",
     "Filter events …" : "Filtrovať udalosti …",
     "Appointment link was copied to clipboard" : "Odkaz na stretnutie bol skopírovaný do schránky",
     "Appointment link could not be copied to clipboard" : "Odkaz na stretnutie sa nepodarilo skopírovať do schránky",

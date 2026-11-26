@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Hónap",
     "Year" : "Év",
     "List" : "Lista",
+    "Yearly list" : "Éves lista",
     "Filter events …" : "Események szűrése…",
     "Appointment link was copied to clipboard" : "Találkozóhivatkozás vágólapra másolva",
     "Appointment link could not be copied to clipboard" : "A találkozóhivatkozást nem sikerült a vágólapra másolni",

@@ -15,6 +15,7 @@ OC.L10N.register(
     "Week" : "Week",
     "Month" : "Maand",
     "List" : "Lys",
+    "Yearly list" : "Jaarlikse lys",
     "Preview" : "Voorskou",
     "Copy link" : "Kopieer skakel",
     "Edit" : "Wysig",

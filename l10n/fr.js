@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Mois",
     "Year" : "Année",
     "List" : "Liste",
+    "Yearly list" : "Liste annuelle",
     "Filter events …" : "Filtrer les événements…",
     "Appointment link was copied to clipboard" : "Le lien de rendez-vous a été copié dans le presse-papiers",
     "Appointment link could not be copied to clipboard" : "Le lien de rendez-vous n’a pas pu être copié dans le presse-papiers",

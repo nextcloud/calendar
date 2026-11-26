@@ -69,6 +69,7 @@ OC.L10N.register(
     "Month" : "Месец",
     "Year" : "Година",
     "List" : "Лист",
+    "Yearly list" : "Годишна листа",
     "Appointment link was copied to clipboard" : "Линкот за состанокот е копиран во клипборд",
     "Appointment link could not be copied to clipboard" : "Линкот за состанокот неможе за се копира во клипборд",
     "Preview" : "Преглед",

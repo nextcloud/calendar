@@ -24,6 +24,7 @@ OC.L10N.register(
     "Today" : "Сёння",
     "Year" : "Год",
     "List" : "Спіс",
+    "Yearly list" : "Гадавы спіс",
     "Appointment link was copied to clipboard" : "Спасылка на сустрэчу скапіявана ў буфер абмену",
     "Appointment link could not be copied to clipboard" : "Не ўдалося скапіяваць спасылку на сустрэчу ў буфер абмену",
     "Preview" : "Перадпрагляд",

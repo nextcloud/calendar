@@ -59,6 +59,7 @@ OC.L10N.register(
     "Month" : "شهر",
     "Year" : "السنة",
     "List" : "قائمة",
+    "Yearly list" : "قائمة سنوية",
     "Appointment link was copied to clipboard" : "تمّ نسخ رابط الموعد في الحافظة",
     "Appointment link could not be copied to clipboard" : "تعذّر نسخ رابط الموعد في الحافظة",
     "Preview" : "معاينة",
