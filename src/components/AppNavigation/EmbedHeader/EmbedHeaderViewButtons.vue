@@ -35,6 +35,14 @@
 			@click="view('listMonth')">
 			{{ $t('calendar', 'List') }}
 		</NcButton>
+		<NcButton
+			v-if="!isWidget"
+			:variant="isYearListViewSelected ? 'primary' : 'secondary'"
+			:aria-pressed="isYearListViewSelected"
+			class="button"
+			@click="view('listYear')">
+			{{ $t('calendar', 'Yearly list') }}
+		</NcButton>
 	</div>
 </template>
 
@@ -76,6 +84,10 @@ export default {
 
 		isMonthListViewSelected() {
 			return this.selectedView === 'listMonth'
+		},
+
+		isYearListViewSelected() {
+			return this.selectedView === 'listYear'
 		},
 
 		selectedView() {

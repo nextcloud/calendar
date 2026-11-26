@@ -31,6 +31,8 @@
 		}
 
 		.view-button-section {
+			flex-wrap: wrap;
+
 			.button {
 				min-width: 75px;
 			}

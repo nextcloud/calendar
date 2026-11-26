@@ -78,6 +78,7 @@ OC.L10N.register(
     "Month" : "Monat",
     "Year" : "Jahr",
     "List" : "Liste",
+    "Yearly list" : "Jahresliste",
     "Filter events …" : "Termine filtern …",
     "Appointment link was copied to clipboard" : "Termin-Link wurde in die Zwischenablage kopiert",
     "Appointment link could not be copied to clipboard" : "Termin-Link konnte nicht in die Zwischenablage kopiert werden",
