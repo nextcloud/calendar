@@ -53,4 +53,18 @@ describe('models/appointmentConfig test suite', () => {
 		})
 		expect(config.bookingUrl).toBe(expected)
 	})
+
+	test('should preserve the booking timeframe', () => {
+		const config = new AppointmentConfig({
+			start: 1760572800,
+			end: 1760745600,
+		})
+
+		expect(config.start).toBe(1760572800)
+		expect(config.end).toBe(1760745600)
+		expect(config.clone()).toMatchObject({
+			start: 1760572800,
+			end: 1760745600,
+		})
+	})
 })
