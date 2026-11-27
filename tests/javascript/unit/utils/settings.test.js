@@ -49,6 +49,7 @@ describe('utils/settings test suite', () => {
 			show_resources: false,
 			publicCalendars: '[{"name":"a public calendar"}]',
 			tasks_sidebar: false,
+			shareapi_allow_group_sharing: false,
 		}
 		loadState.mockImplementation((app, key) => state[key])
 
@@ -75,6 +76,7 @@ describe('utils/settings test suite', () => {
 			showResources: false,
 			publicCalendars: '[{"name":"a public calendar"}]',
 			tasksSidebar: false,
+			allowGroupSharing: false,
 		})
 	})
 
@@ -105,6 +107,7 @@ describe('utils/settings test suite', () => {
 			showResources: true,
 			publicCalendars: [],
 			tasksSidebar: true,
+			allowGroupSharing: true,
 		})
 	})
 })

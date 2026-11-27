@@ -19,6 +19,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Share\IManager as IShareManager;
 use function in_array;
 
 class CalendarInitialStateService {
@@ -39,6 +40,7 @@ class CalendarInitialStateService {
 		private ?IQueue $queue,
 		private IGroupManager $groupManager,
 		private IUserManager $userManager,
+		private IShareManager $shareManager,
 	) {
 	}
 
@@ -80,6 +82,7 @@ class CalendarInitialStateService {
 			'outgoing_server2server_share_enabled',
 			true,
 		);
+		$allowGroupSharing = $this->shareManager->allowGroupSharing();
 
 		$this->initialStateService->provideInitialState('event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState('first_run', $firstRun);
@@ -102,6 +105,7 @@ class CalendarInitialStateService {
 			'calendar_federation_enabled',
 			$calendarFederationEnabled && $remoteSharesEnabled,
 		);
+		$this->initialStateService->provideInitialState('shareapi_allow_group_sharing', $allowGroupSharing);
 		$this->initialStateService->provideInitialState('has_notify_push', $this->queue !== null);
 	}
 
