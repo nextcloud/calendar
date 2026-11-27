@@ -15,6 +15,7 @@ backend:
   - 'phpunit.unit.xml'
   - '.php-cs-fixer.dist.php'
   - 'psalm.xml'
+  - 'tests/psalm-baseline.xml'
 frontend:
   - '.github/workflows/**'
   - 'src/**'

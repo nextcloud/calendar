@@ -29,8 +29,6 @@ import AppointmentSlot from '@/components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '@/services/appointmentService.js'
 import logger from '@/utils/logger.js'
 
-import '@nextcloud/dialogs/style.css'
-
 const props = defineProps<{
 	config: PublicAppointmentConfig
 	userInfo: AppointmentUserInfo
@@ -51,9 +49,8 @@ if (props.config.timeBeforeNextSlot) {
 }
 
 const minimumDate = new Date(selectedDate.value.getTime())
-// Make it one sec before midnight so it shows the next full day as available
-minimumDate.setHours(0, 0, 0)
-minimumDate.setSeconds(minimumDate.getSeconds() - 1)
+// Allow the first eligible day to be selected.
+minimumDate.setHours(0, 0, 0, 0)
 
 const loadingSlots = ref(false)
 const timeZone = ref(defaultTimeZoneId)

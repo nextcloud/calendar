@@ -196,6 +196,12 @@
       <code><![CDATA[$preparationDuration]]></code>
     </PossiblyFalseArgument>
   </file>
+  <file src="lib/Service/Appointments/Interval.php">
+    <ImpureMethodCall>
+      <code><![CDATA[new DateTimeImmutable()]]></code>
+      <code><![CDATA[new DateTimeImmutable()]]></code>
+    </ImpureMethodCall>
+  </file>
   <file src="lib/Service/Appointments/MailService.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$booking->getTimezone()]]></code>

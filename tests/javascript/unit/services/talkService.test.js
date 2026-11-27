@@ -24,7 +24,8 @@ vi.mock('@nextcloud/initial-state', () => ({
 	loadState: vi.fn(() => 'v4'),
 }))
 
-vi.mock('@nextcloud/l10n', () => ({
+vi.mock('@nextcloud/l10n', async (importOriginal) => ({
+	...await importOriginal(),
 	translate: vi.fn((app, text) => text),
 }))
 
