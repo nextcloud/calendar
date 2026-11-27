@@ -97,9 +97,6 @@ class Notifier implements INotifier {
 					],
 				];
 				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('calendar', 'calendar.png')));
-				$notification->setParsedSubject(
-					$l->t('%1$s responded to your meeting proposal "%2$s"', [(string)$parameters['participantName'], (string)$parameters['name']])
-				);
 				$notification->setRichSubject($l->t('{participant} responded to your meeting proposal {proposal}'), $richParams);
 				$notification->setLink($link);
 				break;
