@@ -248,13 +248,17 @@ export default {
 				return null
 			}
 
-			if (this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
+			if (this.isReadOnly || !this.calendarObjectInstance.organizer) {
 				return null
 			}
 
-			const principal = removeMailtoPrefix(this.principalsStore.getCurrentUserPrincipalEmail)
 			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
-			return organizerEmail === principal || organizerEmail === this.delegatorEmailAddress
+			const principalEmail = this.principalsStore.getCurrentUserPrincipalEmail
+			if (principalEmail && organizerEmail === removeMailtoPrefix(principalEmail)) {
+				return true
+			}
+
+			return organizerEmail === this.delegatorEmailAddress
 		},
 		/**
 		 * Returns the attendee property corresponding to the current user

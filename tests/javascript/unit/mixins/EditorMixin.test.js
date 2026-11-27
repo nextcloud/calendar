@@ -70,11 +70,13 @@ describe('mixins/EditorMixin test suite', () => {
 		const delegatorUrl = '/remote.php/dav/principals/users/delegator/'
 
 		it.each([
-			['mailto:assistant@example.com', true, true],
-			['mailto:delegator@example.com', true, true],
-			['mailto:delegator@example.com', false, false],
-			['mailto:someone@example.com', true, false],
-		])('organizer %s, delegated calendar %s: %s', (organizerUri, isDelegated, expected) => {
+			['mailto:assistant@example.com', true, 'assistant@example.com', true],
+			['mailto:delegator@example.com', true, 'assistant@example.com', true],
+			['mailto:delegator@example.com', true, null, true],
+			['mailto:delegator@example.com', false, 'assistant@example.com', false],
+			['mailto:someone@example.com', true, 'assistant@example.com', false],
+			['mailto:someone@example.com', false, null, false],
+		])('organizer %s, delegated calendar %s, principal email %s: %s', (organizerUri, isDelegated, principalEmail, expected) => {
 			const vm = {
 				isReadOnly: false,
 				calendarObjectInstance: {
@@ -83,7 +85,7 @@ describe('mixins/EditorMixin test suite', () => {
 				},
 				selectedCalendar: { isDelegated, delegatorUrl },
 				principalsStore: {
-					getCurrentUserPrincipalEmail: 'assistant@example.com',
+					getCurrentUserPrincipalEmail: principalEmail,
 					getPrincipalByUrl: (url) => (url === delegatorUrl ? { emailAddress: 'delegator@example.com' } : undefined),
 				},
 				get delegatorEmailAddress() {
@@ -248,7 +250,7 @@ describe('mixins/EditorMixin test suite', () => {
 			const vm = {
 				isWidget: false,
 				isLoading: true,
-				isEditingBaseInstance : false,
+				isEditingBaseInstance: false,
 				calendarId: null,
 				$route: { name: 'NewFullView', params: { allDay: '0', dtstart: '1000', dtend: '2000' } },
 				settingsStore: { getResolvedTimezone: 'UTC' },
@@ -266,7 +268,7 @@ describe('mixins/EditorMixin test suite', () => {
 			// Without this, a recurrence-rule change on a brand new event is
 			// wrongly treated as requiring a future-only update, which a new
 			// event can never satisfy, silently blocking the save.
-			expect(vm.isEditingBaseInstance ).toBe(true)
+			expect(vm.isEditingBaseInstance).toBe(true)
 		})
 	})
 

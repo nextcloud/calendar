@@ -270,10 +270,13 @@ export default {
 		},
 
 		isOrganizer() {
-			return this.calendarObjectInstance.organizer !== null
-				&& this.principalsStore.getCurrentUserPrincipal !== null
-				&& [this.principalsStore.getCurrentUserPrincipal.emailAddress, this.delegatorEmailAddress]
-					.includes(removeMailtoPrefix(this.calendarObjectInstance.organizer.uri))
+			if (!this.calendarObjectInstance.organizer) {
+				return false
+			}
+
+			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
+			return organizerEmail === this.principalsStore.getCurrentUserPrincipalEmail
+				|| organizerEmail === this.delegatorEmailAddress
 		},
 
 		hasOrganizer() {

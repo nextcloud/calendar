@@ -8,16 +8,17 @@ describe('components/Editor/Invitees/InviteesList', () => {
 	const delegatorUrl = '/remote.php/dav/principals/users/delegator/'
 
 	it.each([
-		['mailto:assistant@example.com', true, true],
-		['mailto:delegator@example.com', true, true],
-		['mailto:delegator@example.com', false, false],
-		['mailto:someone@example.com', true, false],
-	])('isOrganizer for organizer %s, delegated calendar %s: %s', (organizerUri, isDelegated, expected) => {
+		['mailto:assistant@example.com', true, 'assistant@example.com', true],
+		['mailto:delegator@example.com', true, 'assistant@example.com', true],
+		['mailto:delegator@example.com', true, null, true],
+		['mailto:delegator@example.com', false, 'assistant@example.com', false],
+		['mailto:someone@example.com', true, 'assistant@example.com', false],
+	])('isOrganizer for organizer %s, delegated calendar %s, principal email %s: %s', (organizerUri, isDelegated, principalEmail, expected) => {
 		const vm = {
 			calendar: { isDelegated, delegatorUrl },
 			calendarObjectInstance: { organizer: { uri: organizerUri } },
 			principalsStore: {
-				getCurrentUserPrincipal: { emailAddress: 'assistant@example.com' },
+				getCurrentUserPrincipalEmail: principalEmail,
 				getPrincipalByUrl: (url) => (url === delegatorUrl ? { emailAddress: 'delegator@example.com' } : undefined),
 			},
 			get delegatorEmailAddress() {
