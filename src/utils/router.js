@@ -9,6 +9,39 @@ import {
 } from '@/utils/date.js'
 import logger from '@/utils/logger.js'
 
+export const ROLLING_YEAR_LIST_VIEW = 'listRollingYear'
+
+/**
+ * Resolves the FullCalendar view for a calendar URL.
+ *
+ * @param {string} view The view in the URL
+ * @param {unknown} show The optional show query parameter
+ * @return {string}
+ */
+export function getCalendarView(view = 'dayGridMonth', show) {
+	return view === 'listMonth' && show === 'year' ? ROLLING_YEAR_LIST_VIEW : view
+}
+
+/**
+ * Builds the location for a view selected from the calendar navigation.
+ *
+ * @param {object} route The current route
+ * @param {string} view The selected view
+ * @return {object|null}
+ */
+export function getViewSelectionLocation(route, view) {
+	const showYear = view === 'listMonth'
+	if (route.params.view === view && (!showYear || route.query.show === 'year')) {
+		return null
+	}
+
+	return {
+		name: route.name,
+		params: { ...route.params, view },
+		query: { ...route.query, show: showYear ? 'year' : undefined },
+	}
+}
+
 /**
  * Gets the initial view
  *

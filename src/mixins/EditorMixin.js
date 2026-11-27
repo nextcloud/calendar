@@ -625,6 +625,7 @@ export default {
 			this.$router.push({
 				name: targetRouteName,
 				params,
+				query: this.$route.query,
 			})
 
 			this.calendarObjectInstanceStore.resetCalendarObjectInstanceObjectIdAndRecurrenceId()
@@ -1087,7 +1088,7 @@ export default {
 							closeToDate,
 						})
 						const params = { ...vm.$route.params, recurrenceId }
-						vm.$router.replace({ name: vm.$route.name, params })
+						vm.$router.replace({ name: vm.$route.name, params, query: vm.$route.query })
 					} catch (error) {
 						logger.debug(error)
 						vm.isError = true

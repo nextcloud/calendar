@@ -19,7 +19,7 @@ async function today(): Promise<void> {
 		firstDay: 'now',
 	}
 
-	await router.push({ name, params })
+	await router.push({ name, params, query: route.query })
 }
 
 useHotKey('t', () => today())

@@ -104,7 +104,7 @@ function handleEventClick(event, router, route, window, isWidget = false) {
 		return
 	}
 
-	router.push({ name, params })
+	router.push({ name, params, query: route.query })
 }
 
 /**

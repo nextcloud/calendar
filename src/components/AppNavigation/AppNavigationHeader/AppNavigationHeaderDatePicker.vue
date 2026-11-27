@@ -154,7 +154,7 @@ async function navigateToDate(date: Date): Promise<void> {
 			firstDay: getYYYYMMDDFromDate(date),
 		}
 
-		await router.push({ name, params })
+		await router.push({ name, params, query: route.query })
 	}
 }
 

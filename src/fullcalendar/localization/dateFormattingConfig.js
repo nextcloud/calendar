@@ -3,16 +3,24 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import moment from '@nextcloud/moment'
+import { ROLLING_YEAR_LIST_VIEW } from '@/utils/router.js'
+
 /**
  * Returns the date-formatting config for FullCalendar
  *
+ * @param {import('@nextcloud/calendar-js').Timezone} timezone Calendar timezone
  * @return {object}
  */
-function getDateFormattingConfig() {
+function getDateFormattingConfig(timezone) {
 	const defaultConfig = {
 		dayHeaderFormat: 'ddd l',
 		titleFormat: 'll',
 		slotLabelFormat: 'LT',
+	}
+	const listConfig = {
+		listDayFormat: 'LL, dddd',
+		listDaySideFormat: false,
 	}
 
 	return {
@@ -30,10 +38,19 @@ function getDateFormattingConfig() {
 			},
 			timeGridDay: defaultConfig,
 			timeGridWeek: defaultConfig,
-			listMonth: {
-				// Changes for the List View
-				listDayFormat: 'LL, dddd',
-				listDaySideFormat: false,
+			listMonth: listConfig,
+			[ROLLING_YEAR_LIST_VIEW]: {
+				...listConfig,
+				type: 'list',
+				visibleRange(currentDate) {
+					const [year, month, day] = timezone.timestampToArray(currentDate.getTime())
+					const date = moment.utc([year, month - 1, day])
+
+					return {
+						start: date.clone().startOf('month').toISOString().split('T')[0],
+						end: date.add(1, 'year').toISOString().split('T')[0],
+					}
+				},
 			},
 			resourceTimelineDay: defaultConfig,
 		},
