@@ -41,7 +41,7 @@ export default {
 				return
 			}
 
-			this.$router.push({ name, params })
+			this.$router.push({ name, params, query: this.$route.query })
 		},
 	},
 }

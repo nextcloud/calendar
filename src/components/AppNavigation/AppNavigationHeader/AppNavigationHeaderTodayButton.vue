@@ -12,6 +12,9 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
+/**
+ * Go to today in the current view and preserve its query parameters.
+ */
 async function today(): Promise<void> {
 	const name = route.name!
 	const params = {
@@ -19,7 +22,7 @@ async function today(): Promise<void> {
 		firstDay: 'now',
 	}
 
-	await router.push({ name, params })
+	await router.push({ name, params, query: route.query })
 }
 
 useHotKey('t', () => today())

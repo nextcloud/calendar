@@ -71,7 +71,13 @@ const router = createRouter({
 		 */
 		{
 			path: '/',
-			redirect: `/${getInitialView()}/now`,
+			redirect: (to) => {
+				const view = getInitialView()
+				return {
+					path: `/${view}/now`,
+					query: { show: view === 'listMonth' ? 'year' : undefined, ...to.query },
+				}
+			},
 		},
 		{
 			path: '/p/:tokens/:fancyName?',

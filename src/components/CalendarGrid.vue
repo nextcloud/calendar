@@ -81,6 +81,7 @@ import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
 import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import { getYYYYMMDDFromFirstdayParam } from '@/utils/date.js'
+import { getCalendarView, ROLLING_YEAR_LIST_VIEW } from '@/utils/router.js'
 
 export default {
 	name: 'CalendarGrid',
@@ -146,10 +147,15 @@ export default {
 		]),
 
 		options() {
+			const firstDay = this.isWidget ? this.widgetDate : this.$route?.params.firstDay
+			const initialView = this.isWidget
+				? getCalendarView(this.widgetView, 'year')
+				: getCalendarView(this.$route?.params.view, this.$route?.query?.show)
+
 			return {
 				// Initialization:
-				initialDate: getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now'),
-				initialView: this.$route?.params.view ?? 'dayGridMonth',
+				initialDate: getYYYYMMDDFromFirstdayParam(firstDay ?? 'now'),
+				initialView,
 				// Data
 				eventSources: this.eventSources,
 				// Plugins
@@ -176,7 +182,7 @@ export default {
 				navLinks: true,
 				selectLongPressDelay: 500,
 				// Localization
-				...getDateFormattingConfig(),
+				...getDateFormattingConfig(this.settingsStore.getResolvedTimezoneObject),
 				...getFullCalendarLocale(),
 				// Rendering
 				dayCellDidMount,
@@ -207,7 +213,7 @@ export default {
 				droppable: true,
 				eventReceive: this.handleEventReceive,
 				eventShortHeight: 38,
-				loading: this.scrollViewToToday,
+				loading: this.scrollToCalendarDate,
 			}
 		},
 
@@ -250,7 +256,7 @@ export default {
 	watch: {
 		widgetView(newView) {
 			const calendarApi = this.$refs.fullCalendar.getApi()
-			calendarApi.changeView(newView)
+			calendarApi.changeView(getCalendarView(newView, 'year'))
 		},
 
 		widgetDate(newDate) {
@@ -318,13 +324,16 @@ export default {
 		 */
 		if (!this.isWidget) {
 			this.$router.beforeEach((to, from, next) => {
-				if (to.params.firstDay !== from.params.firstDay) {
+				const view = getCalendarView(to.params.view, to.query.show)
+				const viewChanged = view !== getCalendarView(from.params.view, from.query.show)
+
+				if (to.params.firstDay !== from.params.firstDay || (viewChanged && view === ROLLING_YEAR_LIST_VIEW)) {
 					const calendarApi = this.$refs.fullCalendar.getApi()
 					calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
 				}
-				if (to.params.view !== from.params.view) {
+				if (viewChanged) {
 					const calendarApi = this.$refs.fullCalendar.getApi()
-					calendarApi.changeView(to.params.view)
+					calendarApi.changeView(view)
 					this.saveNewView(to.params.view)
 				}
 
@@ -341,7 +350,7 @@ export default {
 			// Navigating to the current route skips beforeEach but still triggers afterEach
 			this.$router.afterEach((to, from, failure) => {
 				if (isNavigationFailure(failure, NavigationFailureType.duplicated) && to.params.firstDay === 'now') {
-					this.scrollViewToToday(false)
+					this.scrollToCalendarDate(false)
 				}
 			})
 
@@ -410,30 +419,29 @@ export default {
 		},
 
 		/**
-		 * Scroll the month or list view to today when loading the calendar,
-		 * so people can directly see today's date and events.
+		 * Scroll the monthly views to today or the yearly list to the selected date.
 		 *
 		 * @param {boolean} isLoading Whether the calendar is still loading
 		 */
-		scrollViewToToday(isLoading) {
+		scrollToCalendarDate(isLoading) {
 			if (isLoading) {
 				return
 			}
-			const calendarApi = this.$refs.fullCalendar.getApi()
-			if (calendarApi.view.type !== 'dayGridMonth' && calendarApi.view.type !== 'listMonth') {
-				return
-			}
 			this.$nextTick(() => {
-				const todayEl = this.$refs.fullCalendar.$el.querySelector('.fc-day-today')
-				if (calendarApi.view.type === 'dayGridMonth') {
-					if (todayEl) {
-						todayEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
-					}
+				const fullCalendar = this.$refs.fullCalendar
+				const calendarApi = fullCalendar?.getApi()
+				const view = calendarApi?.view.type
+				if (view === ROLLING_YEAR_LIST_VIEW) {
+					const date = calendarApi.formatIso(calendarApi.getDate(), true)
+					const days = fullCalendar.$el.querySelectorAll('.fc-list-day[data-date]')
+					const target = Array.from(days).find((day) => day.dataset.date >= date)
+					target?.scrollIntoView({ block: 'start' })
+					return
 				}
-				if (calendarApi.view.type === 'listMonth') {
-					if (todayEl) {
-						todayEl.scrollIntoView({ block: 'start', behavior: 'smooth' })
-					}
+
+				if (view === 'dayGridMonth' || view === 'listMonth') {
+					const today = fullCalendar.$el.querySelector('.fc-day-today')
+					today?.scrollIntoView({ block: view === 'dayGridMonth' ? 'nearest' : 'start', behavior: 'smooth' })
 				}
 			})
 		},

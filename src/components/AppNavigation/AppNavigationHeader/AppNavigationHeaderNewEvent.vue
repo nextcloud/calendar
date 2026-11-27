@@ -20,7 +20,7 @@ const newEventButtonAriaLabel = computed(() => t('calendar', 'Create new event')
  * Opens the new event dialog
  */
 async function newEvent(): Promise<void> {
-	await router.push(`/new/${route.params.view}`)
+	await router.push({ path: `/new/${route.params.view}`, query: route.query })
 }
 
 useHotKey('c', () => newEvent())

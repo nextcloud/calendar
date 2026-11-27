@@ -183,12 +183,12 @@ describe('fullcalendar/eventClick test suite', () => {
 		})
 	})
 
-	it('should keep the embed prefix when viewed in embedded mode', () => {
+	it('should keep the embed prefix and yearly list option when opening an event', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
 		const router = { push: vi.fn() }
-		const route = { name: 'EmbedCalendarView', params: { otherParam: '456' } }
+		const route = { name: 'EmbedCalendarView', params: { otherParam: '456' }, query: { show: 'year' } }
 		const window = { innerWidth: 1920 }
 
 		getPrefixedRoute
@@ -212,6 +212,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		expect(router.push.mock.calls.length).toEqual(1)
 		expect(router.push.mock.calls[0][0]).toEqual({
 			name: 'EmbedEditFullView',
+			query: { show: 'year' },
 			params: {
 				object: 'object123',
 				otherParam: '456',

@@ -42,6 +42,7 @@
 import { NcButton } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import useWidgetStore from '@/store/widget.js'
+import { getViewSelectionLocation } from '@/utils/router.js'
 
 export default {
 	name: 'EmbedHeaderViewButtons',
@@ -90,16 +91,12 @@ export default {
 		view(viewName) {
 			if (this.isWidget) {
 				this.widgetStore.setWidgetView({ viewName })
-			} else {
-				const name = this.$route.name
-				const params = { ...this.$route.params, view: viewName }
+				return
+			}
 
-				// Don't push new route when view didn't change
-				if (this.$route.params.view === viewName) {
-					return
-				}
-
-				this.$router.push({ name, params })
+			const location = getViewSelectionLocation(this.$route, viewName)
+			if (location) {
+				this.$router.push(location)
 			}
 		},
 	},

@@ -373,6 +373,46 @@ describe('mixins/EditorMixin test suite', () => {
 		})
 	})
 
+	describe('beforeRouteEnter', () => {
+		it('preserves the yearly list when resolving the next recurrence', async () => {
+			const recurrenceId = Date.UTC(2026, 11, 29, 9) / 1000
+			const route = {
+				name: 'EmbedEditFullView',
+				params: {
+					tokens: 'shared-calendar',
+					view: 'listMonth',
+					firstDay: 'now',
+					object: 'event-1',
+					recurrenceId: 'next',
+				},
+				query: { show: 'year' },
+			}
+			const next = vi.fn()
+			const replace = vi.fn()
+			const vm = {
+				$route: route,
+				$router: { replace },
+				resetState: vi.fn(),
+				loadingCalendars: vi.fn().mockResolvedValue(undefined),
+				calendarObjectInstanceStore: {
+					resolveClosestRecurrenceIdForCalendarObject: vi.fn().mockResolvedValue(recurrenceId),
+					getCalendarObjectInstanceByObjectIdAndRecurrenceId: vi.fn().mockResolvedValue(undefined),
+				},
+				calendarObject: { calendarId: 'calendar-1' },
+				eventComponent: { isPartOfRecurrenceSet: () => true, isRecurrenceException: () => true },
+			}
+
+			await EditorMixin.beforeRouteEnter(route, {}, next)
+			await next.mock.calls[0][0](vm)
+
+			expect(replace).toHaveBeenCalledExactlyOnceWith({
+				name: 'EmbedEditFullView',
+				params: { ...route.params, recurrenceId },
+				query: { show: 'year' },
+			})
+		})
+	})
+
 	describe('mounted/beforeUnmount hotkey wiring', () => {
 		it('registers hotkeys on mount and removes them on unmount', () => {
 			const duplicateEvent = vi.fn()

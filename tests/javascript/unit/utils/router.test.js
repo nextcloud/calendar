@@ -4,10 +4,13 @@
  */
 import { loadState } from '@nextcloud/initial-state'
 import {
+	getCalendarView,
 	getInitialView,
 	getPreferredEditorRoute,
 	getPrefixedRoute,
 	getViewMode,
+	getViewSelectionLocation,
+	ROLLING_YEAR_LIST_VIEW,
 	ViewMode,
 } from '@/utils/router.js'
 
@@ -16,6 +19,42 @@ vi.mock('@nextcloud/initial-state')
 describe('utils/router test suite', () => {
 	beforeEach(() => {
 		loadState.mockClear()
+	})
+
+	it('should use the rolling year only when the list URL requests it', () => {
+		expect(getCalendarView('listMonth', 'year')).toBe(ROLLING_YEAR_LIST_VIEW)
+		expect(getCalendarView('listMonth')).toBe('listMonth')
+		expect(getCalendarView('listMonth', 'quarter')).toBe('listMonth')
+		expect(getCalendarView('dayGridMonth', 'year')).toBe('dayGridMonth')
+	})
+
+	it('should open the yearly list from the view selector even on a monthly list URL', () => {
+		const route = {
+			name: 'EmbedCalendarView',
+			params: { tokens: 'shared', view: 'listMonth', firstDay: 'now' },
+			query: {},
+		}
+
+		expect(getViewSelectionLocation(route, 'listMonth')).toEqual({
+			name: route.name,
+			params: route.params,
+			query: { show: 'year' },
+		})
+		expect(getViewSelectionLocation({ ...route, query: { show: 'year' } }, 'listMonth')).toBeNull()
+	})
+
+	it('should remove the yearly list option when selecting a different view', () => {
+		const route = {
+			name: 'CalendarView',
+			params: { view: 'listMonth', firstDay: 'now' },
+			query: { show: 'year' },
+		}
+
+		expect(getViewSelectionLocation(route, 'dayGridMonth')).toEqual({
+			name: route.name,
+			params: { view: 'dayGridMonth', firstDay: 'now' },
+			query: { show: undefined },
+		})
 	})
 
 	it('should get the initial view', () => {

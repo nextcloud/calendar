@@ -15,6 +15,7 @@ import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
 import ViewList from 'vue-material-design-icons/ViewList.vue'
 import ViewModule from 'vue-material-design-icons/ViewModule.vue'
 import ViewWeek from 'vue-material-design-icons/ViewWeek.vue'
+import { getViewSelectionLocation } from '@/utils/router.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -51,19 +52,16 @@ const defaultIcon = computed(() => {
 	return ViewGrid
 })
 
+/**
+ * Open the selected view with a yearly range when selecting List.
+ *
+ * @param viewName The view name used in the calendar route.
+ */
 async function selectView(viewName: string): Promise<void> {
-	// Don't push new route when view didn't change
-	if (route.params.view === viewName) {
-		return
+	const location = getViewSelectionLocation(route, viewName)
+	if (location) {
+		await router.push(location)
 	}
-
-	const name = route.name!
-	const params = {
-		...route.params,
-		view: viewName,
-	}
-
-	await router.push({ name, params })
 }
 
 useHotKey(['d', '1'], () => selectView('timeGridDay'))

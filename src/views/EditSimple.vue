@@ -628,12 +628,14 @@ export default {
 			this.isVisible = false
 
 			const params = { ...this.$route.params }
+			const query = this.$route.query
 			if (this.isNew) {
-				this.$router.push({ name: 'NewFullView', params })
+				this.$router.push({ name: 'NewFullView', params, query })
 			} else {
 				this.$router.push({
 					name: getPrefixedRoute(this.$route.name, 'EditFullView'),
 					params,
+					query,
 				})
 			}
 		},
