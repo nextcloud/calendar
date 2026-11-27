@@ -262,10 +262,21 @@ export default {
 			return emails.length > 0 ? `mailto:${emails.join(',')}` : null
 		},
 
+		delegatorEmailAddress() {
+			if (!this.calendar.isDelegated || !this.calendar.delegatorUrl) {
+				return null
+			}
+			return this.principalsStore.getPrincipalByUrl(this.calendar.delegatorUrl)?.emailAddress ?? null
+		},
+
 		isOrganizer() {
-			return this.calendarObjectInstance.organizer !== null
-				&& this.principalsStore.getCurrentUserPrincipal !== null
-				&& removeMailtoPrefix(this.calendarObjectInstance.organizer.uri) === this.principalsStore.getCurrentUserPrincipal.emailAddress
+			if (!this.calendarObjectInstance.organizer) {
+				return false
+			}
+
+			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
+			return organizerEmail === this.principalsStore.getCurrentUserPrincipalEmail
+				|| organizerEmail === this.delegatorEmailAddress
 		},
 
 		hasOrganizer() {

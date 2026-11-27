@@ -41,6 +41,62 @@ describe('mixins/EditorMixin test suite', () => {
 		})
 	})
 
+	describe('delegatorEmailAddress', () => {
+		const delegatorUrl = '/remote.php/dav/principals/users/delegator/'
+		const principalsStore = {
+			getPrincipalByUrl: (url) => (url === delegatorUrl ? { emailAddress: 'delegator@example.com' } : undefined),
+		}
+
+		it('is the email address of the delegator when the selected calendar is delegated', () => {
+			const vm = { selectedCalendar: { isDelegated: true, delegatorUrl }, principalsStore }
+
+			expect(EditorMixin.computed.delegatorEmailAddress.call(vm)).toBe('delegator@example.com')
+		})
+
+		it('is null when the selected calendar is not delegated', () => {
+			const vm = { selectedCalendar: { isDelegated: false, delegatorUrl }, principalsStore }
+
+			expect(EditorMixin.computed.delegatorEmailAddress.call(vm)).toBeNull()
+		})
+
+		it('is null when the delegator principal is unknown', () => {
+			const vm = { selectedCalendar: { isDelegated: true, delegatorUrl: '/unknown/' }, principalsStore }
+
+			expect(EditorMixin.computed.delegatorEmailAddress.call(vm)).toBeNull()
+		})
+	})
+
+	describe('isViewedByOrganizer', () => {
+		const delegatorUrl = '/remote.php/dav/principals/users/delegator/'
+
+		it.each([
+			['mailto:assistant@example.com', true, 'assistant@example.com', true],
+			['mailto:delegator@example.com', true, 'assistant@example.com', true],
+			['mailto:delegator@example.com', true, null, true],
+			['mailto:delegator@example.com', false, 'assistant@example.com', false],
+			['mailto:someone@example.com', true, 'assistant@example.com', false],
+			['mailto:someone@example.com', false, null, false],
+		])('organizer %s, delegated calendar %s, principal email %s: %s', (organizerUri, isDelegated, principalEmail, expected) => {
+			const vm = {
+				isReadOnly: false,
+				calendarObjectInstance: {
+					attendees: [{ uri: 'mailto:guest@example.com' }],
+					organizer: { uri: organizerUri },
+				},
+				selectedCalendar: { isDelegated, delegatorUrl },
+				principalsStore: {
+					getCurrentUserPrincipalEmail: principalEmail,
+					getPrincipalByUrl: (url) => (url === delegatorUrl ? { emailAddress: 'delegator@example.com' } : undefined),
+				},
+				get delegatorEmailAddress() {
+					return EditorMixin.computed.delegatorEmailAddress.call(this)
+				},
+			}
+
+			expect(EditorMixin.computed.isViewedByOrganizer.call(vm)).toBe(expected)
+		})
+	})
+
 	describe('canDelete', () => {
 		it.each([
 			[{ calendarObject: null }, 'occurrence', false],
@@ -194,7 +250,7 @@ describe('mixins/EditorMixin test suite', () => {
 			const vm = {
 				isWidget: false,
 				isLoading: true,
-				isEditingBaseInstance : false,
+				isEditingBaseInstance: false,
 				calendarId: null,
 				$route: { name: 'NewFullView', params: { allDay: '0', dtstart: '1000', dtend: '2000' } },
 				settingsStore: { getResolvedTimezone: 'UTC' },
@@ -212,7 +268,7 @@ describe('mixins/EditorMixin test suite', () => {
 			// Without this, a recurrence-rule change on a brand new event is
 			// wrongly treated as requiring a future-only update, which a new
 			// event can never satisfy, silently blocking the save.
-			expect(vm.isEditingBaseInstance ).toBe(true)
+			expect(vm.isEditingBaseInstance).toBe(true)
 		})
 	})
 

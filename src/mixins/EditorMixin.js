@@ -248,13 +248,17 @@ export default {
 				return null
 			}
 
-			if (this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
+			if (this.isReadOnly || !this.calendarObjectInstance.organizer) {
 				return null
 			}
 
-			const principal = removeMailtoPrefix(this.principalsStore.getCurrentUserPrincipalEmail)
-			const organizer = this.calendarObjectInstance.organizer
-			return removeMailtoPrefix(organizer.uri) === principal
+			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
+			const principalEmail = this.principalsStore.getCurrentUserPrincipalEmail
+			if (principalEmail && organizerEmail === removeMailtoPrefix(principalEmail)) {
+				return true
+			}
+
+			return organizerEmail === this.delegatorEmailAddress
 		},
 		/**
 		 * Returns the attendee property corresponding to the current user
@@ -307,6 +311,17 @@ export default {
 				return null
 			}
 			return this.principalsStore.getPrincipalByUrl(this.selectedCalendar.delegatorUrl)?.userId ?? null
+		},
+		/**
+		 * Returns the email address of the delegator when the selected calendar is delegated, or null otherwise
+		 *
+		 * @return {string|null}
+		 */
+		delegatorEmailAddress() {
+			if (!this.selectedCalendar?.isDelegated || !this.selectedCalendar.delegatorUrl) {
+				return null
+			}
+			return this.principalsStore.getPrincipalByUrl(this.selectedCalendar.delegatorUrl)?.emailAddress ?? null
 		},
 		/**
 		 * Returns the mode the editor is currently rendered in
