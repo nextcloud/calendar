@@ -62,6 +62,7 @@ class CalendarInitialStateService {
 		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
+		$showCompletedTasks = $this->config->getUserValue($this->userId, $this->appName, 'showCompletedTasks', 'yes') === 'yes';
 		$showDeclined = $this->config->getUserValue($this->userId, $this->appName, 'showDeclined', 'yes') === 'yes';
 		$tasksSidebar = $this->config->getUserValue($this->userId, $this->appName, 'tasksSidebar', $defaultTasksSidebar) === 'yes';
 		$disableAppointments = $this->config->getAppValue($this->appName, 'disableAppointments', 'no') === 'yes';
@@ -89,6 +90,7 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('skip_popover', $skipPopover);
 		$this->initialStateService->provideInitialState('slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
+		$this->initialStateService->provideInitialState('show_completed_tasks', $showCompletedTasks);
 		$this->initialStateService->provideInitialState('show_declined', $showDeclined);
 		$this->initialStateService->provideInitialState('tasks_sidebar', $tasksSidebar);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);

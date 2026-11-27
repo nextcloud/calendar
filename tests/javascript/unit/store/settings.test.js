@@ -42,6 +42,7 @@ describe('store/settings test suite', () => {
 			talkEnabled: false,
 			eventLimit: null,
 			showTasks: null,
+			showCompletedTasks: true,
 			showDeclined: null,
 			showWeekends: null,
 			showWeekNumbers: null,
@@ -72,6 +73,7 @@ describe('store/settings test suite', () => {
 			talkEnabled: false,
 			eventLimit: null,
 			showTasks: null,
+			showCompletedTasks: true,
 			showDeclined: null,
 			showWeekends: null,
 			showWeekNumbers: null,
@@ -101,6 +103,7 @@ describe('store/settings test suite', () => {
 			firstRun: true,
 			showWeekNumbers: true,
 			showTasks: false,
+			showCompletedTasks: false,
 			showDeclined: false,
 			showWeekends: true,
 			skipPopover: true,
@@ -131,6 +134,7 @@ Initial settings:
 	- FirstRun: true
 	- ShowWeekNumbers: true
 	- ShowTasks: false
+	- ShowCompletedTasks: false
 	- ShowDeclined: false
 	- ShowWeekends: true
 	- SkipPopover: true
@@ -155,6 +159,7 @@ Initial settings:
 			firstRun: true,
 			showWeekNumbers: true,
 			showTasks: false,
+			showCompletedTasks: false,
 			showDeclined: false,
 			showWeekends: true,
 			skipPopover: true,
@@ -461,6 +466,32 @@ Initial settings:
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showDeclined', 'yes')
 
 		expect(settingsStore.showDeclined).toEqual(true)
+		expect(calendarObjectsStore.modificationCount).toEqual(43)
+		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
+		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
+		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
+	})
+
+	it('should provide an action to toggle visibility of completed tasks', async () => {
+		const settingsStore = useSettingsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+
+		expect.assertions(7)
+
+		settingsStore.showCompletedTasks = true
+		calendarObjectsStore.modificationCount = 42
+		fetchedTimeRangesStore.lastTimeRangeInsertId = 20
+		fetchedTimeRangesStore.fetchedTimeRanges = ['foobar']
+		fetchedTimeRangesStore.fetchedTimeRangesById = { foobar: 'baz' }
+
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.toggleShowCompletedTasks()
+
+		expect(setConfig).toHaveBeenCalledTimes(1)
+		expect(setConfig).toHaveBeenNthCalledWith(1, 'showCompletedTasks', 'no')
+		expect(settingsStore.showCompletedTasks).toEqual(false)
 		expect(calendarObjectsStore.modificationCount).toEqual(43)
 		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
 		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])

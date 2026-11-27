@@ -455,6 +455,34 @@ class SettingsControllerTest extends TestCase {
 		$this->assertEquals(500, $actual->getStatus());
 	}
 
+	/**
+	 * @param string $value
+	 * @param int $expectedStatusCode
+	 *
+	 * @dataProvider setShowCompletedTasksDataProvider
+	 */
+	public function testSetShowCompletedTasks(string $value, int $expectedStatusCode):void {
+		if ($expectedStatusCode === 200) {
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with('user123', $this->appName, 'showCompletedTasks', $value);
+		}
+
+		$actual = $this->controller->setConfig('showCompletedTasks', $value);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals($expectedStatusCode, $actual->getStatus());
+	}
+
+	public function setShowCompletedTasksDataProvider():array {
+		return [
+			['yes', 200],
+			['no', 200],
+			['maybe', 422],
+		];
+	}
+
 	public function testSetNotExistingConfig():void {
 		$actual = $this->controller->setConfig('foo', 'bar');
 
