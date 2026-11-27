@@ -88,14 +88,25 @@ const nextLabel = computed(() => {
 	}
 })
 
+/**
+ * Move the selected date forward by one navigation step.
+ */
 function navigateTimeRangeForward(): void {
 	navigateTimeRangeByFactor(1)
 }
 
+/**
+ * Move the selected date backward by one navigation step.
+ */
 function navigateTimeRangeBackward(): void {
 	navigateTimeRangeByFactor(-1)
 }
 
+/**
+ * Shift the selected date by the current view's navigation unit. List views move by months.
+ *
+ * @param factor Number of units to move. Negative values move backward.
+ */
 function navigateTimeRangeByFactor(factor: number): void {
 	let newDate: Date | undefined
 
@@ -139,6 +150,11 @@ function navigateTimeRangeByFactor(factor: number): void {
 	navigateToDate(newDate!)
 }
 
+/**
+ * Update the selected date, preserving the query parameters when navigating by URL.
+ *
+ * @param date The date to select.
+ */
 async function navigateToDate(date: Date): Promise<void> {
 	if (props.isWidget) {
 		widgetStore.setWidgetDate({ widgetDate: getYYYYMMDDFromDate(date) })

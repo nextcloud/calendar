@@ -52,6 +52,11 @@ const defaultIcon = computed(() => {
 	return ViewGrid
 })
 
+/**
+ * Open the selected view with a yearly range when selecting List.
+ *
+ * @param viewName The view name used in the calendar route.
+ */
 async function selectView(viewName: string): Promise<void> {
 	const location = getViewSelectionLocation(route, viewName)
 	if (location) {

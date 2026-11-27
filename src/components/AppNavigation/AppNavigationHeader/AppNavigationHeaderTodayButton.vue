@@ -12,6 +12,9 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
+/**
+ * Go to today in the current view and preserve its query parameters.
+ */
 async function today(): Promise<void> {
 	const name = route.name!
 	const params = {
