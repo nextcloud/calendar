@@ -138,10 +138,8 @@ class ContactController extends Controller {
 				return new JSONResponse();
 			}
 			$userGroups = $this->groupManager->getUserGroupIds($user);
-
-			if ($shareeGroupsOnlyRestriction && $shareeGroupsOnlyExclusion !== []
-				&& array_intersect($userGroups, $shareeGroupsOnlyExclusion) !== []) {
-				$shareeGroupsOnlyRestriction = false;
+			if ($shareeGroupsOnlyRestriction) {
+				$userGroups = array_diff($userGroups, $shareeGroupsOnlyExclusion);
 			}
 		}
 
